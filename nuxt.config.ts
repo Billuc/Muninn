@@ -23,4 +23,7 @@ export default defineNuxtConfig({
       },
     },
   },
+  app: {
+    baseURL: '/second-brain'
+  }
 });
