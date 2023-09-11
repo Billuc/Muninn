@@ -1,1 +1,0 @@
-import{_ as e}from"./_plugin-vue_export-helper.c27b6911.js";import{c,o as n}from"./entry.3b55fb50.js";const o={};function r(t,s){return n(),c("div",null,"Events")}const f=e(o,[["render",r]]);export{f as default};
