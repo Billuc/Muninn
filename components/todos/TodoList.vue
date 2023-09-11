@@ -13,21 +13,18 @@
 <script setup lang="ts">
 import { useTodoStore } from "@/stores/todoStore";
 import TodosTodo from "./Todo.vue";
-import { ToDo } from "~/models/ToDo";
+import { ToDo, ToDoList } from "~/models/ToDo";
 import _ from "lodash";
-import { storeToRefs } from "pinia";
 
-interface EntryListProps {
+interface TodoListProps {
   showChecked: boolean;
-  listId: number;
+  todolist: ToDoList;
 }
 
-const props = defineProps<EntryListProps>();
-const { showChecked } = toRefs(props);
+const props = defineProps<TodoListProps>();
+const { showChecked, todolist } = toRefs(props);
 const store = useTodoStore();
-const { getList } = storeToRefs(store);
-const todolist = ref(getList.value(props.listId));
-const filteredTodos = computed(() => 
+const filteredTodos = computed(() =>
   _.pickBy(todolist.value.todos, (v) => !v.done || showChecked.value)
 );
 const newTodo: ToDo = {
@@ -37,12 +34,12 @@ const newTodo: ToDo = {
 };
 
 function updateTodo(todoId: number, newTitle: string, newDone: boolean) {
-  if (!newTitle) store.removeTodo(props.listId, todoId);
-  else store.editTodo(props.listId, todoId, newTitle, newDone);
+  if (!newTitle) store.removeTodo(todolist.value.id, todoId);
+  else store.editTodo(todolist.value.id, todoId, newTitle, newDone);
 }
 
 function createTodo(title: string) {
   if (!title) return;
-  store.newTodo(props.listId, title);
+  store.newTodo(todolist.value.id, title);
 }
 </script>

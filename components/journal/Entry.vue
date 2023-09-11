@@ -24,7 +24,7 @@ const { entry } = toRefs(props);
 const input = ref(null);
 
 const debouncedUpdate = useDebounce((newValue: string) => {
-  emit("update:entry", newValue);
+  emit("update:entry", newValue.trim());
   (input.value as any).resetContent();
 }, 2000);
 </script>

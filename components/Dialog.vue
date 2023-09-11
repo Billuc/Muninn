@@ -1,5 +1,5 @@
 <template>
-  <dialog class="modal" ref="modalRef">
+  <dialog class="modal" ref="modalRef" @keydown.esc="closeModal">
     <div class="modal-box">
       <div :class="mergeClasses('text-lg', 'font-bold')">
         <slot name="title"></slot>

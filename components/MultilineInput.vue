@@ -5,6 +5,7 @@
         'focus:outline-0',
         'm-0',
         'leading-normal',
+        'whitespace-pre-wrap',
         'empty:before:content-[attr(placeholder)]',
         'empty:before:text-sm',
         'empty:before:text-[var(--tw-prose-bullets)]',
@@ -12,7 +13,6 @@
       )
     "
     @input="onUpdate"
-    @keydown.enter="onEnter"
     :placeholder="placeholder || ''"
     contenteditable
     tabindex="-1"
@@ -34,13 +34,15 @@ const emit = defineEmits(["input", "enter"]);
 const { value, placeholder, detectEnter } = toRefs(props);
 const input = ref(null);
 
-const onUpdate = async (ev: any) => {
-  emit("input", ev.target?.innerText.trim());
-};
-const onEnter = (ev: any) => {
-  if (!detectEnter) return;
-  ev.preventDefault();
-  emit("enter", ev.target?.innerText.trim());
+const onUpdate = (ev: any) => {
+  const text: string = ev.target?.innerText;
+  if (
+    detectEnter &&
+    (ev.inputType === "insertParagraph" ||
+      (ev.inputType === "insertText" && text.endsWith("\n")))
+  )
+    emit("enter", text.trim());
+  else emit("input", text);
 };
 const resetContent = () =>
   ((input.value as unknown as HTMLDivElement).innerText = value.value);

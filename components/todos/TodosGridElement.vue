@@ -8,7 +8,7 @@
         '-skew-y-3',
         'my-0',
         'w-full',
-        'h-full'
+        'h-full',
       )
     "
     @click="onClick"
