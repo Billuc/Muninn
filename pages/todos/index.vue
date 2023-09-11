@@ -8,4 +8,8 @@
 
 <script setup lang="ts">
 import TodosGrid from "~/components/todos/TodosGrid.vue";
+
+useHead({
+  title: "Todos",
+});
 </script>

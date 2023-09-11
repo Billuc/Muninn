@@ -8,4 +8,8 @@
 
 <script setup lang="ts">
 import ThemeSelector from "@/components/config/ThemeSelector.vue";
+
+useHead({
+  title: "Configuration",
+});
 </script>

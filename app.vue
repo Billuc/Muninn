@@ -1,6 +1,7 @@
 <template>
   <div class="bg-base-200">
     <VitePwaManifest />
+
     <NuxtLayout>
       <NavBar />
       <div
@@ -22,9 +23,29 @@
         <NuxtPage />
       </div>
     </NuxtLayout>
+
+    <PWAHandler />
   </div>
 </template>
 
 <script setup lang="ts">
 import NavBar from "@/components/layout/NavBar.vue";
+import { themeChange } from "theme-change";
+import PWAHandler from "@/components/layout/PWAHandler.vue";
+
+useHead({
+  titleTemplate(title) {
+    return title ? `Muninn - ${title}` : "Muninn";
+  },
+  meta: [
+    {
+      name: "description",
+      content: "Muninn - Empty you head, we'll remember it for you",
+    },
+  ],
+
+  link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+});
+
+onMounted(() => themeChange(false));
 </script>

@@ -45,4 +45,8 @@ const store = useTodoStore();
 const listId = Number(route.params.id);
 const todolist = store.getList(listId);
 const showChecked = ref(false);
+
+useHead({
+  title: `Todos - ${todolist.title}`,
+});
 </script>

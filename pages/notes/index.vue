@@ -8,4 +8,8 @@
 
 <script setup lang="ts">
 import NotesGrid from "~/components/notes/NotesGrid.vue";
+
+useHead({
+  title: "Notes",
+});
 </script>

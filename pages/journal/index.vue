@@ -20,6 +20,10 @@ import DateSelector from "~/components/DateSelector.vue";
 import DayOfWeekSelector from "~/components/DayOfWeekSelector.vue";
 import EntryList from "~/components/journal/EntryList.vue";
 
+useHead({
+  title: "Journal",
+});
+
 const date = ref(new Date());
 
 function changeDate(newDate: Date) {

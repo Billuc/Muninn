@@ -35,4 +35,8 @@ const route = useRoute();
 const store = useNoteStore();
 const noteId = Number(route.params.id);
 const note = store.getNote(noteId);
+
+useHead({
+  title: `Notes - ${note.title}`,
+});
 </script>
