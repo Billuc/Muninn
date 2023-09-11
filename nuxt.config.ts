@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/tailwindcss",
     "nuxt-lodash",
+    "@vite-pwa/nuxt",
   ],
   css: ["@fortawesome/fontawesome-svg-core/styles.css"],
   devServer: {
@@ -24,6 +25,35 @@ export default defineNuxtConfig({
     },
   },
   app: {
-    baseURL: '/second-brain'
-  }
+    baseURL: "/second-brain",
+  },
+  pwa: {
+    registerType: "autoUpdate",
+    manifest: {
+      name: "Muninn",
+      short_name: "Muninn",
+      theme_color: "#333333",
+      icons: [
+        {
+          src: "pwa-192x192.png",
+          sizes: "192x192",
+          type: "image/png",
+        },
+        {
+          src: "pwa-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+        },
+        {
+          src: "pwa-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any maskable",
+        },
+      ],
+    },
+    client: {
+      installPrompt: true,
+    },
+  },
 });

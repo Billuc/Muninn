@@ -1,7 +1,8 @@
 <template>
   <div class="bg-base-200">
+    <VitePwaManifest />
     <NuxtLayout>
-      <LayoutNavBar />
+      <NavBar />
       <div
         :class="
           mergeClasses(
@@ -23,3 +24,7 @@
     </NuxtLayout>
   </div>
 </template>
+
+<script setup lang="ts">
+import NavBar from "@/components/layout/NavBar.vue";
+</script>
