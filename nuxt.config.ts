@@ -25,7 +25,7 @@ export default defineNuxtConfig({
     },
   },
   app: {
-    baseURL: "/second-brain",
+    baseURL: "/second-brain/",
   },
   pwa: {
     registerType: "autoUpdate",
