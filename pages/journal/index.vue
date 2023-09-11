@@ -10,7 +10,7 @@
     <h3 class="m-0 text-primary-focus">{{ format(date, "MMM d") }}</h3>
     <h2 class="text-primary-focus">{{ format(date, "EEEE") }}</h2>
 
-    <JournalEntryList :date="date" />
+    <EntryList :date="date" />
   </div>
 </template>
 
@@ -18,6 +18,7 @@
 import { format } from "date-fns";
 import DateSelector from "~/components/DateSelector.vue";
 import DayOfWeekSelector from "~/components/DayOfWeekSelector.vue";
+import EntryList from "~/components/journal/EntryList.vue";
 
 const date = ref(new Date());
 

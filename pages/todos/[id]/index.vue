@@ -29,7 +29,7 @@
       class="w-fit my-4"
     />
 
-    <TodosTodoList :show-checked="showChecked" :list-id="listId" />
+    <TodoList :show-checked="showChecked" :todolist="todolist" />
   </div>
 </template>
 
@@ -37,6 +37,7 @@
 import Toggle from "~/components/Toggle.vue";
 import DeleteTodoList from "~/components/todos/DeleteTodoList.vue";
 import EditTodoList from "~/components/todos/EditTodoList.vue";
+import TodoList from "~/components/todos/TodoList.vue";
 import { useTodoStore } from "~/stores/todoStore";
 
 const route = useRoute();
@@ -44,8 +45,4 @@ const store = useTodoStore();
 const listId = Number(route.params.id);
 const todolist = store.getList(listId);
 const showChecked = ref(false);
-
-function updateListTitle(newTitle: string) {
-  store.editList(listId, newTitle);
-}
 </script>

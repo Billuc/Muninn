@@ -1,14 +1,19 @@
 <template>
-  <select data-choose-theme data-key="theme" class="select bg-base-200 focus:outline-0">
-    <option v-for="theme in themes" :value="theme">
-      {{ _.capitalize(theme) }}
-    </option>
-  </select>
+  <div>
+    <h2>Theme</h2>
+    
+    <ThemeDisplay
+      v-for="theme in themes"
+      :theme-name="theme"
+      :key="'select-' + theme"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
 import _ from "lodash";
 import { themeChange } from "theme-change";
+import ThemeDisplay from "./ThemeDisplay.vue";
 
 const themes = [
   "light",

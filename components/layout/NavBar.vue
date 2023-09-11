@@ -14,28 +14,28 @@
       )
     "
   >
-    <LayoutNavLink href="/">Muninn</LayoutNavLink>
+    <NavLink href="/">Muninn</NavLink>
 
     <div class="join shadow mx-2">
-      <LayoutNavLink
+      <NavLink
         href="/journal"
         :icon="faJournalWhills"
         color="text-primary"
         class="join-item"
       />
-      <LayoutNavLink
+      <NavLink
         href="/todos"
         :icon="faCheckSquare"
         color="text-secondary"
         class="join-item"
       />
-      <LayoutNavLink
+      <NavLink
         href="/events"
         :icon="faCalendar"
         color="text-accent"
         class="join-item"
       />
-      <LayoutNavLink
+      <NavLink
         href="/notes"
         :icon="faLightbulb"
         color="text-neutral"
@@ -43,7 +43,7 @@
       />
     </div>
 
-    <LayoutThemeSelector />
+    <NavLink href="/config" :icon="faCog" />
   </div>
 </template>
 
@@ -51,7 +51,9 @@
 import {
   faCalendar,
   faCheckSquare,
+  faCog,
   faJournalWhills,
   faLightbulb,
 } from "@fortawesome/free-solid-svg-icons";
+import NavLink from "./NavLink.vue";
 </script>
