@@ -3,13 +3,15 @@
     data-key="theme"
     :data-set-theme="props.themeName"
     :data-theme="props.themeName"
+    data-act-class="outline"
+    class="rounded-md p-2"
   >
-    <div>{{ props.themeName }}</div>
-    <div class="flex">
-      <FontAwesomeIcon :icon="faJournalWhills" class="btn btn-xs btn-primary" />
-      <FontAwesomeIcon :icon="faCheckSquare" class="btn btn-xs btn-secondary" />
-      <FontAwesomeIcon :icon="faCalendar" class="btn btn-xs btn-accent" />
-      <FontAwesomeIcon :icon="faLightbulb" class="btn btn-xs btn-neutral" />
+    <div class="my-1">{{ props.themeName }}</div>
+    <div class="join">
+      <FontAwesomeIcon :icon="faJournalWhills" class="btn btn-xs text-primary join-item" size="xs" />
+      <FontAwesomeIcon :icon="faCheckSquare" class="btn btn-xs text-secondary join-item" size="xs" />
+      <FontAwesomeIcon :icon="faCalendar" class="btn btn-xs text-accent join-item" size="xs" />
+      <FontAwesomeIcon :icon="faLightbulb" class="btn btn-xs text-neutral join-item" size="xs" />
     </div>
   </button>
 </template>

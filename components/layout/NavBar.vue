@@ -14,7 +14,9 @@
       )
     "
   >
-    <NavLink href="/">Muninn</NavLink>
+    <NavLink href="/" class="btn-square p-2 shadow" exact>
+      <img src="/icon.svg" class="w-full"/>
+    </NavLink>
 
     <div class="join shadow mx-2">
       <NavLink
@@ -43,7 +45,7 @@
       />
     </div>
 
-    <NavLink href="/config" :icon="faCog" />
+    <NavLink href="/config" :icon="faCog" class="shadow" />
   </div>
 </template>
 

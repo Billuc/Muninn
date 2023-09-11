@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :href="href"
-    :class="mergeClasses('btn', color, active ? 'btn-active' : undefined)"
+    :class="mergeClasses('btn', color, active ? 'bg-base-100' : undefined)"
   >
     <FontAwesomeIcon :icon="icon" size="lg" v-if="icon" />
     <slot></slot>
@@ -17,11 +17,17 @@ interface NavLinkProps {
   href: string;
   color?: string;
   icon?: IconDefinition;
+  exact?: boolean;
 }
 
 const props = defineProps<NavLinkProps>();
 const router = useRouter();
-const { color, href, icon } = toRefs(props);
+const { color, href, icon, exact } = toRefs(props);
 
-const active = computed(() => router.currentRoute.value.path.startsWith(href.value));
+const active = computed(() => {
+  const currentPath = router.currentRoute.value.path;
+  return exact
+    ? currentPath === href.value
+    : currentPath.startsWith(href.value);
+});
 </script>
