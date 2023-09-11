@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ToDoList } from "@/models/ToDo";
+import _ from "lodash";
 
 export const useTodoStore = defineStore("todos", {
   state: () => ({
@@ -63,6 +64,17 @@ export const useTodoStore = defineStore("todos", {
       }
       delete list.todos[todoId];
     },
+    removeChecked(listId: number) {
+      const list = this.getList(listId);
+
+      for (const todoId of Object.keys(list.todos)) {
+        const todoKey = Number(todoId);
+        const todo = list.todos[todoKey];
+        if (todo.done) {
+          delete list.todos[todoKey];
+        }
+      }
+    }
   },
   persist: true,
 });

@@ -21,13 +21,16 @@
       </div>
     </div>
 
-    <Toggle
-      label="Show checked"
-      :value="showChecked"
-      @input="(v) => (showChecked = v)"
-      toggle-class="toggle-secondary"
-      class="w-fit my-4"
-    />
+    <div :class="mergeClasses('flex', 'justify-end', 'my-6')">
+      <Toggle
+        label="Show checked"
+        :value="showChecked"
+        @input="(v) => (showChecked = v)"
+        toggle-class="toggle-secondary"
+        class="w-fit"
+      />
+      <ClearCheckedButton :todolist="todolist" />
+    </div>
 
     <TodoList :show-checked="showChecked" :todolist="todolist" />
   </div>
@@ -35,6 +38,7 @@
 
 <script setup lang="ts">
 import Toggle from "~/components/Toggle.vue";
+import ClearCheckedButton from "~/components/todos/ClearCheckedButton.vue";
 import DeleteTodoList from "~/components/todos/DeleteTodoList.vue";
 import EditTodoList from "~/components/todos/EditTodoList.vue";
 import TodoList from "~/components/todos/TodoList.vue";

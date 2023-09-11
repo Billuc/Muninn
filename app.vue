@@ -40,11 +40,11 @@ useHead({
   meta: [
     {
       name: "description",
-      content: "Muninn - Empty you head, we'll remember it for you",
+      content: "Empty you head, Muninn will remember it for you",
     },
   ],
 
-  link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+  link: [{ rel: "icon", type: "image/x-icon", href: "favicon.ico" }],
 });
 
 onMounted(() => themeChange(false));

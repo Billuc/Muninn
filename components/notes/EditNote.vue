@@ -16,7 +16,7 @@
         </div>
       </template>
       <template #actions>
-        <Button class="btn-success" label="Save" @click="editNote"></Button>
+        <Button class="btn-success" @click="editNote">Save</Button>
       </template>
     </Dialog>
   </div>

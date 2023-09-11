@@ -1,14 +1,19 @@
 <template>
-  <div class="inline-block">
-    <Button :icon="faTrash" @click="openModal" class="text-error btn-ghost" />
+  <div>
+    <Button
+      :icon="faBroom"
+      label="Clear checked"
+      @click="openModal"
+      class="btn-error"
+    />
 
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>
-        Are you sure you want to remove todolist "{{ props.todolist.title }}" ?
+        Are you sure you want to remove checked elements ?
       </template>
       <template #actions>
         <Button class="btn-error" @click="closeModal">No</Button>
-        <Button class="btn-success ml-2" @click="remove">Yes</Button>
+        <Button class="btn-success ml-2" @click="clear">Yes</Button>
       </template>
     </Dialog>
   </div>
@@ -18,24 +23,22 @@
 import { useTodoStore } from "~/stores/todoStore";
 import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ToDoList } from "~/models/ToDo";
+import { faBroom } from "@fortawesome/free-solid-svg-icons";
 
-interface DeleteTodoListProps {
+interface ClearCheckedButtonProps {
   todolist: ToDoList;
 }
 
-const props = defineProps<DeleteTodoListProps>();
+const props = defineProps<ClearCheckedButtonProps>();
 const store = useTodoStore();
-const router = useRouter();
 const isOpened = ref(false);
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
-function remove() {
-  store.removeList(props.todolist.id);
-  router.push({ path: "/todos" });
+function clear() {
+  store.removeChecked(props.todolist.id);
   closeModal();
 }
 </script>

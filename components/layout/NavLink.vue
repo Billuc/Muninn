@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :href="href"
-    :class="mergeClasses('btn', color, active ? 'bg-base-100' : undefined)"
+    :class="mergeClasses('btn', color, active ? 'btn-active' : undefined)"
   >
     <FontAwesomeIcon :icon="icon" size="lg" v-if="icon" />
     <slot></slot>
@@ -26,7 +26,7 @@ const { color, href, icon, exact } = toRefs(props);
 
 const active = computed(() => {
   const currentPath = router.currentRoute.value.path;
-  return exact
+  return exact.value
     ? currentPath === href.value
     : currentPath.startsWith(href.value);
 });

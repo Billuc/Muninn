@@ -16,11 +16,7 @@
         </div>
       </template>
       <template #actions>
-        <Button
-          class="btn-success"
-          label="Create"
-          @click="newTodoList"
-        ></Button>
+        <Button class="btn-success" @click="newTodoList">Create</Button>
       </template>
     </Dialog>
   </div>

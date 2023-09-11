@@ -7,8 +7,8 @@
         Are you sure you want to remove note "{{ props.note.title }}" ?
       </template>
       <template #actions>
-        <Button class="btn-error" label="No" @click="closeModal"></Button>
-        <Button class="btn-success ml-2" label="Yes" @click="remove"></Button>
+        <Button class="btn-error" @click="closeModal">No</Button>
+        <Button class="btn-success ml-2" @click="remove">Yes</Button>
       </template>
     </Dialog>
   </div>
