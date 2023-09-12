@@ -1,20 +1,26 @@
 <template>
   <div :class="mergeClasses('flex', 'flex-col', 'flex-nowrap', 'gap-y-2')">
-    <TodosTodo
-      v-for="(value, key) in filteredTodos"
-      :todo="value"
-      @update:title="(t) => updateTodo(Number(key), t, value.done)"
-      @update:done="(d) => updateTodo(Number(key), value.title, d)"
-    />
-    <TodosTodo :todo="newTodo" @update:title="createTodo" />
+    <Draggable v-model="todoArray" handle=".handle" item-key="id" :animation="150">
+      <template #item="{ element }">
+        <TodosTodo
+          v-if="!element.done || showChecked"
+          :list-id="todolist.id"
+          :todo="element"
+        />
+      </template>
+    </Draggable>
+
+    <AddTodo :list-id="todolist.id" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useTodoStore } from "@/stores/todoStore";
 import TodosTodo from "./Todo.vue";
-import { ToDo, ToDoList } from "~/models/ToDo";
+import { ToDoList } from "~/models/ToDo";
 import _ from "lodash";
+import Draggable from "vuedraggable";
+import AddTodo from "./AddTodo.vue";
 
 interface TodoListProps {
   showChecked: boolean;
@@ -24,22 +30,13 @@ interface TodoListProps {
 const props = defineProps<TodoListProps>();
 const { showChecked, todolist } = toRefs(props);
 const store = useTodoStore();
-const filteredTodos = computed(() =>
-  _.pickBy(todolist.value.todos, (v) => !v.done || showChecked.value)
-);
-const newTodo: ToDo = {
-  id: -1,
-  done: false,
-  title: "",
-};
 
-function updateTodo(todoId: number, newTitle: string, newDone: boolean) {
-  if (!newTitle) store.removeTodo(todolist.value.id, todoId);
-  else store.editTodo(todolist.value.id, todoId, newTitle, newDone);
-}
-
-function createTodo(title: string) {
-  if (!title) return;
-  store.newTodo(todolist.value.id, title);
-}
+const todoArray = computed({
+  get() {
+    return _.sortBy([...todolist.value.todos.values()], (todo) => todo.index);
+  },
+  set(newArray) {
+    store.orderTodos(todolist.value.id, newArray);
+  },
+});
 </script>

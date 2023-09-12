@@ -1,31 +1,31 @@
-import { defineStore } from "pinia";
 import { Note, Tag } from "~/models/Note";
+import { definePersistedStore } from "~/tools/persistedPinia";
 
-export const useNoteStore = defineStore("notes", {
+export const useNoteStore = definePersistedStore("notes", {
   state: () => ({
-    notes: {} as { [key: number]: Note },
-    tags: {} as { [key: number]: Tag },
+    notes: new Map<number, Note>(),
+    tags: new Map<number, Tag>(),
     nextNoteId: 0,
     nextTagId: 0,
   }),
   getters: {
     getNote: (state) => {
       return (noteId: number) => {
-        if (state.notes[noteId] === undefined) {
+        if (!state.notes.has(noteId)) {
           throw new Error(`[Notes] Note with ID ${noteId} not found`);
         }
-        return state.notes[noteId];
+        return state.notes.get(noteId)!;
       };
     },
   },
   actions: {
     newNote(title: string, tagIds: number[]) {
-      this.notes[this.nextNoteId] = {
+      this.notes.set(this.nextNoteId, {
         id: this.nextNoteId,
         title: title,
         tagIds: tagIds,
         text: "",
-      };
+      });
       this.nextNoteId++;
     },
     editNote(noteId: number, title: string, text: string) {
@@ -33,20 +33,19 @@ export const useNoteStore = defineStore("notes", {
       this.getNote(noteId).text = text;
     },
     removeNote(noteId: number) {
-      if (this.notes[noteId] === undefined) {
+      if (!this.notes.delete(noteId)) {
         throw new Error(`[Notes] Note with ID ${noteId} not found`);
       }
-      delete this.notes[noteId];
     },
     newTag(title: string) {
-      this.tags[this.nextTagId] = {
+      this.tags.set(this.nextTagId, {
         id: this.nextTagId,
         title: title,
-      };
+      });
       this.nextTagId++;
     },
     removeTag(tagId: number) {
-      delete this.tags[tagId];
+      this.tags.delete(tagId);
     },
     addTagToNote(noteId: number, tagId: number) {
       const noteTagIds = this.getNote(noteId).tagIds;
@@ -67,5 +66,4 @@ export const useNoteStore = defineStore("notes", {
       else this.getNote(noteId).tagIds = noteTagIds.filter((id) => id != tagId);
     },
   },
-  persist: true,
 });

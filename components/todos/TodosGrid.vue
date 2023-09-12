@@ -5,7 +5,7 @@
     "
   >
     <TodosGridElement
-      v-for="list in todoLists"
+      v-for="[id, list] in todoLists"
       :key="`todolist-${list.id}`"
       :label="list.title"
       :href="`/todos/${list.id}`"

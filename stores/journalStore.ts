@@ -1,43 +1,48 @@
-import { defineStore } from "pinia";
 import { format } from "date-fns";
+import { definePersistedStore } from "~/tools/persistedPinia";
 
-export const useJournalStore = defineStore("journal", {
+const keyAsString = (key: Date) => format(key, "yyyy-MM-dd");
+
+export const useJournalStore = definePersistedStore("journal", {
   state: () => ({
-    entries: {} as { [key: string]: string[] },
+    entries: new Map<string, string[]>(),
   }),
   actions: {
     getEntries(key: Date) {
-      const keyAsString = format(key, "yyyy-MM-dd");
-      return this.entries[keyAsString];
+      return this.entries.get(keyAsString(key));
     },
     newEntry(key: Date, entry: string) {
-      const keyAsString = format(key, "yyyy-MM-dd");
-      if (this.entries[keyAsString] === undefined) {
-        this.entries[keyAsString] = [];
+      const stringKey = keyAsString(key);
+
+      if (!this.entries.has(stringKey)) {
+        this.entries.set(stringKey, []);
       }
 
-      this.entries[keyAsString].push(entry);
+      this.entries.get(stringKey)!.push(entry);
     },
     editEntry(key: Date, index: number, entry: string) {
-      const keyAsString = format(key, "yyyy-MM-dd");
-      if (this.entries[keyAsString] === undefined) {
+      const entriesArray = this.entries.get(keyAsString(key))
+
+      if (!entriesArray) {
         throw new Error(`[Journal] Key ${key} not found`);
       }
-      if (this.entries[keyAsString][index] === undefined) {
+
+      if (entriesArray[index] === undefined) {
         throw new Error(`[Journal] Index ${index} out of range for key ${key}`);
       }
-      this.entries[keyAsString].splice(index, 1, entry);
+      entriesArray.splice(index, 1, entry);
     },
     removeEntry(key: Date, index: number) {
-      const keyAsString = format(key, "yyyy-MM-dd");
-      if (this.entries[keyAsString] === undefined) {
+      const entriesArray = this.entries.get(keyAsString(key))
+
+      if (!entriesArray) {
         throw new Error(`[Journal] Key ${key} not found`);
       }
-      if (this.entries[keyAsString][index] === undefined) {
+
+      if (entriesArray[index] === undefined) {
         throw new Error(`[Journal] Index ${index} out of range for key ${key}`);
       }
-      this.entries[keyAsString].splice(index, 1);
+      entriesArray.splice(index, 1);
     },
   },
-  persist: true,
 });

@@ -5,12 +5,14 @@
     :checked="props.value"
     @input="onInput"
     ref="checkbox"
+    :disabled="props.disabled"
   />
 </template>
 
 <script setup lang="ts">
 interface CheckboxProps {
   value: boolean;
+  disabled?: boolean
 }
 
 var props = defineProps<CheckboxProps>();
