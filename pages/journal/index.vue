@@ -7,10 +7,14 @@
       <DayOfWeekSelector :value="date" @input="changeDate" />
     </div>
 
-    <h3 class="m-0 text-primary-focus">{{ format(date, "MMM d") }}</h3>
-    <h2 class="text-primary-focus">{{ format(date, "EEEE") }}</h2>
+    <h3 class="text-primary-focus text-xl font-bold">
+      {{ format(date, "MMM d") }}
+    </h3>
+    <h2 class="text-primary-focus text-2xl font-extrabold">
+      {{ format(date, "EEEE") }}
+    </h2>
 
-    <EntryList :date="date" />
+    <EntryList :date="date" class="mt-4" />
   </div>
 </template>
 

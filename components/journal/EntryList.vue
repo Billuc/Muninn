@@ -1,17 +1,18 @@
 <template>
-  <ul>
-    <JournalEntry
+  <ul class="list-disc marker:text-primary-focus">
+    <Entry
       v-for="(entry, index) in dateEntries"
       :entry="entry"
       @update:entry="(v) => updateEntry(index, v)"
       :key="`entry-${index}`"
     />
-    <JournalEntry entry="" @update:entry="(v) => newEntry(v)" />
+    <Entry entry="" @update:entry="(v) => newEntry(v)" />
   </ul>
 </template>
 
 <script setup lang="ts">
 import { useJournalStore } from "@/stores/journalStore";
+import Entry from "./Entry.vue";
 
 interface EntryListProps {
   date: Date;
