@@ -10,7 +10,8 @@
         'md:top-0',
         'bottom-0',
         'md:bottom-auto',
-        'z-10'
+        'z-10',
+        'shadow-md'
       )
     "
   >

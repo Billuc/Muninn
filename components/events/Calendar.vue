@@ -1,6 +1,6 @@
 <template>
-  <div className="card bg-accent-focus w-96 shadow-xl overflow-hidden">
-    <div class="p-5 md:p-8">
+  <div class="card bg-accent-focus max-w-sm md:max-w-md shadow-xl overflow-hidden">
+    <div class="px-4 py-4 md:px-8 md:py-6">
       <CalendarHeader
         :date="date"
         @previousMonth="previousMonth"
@@ -9,11 +9,13 @@
       />
       <CalendarMonthView
         :date="date"
-        class="pt-12"
+        class="pt-4"
         @selectDate="selectDate"
       ></CalendarMonthView>
     </div>
-    <div class="card-body bg-accent p-5 md:p-8"></div>
+    <div class="bg-accent px-8 py-4 md:px-16 md:py-6">
+      <CalendarEvents :date="date"></CalendarEvents>
+    </div>
   </div>
 </template>
 
@@ -21,6 +23,7 @@
 import { addMonths } from "date-fns";
 import CalendarHeader from "./CalendarHeader.vue";
 import CalendarMonthView from "./CalendarMonthView.vue";
+import CalendarEvents from "./CalendarEvents.vue";
 
 const date = ref(new Date());
 

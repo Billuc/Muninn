@@ -2,7 +2,7 @@
   <div>
     <PageHeading><span class="text-accent">Events</span></PageHeading>
 
-    <Calendar></Calendar>
+    <Calendar class="mx-auto"></Calendar>
   </div>
 </template>
 

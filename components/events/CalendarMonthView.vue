@@ -14,7 +14,7 @@
         mergeClasses(
           'btn-circle',
           !isSameMonth(day, props.date) ? 'opacity-50' : undefined,
-          isSameDay(day, props.date) ? 'btn-accent' : 'btn-ghost'
+          isSameDay(day, props.date) ? 'bg-base-300' : 'btn-ghost'
         )
       "
     >
@@ -42,7 +42,7 @@ interface CalendarMonthViewProps {
 }
 
 const props = defineProps<CalendarMonthViewProps>();
-const emit = defineEmits(['selectDate'])
+const emit = defineEmits(["selectDate"]);
 
 const dayLabels = eachDayOfInterval({
   start: startOfWeek(props.date, { weekStartsOn: 1 }),
