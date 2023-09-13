@@ -1,4 +1,6 @@
-import { Note, Tag } from "~/models/Note";
+import _ from "lodash";
+import { Note } from "~/models/Note";
+import { Tag, TagColor } from "~/models/Tag";
 import { definePersistedStore } from "~/tools/persistedPinia";
 
 export const useNoteStore = definePersistedStore("notes", {
@@ -41,6 +43,8 @@ export const useNoteStore = definePersistedStore("notes", {
       this.tags.set(this.nextTagId, {
         id: this.nextTagId,
         title: title,
+        color: _.sample(Object.values(TagColor))!,
+        icon: undefined,
       });
       this.nextTagId++;
     },

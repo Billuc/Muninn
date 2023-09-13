@@ -8,7 +8,7 @@
         'whitespace-pre-wrap',
         'empty:before:content-[attr(placeholder)]',
         'empty:before:text-sm',
-        'empty:before:text-[var(--tw-prose-bullets)]',
+        'empty:before:opacity-75',
         'empty:before:cursor-text'
       )
     "

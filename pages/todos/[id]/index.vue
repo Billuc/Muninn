@@ -1,25 +1,17 @@
 <template>
-  <div class="prose mx-auto">
-    <div
-      :class="
-        mergeClasses(
-          'flex',
-          'flex-wrap',
-          'justify-center',
-          'items-center',
-          'mb-6'
-        )
-      "
-    >
-      <h1 class="text-center text-secondary-focus mb-0 mr-2">
-        {{ todolist.title }}
-      </h1>
+  <div>
+    <PageHeading>
+      <span class="text-center text-secondary-focus mb-0 mr-2">{{
+        todolist.title
+      }}</span>
 
-      <div class="inline-block ml-2">
-        <EditTodoList :todolist="todolist" />
-        <DeleteTodoList :todolist="todolist" />
-      </div>
-    </div>
+      <template #append>
+        <div class="inline-block ml-2">
+          <EditTodoList :todolist="todolist" />
+          <DeleteTodoList :todolist="todolist" />
+        </div>
+      </template>
+    </PageHeading>
 
     <div :class="mergeClasses('flex', 'justify-end', 'my-6')">
       <Toggle
@@ -38,6 +30,7 @@
 
 <script setup lang="ts">
 import Toggle from "~/components/Toggle.vue";
+import PageHeading from "~/components/layout/PageHeading.vue";
 import ClearCheckedButton from "~/components/todos/ClearCheckedButton.vue";
 import DeleteTodoList from "~/components/todos/DeleteTodoList.vue";
 import EditTodoList from "~/components/todos/EditTodoList.vue";

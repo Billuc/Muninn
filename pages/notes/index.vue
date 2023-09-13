@@ -1,12 +1,13 @@
 <template>
-  <div class="prose mx-auto">
-    <h1 class="text-center text-neutral-focus">Notes</h1>
+  <div>
+    <PageHeading><span class="text-neutral">Notes</span></PageHeading> 
 
     <NotesGrid />
   </div>
 </template>
 
 <script setup lang="ts">
+import PageHeading from "~/components/layout/PageHeading.vue";
 import NotesGrid from "~/components/notes/NotesGrid.vue";
 
 useHead({

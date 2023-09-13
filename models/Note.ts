@@ -4,8 +4,3 @@ export interface Note {
   tagIds: number[];
   text: string;
 }
-
-export interface Tag {
-  id: number;
-  title: string;
-}

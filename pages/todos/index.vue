@@ -1,12 +1,13 @@
 <template>
-  <div class="prose mx-auto">
-    <h1 class="text-center text-secondary-focus">ToDos</h1>
+  <div>
+    <PageHeading><span class="text-secondary-focus">ToDos</span></PageHeading>
 
     <TodosGrid />
   </div>
 </template>
 
 <script setup lang="ts">
+import PageHeading from "~/components/layout/PageHeading.vue";
 import TodosGrid from "~/components/todos/TodosGrid.vue";
 
 useHead({

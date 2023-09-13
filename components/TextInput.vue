@@ -1,6 +1,20 @@
 <template>
-  <div class="form-control w-full">
-    <label v-if="label" class="label pb-1">
+  <div class="w-full">
+    <label
+      v-if="props.label"
+      :class="
+        mergeClasses(
+          'label',
+          'badge',
+          'badge-ghost',
+          'relative',
+          '-mb-2',
+          'ml-4',
+          'z-[1]',
+          'px-2'
+        )
+      "
+    >
       <span class="label-text">{{ props.label }}</span>
     </label>
 
@@ -11,11 +25,9 @@
         mergeClasses(
           'input',
           'input-bordered',
-          'outline-none',
-          'focus:outline-none',
           'w-full',
-          'hover:brightness-90',
-          'focus:brightness-125',
+          'hover:brightness-95',
+          'focus:brightness-100',
           'transition-all',
           'duration-200',
           props.inputClass

@@ -20,7 +20,9 @@
           )
         "
       >
-        <NuxtPage />
+        <Page>
+          <NuxtPage />
+        </Page>
       </div>
     </NuxtLayout>
 
@@ -32,6 +34,7 @@
 import NavBar from "@/components/layout/NavBar.vue";
 import { themeChange } from "theme-change";
 import PWAHandler from "@/components/layout/PWAHandler.vue";
+import Page from "./components/layout/Page.vue";
 
 useHead({
   titleTemplate(title) {

@@ -1,6 +1,6 @@
 <template>
-  <div class="prose mx-auto">
-    <h1 class="text-center">Configuration</h1>
+  <div>
+    <PageHeading>Configuration</PageHeading>
 
     <ThemeSelector />
   </div>
@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import ThemeSelector from "@/components/config/ThemeSelector.vue";
+import PageHeading from "~/components/layout/PageHeading.vue";
 
 useHead({
   title: "Configuration",

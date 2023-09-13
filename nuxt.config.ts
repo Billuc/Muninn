@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
   ssr: false,
   spaLoadingTemplate: "./app/spa-loading-template.html",
   modules: [
@@ -28,7 +27,7 @@ export default defineNuxtConfig({
     baseURL: "/second-brain/",
   },
   pwa: {
-    registerType: "autoUpdate",
+    registerType: "prompt",
     manifest: {
       name: "Muninn",
       short_name: "Muninn",

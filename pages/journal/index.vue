@@ -1,6 +1,6 @@
 <template>
-  <div class="prose mx-auto">
-    <h1 class="text-center text-primary-focus">Journal</h1>
+  <div>
+    <PageHeading><span class="text-primary-focus">Journal</span></PageHeading>
 
     <div class="flex flex-wrap justify-center my-4 gap-y-1">
       <DateSelector :value="date" @input="changeDate" class="input-primary" />
@@ -19,6 +19,7 @@ import { format } from "date-fns";
 import DateSelector from "~/components/DateSelector.vue";
 import DayOfWeekSelector from "~/components/DayOfWeekSelector.vue";
 import EntryList from "~/components/journal/EntryList.vue";
+import PageHeading from "~/components/layout/PageHeading.vue";
 
 useHead({
   title: "Journal",
