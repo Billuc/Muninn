@@ -4,7 +4,7 @@
       mergeClasses('m-0', 'flex', 'flex-nowrap', 'items-center', 'gap-x-2')
     "
   >
-    <div class="w-4 h-4"></div>
+    <div class="w-[14px] h-4 flex-shrink-0"></div>
     <Checkbox :value="false" disabled class="checkbox-secondary" />
     <MultilineInput
       :value="todoText"

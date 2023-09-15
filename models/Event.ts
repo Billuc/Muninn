@@ -24,7 +24,8 @@ export interface UpdateEvent {
   frequency?: Frequency;
 }
 
-enum Frequency {
+export enum Frequency {
+  Once,
   Daily,
   Weekly,
   Monthly,

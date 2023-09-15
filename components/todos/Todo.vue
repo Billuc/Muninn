@@ -1,23 +1,26 @@
 <template>
   <div
     :class="
-      mergeClasses('m-0', 'flex', 'flex-nowrap', 'items-center', 'gap-x-2')
+      mergeClasses('m-0', 'flex', 'flex-nowrap', 'items-start', 'gap-x-2')
     "
   >
-    <FontAwesomeIcon :icon="faBars" class="handle cursor-pointer" />
-    <Checkbox
-      :value="todo.done"
-      @input="updateDone"
-      class="checkbox-secondary"
-      ref="checkbox"
-    />
+    <div class="flex flex-nowrap, items-center gap-x-2">
+      <FontAwesomeIcon :icon="faBars" class="handle cursor-pointer" />
+      <Checkbox
+        :value="todo.done"
+        @input="updateDone"
+        class="checkbox-secondary"
+        ref="checkbox"
+      />
+    </div>
     <MultilineInput
       :value="todo.title"
       placeholder="Write here..."
       ref="input"
       @input="debouncedUpdateTitle"
       :class="{
-        'w-full': true,
+        'flex-grow': true,
+        '!leading-5': true,
         'line-through': todo.done,
       }"
       detect-enter

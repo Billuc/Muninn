@@ -2,8 +2,14 @@
   <div>
     <PageHeading><span class="text-primary-focus">Journal</span></PageHeading>
 
-    <div class="flex flex-wrap justify-center my-4 gap-y-1">
-      <DateSelector :value="date" @input="changeDate" class="input-primary" />
+    <div class="flex flex-wrap justify-center my-4 gap-2">
+      <div>
+        <DateSelector
+          :value="date"
+          @input="changeDate"
+          class="input-primary input-sm"
+        />
+      </div>
       <DayOfWeekSelector :value="date" @input="changeDate" />
     </div>
 

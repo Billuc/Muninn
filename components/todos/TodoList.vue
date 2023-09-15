@@ -1,16 +1,22 @@
 <template>
-  <div :class="mergeClasses('flex', 'flex-col', 'flex-nowrap', 'gap-y-2')">
-    <Draggable v-model="todoArray" handle=".handle" item-key="id" :animation="150">
+  <div :class="mergeClasses('flex', 'flex-col', 'flex-nowrap')">
+    <Draggable
+      v-model="todoArray"
+      handle=".handle"
+      item-key="id"
+      :animation="150"
+    >
       <template #item="{ element }">
         <TodosTodo
           v-if="!element.done || showChecked"
           :list-id="todolist.id"
           :todo="element"
+          class="mt-1"
         />
       </template>
     </Draggable>
 
-    <AddTodo :list-id="todolist.id" />
+    <AddTodo :list-id="todolist.id" class="mt-1" />
   </div>
 </template>
 

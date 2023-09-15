@@ -1,40 +1,11 @@
 <template>
   <div :class="mergeClasses('w-full', 'dropdown')">
-    <label
-      v-if="props.label"
-      :class="
-        mergeClasses(
-          'label',
-          'badge',
-          'badge-ghost',
-          'relative',
-          '-mb-2',
-          'ml-4',
-          'z-[1]',
-          'px-2'
-        )
-      "
-    >
-      <span class="label-text">{{ props.label }}</span>
-    </label>
-
-    <input
+    <Input
+      :label="props.label"
       type="text"
       :placeholder="props.placeholder"
-      :class="
-        mergeClasses(
-          'input',
-          'input-bordered',
-          'w-full',
-          'hover:brightness-95',
-          'focus:brightness-100',
-          'transition-all',
-          'duration-200',
-          props.inputClass
-        )
-      "
-      :value="inputValue"
       @input="onInput"
+      :value="inputValue"
     />
 
     <ul
@@ -79,6 +50,8 @@
 </template>
 
 <script setup lang="ts">
+import Input from './Input.vue';
+
 interface AutocompleteProps {
   label?: string;
   inputClass?: string;

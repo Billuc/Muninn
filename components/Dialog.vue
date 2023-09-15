@@ -5,13 +5,13 @@
         <slot name="title"></slot>
       </div>
 
-      <div :class="mergeClasses('form-control', 'px-2')">
+      <div :class="mergeClasses('p-2')">
         <slot></slot>
       </div>
 
       <div
         :class="
-          mergeClasses('flex', 'flex-row', 'flex-nowrap', 'justify-end', 'mt-4')
+          mergeClasses('flex', 'flex-row', 'flex-nowrap', 'justify-end', 'mt-2')
         "
       >
         <slot name="actions"></slot>

@@ -3,7 +3,7 @@
     :class="
       mergeClasses(
         'navbar',
-        'bg-base-300',
+        'bg-base-200',
         'justify-center',
         'fixed',
         'top-auto',
@@ -16,7 +16,7 @@
     "
   >
     <NavLink href="/" class="btn-square p-2 shadow" exact>
-      <img src="/icon.svg" class="w-full"/>
+      <img src="/icon.svg" class="w-full" />
     </NavLink>
 
     <div class="join shadow mx-2">

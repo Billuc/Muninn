@@ -11,8 +11,6 @@
         'min-h-screen',
         'md:w-2/3',
         'px-4',
-        'bg-base-100',
-        'shadow-md'
       )
     "
   >

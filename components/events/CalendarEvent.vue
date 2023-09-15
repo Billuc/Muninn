@@ -1,5 +1,7 @@
 <template>
-  <div class="border-b py-2 border-base-300 border-dashed">
+  <div
+    class="border-b last-of-type:border-b-0 p-2 border-base-300 border-dashed hover:bg-accent-focus cursor-pointer"
+  >
     <p class="text-xs font-light leading-3">{{ timeInterval }}</p>
     <p class="focus:outline-none text-lg font-medium leading-5">
       {{ props.title }}
