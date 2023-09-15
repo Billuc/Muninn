@@ -13,10 +13,9 @@
         ref="checkbox"
       />
     </div>
-    <MultilineInput
+    <MultilineField
       :value="todo.title"
       placeholder="Write here..."
-      ref="input"
       @input="debouncedUpdateTitle"
       :class="{
         'flex-grow': true,
@@ -37,7 +36,7 @@
 
 <script setup lang="ts">
 import { ToDo } from "~/models/ToDo";
-import MultilineInput from "../MultilineInput.vue";
+import MultilineField from "../MultilineField.vue";
 import Checkbox from "../Checkbox.vue";
 import Button from "../Button.vue";
 import { faBars, faRemove } from "@fortawesome/free-solid-svg-icons";
@@ -54,7 +53,6 @@ const props = defineProps<EntryProps>();
 const store = useTodoStore();
 
 const { todo } = toRefs(props);
-const input = ref(null);
 const checkbox = ref(null);
 
 const updateDone = (newDone: boolean) => {

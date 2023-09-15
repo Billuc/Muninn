@@ -10,10 +10,26 @@
           @input="setTitle"
         />
 
-        <DateTimeSelector
-          :value="startDate"
-          @input="setStartDate"
-          label="Start of event"
+        <div class="flex flex-nowrap gap-2">
+          <DateTimeSelector
+            :value="startDate"
+            @input="setStartDate"
+            label="Start of event"
+          />
+          <DateTimeSelector
+            :value="endDate"
+            @input="setEndDate"
+            label="End of event"
+            clearable
+          />
+        </div>
+
+        <MultilineInput
+          label="Description (optional)"
+          placeholder="Enter description... (optional)"
+          :value="description ?? ''"
+          @input="setDescription"
+          clearable
         />
       </div>
     </template>
@@ -30,6 +46,7 @@ import { useEventStore } from "~/stores/eventStore";
 import { Event, Frequency } from "~/models/Event";
 import TextInput from "../TextInput.vue";
 import DateTimeSelector from "../DateTimeSelector.vue";
+import MultilineInput from "../MultilineInput.vue";
 
 interface EditEventProps {
   event: Event | null;
@@ -42,9 +59,13 @@ const store = useEventStore();
 const isOpened = computed(() => !!props.event);
 const title = ref("");
 const startDate = ref(new Date());
+const endDate = ref<Date | null>(null);
+const description = ref<string | null>(null);
 
 const setTitle = (v: string) => (title.value = v);
 const setStartDate = (v: Date) => (startDate.value = v);
+const setEndDate = (v: Date | null) => (endDate.value = v);
+const setDescription = (v: string | null) => (description.value = v);
 const close = () => emit("close");
 
 const editEvent = () => {

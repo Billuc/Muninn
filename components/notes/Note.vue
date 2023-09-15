@@ -2,7 +2,7 @@
   <div :class="mergeClasses('flex', 'flex-col', 'flex-nowrap', 'gap-y-2')">
     tags
 
-    <MultilineInput
+    <MultilineField
       :value="note.text"
       placeholder="Write here..."
       @input="debouncedUpdateNoteText"

@@ -6,7 +6,7 @@
   >
     <div class="w-[14px] h-4 flex-shrink-0"></div>
     <Checkbox :value="false" disabled class="checkbox-secondary" />
-    <MultilineInput
+    <MultilineField
       :value="todoText"
       placeholder="Write here..."
       @input="(v) => (todoText = v)"
@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import MultilineInput from "../MultilineInput.vue";
+import MultilineField from "../MultilineField.vue";
 import Checkbox from "../Checkbox.vue";
 import Button from "../Button.vue";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -34,7 +34,9 @@ const store = useTodoStore();
 const todoText = ref("");
 
 const addTodo = () => {
-  store.newTodo(props.listId, todoText.value);
-  todoText.value = "";
+  if (!!todoText.value) store.newTodo(props.listId, todoText.value);
+
+  todoText.value = "reset"; // trick to reset MultilineField
+  nextTick(() => (todoText.value = ""));
 };
 </script>

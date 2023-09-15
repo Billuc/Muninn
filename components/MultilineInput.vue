@@ -1,51 +1,59 @@
 <template>
-  <div
-    :class="
-      mergeClasses(
-        'focus:outline-0',
-        'm-0',
-        'leading-normal',
-        'whitespace-pre-wrap',
-        'empty:before:content-[attr(placeholder)]',
-        'empty:before:text-sm',
-        'empty:before:opacity-75',
-        'empty:before:cursor-text'
-      )
-    "
-    @input="onUpdate"
-    :placeholder="placeholder || ''"
-    contenteditable
-    tabindex="-1"
-    ref="input"
+  <Input
+    :class="mergeClasses('h-fit', 'min-h-[3rem]', props.class)"
+    type="text"
+    :label="props.label"
+    :clearable="props.clearable"
+    :placeholder="props.placeholder"
+    :value="props.value"
+    @clear="onClear"
   >
-    {{ value }}
-  </div>
+    <template #input="inputProps">
+      <textarea
+        v-bind="inputProps"
+        :class="
+          mergeClasses(
+            'focus:outline-none',
+            'flex-grow',
+            'leading-5',
+            'resize-none',
+            'py-1',
+            'box-content'
+          )
+        "
+        @input="onInput"
+        rows="1"
+        ref="textarea"
+      />
+    </template>
+  </Input>
 </template>
 
 <script setup lang="ts">
+import Input from "./Input.vue";
+
 interface MultilineInputProps {
+  label?: string;
   value: string;
-  detectEnter?: boolean;
   placeholder?: string;
+  class?: string;
+  clearable?: boolean;
 }
 
 const props = defineProps<MultilineInputProps>();
-const emit = defineEmits(["input", "enter"]);
-const { value, placeholder, detectEnter } = toRefs(props);
-const input = ref(null);
+const emit = defineEmits(["input"]);
+const { value } = toRefs(props);
+const textarea = ref(null);
 
-const onUpdate = (ev: any) => {
-  const text: string = ev.target?.innerText;
-  if (
-    detectEnter &&
-    (ev.inputType === "insertParagraph" ||
-      (ev.inputType === "insertText" && text.endsWith("\n")))
-  )
-    emit("enter", text.trim());
-  else emit("input", text);
-};
-const resetContent = () =>
-  ((input.value as unknown as HTMLDivElement).innerText = value.value);
+const onInput = (ev: any) => emit("input", ev.target.value);
+const onClear = (v: string) => emit("input", null);
 
-defineExpose({ resetContent });
+watch([value], () => {
+  let numberOfLineBreaks = (value.value.match(/\n/g) || []).length;
+  // min-height + lines x line-height + padding + border
+  let newHeight = 20 + numberOfLineBreaks * 20;
+
+  const textareaEl = textarea.value as unknown as HTMLTextAreaElement;
+  textareaEl.style.height = newHeight + "px";
+});
 </script>
