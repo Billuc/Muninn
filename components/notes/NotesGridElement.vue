@@ -8,7 +8,8 @@
         '-skew-y-3',
         'my-0',
         'w-full',
-        'h-full'
+        'h-full',
+        'py-1'
       )
     "
     @click="onClick"
@@ -23,20 +24,29 @@
           'items-center',
           'm-0',
           'no-underline',
-          'text-lg'
+          'text-lg',
+          'flex',
+          'flex-col',
+          'items-center'
         )
       "
       :href="props.href"
     >
       {{ props.label }}
+
+      <TagList :tags="props.tags" />
     </NuxtLink>
   </li>
 </template>
 
 <script setup lang="ts">
+import { Tag } from "~/models/Tag";
+import TagList from "../TagList.vue";
+
 interface NotesGridElementProps {
   label: string;
   href?: string;
+  tags: Tag[];
 }
 
 const props = defineProps<NotesGridElementProps>();

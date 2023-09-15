@@ -1,3 +1,4 @@
+import { faTag } from "@fortawesome/free-solid-svg-icons";
 import _ from "lodash";
 import { Note } from "~/models/Note";
 import { Tag, TagColor } from "~/models/Tag";
@@ -44,7 +45,7 @@ export const useNoteStore = definePersistedStore("notes", {
         id: this.nextTagId,
         title: title,
         color: _.sample(Object.values(TagColor))!,
-        icon: undefined,
+        icon: [faTag.prefix, faTag.iconName],
       });
       this.nextTagId++;
     },

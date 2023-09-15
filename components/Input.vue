@@ -37,7 +37,9 @@
           :type="props.type"
           :placeholder="props.placeholder"
           :pattern="props.pattern"
-          :class="mergeClasses('focus:outline-none', 'flex-grow')"
+          :class="
+            mergeClasses('focus:outline-none', 'flex-grow', 'bg-transparent')
+          "
           :value="props.value"
         />
       </slot>

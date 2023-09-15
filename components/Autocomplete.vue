@@ -6,6 +6,7 @@
       :placeholder="props.placeholder"
       @input="onInput"
       :value="inputValue"
+      :class="props.inputClass"
     />
 
     <ul

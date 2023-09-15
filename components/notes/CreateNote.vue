@@ -1,11 +1,15 @@
 <template>
   <div>
-    <NotesGridElement label="+" @click="openModal" />
+    <NotesGridElement label="+" @click="openModal" :tags="[]" />
 
-    <Dialog :is-opened="isOpened" @close="closeModal">
+    <Dialog
+      :is-opened="isOpened"
+      @close="closeModal"
+      class="overflow-y-visible"
+    >
       <template #title>Create a new note</template>
       <template #default>
-        <div>
+        <div class="form-control gap-y-2">
           <TextInput
             label="Note name"
             :value="name"
@@ -19,16 +23,6 @@
             @new-tag="newTag"
             @remove-tag="removeTag"
             @select-tag="selectTag"
-          />
-          <Autocomplete
-            label="test"
-            :options="[
-              { text: 'John', value: 0 },
-              { text: 'Jean', value: 1 },
-              { text: 'Mike', value: 3 },
-            ]"
-            @input="log"
-            @new-option="log"
           />
         </div>
       </template>
@@ -47,7 +41,6 @@ import TextInput from "../TextInput.vue";
 import NotesGridElement from "./NotesGridElement.vue";
 import TagInput from "../TagInput.vue";
 import { storeToRefs } from "pinia";
-import Autocomplete from "../Autocomplete.vue";
 
 const store = useNoteStore();
 const isOpened = ref(false);
@@ -68,7 +61,6 @@ const newNote = () => {
 const newTag = (tagName: string) => {
   const tagId = nextTagId.value;
   store.newTag(tagName);
-  console.log(tagName, tagId);
   tagIds.value.push(tagId);
 };
 const removeTag = (tagId: number) => {
@@ -77,8 +69,5 @@ const removeTag = (tagId: number) => {
 const selectTag = (tagId: number) => {
   if (tagIds.value.includes(tagId)) return;
   tagIds.value.push(tagId);
-};
-const log = (v: any) => {
-  console.log(v);
 };
 </script>

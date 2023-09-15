@@ -1,49 +1,39 @@
 <template>
-  <div class="dropdown">
+  <div class="dropdown w-full">
     <Autocomplete
-      label="Tag name"
-      :options="props.tags"
+      label="Tags"
+      placeholder="Enter tag name..."
+      :options="tagOptions"
       @input="onInput"
       @new-option="onNewTag"
       text-key="title"
       value-key="id"
-    ></Autocomplete>
+    >
+      <template #no-option v-if="props.strict"> No tag found... </template>
+    </Autocomplete>
 
-    <div :class="mergeClasses('flex')">
-      <TagEl
-        v-for="tag in selectedTags"
-        :key="'tag-' + tag.id"
-        :text="tag.title"
-        :color="tag.color"
-        :icon="tag.icon"
-      >
-        <FontAwesomeIcon
-          :icon="faRemove"
-          size="xs"
-          class="btn btn-circle btn-xs"
-          @click="onRemove(tag)"
-        />
-      </TagEl>
-    </div>
+    <TagList class="mt-2" :tags="selectedTags" removable @remove="onRemove" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { Tag } from "~/models/Tag";
-import TagEl from "./Tag.vue";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faRemove } from "@fortawesome/free-solid-svg-icons";
 import Autocomplete from "./Autocomplete.vue";
+import TagList from "./TagList.vue";
 
 interface TagInputProps {
   tags: Tag[];
   selectedTagIds: number[];
+  strict?: boolean;
 }
 
 const props = defineProps<TagInputProps>();
 const emit = defineEmits(["newTag", "removeTag", "selectTag"]);
 const selectedTags = computed(() =>
   props.tags.filter((t) => props.selectedTagIds.includes(t.id))
+);
+const tagOptions = computed(() =>
+  props.tags.filter((t) => !selectedTags.value.includes(t))
 );
 
 const onInput = (v: string) => emit("selectTag", v);
