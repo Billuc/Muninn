@@ -2,11 +2,7 @@
   <div>
     <NotesGridElement label="+" @click="openModal" :tags="[]" />
 
-    <Dialog
-      :is-opened="isOpened"
-      @close="closeModal"
-      class="overflow-y-visible"
-    >
+    <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Create a new note</template>
       <template #default>
         <div class="form-control gap-y-2">

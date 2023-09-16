@@ -3,7 +3,6 @@
     :class="
       mergeClasses(
         'navbar',
-        'bg-base-200',
         'justify-center',
         'fixed',
         'top-auto',
@@ -11,7 +10,6 @@
         'bottom-0',
         'md:bottom-auto',
         'z-10',
-        'shadow-md'
       )
     "
   >

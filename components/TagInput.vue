@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown w-full">
+  <div class="w-full">
     <Autocomplete
       label="Tags"
       placeholder="Enter tag name..."
@@ -9,6 +9,15 @@
       text-key="title"
       value-key="id"
     >
+      <template #option="{ option, selectOption }">
+        <div @click="selectOption" tabindex="0">
+          <TagEl
+            :color="option.color"
+            :text="option.title"
+            :icon="option.icon"
+          />
+        </div>
+      </template>
       <template #no-option v-if="props.strict"> No tag found... </template>
     </Autocomplete>
 
@@ -20,6 +29,7 @@
 import { Tag } from "~/models/Tag";
 import Autocomplete from "./Autocomplete.vue";
 import TagList from "./TagList.vue";
+import TagEl from "./Tag.vue";
 
 interface TagInputProps {
   tags: Tag[];

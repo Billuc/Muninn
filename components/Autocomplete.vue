@@ -21,7 +21,11 @@
           'bg-base-100',
           'rounded-box',
           'w-56',
-          'max-h-52'
+          'max-h-52',
+          'flex',
+          'flex-col',
+          'flex-nowrap',
+          'overflow-y-auto'
         )
       "
     >
@@ -30,9 +34,17 @@
           v-for="(opt, index) in filteredOptions"
           :key="`autocomplete-option-${index}`"
         >
-          <button @click="() => selectOption(opt)">
-            {{ opt[props.textKey ?? "text"] }}
-          </button>
+          <slot
+            name="option"
+            :option="opt"
+            :index="index"
+            :textKey="props.textKey"
+            :selectOption="() => selectOption(opt)"
+          >
+            <button @click="() => selectOption(opt)">
+              {{ opt[props.textKey ?? "text"] }}
+            </button>
+          </slot>
         </li>
       </template>
       <template v-else>
@@ -51,7 +63,8 @@
 </template>
 
 <script setup lang="ts">
-import Input from './Input.vue';
+import Input from "./Input.vue";
+import _ from "lodash";
 
 interface AutocompleteProps {
   label?: string;
@@ -69,7 +82,7 @@ const inputValue = ref("");
 const filteredOptions = computed(() =>
   props.options.filter((v) => {
     const vText = v[props.textKey ?? "text"] ?? "";
-    return vText.toLowerCase().startsWith(inputValue.value.toLowerCase());
+    return _.includes(vText.toLowerCase(), inputValue.value.toLowerCase());
   })
 );
 

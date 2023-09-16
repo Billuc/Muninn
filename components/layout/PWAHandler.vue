@@ -4,22 +4,24 @@
       <div class="alert alert-warning">
         <div>{{ message }}</div>
 
-        <template v-if="ready || needRefresh">
-          <Button
-            v-if="needRefresh"
-            @click="() => $pwa.updateServiceWorker()"
-            :icon="faRotateRight"
-          />
-          <Button
-            @click="() => $pwa.cancelPrompt()"
-            :icon="faRemove"
-            class="!btn-xs btn-circle"
-          />
-        </template>
-        <template v-else-if="showInstall">
-          <Button @click="() => $pwa.install()" :icon="faDownload" />
-          <Button @click="() => $pwa.cancelInstall()" :icon="faRemove" />
-        </template>
+        <div>
+          <template v-if="ready || needRefresh">
+            <Button
+              v-if="needRefresh"
+              @click="() => $pwa.updateServiceWorker()"
+              :icon="faRotateRight"
+            />
+            <Button
+              @click="() => $pwa.cancelPrompt()"
+              :icon="faRemove"
+              class="!btn-xs btn-circle"
+            />
+          </template>
+          <template v-else-if="showInstall">
+            <Button @click="() => $pwa.install()" :icon="faDownload" />
+            <Button @click="() => $pwa.cancelInstall()" :icon="faRemove" />
+          </template>
+        </div>
       </div>
     </div>
   </ClientOnly>

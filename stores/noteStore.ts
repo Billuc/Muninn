@@ -52,6 +52,13 @@ export const useNoteStore = definePersistedStore("notes", {
     removeTag(tagId: number) {
       this.tags.delete(tagId);
     },
+    editTag(tagId: number, tag: Tag) {
+      if (!this.tags.has(tagId)) {
+        throw new Error(`[Notes] Tag with ID ${tagId} not found`);
+      }
+
+      this.tags.set(tagId, tag);
+    },
     addTagToNote(noteId: number, tagId: number) {
       const noteTagIds = this.getNote(noteId).tagIds;
 

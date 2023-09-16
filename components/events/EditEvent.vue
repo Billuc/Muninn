@@ -27,7 +27,7 @@
         <MultilineInput
           label="Description (optional)"
           placeholder="Enter description... (optional)"
-          :value="description ?? ''"
+          :value="description"
           @input="setDescription"
           clearable
         />
@@ -60,12 +60,12 @@ const isOpened = computed(() => !!props.event);
 const title = ref("");
 const startDate = ref(new Date());
 const endDate = ref<Date | null>(null);
-const description = ref<string | null>(null);
+const description = ref("");
 
 const setTitle = (v: string) => (title.value = v);
 const setStartDate = (v: Date) => (startDate.value = v);
 const setEndDate = (v: Date | null) => (endDate.value = v);
-const setDescription = (v: string | null) => (description.value = v);
+const setDescription = (v: string | null) => (description.value = v ?? "");
 const close = () => emit("close");
 
 const editEvent = () => {
@@ -91,9 +91,13 @@ watchEffect(() => {
   if (props.event) {
     title.value = props.event.title;
     startDate.value = props.event.start;
+    endDate.value = props.event.end ?? null;
+    description.value = props.event.description;
   } else {
     title.value = "";
     startDate.value = new Date();
+    endDate.value = new Date();
+    description.value = "";
   }
 });
 </script>
