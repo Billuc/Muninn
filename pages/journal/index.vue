@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHeading><span class="text-primary-focus">Journal</span></PageHeading>
+    <PageHeading><span class="text-primary">Journal</span></PageHeading>
 
     <div class="flex flex-wrap justify-center my-4 gap-2">
       <div>
@@ -13,10 +13,10 @@
       <DayOfWeekSelector :value="date" @input="changeDate" />
     </div>
 
-    <h3 class="text-primary-focus text-xl font-bold">
+    <h3 class="text-primary text-xl font-bold">
       {{ format(date, "MMM d") }}
     </h3>
-    <h2 class="text-primary-focus text-2xl font-extrabold">
+    <h2 class="text-primary text-2xl font-extrabold">
       {{ format(date, "EEEE") }}
     </h2>
 

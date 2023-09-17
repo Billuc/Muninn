@@ -2,59 +2,49 @@
   <div
     :class="
       mergeClasses(
-        'navbar',
-        'justify-center',
+        'my-navbar',
+        'bg-base-200',
+        'flex',
+        'justify-start',
+        'items-center',
         'fixed',
         'top-auto',
         'md:top-0',
         'bottom-0',
         'md:bottom-auto',
         'z-10',
+        'my-2'
       )
     "
   >
-    <NavLink href="/" class="btn-square p-2 shadow" exact>
+    <NavDropdown />
+    <NavLink href="/" class="btn-square !p-2" exact>
       <img src="/icon.svg" class="w-full" />
     </NavLink>
-
-    <div class="join shadow mx-2">
-      <NavLink
-        href="/journal"
-        :icon="faJournalWhills"
-        color="text-primary"
-        class="join-item"
-      />
-      <NavLink
-        href="/todos"
-        :icon="faCheckSquare"
-        color="text-secondary"
-        class="join-item"
-      />
-      <NavLink
-        href="/events"
-        :icon="faCalendar"
-        color="text-accent"
-        class="join-item"
-      />
-      <NavLink
-        href="/notes"
-        :icon="faLightbulb"
-        color="text-neutral"
-        class="join-item"
-      />
-    </div>
-
-    <NavLink href="/config" :icon="faCog" class="shadow" />
+    <span class="text-3xl font-extrabold px-4">Muninn</span>
   </div>
 </template>
 
 <script setup>
-import {
-  faCalendar,
-  faCheckSquare,
-  faCog,
-  faJournalWhills,
-  faLightbulb,
-} from "@fortawesome/free-solid-svg-icons";
 import NavLink from "./NavLink.vue";
+import NavDropdown from "./NavDropdown.vue";
 </script>
+
+<style>
+.my-navbar {
+  border-radius: 0.5rem;
+}
+.my-navbar:before {
+  content: "";
+  position: absolute;
+  top: 0%;
+  bottom: 0%;
+  right: 0%;
+  left: 0%;
+  background: inherit;
+  transform: skewX(-30deg);
+  transform-origin: bottom left;
+  border-radius: inherit;
+  z-index: -1;
+}
+</style>

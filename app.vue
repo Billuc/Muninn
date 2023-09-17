@@ -3,8 +3,11 @@
     <VitePwaManifest />
 
     <NuxtLayout>
-      <NavBar />
       <Page>
+        <template #navbar>
+          <NavBar />
+        </template>
+        
         <NuxtPage />
       </Page>
     </NuxtLayout>

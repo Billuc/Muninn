@@ -10,10 +10,12 @@
         'w-full',
         'min-h-screen',
         'md:w-2/3',
-        'px-4',
+        'px-4'
       )
     "
   >
+    <slot name="navbar"></slot>
+    
     <div class="max-w-xl mx-auto">
       <slot></slot>
     </div>

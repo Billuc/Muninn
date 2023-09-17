@@ -1,5 +1,5 @@
 <template>
-  <ul class="list-disc marker:text-primary-focus pl-8">
+  <ul class="list-disc marker:text-primary pl-8">
     <Entry
       v-for="(entry, index) in dateEntries"
       :entry="entry"

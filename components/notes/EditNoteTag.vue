@@ -9,7 +9,7 @@
           :value="title"
           @input="setTitle"
         />
-        <IconInput :icon="icon ?? undefined" @input="setIcon" />
+        <LazyIconInput :icon="icon ?? undefined" @input="setIcon" />
       </div>
     </template>
     <template #actions>
@@ -23,7 +23,6 @@ import { useNoteStore } from "~/stores/noteStore";
 import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
 import { Tag, TagColor } from "~/models/Tag";
-import IconInput from "../IconInput.vue";
 
 interface EditNoteTagProps {
   tag: Tag | null;

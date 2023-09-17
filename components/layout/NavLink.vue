@@ -1,9 +1,9 @@
 <template>
   <NuxtLink
     :href="href"
-    :class="mergeClasses('btn', color, active ? 'btn-active' : undefined)"
+    :class="mergeClasses('btn', 'flex-row', 'flex-nowrap', color)"
   >
-    <FontAwesomeIcon :icon="icon" size="lg" v-if="icon" />
+    <FontAwesomeIcon :icon="icon" v-if="icon" />
     <slot></slot>
   </NuxtLink>
 </template>
@@ -21,13 +21,5 @@ interface NavLinkProps {
 }
 
 const props = defineProps<NavLinkProps>();
-const router = useRouter();
 const { color, href, icon, exact } = toRefs(props);
-
-const active = computed(() => {
-  const currentPath = router.currentRoute.value.path;
-  return exact.value
-    ? currentPath === href.value
-    : currentPath.startsWith(href.value);
-});
 </script>
