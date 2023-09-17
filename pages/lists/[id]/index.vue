@@ -2,13 +2,13 @@
   <div>
     <PageHeading>
       <span class="text-center text-primary mb-0 mr-2">{{
-        todolist.title
+        list.title
       }}</span>
 
       <template #append>
         <div class="inline-block ml-2">
-          <EditTodoList :todolist="todolist" />
-          <DeleteTodoList :todolist="todolist" />
+          <EditList :list="list" />
+          <DeleteList :list="list" />
         </div>
       </template>
     </PageHeading>
@@ -21,29 +21,29 @@
         toggle-class="toggle-primary"
         class="w-fit"
       />
-      <ClearCheckedButton :todolist="todolist" />
+      <ClearCheckedButton :list="list" />
     </div>
 
-    <TodoList :show-checked="showChecked" :todolist="todolist" />
+    <ListVue :show-checked="showChecked" :list="list" />
   </div>
 </template>
 
 <script setup lang="ts">
 import Toggle from "~/components/Toggle.vue";
 import PageHeading from "~/components/layout/PageHeading.vue";
-import ClearCheckedButton from "~/components/todos/ClearCheckedButton.vue";
-import DeleteTodoList from "~/components/todos/DeleteTodoList.vue";
-import EditTodoList from "~/components/todos/EditTodoList.vue";
-import TodoList from "~/components/todos/TodoList.vue";
-import { useTodoStore } from "~/stores/todoStore";
+import ClearCheckedButton from "~/components/lists/ClearCheckedButton.vue";
+import DeleteList from "~/components/lists/DeleteList.vue";
+import EditList from "~/components/lists/EditList.vue";
+import ListVue from "~/components/lists/ListVue.vue";
+import { useListStore } from "~/stores/listStore";
 
 const route = useRoute();
-const store = useTodoStore();
+const store = useListStore();
 const listId = Number(route.params.id);
-const todolist = store.getList(listId);
+const list = store.getList(listId);
 const showChecked = ref(false);
 
 useHead({
-  title: `Lists - ${todolist.title}`,
+  title: `Lists - ${list.title}`,
 });
 </script>

@@ -20,25 +20,25 @@
 </template>
 
 <script setup lang="ts">
-import { useTodoStore } from "~/stores/todoStore";
+import { useListStore } from "~/stores/listStore";
 import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
-import { ToDoList } from "~/models/ToDo";
+import { List } from "~/models/List";
 import { faBroom } from "@fortawesome/free-solid-svg-icons";
 
 interface ClearCheckedButtonProps {
-  todolist: ToDoList;
+  list: List;
 }
 
 const props = defineProps<ClearCheckedButtonProps>();
-const store = useTodoStore();
+const store = useListStore();
 const isOpened = ref(false);
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
 function clear() {
-  store.removeChecked(props.todolist.id);
+  store.removeChecked(props.list.id);
   closeModal();
 }
 </script>

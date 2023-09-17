@@ -3,11 +3,11 @@
     <Button :icon="faPen" @click="openModal" class="text-info btn-ghost" />
 
     <Dialog :is-opened="isOpened" @close="closeModal">
-      <template #title>Edit list "{{ props.todolist.title }}"</template>
+      <template #title>Edit list "{{ props.list.title }}"</template>
       <template #default>
         <div>
           <TextInput
-            label="Todolist name"
+            label="List name"
             :value="name"
             placeholder="Enter name..."
             input-class="input-primary"
@@ -16,35 +16,35 @@
         </div>
       </template>
       <template #actions>
-        <Button class="btn-success" label="Save" @click="editTodoList"></Button>
+        <Button class="btn-success" label="Save" @click="editList"></Button>
       </template>
     </Dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useTodoStore } from "~/stores/todoStore";
+import { useListStore } from "~/stores/listStore";
 import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
 import TextInput from "../TextInput.vue";
-import { ToDoList } from "~/models/ToDo";
+import { List } from "~/models/List";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
-interface EditTodoListProps {
-  todolist: ToDoList;
+interface EditListProps {
+  list: List;
 }
 
-const props = defineProps<EditTodoListProps>();
-const store = useTodoStore();
+const props = defineProps<EditListProps>();
+const store = useListStore();
 const isOpened = ref(false);
-const name = ref(props.todolist.title);
+const name = ref(props.list.title);
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 const setName = (v: string) => (name.value = v);
 
-function editTodoList() {
-  store.editList(props.todolist.id, name.value);
+function editList() {
+  store.editList(props.list.id, name.value);
   closeModal();
 }
 </script>

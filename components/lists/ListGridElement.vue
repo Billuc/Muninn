@@ -34,12 +34,12 @@
 </template>
 
 <script setup lang="ts">
-interface TodosGridElementProps {
+interface ListGridElementProps {
   label: string;
   href?: string;
 }
 
-const props = defineProps<TodosGridElementProps>();
+const props = defineProps<ListGridElementProps>();
 const emit = defineEmits(["click"]);
 
 function onClick(ev: Event) {

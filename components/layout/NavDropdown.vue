@@ -26,7 +26,7 @@
         label="Journal"
       />
       <NavLink
-        href="/todos"
+        href="/lists"
         :icon="faCheckSquare"
         color="text-primary"
         label="Lists"

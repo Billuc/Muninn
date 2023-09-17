@@ -7,14 +7,14 @@
     <div class="w-[14px] h-4 flex-shrink-0"></div>
     <Checkbox :value="false" disabled class="checkbox-primary" />
     <MultilineField
-      :value="todoText"
+      :value="elementText"
       placeholder="Write here..."
-      @input="(v) => (todoText = v)"
+      @input="(v) => (elementText = v)"
       class="w-full"
       detect-enter
-      @enter="addTodo"
+      @enter="addElement"
     />
-    <Button :icon="faPlus" class="btn-circle !btn-xs" @click="addTodo" />
+    <Button :icon="faPlus" class="btn-circle !btn-xs" @click="addElement" />
   </div>
 </template>
 
@@ -23,20 +23,20 @@ import MultilineField from "../MultilineField.vue";
 import Checkbox from "../Checkbox.vue";
 import Button from "../Button.vue";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useTodoStore } from "~/stores/todoStore";
+import { useListStore } from "~/stores/listStore";
 
-interface AddTodoProps {
+interface AddElementProps {
   listId: number;
 }
 
-const props = defineProps<AddTodoProps>();
-const store = useTodoStore();
-const todoText = ref("");
+const props = defineProps<AddElementProps>();
+const store = useListStore();
+const elementText = ref("");
 
-const addTodo = () => {
-  if (!!todoText.value) store.newTodo(props.listId, todoText.value);
+const addElement = () => {
+  if (!!elementText.value) store.newElement(props.listId, elementText.value);
 
-  todoText.value = "reset"; // trick to reset MultilineField
-  nextTick(() => (todoText.value = ""));
+  elementText.value = "reset"; // trick to reset MultilineField
+  nextTick(() => (elementText.value = ""));
 };
 </script>

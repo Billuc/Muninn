@@ -2,13 +2,13 @@
   <div>
     <PageHeading><span class="text-primary">Lists</span></PageHeading>
 
-    <TodosGrid />
+    <ListGrid />
   </div>
 </template>
 
 <script setup lang="ts">
 import PageHeading from "~/components/layout/PageHeading.vue";
-import TodosGrid from "~/components/todos/TodosGrid.vue";
+import ListGrid from "~/components/lists/ListGrid.vue";
 
 useHead({
   title: "Lists",

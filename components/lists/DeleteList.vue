@@ -4,7 +4,7 @@
 
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>
-        Are you sure you want to remove list "{{ props.todolist.title }}" ?
+        Are you sure you want to remove list "{{ props.list.title }}" ?
       </template>
       <template #actions>
         <Button class="btn-error" @click="closeModal">No</Button>
@@ -15,18 +15,18 @@
 </template>
 
 <script setup lang="ts">
-import { useTodoStore } from "~/stores/todoStore";
+import { useListStore } from "~/stores/listStore";
 import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { ToDoList } from "~/models/ToDo";
+import { List } from "~/models/List";
 
-interface DeleteTodoListProps {
-  todolist: ToDoList;
+interface DeleteListProps {
+  list: List;
 }
 
-const props = defineProps<DeleteTodoListProps>();
-const store = useTodoStore();
+const props = defineProps<DeleteListProps>();
+const store = useListStore();
 const router = useRouter();
 const isOpened = ref(false);
 
@@ -34,8 +34,8 @@ const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
 function remove() {
-  store.removeList(props.todolist.id);
-  router.push({ path: "/todos" });
+  store.removeList(props.list.id);
+  router.push({ path: "/lists" });
   closeModal();
 }
 </script>
