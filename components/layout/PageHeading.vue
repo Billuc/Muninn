@@ -7,7 +7,8 @@
         'flex-wrap',
         'justify-center',
         'items-center',
-        'mb-6'
+        'mb-6',
+        'md:mb-8'
       )
     "
   >

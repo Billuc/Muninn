@@ -1,9 +1,10 @@
 <template>
   <NuxtLink
     :href="href"
-    :class="mergeClasses('btn', 'flex-row', 'flex-nowrap', color)"
+    :class="mergeClasses('btn', 'md:btn-lg', 'flex-row', 'flex-nowrap', color)"
   >
     <FontAwesomeIcon :icon="icon" v-if="icon" />
+    <span v-if="label" class="hidden md:block">{{ label }}</span>
     <slot></slot>
   </NuxtLink>
 </template>
@@ -17,9 +18,9 @@ interface NavLinkProps {
   href: string;
   color?: string;
   icon?: IconDefinition;
-  exact?: boolean;
+  label?: string;
 }
 
 const props = defineProps<NavLinkProps>();
-const { color, href, icon, exact } = toRefs(props);
+const { color, href, icon, label } = toRefs(props);
 </script>

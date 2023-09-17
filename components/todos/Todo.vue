@@ -9,7 +9,7 @@
       <Checkbox
         :value="todo.done"
         @input="updateDone"
-        class="checkbox-secondary"
+        class="checkbox-primary"
         ref="checkbox"
       />
     </div>

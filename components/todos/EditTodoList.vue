@@ -3,14 +3,14 @@
     <Button :icon="faPen" @click="openModal" class="text-info btn-ghost" />
 
     <Dialog :is-opened="isOpened" @close="closeModal">
-      <template #title>Edit todolist "{{ props.todolist.title }}"</template>
+      <template #title>Edit list "{{ props.todolist.title }}"</template>
       <template #default>
         <div>
           <TextInput
             label="Todolist name"
             :value="name"
             placeholder="Enter name..."
-            input-class="input-secondary"
+            input-class="input-primary"
             @input="setName"
           />
         </div>

@@ -10,7 +10,7 @@
             label="Note name"
             :value="name"
             placeholder="Enter name..."
-            input-class="border-neutral"
+            input-class="border-primary"
             @input="setName"
           />
         </div>

@@ -3,14 +3,14 @@
     <TodosGridElement label="+" @click="openModal" />
 
     <Dialog :is-opened="isOpened" @close="closeModal">
-      <template #title>Create a new Todo list</template>
+      <template #title>Create a new list</template>
       <template #default>
         <div>
           <TextInput
             label="Todolist name"
             :value="name"
             placeholder="Enter name..."
-            input-class="input-secondary"
+            input-class="input-primary"
             @input="setName"
           />
         </div>

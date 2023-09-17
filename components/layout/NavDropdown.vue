@@ -19,19 +19,31 @@
         )
       "
     >
-      <NavLink href="/journal" :icon="faJournalWhills" color="text-primary">
-        Journal
-      </NavLink>
-      <NavLink href="/todos" :icon="faCheckSquare" color="text-secondary">
-        Lists
-      </NavLink>
-      <NavLink href="/events" :icon="faCalendar" color="text-accent">
-        Events
-      </NavLink>
-      <NavLink href="/notes" :icon="faLightbulb" color="text-neutral">
-        Notes
-      </NavLink>
-      <NavLink href="/config" :icon="faCog">Config</NavLink>
+      <NavLink
+        href="/journal"
+        :icon="faJournalWhills"
+        color="text-primary"
+        label="Journal"
+      />
+      <NavLink
+        href="/todos"
+        :icon="faCheckSquare"
+        color="text-primary"
+        label="Lists"
+      />
+      <NavLink
+        href="/events"
+        :icon="faCalendar"
+        color="text-primary"
+        label="Events"
+      />
+      <NavLink
+        href="/notes"
+        :icon="faLightbulb"
+        color="text-primary"
+        label="Notes"
+      />
+      <NavLink href="/config" :icon="faCog" label="Config" />
     </div>
   </div>
 </template>

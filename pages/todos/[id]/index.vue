@@ -1,7 +1,7 @@
 <template>
   <div>
     <PageHeading>
-      <span class="text-center text-secondary-focus mb-0 mr-2">{{
+      <span class="text-center text-primary mb-0 mr-2">{{
         todolist.title
       }}</span>
 
@@ -18,7 +18,7 @@
         label="Show checked"
         :value="showChecked"
         @input="(v) => (showChecked = v)"
-        toggle-class="toggle-secondary"
+        toggle-class="toggle-primary"
         class="w-fit"
       />
       <ClearCheckedButton :todolist="todolist" />
@@ -44,6 +44,6 @@ const todolist = store.getList(listId);
 const showChecked = ref(false);
 
 useHead({
-  title: `Todos - ${todolist.title}`,
+  title: `Lists - ${todolist.title}`,
 });
 </script>

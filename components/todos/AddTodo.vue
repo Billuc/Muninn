@@ -5,7 +5,7 @@
     "
   >
     <div class="w-[14px] h-4 flex-shrink-0"></div>
-    <Checkbox :value="false" disabled class="checkbox-secondary" />
+    <Checkbox :value="false" disabled class="checkbox-primary" />
     <MultilineField
       :value="todoText"
       placeholder="Write here..."

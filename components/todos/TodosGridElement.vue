@@ -3,7 +3,7 @@
     :class="
       mergeClasses(
         'btn',
-        'btn-secondary',
+        'btn-primary',
         'list-none',
         '-skew-y-3',
         'my-0',

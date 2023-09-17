@@ -2,7 +2,13 @@
   <div :class="mergeClasses('relative', 'max-w-sm', 'md:max-w-md')">
     <div
       :class="
-        mergeClasses('card', 'bg-accent-focus', 'shadow-xl', 'overflow-hidden')
+        mergeClasses(
+          'card',
+          'bg-primary',
+          'text-primary-content',
+          'shadow-xl',
+          'overflow-hidden'
+        )
       "
     >
       <div class="px-4 py-4 md:px-8 md:py-6">
@@ -18,7 +24,18 @@
           @selectDate="selectDate"
         ></CalendarMonthView>
       </div>
-      <div class="bg-accent px-6 py-4 md:px-14 md:py-6">
+      <div
+        :class="
+          mergeClasses(
+            'bg-secondary',
+            'text-secondary-content',
+            'px-6',
+            'py-4',
+            'md:px-14',
+            'md:py-6'
+          )
+        "
+      >
         <CalendarEvents :date="date"></CalendarEvents>
       </div>
     </div>

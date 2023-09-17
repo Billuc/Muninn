@@ -4,7 +4,7 @@
 
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>
-        Are you sure you want to remove todolist "{{ props.todolist.title }}" ?
+        Are you sure you want to remove list "{{ props.todolist.title }}" ?
       </template>
       <template #actions>
         <Button class="btn-error" @click="closeModal">No</Button>

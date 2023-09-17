@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHeading><span class="text-accent">Events</span></PageHeading>
+    <PageHeading><span class="text-primary">Events</span></PageHeading>
 
     <Calendar class="mx-auto"></Calendar>
   </div>

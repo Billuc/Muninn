@@ -6,12 +6,12 @@
       <Button
         :icon="faAngleLeft"
         @click="prevMonth"
-        class="btn-circle btn-xs btn-accent"
+        class="btn-circle btn-xs btn-primary"
       />
       <Button
         :icon="faAngleRight"
         @click="nextMonth"
-        class="btn-circle btn-xs btn-accent"
+        class="btn-circle btn-xs btn-primary"
       />
     </div>
   </div>

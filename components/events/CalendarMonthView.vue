@@ -14,7 +14,7 @@
         mergeClasses(
           'btn-circle',
           !isSameMonth(day, props.date) ? 'opacity-50' : undefined,
-          isSameDay(day, props.date) ? 'bg-base-300' : 'btn-ghost'
+          isSameDay(day, props.date) ? 'bg-accent' : 'btn-ghost'
         )
       "
     >

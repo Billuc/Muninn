@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHeading><span class="text-secondary-focus">ToDos</span></PageHeading>
+    <PageHeading><span class="text-primary">Lists</span></PageHeading>
 
     <TodosGrid />
   </div>
@@ -11,6 +11,6 @@ import PageHeading from "~/components/layout/PageHeading.vue";
 import TodosGrid from "~/components/todos/TodosGrid.vue";
 
 useHead({
-  title: "Todos",
+  title: "Lists",
 });
 </script>

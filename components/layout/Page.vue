@@ -2,10 +2,10 @@
   <div
     :class="
       mergeClasses(
-        'pb-20',
+        'pb-16',
         'md:pb-4',
         'pt-4',
-        'md:pt-20',
+        'md:pt-24',
         'mx-auto',
         'w-full',
         'min-h-screen',

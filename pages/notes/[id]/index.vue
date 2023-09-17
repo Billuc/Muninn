@@ -1,7 +1,7 @@
 <template>
   <div>
     <PageHeading>
-      <span class="text-center text-neutral-focus mb-0 mr-2">
+      <span class="text-center text-primary mb-0 mr-2">
         {{ note.title }}
       </span>
 

@@ -6,7 +6,11 @@ export interface Tag {
 }
 
 export enum TagColor {
-    red = "red",
-    green = "green",
-    blue = "blue"
+  red = "red",
+  orange = "orange",
+  yellow = "yellow",
+  green = "green",
+  cyan = "cyan",
+  blue = "blue",
+  purple = "purple",
 }

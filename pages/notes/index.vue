@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHeading><span class="text-neutral">Notes</span></PageHeading>
+    <PageHeading><span class="text-primary">Notes</span></PageHeading>
 
     <div
       :class="
