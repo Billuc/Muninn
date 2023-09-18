@@ -17,10 +17,31 @@
             @input="setTitle"
           />
 
-          <DateTimeSelector
-            :value="startDate"
-            @input="setStartDate"
-            label="Start of event"
+          <div class="flex flex-nowrap gap-2 overflow-x-auto">
+            <DateTimeSelector
+              :value="startDate"
+              @input="setStartDate"
+              label="Start of event"
+            />
+            <DateTimeSelector
+              :value="endDate"
+              @input="setEndDate"
+              label="End of event"
+              clearable
+            />
+          </div>
+
+          <FrequencySelecter
+            :frequency="frequency"
+            @update:frequency="setFrequency"
+          />
+
+          <MultilineInput
+            label="Description (optional)"
+            placeholder="Enter description... (optional)"
+            :value="description"
+            @input="setDescription"
+            clearable
           />
         </div>
       </template>
@@ -39,25 +60,34 @@ import { useEventStore } from "~/stores/eventStore";
 import { Frequency } from "~/models/Event";
 import TextInput from "../TextInput.vue";
 import DateTimeSelector from "../DateTimeSelector.vue";
+import FrequencySelecter from "./FrequencySelecter.vue";
+import MultilineInput from "../MultilineInput.vue";
 
 const store = useEventStore();
 const isOpened = ref(false);
 
 const title = ref("");
 const startDate = ref(new Date());
+const endDate = ref<Date | null>(null);
+const frequency = ref<Frequency>(Frequency.Once);
+const description = ref("");
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
+
 const setTitle = (v: string) => (title.value = v);
 const setStartDate = (v: Date) => (startDate.value = v);
+const setEndDate = (v: Date | null) => (endDate.value = v);
+const setFrequency = (v: Frequency) => (frequency.value = v);
+const setDescription = (v: string | null) => (description.value = v ?? "");
 
 const newEvent = () => {
   store.newEvent({
     title: title.value,
     description: "",
-    frequency: Frequency.Once,
+    frequency: frequency.value,
     start: startDate.value,
-    end: undefined,
+    end: endDate.value ?? undefined,
   });
   closeModal();
 };

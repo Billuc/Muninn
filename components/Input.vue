@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="w-full flex-grow flex-shrink">
     <InputLabel v-if="props.label" :label="props.label" />
 
     <div
@@ -38,7 +38,12 @@
           :placeholder="props.placeholder"
           :pattern="props.pattern"
           :class="
-            mergeClasses('focus:outline-none', 'flex-grow', 'bg-transparent')
+            mergeClasses(
+              'focus:outline-none',
+              'flex-grow',
+              'flex-shrink',
+              'bg-transparent'
+            )
           "
           :value="props.value"
         />

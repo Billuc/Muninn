@@ -1,9 +1,43 @@
-import { endOfDay, format, parse, startOfDay } from "date-fns";
-import { Event, EventData, UpdateEvent } from "~/models/Event";
+import {
+  eachDayOfInterval,
+  endOfDay,
+  format,
+  parse,
+  startOfDay,
+} from "date-fns";
+import { Event, EventData, Frequency, UpdateEvent } from "~/models/Event";
 import { definePersistedStore } from "~/tools/persistedPinia";
 
 const formatDate = (key: Date) => format(key, "yyyy-MM-dd HH:mm");
 const parseDate = (key: string) => parse(key, "yyyy-MM-dd HH:mm", new Date());
+
+const hasRepetitionAtDay = (event: EventData, day: Date) => {
+  const start = parseDate(event.start);
+  const end = parseDate(event.end ?? event.start);
+
+  if (day < startOfDay(start)) return false;
+
+  switch (event.frequency) {
+    case Frequency.Once:
+      return endOfDay(end) >= day;
+    case Frequency.Daily:
+      return true;
+    case Frequency.Weekly:
+      return eachDayOfInterval({ start, end }).some(
+        (d) => d.getDay() === day.getDay()
+      );
+    case Frequency.Monthly:
+      return eachDayOfInterval({ start, end }).some(
+        (d) => d.getDate() === day.getDate()
+      );
+    case Frequency.Yearly:
+      return eachDayOfInterval({ start, end }).some(
+        (d) => d.getDate() === day.getDate() && d.getMonth() === day.getMonth()
+      );
+    default:
+      return false;
+  }
+};
 
 export const useEventStore = definePersistedStore("events", {
   state: () => ({
@@ -13,11 +47,7 @@ export const useEventStore = definePersistedStore("events", {
   actions: {
     getEventsOfDay(day: Date): Event[] {
       return [...this.events.values()]
-        .filter(
-          (evD) =>
-            startOfDay(parseDate(evD.start)) <= day &&
-            endOfDay(parseDate(evD.end ?? evD.start)) >= day
-        )
+        .filter((evD) => hasRepetitionAtDay(evD, day))
         .map((evD) => ({
           id: evD.id,
           description: evD.description,

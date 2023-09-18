@@ -1,6 +1,6 @@
 <template>
   <dialog class="modal" ref="modalRef" @keydown.esc.prevent="closeModal">
-    <div class="modal-box overflow-y-visible">
+    <div class="modal-box overflow-y-visible max-w-[100vw] md:max-w-xl">
       <div :class="mergeClasses('text-lg', 'font-bold')">
         <slot name="title"></slot>
       </div>

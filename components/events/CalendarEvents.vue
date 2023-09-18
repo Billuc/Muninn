@@ -34,7 +34,10 @@ interface CalendarEventsProps {
 const props = defineProps<CalendarEventsProps>();
 const store = useEventStore();
 const daysEvents = computed(() =>
-  _.sortBy(store.getEventsOfDay(props.date), (event) => event.start)
+  _.sortBy(store.getEventsOfDay(props.date), [
+    (event) => event.start.getHours(),
+    (event) => event.start.getMinutes(),
+  ])
 );
 
 const selectedEvent = ref<Event | null>(null);

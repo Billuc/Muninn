@@ -10,7 +10,7 @@
           @input="setTitle"
         />
 
-        <div class="flex flex-nowrap gap-2">
+        <div class="flex flex-nowrap gap-2 overflow-x-auto">
           <DateTimeSelector
             :value="startDate"
             @input="setStartDate"
@@ -23,6 +23,11 @@
             clearable
           />
         </div>
+
+        <FrequencySelecter
+          :frequency="frequency"
+          @update:frequency="setFrequency"
+        />
 
         <MultilineInput
           label="Description (optional)"
@@ -47,6 +52,7 @@ import { Event, Frequency } from "~/models/Event";
 import TextInput from "../TextInput.vue";
 import DateTimeSelector from "../DateTimeSelector.vue";
 import MultilineInput from "../MultilineInput.vue";
+import FrequencySelecter from "./FrequencySelecter.vue";
 
 interface EditEventProps {
   event: Event | null;
@@ -60,23 +66,26 @@ const isOpened = computed(() => !!props.event);
 const title = ref("");
 const startDate = ref(new Date());
 const endDate = ref<Date | null>(null);
+const frequency = ref<Frequency>(Frequency.Once);
 const description = ref("");
+
+const close = () => emit("close");
 
 const setTitle = (v: string) => (title.value = v);
 const setStartDate = (v: Date) => (startDate.value = v);
 const setEndDate = (v: Date | null) => (endDate.value = v);
+const setFrequency = (v: Frequency) => (frequency.value = v);
 const setDescription = (v: string | null) => (description.value = v ?? "");
-const close = () => emit("close");
 
 const editEvent = () => {
   if (!props.event) return;
 
   store.editEvent(props.event.id, {
     title: title.value,
-    description: "",
-    frequency: Frequency.Once,
+    description: description.value,
+    frequency: frequency.value,
     start: startDate.value,
-    end: undefined,
+    end: endDate.value ?? undefined,
   });
   close();
 };
@@ -92,11 +101,13 @@ watchEffect(() => {
     title.value = props.event.title;
     startDate.value = props.event.start;
     endDate.value = props.event.end ?? null;
+    frequency.value = props.event.frequency;
     description.value = props.event.description;
   } else {
     title.value = "";
     startDate.value = new Date();
     endDate.value = new Date();
+    frequency.value = Frequency.Once;
     description.value = "";
   }
 });
