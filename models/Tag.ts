@@ -2,7 +2,7 @@ export interface Tag {
   id: number;
   title: string;
   color: TagColor;
-  icon?: string[];
+  icon: string[];
 }
 
 export enum TagColor {

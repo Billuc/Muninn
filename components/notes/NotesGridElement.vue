@@ -22,31 +22,32 @@
           'flex',
           'justify-center',
           'items-center',
+          'gap-x-2',
           'm-0',
           'no-underline',
-          'text-lg',
-          'flex',
-          'flex-col',
-          'items-center'
+          'text-lg'
         )
       "
       :href="props.href"
     >
+      <TagVue
+        v-if="props.tag"
+        :icon="props.tag.icon"
+        :color="props.tag.color"
+      />
       {{ props.label }}
-
-      <TagList :tags="props.tags" />
     </NuxtLink>
   </li>
 </template>
 
 <script setup lang="ts">
 import { Tag } from "~/models/Tag";
-import TagList from "../TagList.vue";
+import TagVue from "../Tag.vue";
 
 interface NotesGridElementProps {
   label: string;
   href?: string;
-  tags: Tag[];
+  tag?: Tag;
 }
 
 const props = defineProps<NotesGridElementProps>();

@@ -5,13 +5,18 @@
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Edit note "{{ props.note.title }}"</template>
       <template #default>
-        <div>
+        <div class="form-control gap-y-2">
           <TextInput
             label="Note name"
             :value="name"
             placeholder="Enter name..."
             input-class="border-primary"
             @input="setName"
+          />
+          <TagSelecter
+            :tags="tags"
+            :selected="tagId"
+            @update:selected="setTagId"
           />
         </div>
       </template>
@@ -25,6 +30,7 @@
 <script setup lang="ts">
 import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
+import TagSelecter from "../TagSelecter.vue";
 import TextInput from "../TextInput.vue";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { Note } from "~/models/Note";
@@ -36,15 +42,19 @@ interface EditNoteProps {
 
 const props = defineProps<EditNoteProps>();
 const store = useNoteStore();
+const tags = store.tagArray;
+
 const isOpened = ref(false);
 const name = ref(props.note.title);
+const tagId = ref(props.note.tagId);
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 const setName = (v: string) => (name.value = v);
+const setTagId = (v: number) => (tagId.value = v);
 
 function editNote() {
-  store.editNote(props.note.id, name.value, props.note.text);
+  store.editNote(props.note.id, name.value, props.note.text, tagId.value);
   closeModal();
 }
 </script>

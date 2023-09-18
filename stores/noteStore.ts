@@ -1,4 +1,3 @@
-import { faTag } from "@fortawesome/free-solid-svg-icons";
 import _ from "lodash";
 import { Note } from "~/models/Note";
 import { Tag, TagColor } from "~/models/Tag";
@@ -20,62 +19,56 @@ export const useNoteStore = definePersistedStore("notes", {
         return state.notes.get(noteId)!;
       };
     },
+    tagArray: (state) => [...state.tags.values()],
   },
   actions: {
-    newNote(title: string, tagIds: number[]) {
+    newNote(title: string, tagId: number) {
       this.notes.set(this.nextNoteId, {
         id: this.nextNoteId,
         title: title,
-        tagIds: tagIds,
+        tagId: tagId,
         text: "",
       });
       this.nextNoteId++;
     },
-    editNote(noteId: number, title: string, text: string) {
+    editNote(noteId: number, title: string, text: string, tagId: number) {
       this.getNote(noteId).title = title;
       this.getNote(noteId).text = text;
+      this.getNote(noteId).tagId = tagId;
     },
     removeNote(noteId: number) {
       if (!this.notes.delete(noteId)) {
         throw new Error(`[Notes] Note with ID ${noteId} not found`);
       }
     },
-    newTag(title: string) {
+    newTag(title: string, color: TagColor, icon: string[]) {
+      if (_.some([...this.tags.values()], (t) => t.color === color))
+        throw new Error(`[Notes] Tag with color ${color} already exists`);
+
       this.tags.set(this.nextTagId, {
         id: this.nextTagId,
         title: title,
-        color: _.sample(Object.values(TagColor))!,
-        icon: [faTag.prefix, faTag.iconName],
+        color: color,
+        icon: icon,
       });
       this.nextTagId++;
     },
     removeTag(tagId: number) {
       this.tags.delete(tagId);
     },
-    editTag(tagId: number, tag: Tag) {
-      if (!this.tags.has(tagId)) {
+    editTag(tagId: number, title: string, color: TagColor, icon: string[]) {
+      if (!this.tags.has(tagId))
         throw new Error(`[Notes] Tag with ID ${tagId} not found`);
-      }
 
-      this.tags.set(tagId, tag);
-    },
-    addTagToNote(noteId: number, tagId: number) {
-      const noteTagIds = this.getNote(noteId).tagIds;
+      if (_.some([...this.tags.values()], (t) => t.color === color))
+        throw new Error(`[Notes] Tag with color ${color} already exists`);
 
-      if (noteTagIds.includes(tagId))
-        console.warn(
-          `[Notes] Note with ID ${noteId} already has tag with ID ${tagId}`
-        );
-      else noteTagIds.push(tagId);
-    },
-    removeTagfromNote(noteId: number, tagId: number) {
-      const noteTagIds = this.getNote(noteId).tagIds;
-
-      if (!noteTagIds.includes(tagId))
-        console.warn(
-          `[Notes] Note with ID ${noteId} doesn't have tag with ID ${tagId}`
-        );
-      else this.getNote(noteId).tagIds = noteTagIds.filter((id) => id != tagId);
+      this.tags.set(tagId, {
+        id: tagId,
+        color: color,
+        title: title,
+        icon: icon,
+      });
     },
   },
 });

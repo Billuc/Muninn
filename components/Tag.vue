@@ -1,10 +1,12 @@
 <template>
-  <div
-    class="badge"
-    :style="{ backgroundColor: props.color }"
-  >
-    <FontAwesomeIcon v-if="props.icon" :icon="props.icon" size="xs" />
-    <span class="ml-1">{{ props.text }}</span>
+  <div class="btn btn-xs" :style="{ backgroundColor: props.color }">
+    <FontAwesomeIcon
+      v-if="props.icon"
+      :icon="props.icon"
+      size="xs"
+      :class="{ 'mr-1': !!props.text }"
+    />
+    <span v-if="props.text">{{ props.text }}</span>
     <slot></slot>
   </div>
 </template>
@@ -16,7 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 interface TagProps {
   color?: string;
   icon?: string[] | IconDefinition;
-  text: string;
+  text?: string;
 }
 
 const props = defineProps<TagProps>();

@@ -12,6 +12,8 @@
       )
     "
   >
+    <slot name="prepend"></slot>
+
     <h1 :class="mergeClasses('text-4xl', 'font-black')">
       <slot></slot>
     </h1>

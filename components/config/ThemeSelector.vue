@@ -1,16 +1,14 @@
 <template>
-  <div>
-    <h2>Theme</h2>
-
-    <div
-      :class="mergeClasses('grid', 'grid-cols-2', 'md:grid-cols-3', 'gap-2')"
-    >
-      <ThemeDisplay
-        v-for="theme in themes"
-        :theme-name="theme"
-        :key="'select-' + theme"
-      />
-    </div>
+  <div
+    :class="
+      mergeClasses('grid', 'grid-cols-2', 'md:grid-cols-3', 'gap-2', 'pl-4')
+    "
+  >
+    <ThemeDisplay
+      v-for="theme in themes"
+      :theme-name="theme"
+      :key="'select-' + theme"
+    />
   </div>
 </template>
 

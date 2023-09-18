@@ -5,14 +5,21 @@
       <div class="form-control my-4 gap-y-2">
         <TextInput
           label="Tag name"
-          placeholder="Enter name..."
           :value="title"
+          placeholder="Enter name..."
+          input-class="border-primary"
           @input="setTitle"
         />
-        <LazyIconInput :icon="icon ?? undefined" @input="setIcon" />
+        <TagColorInput
+          :disabled-colors="disabledColorsWithoutCurrent"
+          :value="color"
+          @input="setColor"
+        />
+        <IconInput :icon="icon" @input="setIcon" />
       </div>
     </template>
     <template #actions>
+      <Button class="btn-error ml-2" @click="removeTag">Remove</Button>
       <Button class="btn-success ml-2" @click="editTag">Save</Button>
     </template>
   </Dialog>
@@ -23,9 +30,13 @@ import { useNoteStore } from "~/stores/noteStore";
 import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
 import { Tag, TagColor } from "~/models/Tag";
+import IconInput from "../IconInput.vue";
+import { faTag } from "@fortawesome/free-solid-svg-icons";
+import TagColorInput from "./TagColorInput.vue";
 
 interface EditNoteTagProps {
   tag: Tag | null;
+  disabledColors: TagColor[];
 }
 
 const props = defineProps<EditNoteTagProps>();
@@ -35,7 +46,11 @@ const store = useNoteStore();
 const isOpened = computed(() => !!props.tag);
 const title = ref("");
 const color = ref<TagColor>(TagColor.red);
-const icon = ref<string[] | null>(null);
+const icon = ref<string[]>([faTag.prefix, faTag.iconName]);
+
+const disabledColorsWithoutCurrent = computed(() =>
+  props.disabledColors.filter((c) => c !== props.tag?.color)
+);
 
 const setTitle = (newTitle: string) => (title.value = newTitle);
 const setColor = (newColor: TagColor) => (color.value = newColor);
@@ -45,12 +60,13 @@ const close = () => emit("close");
 const editTag = () => {
   if (!props.tag) return;
 
-  store.editTag(props.tag.id, {
-    id: props.tag.id,
-    color: color.value,
-    title: title.value,
-    icon: icon.value ?? undefined,
-  });
+  store.editTag(props.tag.id, title.value, color.value, icon.value);
+  close();
+};
+const removeTag = () => {
+  if (!props.tag) return;
+
+  store.removeTag(props.tag.id);
   close();
 };
 
@@ -58,11 +74,11 @@ watchEffect(() => {
   if (props.tag) {
     title.value = props.tag.title;
     color.value = props.tag.color;
-    icon.value = props.tag.icon ?? null;
+    icon.value = props.tag.icon;
   } else {
     title.value = "";
     color.value = TagColor.red;
-    icon.value = null;
+    icon.value = [faTag.prefix, faTag.iconName];
   }
 });
 </script>

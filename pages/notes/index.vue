@@ -2,27 +2,11 @@
   <div>
     <PageHeading><span class="text-primary">Notes</span></PageHeading>
 
-    <div
-      :class="
-        mergeClasses(
-          'flex',
-          'flex-wrap',
-          'items-center',
-          'justify-center',
-          'gap-x-4',
-          'gap-y-2',
-          'w-full',
-          'my-4'
-        )
-      "
-    >
-      <NoteTagFilter
-        :selected="selected"
-        @update:selected="onUpdate"
-        class="flex-grow"
-      />
-      <ManageNoteTags />
-    </div>
+    <NoteTagFilter
+      :selected="selected"
+      @update:selected="onUpdate"
+      class="w-full my-2"
+    />
 
     <NotesGrid :tag-filter="selected" />
   </div>
@@ -30,13 +14,12 @@
 
 <script setup lang="ts">
 import PageHeading from "~/components/layout/PageHeading.vue";
-import ManageNoteTags from "~/components/notes/ManageNoteTags.vue";
 import NoteTagFilter from "~/components/notes/NoteTagFilter.vue";
 import NotesGrid from "~/components/notes/NotesGrid.vue";
 
-const selected = ref<number[]>([]);
+const selected = ref<number>(-1);
 
-const onUpdate = (newSelected: number[]) => (selected.value = newSelected);
+const onUpdate = (newSelected: number) => (selected.value = newSelected);
 
 useHead({
   title: "Notes",

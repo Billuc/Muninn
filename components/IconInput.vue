@@ -18,6 +18,7 @@
         placeholder="Search icons..."
         :options="iconOptions"
         @input="onInput"
+        lazy
       >
         <template #option="{ option, selectOption }">
           <div @click="selectOption" tabindex="0">

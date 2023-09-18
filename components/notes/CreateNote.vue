@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NotesGridElement label="+" @click="openModal" :tags="[]" />
+    <NotesGridElement label="+" @click="openModal" />
 
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Create a new note</template>
@@ -13,12 +13,10 @@
             input-class="border-primary"
             @input="setName"
           />
-          <TagInput
-            :tags="tagArray"
-            :selected-tag-ids="tagIds"
-            @new-tag="newTag"
-            @remove-tag="removeTag"
-            @select-tag="selectTag"
+          <TagSelecter
+            :tags="tags"
+            :selected="tagId"
+            @update:selected="setTagId"
           />
         </div>
       </template>
@@ -35,35 +33,22 @@ import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
 import TextInput from "../TextInput.vue";
 import NotesGridElement from "./NotesGridElement.vue";
-import TagInput from "../TagInput.vue";
-import { storeToRefs } from "pinia";
+import TagSelecter from "../TagSelecter.vue";
 
 const store = useNoteStore();
+const tags = store.tagArray;
+
 const isOpened = ref(false);
 const name = ref("");
-const tagIds = ref([] as number[]);
-const { tags, nextTagId } = storeToRefs(store);
-
-const tagArray = computed(() => [...tags.value.values()]);
+const tagId = ref(-1);
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 const setName = (v: string) => (name.value = v);
+const setTagId = (v: number) => (tagId.value = v);
 
 const newNote = () => {
-  store.newNote(name.value, tagIds.value);
+  store.newNote(name.value, tagId.value);
   closeModal();
-};
-const newTag = (tagName: string) => {
-  const tagId = nextTagId.value;
-  store.newTag(tagName);
-  tagIds.value.push(tagId);
-};
-const removeTag = (tagId: number) => {
-  tagIds.value = tagIds.value.filter((id) => id !== tagId);
-};
-const selectTag = (tagId: number) => {
-  if (tagIds.value.includes(tagId)) return;
-  tagIds.value.push(tagId);
 };
 </script>

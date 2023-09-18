@@ -1,12 +1,16 @@
 <template>
   <div>
     <PageHeading>
-      <span class="text-center text-primary mb-0 mr-2">
+      <template #prepend>
+        <TagVue :text="tag?.title" :color="tag?.color" :icon="tag?.icon" />
+      </template>
+
+      <span class="text-primary mx-2">
         {{ note.title }}
       </span>
 
       <template #append>
-        <div class="inline-block ml-2">
+        <div class="inline-block">
           <EditNote :note="note" />
           <DeleteNote :note="note" />
         </div>
@@ -18,6 +22,7 @@
 </template>
 
 <script setup lang="ts">
+import TagVue from "~/components/Tag.vue";
 import PageHeading from "~/components/layout/PageHeading.vue";
 import DeleteNote from "~/components/notes/DeleteNote.vue";
 import EditNote from "~/components/notes/EditNote.vue";
@@ -28,6 +33,7 @@ const route = useRoute();
 const store = useNoteStore();
 const noteId = Number(route.params.id);
 const note = store.getNote(noteId);
+const tag = store.tags.get(note.tagId);
 
 useHead({
   title: `Notes - ${note.title}`,

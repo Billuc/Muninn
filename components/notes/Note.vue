@@ -1,7 +1,5 @@
 <template>
   <div :class="mergeClasses('flex', 'flex-col', 'flex-nowrap', 'gap-y-2')">
-    tags
-
     <MultilineField
       :value="note.text"
       placeholder="Write here..."
@@ -28,7 +26,7 @@ const store = useNoteStore();
 
 function updateNoteText(newText: string) {
   console.log(newText);
-  store.editNote(note.value.id, note.value.title, newText);
+  store.editNote(note.value.id, note.value.title, newText, note.value.tagId);
 }
 const debouncedUpdateNoteText = _.debounce(updateNoteText, 2000);
 </script>

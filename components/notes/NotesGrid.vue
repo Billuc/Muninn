@@ -10,7 +10,7 @@
         :key="`note-${note.id}`"
         :label="note.title"
         :href="`/notes/${note.id}`"
-        :tags="getTags(note.tagIds)"
+        :tag="getTag(note.tagId)"
       />
       <CreateNote />
     </ul>
@@ -25,7 +25,7 @@ import CreateNote from "./CreateNote.vue";
 import _ from "lodash";
 
 interface NotesGridProps {
-  tagFilter: number[];
+  tagFilter: number;
 }
 
 const props = defineProps<NotesGridProps>();
@@ -34,10 +34,9 @@ const { notes } = storeToRefs(store);
 
 const filteredNotes = computed(() =>
   [...notes.value.values()].filter(
-    (n) => _.difference(props.tagFilter, n.tagIds).length === 0
+    (n) => props.tagFilter < 0 || props.tagFilter === n.tagId
   )
 );
 
-const getTags = (ids: number[]) =>
-  [...store.tags.values()].filter((t) => ids.includes(t.id));
+const getTag = (id: number) => store.tags.get(id);
 </script>

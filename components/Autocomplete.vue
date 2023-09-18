@@ -73,6 +73,7 @@ interface AutocompleteProps {
   options: any[];
   textKey?: string;
   valueKey?: string;
+  lazy?: boolean;
 }
 
 const props = defineProps<AutocompleteProps>();
@@ -82,7 +83,12 @@ const inputValue = ref("");
 const filteredOptions = computed(() =>
   props.options.filter((v) => {
     const vText = v[props.textKey ?? "text"] ?? "";
-    return _.includes(vText.toLowerCase(), inputValue.value.toLowerCase());
+    return (
+      (!props.lazy ||
+        vText.toLowerCase() === inputValue.value.toLowerCase() ||
+        inputValue.value.length >= 3) &&
+      _.includes(vText.toLowerCase(), inputValue.value.toLowerCase())
+    );
   })
 );
 
