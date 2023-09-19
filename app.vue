@@ -1,15 +1,11 @@
 <template>
-  <div>
+  <div :class="mergeClasses('bg-gradient-to-b from-base-100 to-base-300')">
     <VitePwaManifest />
 
     <NuxtLayout>
-      <Page>
-        <template #navbar>
-          <NavBar />
-        </template>
-        
+      <NavDrawer>
         <NuxtPage />
-      </Page>
+      </NavDrawer>
     </NuxtLayout>
 
     <PWAHandler />
@@ -17,10 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import NavBar from "@/components/layout/NavBar.vue";
 import { themeChange } from "theme-change";
 import PWAHandler from "@/components/layout/PWAHandler.vue";
-import Page from "./components/layout/Page.vue";
+import NavDrawer from "./components/layout/NavDrawer.vue";
 
 useHead({
   titleTemplate(title) {

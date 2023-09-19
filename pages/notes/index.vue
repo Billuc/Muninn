@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHeading><span class="text-primary">Notes</span></PageHeading>
+    <PageHeading><span>Notes</span></PageHeading>
 
     <NoteTagFilter
       :selected="selected"

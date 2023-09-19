@@ -5,7 +5,7 @@
         <TagVue :text="tag?.title" :color="tag?.color" :icon="tag?.icon" />
       </template>
 
-      <span class="text-primary mx-2">
+      <span class="mx-2">
         {{ note.title }}
       </span>
 

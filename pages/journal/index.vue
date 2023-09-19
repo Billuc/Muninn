@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHeading><span class="text-primary">Journal</span></PageHeading>
+    <PageHeading><span>Journal</span></PageHeading>
 
     <div class="flex flex-wrap justify-center my-4 gap-2">
       <div>
@@ -13,12 +13,7 @@
       <DayOfWeekSelector :value="date" @input="changeDate" />
     </div>
 
-    <h3 class="text-primary text-xl font-bold">
-      {{ format(date, "MMM d") }}
-    </h3>
-    <h2 class="text-primary text-2xl font-extrabold">
-      {{ format(date, "EEEE") }}
-    </h2>
+    <DateDisplay :date="date" />
 
     <EntryList :date="date" class="mt-4" />
   </div>
@@ -28,6 +23,7 @@
 import { format } from "date-fns";
 import DateSelector from "~/components/DateSelector.vue";
 import DayOfWeekSelector from "~/components/DayOfWeekSelector.vue";
+import DateDisplay from "~/components/journal/DateDisplay.vue";
 import EntryList from "~/components/journal/EntryList.vue";
 import PageHeading from "~/components/layout/PageHeading.vue";
 

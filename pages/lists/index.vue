@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHeading><span class="text-primary">Lists</span></PageHeading>
+    <PageHeading><span>Lists</span></PageHeading>
 
     <ListGrid />
   </div>

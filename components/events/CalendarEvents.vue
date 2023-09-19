@@ -5,6 +5,7 @@
         v-for="event in daysEvents"
         :key="'event-' + event.id"
         v-bind="event"
+        :tag="getTag(event)"
         @click="selectEvent(event)"
       />
 
@@ -29,18 +30,24 @@ import _ from "lodash";
 
 interface CalendarEventsProps {
   date: Date;
+  tagFilter: number;
 }
 
 const props = defineProps<CalendarEventsProps>();
 const store = useEventStore();
 const daysEvents = computed(() =>
-  _.sortBy(store.getEventsOfDay(props.date), [
-    (event) => event.start.getHours(),
-    (event) => event.start.getMinutes(),
-  ])
+  _(store.getEventsOfDay(props.date))
+    .chain()
+    .filter((e) => props.tagFilter < 0 || e.tagId === props.tagFilter)
+    .sortBy([
+      (event) => event.start.getHours(),
+      (event) => event.start.getMinutes(),
+    ])
+    .value()
 );
 
 const selectedEvent = ref<Event | null>(null);
 
 const selectEvent = (event: Event | null) => (selectedEvent.value = event);
+const getTag = (event: Event) => store.tags.get(event.tagId);
 </script>

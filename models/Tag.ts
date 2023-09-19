@@ -9,8 +9,8 @@ export enum TagColor {
   red = "red",
   orange = "orange",
   yellow = "yellow",
-  green = "green",
+  lime = "lime",
   cyan = "cyan",
-  blue = "blue",
-  purple = "purple",
+  lightblue = "lightblue",
+  magenta = "magenta",
 }

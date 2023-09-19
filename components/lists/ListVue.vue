@@ -8,7 +8,7 @@
     >
       <template #item="{ element }">
         <ListElementVue
-          v-if="!element.done || showChecked"
+          v-if="!element.done || !hideChecked"
           :list-id="list.id"
           :element="element"
           class="mt-1"
@@ -29,12 +29,12 @@ import Draggable from "vuedraggable";
 import AddElement from "./AddElement.vue";
 
 interface ListProps {
-  showChecked: boolean;
+  hideChecked: boolean;
   list: List;
 }
 
 const props = defineProps<ListProps>();
-const { showChecked, list } = toRefs(props);
+const { hideChecked, list } = toRefs(props);
 const store = useListStore();
 
 const elementsArray = computed({

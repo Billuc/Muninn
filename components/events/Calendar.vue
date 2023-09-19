@@ -36,7 +36,10 @@
           )
         "
       >
-        <CalendarEvents :date="date"></CalendarEvents>
+        <CalendarEvents
+          :date="date"
+          :tag-filter="props.tagFilter"
+        ></CalendarEvents>
       </div>
     </div>
 
@@ -50,6 +53,12 @@ import CalendarHeader from "./CalendarHeader.vue";
 import CalendarMonthView from "./CalendarMonthView.vue";
 import CalendarEvents from "./CalendarEvents.vue";
 import CreateEvent from "./CreateEvent.vue";
+
+interface CalendarProps {
+  tagFilter: number;
+}
+
+const props = defineProps<CalendarProps>();
 
 const date = ref(new Date());
 

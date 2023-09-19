@@ -36,6 +36,12 @@
             @update:frequency="setFrequency"
           />
 
+          <TagSelecter
+            :tags="tags"
+            :selected="tagId"
+            @update:selected="setTagId"
+          />
+
           <MultilineInput
             label="Description (optional)"
             placeholder="Enter description... (optional)"
@@ -62,15 +68,18 @@ import TextInput from "../TextInput.vue";
 import DateTimeSelector from "../DateTimeSelector.vue";
 import FrequencySelecter from "./FrequencySelecter.vue";
 import MultilineInput from "../MultilineInput.vue";
+import TagSelecter from "../TagSelecter.vue";
 
 const store = useEventStore();
 const isOpened = ref(false);
+const tags = store.tagArray;
 
 const title = ref("");
 const startDate = ref(new Date());
 const endDate = ref<Date | null>(null);
 const frequency = ref<Frequency>(Frequency.Once);
 const description = ref("");
+const tagId = ref(-1);
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
@@ -80,14 +89,16 @@ const setStartDate = (v: Date) => (startDate.value = v);
 const setEndDate = (v: Date | null) => (endDate.value = v);
 const setFrequency = (v: Frequency) => (frequency.value = v);
 const setDescription = (v: string | null) => (description.value = v ?? "");
+const setTagId = (v: number) => (tagId.value = v);
 
 const newEvent = () => {
   store.newEvent({
     title: title.value,
-    description: "",
+    description: description.value,
     frequency: frequency.value,
     start: startDate.value,
     end: endDate.value ?? undefined,
+    tagId: tagId.value,
   });
   closeModal();
 };

@@ -29,6 +29,12 @@
           @update:frequency="setFrequency"
         />
 
+        <TagSelecter
+          :tags="tags"
+          :selected="tagId"
+          @update:selected="setTagId"
+        />
+
         <MultilineInput
           label="Description (optional)"
           placeholder="Enter description... (optional)"
@@ -53,6 +59,7 @@ import TextInput from "../TextInput.vue";
 import DateTimeSelector from "../DateTimeSelector.vue";
 import MultilineInput from "../MultilineInput.vue";
 import FrequencySelecter from "./FrequencySelecter.vue";
+import TagSelecter from "../TagSelecter.vue";
 
 interface EditEventProps {
   event: Event | null;
@@ -61,6 +68,7 @@ interface EditEventProps {
 const props = defineProps<EditEventProps>();
 const emit = defineEmits(["close"]);
 const store = useEventStore();
+const tags = store.tagArray;
 
 const isOpened = computed(() => !!props.event);
 const title = ref("");
@@ -68,6 +76,7 @@ const startDate = ref(new Date());
 const endDate = ref<Date | null>(null);
 const frequency = ref<Frequency>(Frequency.Once);
 const description = ref("");
+const tagId = ref(-1);
 
 const close = () => emit("close");
 
@@ -76,6 +85,7 @@ const setStartDate = (v: Date) => (startDate.value = v);
 const setEndDate = (v: Date | null) => (endDate.value = v);
 const setFrequency = (v: Frequency) => (frequency.value = v);
 const setDescription = (v: string | null) => (description.value = v ?? "");
+const setTagId = (v: number) => (tagId.value = v);
 
 const editEvent = () => {
   if (!props.event) return;
@@ -86,6 +96,7 @@ const editEvent = () => {
     frequency: frequency.value,
     start: startDate.value,
     end: endDate.value ?? undefined,
+    tagId: tagId.value,
   });
   close();
 };
@@ -103,12 +114,14 @@ watchEffect(() => {
     endDate.value = props.event.end ?? null;
     frequency.value = props.event.frequency;
     description.value = props.event.description;
+    tagId.value = props.event.tagId;
   } else {
     title.value = "";
     startDate.value = new Date();
     endDate.value = new Date();
     frequency.value = Frequency.Once;
     description.value = "";
+    tagId.value = -1;
   }
 });
 </script>

@@ -17,7 +17,7 @@
       )
     "
   >
-    <NavDropdown />
+    <NavBurger @click="open" />
     <NavLink href="/" class="btn-square !p-2" exact>
       <img src="/icon.svg" class="w-full" />
     </NavLink>
@@ -27,7 +27,11 @@
 
 <script setup>
 import NavLink from "./NavLink.vue";
-import NavDropdown from "./NavDropdown.vue";
+import NavBurger from "./NavBurger.vue";
+
+const emit = defineEmits(["open"]);
+
+const open = () => emit("open");
 </script>
 
 <style>

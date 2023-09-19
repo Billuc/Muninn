@@ -1,12 +1,13 @@
 <template>
   <li class="m-0">
     <MultilineField
-      :value="props.entry"
+      value=""
       placeholder="Write here..."
       @input="debouncedUpdate"
       class="w-full"
       detect-enter
       @enter="updateNow"
+      ref="input"
     />
   </li>
 </template>
@@ -15,14 +16,17 @@
 import MultilineField from "../MultilineField.vue";
 import _ from "lodash";
 
-interface EntryProps {
-  entry: string;
-}
+const emit = defineEmits(["input"]);
 
-const props = defineProps<EntryProps>();
-const emit = defineEmits(["update:entry"]);
+const input = ref(null);
 
-const update = (newValue: string) => emit("update:entry", newValue.trim());
+const update = (newValue: string) => {
+  emit("input", newValue.trim());
+  
+  nextTick(() => {
+    (input.value as any).reset();
+  });
+};
 const debouncedUpdate = _.debounce(update, 2000);
 const updateNow = (newValue: string) => {
   update(newValue);

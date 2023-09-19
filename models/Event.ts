@@ -5,6 +5,7 @@ export interface Event {
   start: Date;
   end?: Date;
   frequency: Frequency;
+  tagId: number;
 }
 
 export interface EventData {
@@ -14,6 +15,7 @@ export interface EventData {
   start: string;
   end?: string;
   frequency: Frequency;
+  tagId: number;
 }
 
 export interface UpdateEvent {
@@ -22,6 +24,7 @@ export interface UpdateEvent {
   start?: Date;
   end?: Date;
   frequency?: Frequency;
+  tagId?: number;
 }
 
 export enum Frequency {

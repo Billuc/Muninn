@@ -15,7 +15,7 @@
     @input="onUpdate"
     :placeholder="placeholder || ''"
     contenteditable
-    tabindex="-1"
+    tabindex="0"
     ref="input"
   >
     {{ value }}
@@ -47,6 +47,12 @@ const onUpdate = (ev: any) => {
     emit("input", text);
   }
 };
+
+const reset = () => {
+  const div = input.value as unknown as HTMLDivElement;
+  div.innerText = "";
+};
+defineExpose({ reset });
 
 watch([value], () => {
   const range = document!.getSelection()!.getRangeAt(0);

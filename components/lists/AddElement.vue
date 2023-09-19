@@ -13,6 +13,7 @@
       class="w-full"
       detect-enter
       @enter="addElement"
+      ref="input"
     />
     <Button :icon="faPlus" class="btn-circle !btn-xs" @click="addElement" />
   </div>
@@ -32,11 +33,13 @@ interface AddElementProps {
 const props = defineProps<AddElementProps>();
 const store = useListStore();
 const elementText = ref("");
+const input = ref(null);
 
 const addElement = () => {
   if (!!elementText.value) store.newElement(props.listId, elementText.value);
 
-  elementText.value = "reset"; // trick to reset MultilineField
-  nextTick(() => (elementText.value = ""));
+  nextTick(() => {
+    (input.value as any).reset();
+  });
 };
 </script>

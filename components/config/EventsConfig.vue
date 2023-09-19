@@ -13,8 +13,8 @@
         @click="() => editTag(tag)"
       />
 
-      <CreateNoteTag v-if="canCreate" :disabled-colors="colorsUsed" />
-      <EditNoteTag
+      <CreateEventTag v-if="canCreate" :disabled-colors="colorsUsed" />
+      <EditEventTag
         :tag="tagToEdit"
         @close="tagToEdit = null"
         :disabled-colors="colorsUsed"
@@ -24,14 +24,14 @@
 </template>
 
 <script setup lang="ts">
-import { useNoteStore } from "~/stores/noteStore";
 import TagVue from "../Tag.vue";
-import CreateNoteTag from "./CreateNoteTag.vue";
 import _ from "lodash";
 import { Tag, TagColor } from "~/models/Tag";
-import EditNoteTag from "./EditNoteTag.vue";
+import { useEventStore } from "~/stores/eventStore";
+import CreateEventTag from "./CreateEventTag.vue";
+import EditEventTag from "./EditEventTag.vue";
 
-const store = useNoteStore();
+const store = useEventStore();
 const tagToEdit = ref<Tag | null>(null);
 
 const tagArray = computed(() => store.tagArray as Tag[]);
