@@ -57,7 +57,6 @@ export const useEventStore = definePersistedStore("events", {
         .filter((evD) => hasRepetitionAtDay(evD, day))
         .map((evD) => ({
           id: evD.id,
-          description: evD.description,
           frequency: evD.frequency,
           start: parseDate(evD.start),
           title: evD.title,
@@ -69,7 +68,6 @@ export const useEventStore = definePersistedStore("events", {
       const eventData: EventData = {
         id: this.nextEventId,
         title: event.title,
-        description: event.description,
         frequency: event.frequency,
         start: formatDate(event.start),
         end: event.end ? formatDate(event.end) : undefined,
@@ -88,7 +86,6 @@ export const useEventStore = definePersistedStore("events", {
       const eventData: EventData = {
         id: key,
         title: event.title ?? eventToEdit.title,
-        description: event.description ?? eventToEdit.description,
         frequency: event.frequency ?? eventToEdit.frequency,
         start: event.start ? formatDate(event.start) : eventToEdit.start,
         end: event.end ? formatDate(event.end) : eventToEdit.end,
@@ -119,7 +116,12 @@ export const useEventStore = definePersistedStore("events", {
       if (!this.tags.has(tagId))
         throw new Error(`[Events] Tag with ID ${tagId} not found`);
 
-      if (_.some([...this.tags.values()], (t) => t.color === color))
+      if (
+        _.some(
+          [...this.tags.values()],
+          (t) => t.id !== tagId && t.color === color
+        )
+      )
         throw new Error(`[Events] Tag with color ${color} already exists`);
 
       this.tags.set(tagId, {

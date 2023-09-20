@@ -2,7 +2,7 @@
   <div>
     <FABButton
       :icon="faPlus"
-      class="absolute -bottom-4 right-4 shadow-md"
+      class="absolute -bottom-4 right-4 shadow-md btn-primary"
       @click="openModal"
     />
 
@@ -41,14 +41,6 @@
             :selected="tagId"
             @update:selected="setTagId"
           />
-
-          <MultilineInput
-            label="Description (optional)"
-            placeholder="Enter description... (optional)"
-            :value="description"
-            @input="setDescription"
-            clearable
-          />
         </div>
       </template>
       <template #actions>
@@ -78,7 +70,6 @@ const title = ref("");
 const startDate = ref(new Date());
 const endDate = ref<Date | null>(null);
 const frequency = ref<Frequency>(Frequency.Once);
-const description = ref("");
 const tagId = ref(-1);
 
 const openModal = () => (isOpened.value = true);
@@ -88,13 +79,11 @@ const setTitle = (v: string) => (title.value = v);
 const setStartDate = (v: Date) => (startDate.value = v);
 const setEndDate = (v: Date | null) => (endDate.value = v);
 const setFrequency = (v: Frequency) => (frequency.value = v);
-const setDescription = (v: string | null) => (description.value = v ?? "");
 const setTagId = (v: number) => (tagId.value = v);
 
 const newEvent = () => {
   store.newEvent({
     title: title.value,
-    description: description.value,
     frequency: frequency.value,
     start: startDate.value,
     end: endDate.value ?? undefined,

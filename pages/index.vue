@@ -7,23 +7,25 @@
     <div
       :class="
         mergeClasses(
-          'flex',
+          'card',
           'flex-col',
           'md:flex-row',
           'flex-nowrap',
-          'gap-x-4',
-          'gap-y-2',
           'w-full',
-          'mt-4'
+          'mt-4',
+          'shadow-xl'
         )
       "
     >
-      <div class="card bg-secondary flex-grow p-1">
-        <div class="card-title self-center mb-2">Today's Journal</div>
+      <div class="flex-grow p-1">
+        <div class="text-xl font-semibold text-center mb-2">Today's Journal</div>
         <EntryList :date="date" />
       </div>
-      <div class="card bg-accent flex-grow p-1 overflow-hidden">
-        <div class="card-title self-center mb-2">Today's Events</div>
+
+      <div class="divider md:divider-horizontal"></div>
+
+      <div class="flex-grow p-1 overflow-hidden">
+        <div class="text-xl font-semibold text-center mb-2">Today's Events</div>
         <CalendarEvents :date="date" :tag-filter="-1"></CalendarEvents>
       </div>
     </div>

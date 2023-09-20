@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-x-2 overflow-x-auto p-2">
+  <div class="flex items-center gap-2 overflow-x-auto p-2">
     <div class="font-bold whitespace-nowrap">{{ props.label ?? "Tag :" }}</div>
     <TagVue
       v-for="tag in props.tags"

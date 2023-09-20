@@ -1,6 +1,7 @@
 <template>
   <div>
     <PageHeading><span>Notes</span></PageHeading>
+    <Background :icon="faLightbulb" />
 
     <NoteTagFilter
       :selected="selected"
@@ -13,6 +14,8 @@
 </template>
 
 <script setup lang="ts">
+import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import Background from "~/components/layout/Background.vue";
 import PageHeading from "~/components/layout/PageHeading.vue";
 import NoteTagFilter from "~/components/notes/NoteTagFilter.vue";
 import NotesGrid from "~/components/notes/NotesGrid.vue";

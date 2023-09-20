@@ -1,46 +1,36 @@
 <template>
-  <div :class="mergeClasses('relative', 'max-w-sm', 'md:max-w-md')">
+  <div :class="mergeClasses('relative', 'max-w-md', 'md:max-w-full')">
     <div
       :class="
         mergeClasses(
           'card',
-          'bg-primary',
-          'text-primary-content',
           'shadow-xl',
-          'overflow-hidden'
+          'overflow-hidden',
+          'grid',
+          'grid-cols-1',
+          'md:grid-cols-5',
+          'p-2',
+          'bg-base-300'
         )
       "
     >
-      <div class="px-4 py-4 md:px-8 md:py-6">
-        <CalendarHeader
-          :date="date"
-          @previousMonth="previousMonth"
-          @nextMonth="nextMonth"
-          class="px-4"
-        />
-        <CalendarMonthView
-          :date="date"
-          class="pt-4"
-          @selectDate="selectDate"
-        ></CalendarMonthView>
-      </div>
-      <div
+      <CalendarCard
+        v-model:date="date"
         :class="
           mergeClasses(
-            'bg-secondary',
-            'text-secondary-content',
-            'px-6',
+            'px-4',
             'py-4',
-            'md:px-14',
-            'md:py-6'
+            'bg-base-100',
+            'md:col-span-3',
+            'rounded-box'
           )
         "
-      >
-        <CalendarEvents
-          :date="date"
-          :tag-filter="props.tagFilter"
-        ></CalendarEvents>
-      </div>
+      />
+      <CalendarEvents
+        :date="date"
+        :tag-filter="props.tagFilter"
+        :class="mergeClasses('md:col-span-2', 'rounded-box')"
+      />
     </div>
 
     <CreateEvent />
@@ -48,11 +38,9 @@
 </template>
 
 <script setup lang="ts">
-import { addMonths } from "date-fns";
-import CalendarHeader from "./CalendarHeader.vue";
-import CalendarMonthView from "./CalendarMonthView.vue";
 import CalendarEvents from "./CalendarEvents.vue";
 import CreateEvent from "./CreateEvent.vue";
+import CalendarCard from "./CalendarCard.vue";
 
 interface CalendarProps {
   tagFilter: number;
@@ -61,8 +49,4 @@ interface CalendarProps {
 const props = defineProps<CalendarProps>();
 
 const date = ref(new Date());
-
-const previousMonth = () => (date.value = addMonths(date.value, -1));
-const nextMonth = () => (date.value = addMonths(date.value, 1));
-const selectDate = (newDate: Date) => (date.value = newDate);
 </script>

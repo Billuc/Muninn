@@ -1,6 +1,7 @@
 <template>
   <div>
     <PageHeading><span>Journal</span></PageHeading>
+    <Background :icon="faJournalWhills" />
 
     <div class="flex flex-wrap justify-center my-4 gap-2">
       <div>
@@ -20,11 +21,13 @@
 </template>
 
 <script setup lang="ts">
+import { faJournalWhills } from "@fortawesome/free-solid-svg-icons";
 import { format } from "date-fns";
 import DateSelector from "~/components/DateSelector.vue";
 import DayOfWeekSelector from "~/components/DayOfWeekSelector.vue";
 import DateDisplay from "~/components/journal/DateDisplay.vue";
 import EntryList from "~/components/journal/EntryList.vue";
+import Background from "~/components/layout/Background.vue";
 import PageHeading from "~/components/layout/PageHeading.vue";
 
 useHead({

@@ -16,13 +16,16 @@
         </div>
       </template>
     </PageHeading>
+    <Background :icon="faLightbulb" />
 
     <Note :note="note" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
 import TagVue from "~/components/Tag.vue";
+import Background from "~/components/layout/Background.vue";
 import PageHeading from "~/components/layout/PageHeading.vue";
 import DeleteNote from "~/components/notes/DeleteNote.vue";
 import EditNote from "~/components/notes/EditNote.vue";

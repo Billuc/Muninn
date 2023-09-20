@@ -2,7 +2,7 @@
   <Dialog :is-opened="isOpened" @close="close">
     <template #title>Update event '{{ props.event?.title }}'</template>
     <template #default>
-      <div class="form-control my-4 gap-y-2">
+      <div class="form-control gap-y-2">
         <TextInput
           label="Event name"
           placeholder="Enter name..."
@@ -33,14 +33,6 @@
           :tags="tags"
           :selected="tagId"
           @update:selected="setTagId"
-        />
-
-        <MultilineInput
-          label="Description (optional)"
-          placeholder="Enter description... (optional)"
-          :value="description"
-          @input="setDescription"
-          clearable
         />
       </div>
     </template>
@@ -75,7 +67,6 @@ const title = ref("");
 const startDate = ref(new Date());
 const endDate = ref<Date | null>(null);
 const frequency = ref<Frequency>(Frequency.Once);
-const description = ref("");
 const tagId = ref(-1);
 
 const close = () => emit("close");
@@ -84,7 +75,6 @@ const setTitle = (v: string) => (title.value = v);
 const setStartDate = (v: Date) => (startDate.value = v);
 const setEndDate = (v: Date | null) => (endDate.value = v);
 const setFrequency = (v: Frequency) => (frequency.value = v);
-const setDescription = (v: string | null) => (description.value = v ?? "");
 const setTagId = (v: number) => (tagId.value = v);
 
 const editEvent = () => {
@@ -92,7 +82,6 @@ const editEvent = () => {
 
   store.editEvent(props.event.id, {
     title: title.value,
-    description: description.value,
     frequency: frequency.value,
     start: startDate.value,
     end: endDate.value ?? undefined,
@@ -113,14 +102,12 @@ watchEffect(() => {
     startDate.value = props.event.start;
     endDate.value = props.event.end ?? null;
     frequency.value = props.event.frequency;
-    description.value = props.event.description;
     tagId.value = props.event.tagId;
   } else {
     title.value = "";
     startDate.value = new Date();
     endDate.value = new Date();
     frequency.value = Frequency.Once;
-    description.value = "";
     tagId.value = -1;
   }
 });

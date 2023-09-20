@@ -1,19 +1,18 @@
 <template>
-  <div class="px-4 flex items-center justify-between">
+  <div :class="mergeClasses('px-4', 'flex', 'items-center', 'justify-between')">
+    <Button
+      :icon="faAngleLeft"
+      @click="prevMonth"
+      class="btn-circle btn-ghost btn-xs"
+    />
+
     <span tabindex="0" class="text-base font-bold">{{ monthLabel }}</span>
 
-    <div class="flex items-center gap-x-2">
-      <Button
-        :icon="faAngleLeft"
-        @click="prevMonth"
-        class="btn-circle btn-xs btn-primary"
-      />
-      <Button
-        :icon="faAngleRight"
-        @click="nextMonth"
-        class="btn-circle btn-xs btn-primary"
-      />
-    </div>
+    <Button
+      :icon="faAngleRight"
+      @click="nextMonth"
+      class="btn-circle btn-ghost btn-xs"
+    />
   </div>
 </template>
 

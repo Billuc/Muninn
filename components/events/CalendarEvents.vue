@@ -1,13 +1,16 @@
 <template>
   <div>
     <template v-if="daysEvents.length > 0">
-      <CalendarEvent
-        v-for="event in daysEvents"
-        :key="'event-' + event.id"
-        v-bind="event"
-        :tag="getTag(event)"
-        @click="selectEvent(event)"
-      />
+      <ul class="menu">
+        <li v-for="event in daysEvents" :key="'event-' + event.id">
+          <CalendarEvent
+            v-bind="event"
+            :tag="getTag(event)"
+            @click="selectEvent(event)"
+            :class="mergeClasses('px-6', 'rounded-box')"
+          />
+        </li>
+      </ul>
 
       <EditEvent
         :event="selectedEvent"
@@ -16,7 +19,7 @@
     </template>
 
     <template v-else>
-      <div class="text-center font-light">No event for this day...</div>
+      <div class="text-center font-light py-4">No event for this day...</div>
     </template>
   </div>
 </template>

@@ -8,15 +8,23 @@
         'pt-4',
         'md:pt-24',
         'w-full',
-        'md:w-2/3',
+        'md:w-5/6',
+        'lg:w-2/3',
         'min-h-screen',
-        'mx-auto'
+        'mx-auto',
+        'bg-base-100',
+        'shadow-xl',
+        'relative'
       )
     "
   >
     <slot name="navbar"></slot>
 
-    <div :class="mergeClasses(wide ? 'max-w-full' : 'max-w-xl', 'mx-auto')">
+    <div
+      :class="
+        mergeClasses(wide ? 'max-w-full' : 'max-w-3xl', 'mx-auto')
+      "
+    >
       <slot></slot>
     </div>
   </div>

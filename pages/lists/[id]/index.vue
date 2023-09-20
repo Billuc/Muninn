@@ -10,6 +10,7 @@
         </div>
       </template>
     </PageHeading>
+    <Background :icon="faCheckSquare" />
 
     <div :class="mergeClasses('flex', 'justify-end', 'gap-x-1', 'my-6')">
       <ShowCheckedToggle
@@ -24,6 +25,8 @@
 </template>
 
 <script setup lang="ts">
+import { faCheckSquare } from "@fortawesome/free-solid-svg-icons";
+import Background from "~/components/layout/Background.vue";
 import PageHeading from "~/components/layout/PageHeading.vue";
 import ClearCheckedButton from "~/components/lists/ClearCheckedButton.vue";
 import DeleteList from "~/components/lists/DeleteList.vue";

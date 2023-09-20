@@ -1,5 +1,8 @@
 <template>
-  <div class="btn btn-xs" :style="{ backgroundColor: props.color }">
+  <div
+    class="btn btn-xs py-[0.35rem] h-auto"
+    :style="{ backgroundColor: props.color }"
+  >
     <FontAwesomeIcon
       v-if="props.icon"
       :icon="props.icon"

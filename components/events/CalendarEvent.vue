@@ -7,7 +7,6 @@
         'p-2',
         'border-base-300',
         'border-dashed',
-        'hover:bg-secondary-focus',
         'cursor-pointer',
         'flex',
         'items-center'
@@ -18,9 +17,6 @@
       <p class="text-xs font-light leading-3">{{ timeInterval }}</p>
       <p class="focus:outline-none text-lg font-medium leading-5">
         {{ props.title }}
-      </p>
-      <p class="text-sm" v-if="props.description">
-        {{ props.description }}
       </p>
     </div>
 

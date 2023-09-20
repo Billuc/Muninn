@@ -1,23 +1,17 @@
 <template>
   <div>
     <PageHeading><span>Events</span></PageHeading>
+    <Background :icon="faCalendar" />
 
-    <EventTagFilter
-      :selected="tagFilter"
-      @update:selected="(v) => (tagFilter = v)"
-      class="w-full my-2"
-    />
-
-    <Calendar class="mx-auto" :tag-filter="tagFilter"></Calendar>
+    <EventsVue />
   </div>
 </template>
 
 <script setup lang="ts">
 import PageHeading from "~/components/layout/PageHeading.vue";
-import Calendar from "~/components/events/Calendar.vue";
-import EventTagFilter from "~/components/events/EventTagFilter.vue";
-
-const tagFilter = ref(-1);
+import EventsVue from "~/components/events/EventsVue.vue";
+import Background from "~/components/layout/Background.vue";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 useHead({
   title: "Events",

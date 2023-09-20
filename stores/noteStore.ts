@@ -60,7 +60,12 @@ export const useNoteStore = definePersistedStore("notes", {
       if (!this.tags.has(tagId))
         throw new Error(`[Notes] Tag with ID ${tagId} not found`);
 
-      if (_.some([...this.tags.values()], (t) => t.color === color))
+      if (
+        _.some(
+          [...this.tags.values()],
+          (t) => t.id !== tagId && t.color === color
+        )
+      )
         throw new Error(`[Notes] Tag with color ${color} already exists`);
 
       this.tags.set(tagId, {
