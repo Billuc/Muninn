@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     },
   },
   app: {
-    baseURL: "/second-brain/",
+    baseURL: "/Muninn/",
   },
   pwa: {
     registerType: "prompt",
