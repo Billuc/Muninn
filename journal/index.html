@@ -2,31 +2,42 @@
 <html >
 <head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/second-brain/_nuxt/entry.8c7273a9.css">
-<link rel="modulepreload" as="script" crossorigin href="/second-brain/_nuxt/entry.416ca34c.js">
-<link rel="prefetch" as="script" crossorigin href="/second-brain/_nuxt/index.ebfd1466.js">
-<link rel="prefetch" as="script" crossorigin href="/second-brain/_nuxt/PageHeading.1842734e.js">
-<link rel="prefetch" as="script" crossorigin href="/second-brain/_nuxt/noteStore.25840bd0.js">
-<link rel="prefetch" as="script" crossorigin href="/second-brain/_nuxt/Input.vue.d1de34fc.js">
-<link rel="prefetch" as="script" crossorigin href="/second-brain/_nuxt/TextInput.vue.29140d61.js">
+<link rel="stylesheet" href="/second-brain/_nuxt/entry.640599a0.css">
+<link rel="modulepreload" as="script" crossorigin href="/second-brain/_nuxt/entry.2fb70ca1.js">
 <link rel="prefetch" as="script" crossorigin href="/second-brain/_nuxt/workbox-window.prod.es5.a7b12eab.js">
 <link rel="prefetch" as="style" href="/second-brain/_nuxt/error-404.95c28eb4.css">
-<link rel="prefetch" as="script" crossorigin href="/second-brain/_nuxt/error-404.542e96c7.js">
+<link rel="prefetch" as="script" crossorigin href="/second-brain/_nuxt/error-404.ecd6b727.js">
 <link rel="prefetch" as="style" href="/second-brain/_nuxt/error-500.e798523c.css">
-<link rel="prefetch" as="script" crossorigin href="/second-brain/_nuxt/error-500.d1ae0781.js">
-<script type="module" src="/second-brain/_nuxt/entry.416ca34c.js" crossorigin></script></head>
+<link rel="prefetch" as="script" crossorigin href="/second-brain/_nuxt/error-500.32ccdcfc.js">
+<script type="module" src="/second-brain/_nuxt/entry.2fb70ca1.js" crossorigin></script></head>
 <body ><div id="__nuxt"><!-- https://github.com/barelyhuman/snips/blob/dev/pages/css-loader.md -->
-<div class="loader"></div>
+<div class="container">
+  <img src="icon.svg" alt="" class="muninn-icon" />
+  <div class="loader"></div>
+</div>
+
 <style>
-  .loader {
-    display: block;
+  .container {
+    display: flex;
     position: fixed;
     z-index: 1031;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 18px;
-    height: 18px;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .muninn-icon {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 16px;
+  }
+
+  .loader {
+    width: 36px;
+    height: 36px;
     box-sizing: border-box;
     border: solid 2px transparent;
     border-top-color: #000;
@@ -40,18 +51,18 @@
 
   @-webkit-keyframes loader {
     0% {
-      -webkit-transform: translate(-50%, -50%) rotate(0deg);
+      -webkit-transform: rotate(0deg);
     }
     100% {
-      -webkit-transform: translate(-50%, -50%) rotate(360deg);
+      -webkit-transform: rotate(360deg);
     }
   }
   @keyframes loader {
     0% {
-      transform: translate(-50%, -50%) rotate(0deg);
+      transform: rotate(0deg);
     }
     100% {
-      transform: translate(-50%, -50%) rotate(360deg);
+      transform: rotate(360deg);
     }
   }
 </style>
