@@ -2,7 +2,12 @@
   <div>
     <PageHeading>
       <template #prepend>
-        <TagVue :text="tag?.title" :color="tag?.color" :icon="tag?.icon" />
+        <TagVue
+          v-if="tag"
+          :text="tag.title"
+          :color="tag.color"
+          :icon="tag.icon"
+        />
       </template>
 
       <span class="mx-2">

@@ -2,7 +2,14 @@
   <div class="py-2">
     <ul
       :class="
-        mergeClasses('grid', 'grid-cols-1', 'md:grid-cols-2', 'gap-1', 'p-0')
+        mergeClasses(
+          'grid',
+          'grid-cols-1',
+          'md:grid-cols-2',
+          'gap-1',
+          'p-0',
+          'relative'
+        )
       "
     >
       <NotesGridElement

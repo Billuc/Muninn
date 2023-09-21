@@ -22,10 +22,9 @@
 
 <script setup lang="ts">
 import { faJournalWhills } from "@fortawesome/free-solid-svg-icons";
-import { format } from "date-fns";
 import DateSelector from "~/components/DateSelector.vue";
-import DayOfWeekSelector from "~/components/DayOfWeekSelector.vue";
 import DateDisplay from "~/components/journal/DateDisplay.vue";
+import DayOfWeekSelector from "~/components/journal/DayOfWeekSelector.vue";
 import EntryList from "~/components/journal/EntryList.vue";
 import Background from "~/components/layout/Background.vue";
 import PageHeading from "~/components/layout/PageHeading.vue";

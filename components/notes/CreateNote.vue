@@ -1,6 +1,10 @@
 <template>
   <div>
-    <NotesGridElement label="+" @click="openModal" />
+    <FABButton
+      :icon="faPlus"
+      @click="openModal"
+      class="btn-primary -bottom-6 right-4"
+    />
 
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Create a new note</template>
@@ -34,6 +38,8 @@ import Dialog from "../Dialog.vue";
 import TextInput from "../TextInput.vue";
 import NotesGridElement from "./NotesGridElement.vue";
 import TagSelecter from "../TagSelecter.vue";
+import FABButton from "../FABButton.vue";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const store = useNoteStore();
 const tags = store.tagArray;

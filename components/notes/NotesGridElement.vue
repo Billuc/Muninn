@@ -2,11 +2,12 @@
   <li
     :class="
       mergeClasses(
-        'btn',
-        'btn-primary',
+        'card',
+        'bg-base-200',
+        'hover:bg-base-300',
+        'transition-colors',
+        'duration-300',
         'list-none',
-        '-skew-y-3',
-        'my-0',
         'w-full',
         'h-full',
         'py-1'

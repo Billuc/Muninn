@@ -2,6 +2,7 @@
   <div>
     <button
       v-for="(day, index) in daysOfWeek"
+      :key="day + '-selector'"
       :class="
         mergeClasses(
           'btn',

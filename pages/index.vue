@@ -13,7 +13,8 @@
           'flex-nowrap',
           'w-full',
           'mt-4',
-          'shadow-xl'
+          'shadow-xl',
+          'p-2'
         )
       "
     >
