@@ -21,9 +21,9 @@ const themes = [
   "light",
   "dark",
   "synthwave",
-  "pastel",
-  "retro",
-  "cyberpunk",
+  // "pastel",
+  // "retro",
+  // "cyberpunk",
   "valentine",
   "cupcake",
 ];

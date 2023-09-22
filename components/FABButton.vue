@@ -7,7 +7,11 @@
         'btn-circle',
         'absolute',
         'transition-colors',
-        'duration-300'
+        'duration-300',
+        'bg-gradient-to-br',
+        'from-primary',
+        'to-secondary',
+        'border-0'
       )
     "
     :disabled="props.disabled"
