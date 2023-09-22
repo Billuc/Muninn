@@ -16,6 +16,7 @@
     >
       <CalendarCard
         v-model:date="date"
+        :tag-filter="tagFilter"
         :class="
           mergeClasses(
             'px-4',

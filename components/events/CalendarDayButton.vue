@@ -23,10 +23,16 @@ import { useEventStore } from "~/stores/eventStore";
 interface CalendarDayButtonProps {
   day: Date;
   date: Date;
+  tagFilter?: number;
 }
 
 const props = defineProps<CalendarDayButtonProps>();
 const store = useEventStore();
 
-const eventNumber = computed(() => store.getEventsOfDay(props.day).length);
+const eventNumber = computed(() =>
+  store
+    .getEventsOfDay(props.day)
+    .filter((ev) => (props.tagFilter ?? -1) < 0 || ev.tagId === props.tagFilter)
+    .length
+);
 </script>

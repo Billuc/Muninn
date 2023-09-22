@@ -10,7 +10,12 @@
         'list-none',
         'w-full',
         'h-full',
-        'py-1'
+        'py-1',
+        '-skew-y-2',
+        'origin-top-right',
+        'border-2',
+        'border-secondary',
+        'hover:border-secondary-focus'
       )
     "
     @click="onClick"
@@ -23,10 +28,10 @@
           'flex',
           'justify-center',
           'items-center',
-          'gap-x-2',
+          'gap-2',
           'm-0',
           'no-underline',
-          'text-lg'
+          'text-lg',
         )
       "
       :href="props.href"

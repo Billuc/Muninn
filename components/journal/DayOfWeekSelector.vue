@@ -1,28 +1,32 @@
 <template>
-  <div>
+  <div class="flex gap-2">
     <button
-      v-for="(day, index) in daysOfWeek"
-      :key="day + '-selector'"
+      v-for="day in daysOfWeek"
+      :key="getDay(day) + '-selector'"
       :class="
         mergeClasses(
           'btn',
-          'btn-circle',
           'btn-outline',
-          'btn-sm',
           'btn-primary',
-          'mx-1',
-          index == currentDayOfWeek ? 'btn-active' : undefined
+          day == props.value ? 'btn-active' : undefined,
+          'flex',
+          'flex-col',
+          'flex-nowrap',
+          'h-auto',
+          'gap-0',
+          'w-10'
         )
       "
-      @click="() => onClick(index)"
+      @click="() => onClick(day)"
     >
-      {{ day }}
+      <div class="capitalize text-sm font-light leading-3">{{ getDay(day) }}</div>
+      <div class="text-base font-semibold leading-4">{{ getDate(day) }}</div>
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { addDays } from "date-fns";
+import { addDays, eachDayOfInterval, format, startOfWeek } from "date-fns";
 
 interface DayOfWeekSelectorProps {
   value: Date;
@@ -31,12 +35,15 @@ interface DayOfWeekSelectorProps {
 const props = defineProps<DayOfWeekSelectorProps>();
 const emit = defineEmits(["input"]);
 
-const daysOfWeek = ["M", "T", "W", "T", "F", "S", "S"];
-const { value } = toRefs(props);
-const currentDayOfWeek = computed(() => (value.value.getDay() + 6) % 7);
+const daysOfWeek = eachDayOfInterval({
+  start: startOfWeek(props.value, { weekStartsOn: 1 }),
+  end: addDays(startOfWeek(props.value, { weekStartsOn: 1 }), 6),
+});
 
-function onClick(newDayOfWeek: number) {
-  const newValue = addDays(value.value, newDayOfWeek - currentDayOfWeek.value);
+const getDay = (date: Date) => format(date, "EEE");
+const getDate = (date: Date) => date.getDate();
+
+function onClick(newValue: Date) {
   emit("input", newValue);
 }
 </script>

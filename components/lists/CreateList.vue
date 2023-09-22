@@ -1,6 +1,10 @@
 <template>
   <div>
-    <ListGridElement label="+" @click="openModal" />
+    <FABButton
+      :icon="faPlus"
+      @click="openModal"
+      class="btn-primary -bottom-6 right-4"
+    />
 
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Create a new list</template>
@@ -27,7 +31,7 @@ import { useListStore } from "~/stores/listStore";
 import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
 import TextInput from "../TextInput.vue";
-import ListGridElement from "./ListGridElement.vue";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const store = useListStore();
 const isOpened = ref(false);

@@ -8,6 +8,7 @@
     />
     <CalendarMonthView
       :date="props.date"
+      :tag-filter="props.tagFilter"
       class="pt-4"
       @selectDate="selectDate"
     ></CalendarMonthView>
@@ -21,6 +22,7 @@ import CalendarMonthView from "./CalendarMonthView.vue";
 
 interface CalendarCardProps {
   date: Date;
+  tagFilter?: number;
 }
 
 const props = defineProps<CalendarCardProps>();

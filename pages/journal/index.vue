@@ -3,7 +3,7 @@
     <PageHeading><span>Journal</span></PageHeading>
     <Background :icon="faJournalWhills" />
 
-    <div class="flex flex-wrap justify-center my-4 gap-2">
+    <div class="flex flex-col items-center justify-center my-4 gap-2">
       <div>
         <DateSelector
           :value="date"

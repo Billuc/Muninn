@@ -12,6 +12,7 @@
       :key="'day-' + day"
       :day="day"
       :date="props.date"
+      :tag-filter="props.tagFilter"
       @click="() => selectDate(day)"
     />
   </div>
@@ -31,6 +32,7 @@ import CalendarDayButton from "./CalendarDayButton.vue";
 
 interface CalendarMonthViewProps {
   date: Date;
+  tagFilter?: number;
 }
 
 const props = defineProps<CalendarMonthViewProps>();

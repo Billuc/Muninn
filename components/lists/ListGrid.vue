@@ -1,14 +1,20 @@
 <template>
   <ul
     :class="
-      mergeClasses('grid', 'grid-cols-1', 'md:grid-cols-2', 'gap-1', 'p-0')
+      mergeClasses(
+        'grid',
+        'grid-cols-1',
+        'md:grid-cols-2',
+        'gap-1',
+        'p-0',
+        'relative'
+      )
     "
   >
     <ListGridElement
       v-for="[id, list] in lists"
-      :key="`list-${list.id}`"
-      :label="list.title"
-      :href="`/lists/${list.id}`"
+      :key="`list-${id}`"
+      :list="list"
     />
     <CreateList />
   </ul>

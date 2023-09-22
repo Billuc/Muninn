@@ -2,16 +2,22 @@
   <li
     :class="
       mergeClasses(
-        'btn',
-        'btn-primary',
+        'card',
+        'bg-base-200',
+        'hover:bg-base-300',
+        'transition-colors',
+        'duration-300',
         'list-none',
-        '-skew-y-3',
-        'my-0',
         'w-full',
         'h-full',
+        'py-2',
+        '-skew-y-2',
+        'origin-top-right',
+        'border-2',
+        'border-secondary',
+        'hover:border-secondary-focus'
       )
     "
-    @click="onClick"
   >
     <NuxtLink
       :class="
@@ -19,33 +25,39 @@
           'w-full',
           'h-full',
           'flex',
+          'flex-col',
           'justify-center',
           'items-center',
+          'gap-2',
           'm-0',
           'no-underline',
           'text-lg'
         )
       "
-      :href="props.href"
+      :href="`/lists/${props.list.id}`"
     >
-      {{ props.label }}
+      {{ props.list.title }}
+      <progress
+        class="progress progress-accent w-1/2"
+        :value="completion"
+        max="100"
+      ></progress>
     </NuxtLink>
   </li>
 </template>
 
 <script setup lang="ts">
+import { List } from "~/models/List";
+
 interface ListGridElementProps {
-  label: string;
-  href?: string;
+  list: List;
 }
 
 const props = defineProps<ListGridElementProps>();
-const emit = defineEmits(["click"]);
 
-function onClick(ev: Event) {
-  if (!props.href) {
-    ev.preventDefault();
-    emit("click");
-  }
-}
+const completion = computed(
+  () =>
+    (100 * [...props.list.elements.values()].filter((el) => el.done).length) /
+    props.list.elements.size
+);
 </script>
