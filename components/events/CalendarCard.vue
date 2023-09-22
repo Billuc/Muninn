@@ -1,13 +1,13 @@
 <template>
   <div>
     <CalendarHeader
-      :date="date"
+      :date="props.date"
       @previousMonth="previousMonth"
       @nextMonth="nextMonth"
       class="px-4"
     />
     <CalendarMonthView
-      :date="date"
+      :date="props.date"
       class="pt-4"
       @selectDate="selectDate"
     ></CalendarMonthView>

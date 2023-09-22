@@ -7,19 +7,13 @@
       {{ dayLabel }}
     </div>
 
-    <Button
+    <CalendarDayButton
       v-for="day in daysOfMonth"
+      :key="'day-' + day"
+      :day="day"
+      :date="props.date"
       @click="() => selectDate(day)"
-      :class="
-        mergeClasses(
-          'btn-circle',
-          !isSameMonth(day, props.date) ? 'opacity-50' : undefined,
-          isSameDay(day, props.date) ? 'btn-primary' : 'btn-ghost'
-        )
-      "
-    >
-      {{ day.getDate() }}
-    </Button>
+    />
   </div>
 </template>
 
@@ -28,14 +22,12 @@ import {
   addDays,
   eachDayOfInterval,
   format,
-  isSameDay,
-  isSameMonth,
   lastDayOfMonth,
   lastDayOfWeek,
   startOfMonth,
   startOfWeek,
 } from "date-fns";
-import Button from "../Button.vue";
+import CalendarDayButton from "./CalendarDayButton.vue";
 
 interface CalendarMonthViewProps {
   date: Date;

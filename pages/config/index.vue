@@ -3,17 +3,19 @@
     <PageHeading>Configuration</PageHeading>
     <Background :icon="faCog" />
 
-    <h2 class="text-2xl font-bold my-4">Theme</h2>
+    <div class="relative">
+      <h2 class="text-2xl font-bold my-4">Theme</h2>
 
-    <ThemeSelector />
+      <ThemeSelector />
 
-    <h2 class="text-2xl font-bold my-4">Events</h2>
+      <h2 class="text-2xl font-bold my-4">Events</h2>
 
-    <EventsConfig />
+      <EventsConfig />
 
-    <h2 class="text-2xl font-bold my-4">Notes</h2>
+      <h2 class="text-2xl font-bold my-4">Notes</h2>
 
-    <NotesConfig />
+      <NotesConfig />
+    </div>
   </div>
 </template>
 

@@ -1,12 +1,17 @@
 <template>
   <div
-    class="btn btn-xs py-[0.35rem] h-auto"
-    :style="{ backgroundColor: props.color }"
+    :class="
+      mergeClasses(
+        'btn',
+        'btn-sm',
+        'tag',
+        props.color ? `tag-${props.color}` : undefined
+      )
+    "
   >
     <FontAwesomeIcon
       v-if="props.icon"
       :icon="props.icon"
-      size="xs"
       :class="{ 'mr-1': !!props.text }"
     />
     <span v-if="props.text">{{ props.text }}</span>
@@ -26,3 +31,7 @@ interface TagProps {
 
 const props = defineProps<TagProps>();
 </script>
+
+<style>
+@import url("~/assets/css/tags.css");
+</style>

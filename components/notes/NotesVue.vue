@@ -1,12 +1,11 @@
 <template>
-  <div class="grid grid-cols-1 lg:grid-cols-9">
+  <div class="flex flex-col items-center gap-2">
     <NoteTagFilter
       :selected="selected"
       @update:selected="(v) => (selected = v)"
-      class="w-full my-2 lg:flex-col lg:col-span-2"
     />
 
-    <NotesGrid :tag-filter="selected" class="mx-auto lg:col-span-7 w-full" />
+    <NotesGrid :tag-filter="selected" class="w-full" />
   </div>
 </template>
 

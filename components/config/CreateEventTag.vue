@@ -60,5 +60,12 @@ const setIcon = (newIcon: string[]) => (icon.value = newIcon);
 const newTag = () => {
   store.newTag(title.value, color.value, icon.value);
   closeModal();
+  reset();
+};
+
+const reset = () => {
+  setTitle("");
+  setColor(TagColor.red);
+  setIcon([faTag.prefix, faTag.iconName]);
 };
 </script>

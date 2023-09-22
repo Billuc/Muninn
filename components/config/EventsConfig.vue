@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import TagVue from "../Tag.vue";
 import _ from "lodash";
-import { Tag, TagColor } from "~/models/Tag";
+import { Tag, TagColor, TagOrder } from "~/models/Tag";
 import { useEventStore } from "~/stores/eventStore";
 import CreateEventTag from "./CreateEventTag.vue";
 import EditEventTag from "./EditEventTag.vue";
@@ -34,7 +34,9 @@ import EditEventTag from "./EditEventTag.vue";
 const store = useEventStore();
 const tagToEdit = ref<Tag | null>(null);
 
-const tagArray = computed(() => store.tagArray as Tag[]);
+const tagArray = computed(() =>
+  _.sortBy(store.tagArray as Tag[], (t) => TagOrder.get(t.color))
+);
 const colorsUsed = computed(() => _.uniq(tagArray.value.map((t) => t.color)));
 const canCreate = computed(() =>
   _.some(Object.values(TagColor), (t) => !colorsUsed.value.includes(t))

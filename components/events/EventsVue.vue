@@ -1,12 +1,11 @@
 <template>
-  <div class="grid grid-cols-1 lg:grid-cols-9">
+  <div class="flex flex-col items-center gap-2">
     <EventTagFilter
       :selected="tagFilter"
       @update:selected="(v) => (tagFilter = v)"
-      class="w-full my-2 lg:flex-col lg:col-span-2"
     />
 
-    <Calendar :tag-filter="tagFilter" class="mx-auto lg:col-span-7 w-full" />
+    <Calendar :tag-filter="tagFilter" class="w-full" />
   </div>
 </template>
 

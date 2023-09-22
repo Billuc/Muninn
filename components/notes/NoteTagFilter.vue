@@ -3,6 +3,7 @@
     v-show="tags.length"
     :tags="tags"
     :selected="props.selected"
+    label=""
     @update:selected="selectTag"
   />
 </template>

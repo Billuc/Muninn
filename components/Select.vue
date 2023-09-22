@@ -15,7 +15,8 @@
           props.class
         )
       "
-      @change="onChange"
+      :value="props.value"
+      @input="onInput"
     >
       <option disabled selected>{{ props.placeholder ?? "Pick one" }}</option>
       <option v-for="opt in props.options" :value="opt">
@@ -39,5 +40,5 @@ interface SelectProps {
 const props = defineProps<SelectProps>();
 const emit = defineEmits(["input"]);
 
-const onChange = (ev: any) => emit("input", ev.target.value);
+const onInput = (ev: any) => emit("input", ev.target.value);
 </script>
