@@ -10,16 +10,25 @@
               v-if="needRefresh"
               @click="() => $pwa.updateServiceWorker()"
               :icon="faRotateRight"
+              class="ml-2"
             />
             <Button
               @click="() => $pwa.cancelPrompt()"
               :icon="faRemove"
-              class="!btn-xs btn-circle"
+              class="!btn-xs btn-circle ml-2"
             />
           </template>
           <template v-else-if="showInstall">
-            <Button @click="() => $pwa.install()" :icon="faDownload" />
-            <Button @click="() => $pwa.cancelInstall()" :icon="faRemove" />
+            <Button
+              @click="() => $pwa.install()"
+              :icon="faDownload"
+              class="ml-2"
+            />
+            <Button
+              @click="() => $pwa.cancelInstall()"
+              :icon="faRemove"
+              class="ml-2"
+            />
           </template>
         </div>
       </div>

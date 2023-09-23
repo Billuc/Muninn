@@ -16,7 +16,7 @@
     >
       <CalendarCard
         v-model:date="date"
-        :tag-filter="tagFilter"
+        :tag-filter="props.tagFilter"
         :class="
           mergeClasses(
             'px-4',
@@ -28,7 +28,8 @@
         "
       />
       <CalendarEvents
-        :events="daysEventsWithTags"
+        :day="date"
+        :tag-filter="props.tagFilter"
         :class="mergeClasses('md:col-span-2', 'rounded-box')"
       />
     </div>
@@ -41,7 +42,6 @@
 import CalendarEvents from "./CalendarEvents.vue";
 import CreateEvent from "./CreateEvent.vue";
 import CalendarCard from "./CalendarCard.vue";
-import { useEventStore } from "~/stores/eventStore";
 import _ from "lodash";
 
 interface CalendarProps {
@@ -49,19 +49,6 @@ interface CalendarProps {
 }
 
 const props = defineProps<CalendarProps>();
-const store = useEventStore();
 
 const date = ref(new Date());
-
-const daysEventsWithTags = computed(() =>
-  _(store.getEventsOfDay(date.value))
-    .chain()
-    .filter((e) => props.tagFilter < 0 || e.tagId === props.tagFilter)
-    .sortBy([
-      (event) => event.start.getHours(),
-      (event) => event.start.getMinutes(),
-    ])
-    .map((event) => ({ event: event, tag: store.tags.get(event.tagId) }))
-    .value()
-);
 </script>

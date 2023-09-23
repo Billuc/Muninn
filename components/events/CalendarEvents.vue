@@ -1,8 +1,8 @@
 <template>
   <div>
-    <template v-if="props.events.length > 0">
+    <template v-if="daysEventsWithTags.length > 0">
       <ul class="menu">
-        <li v-for="{ event, tag } in props.events" :key="'event-' + event.id">
+        <li v-for="{ event, tag } in daysEventsWithTags" :key="'event-' + event.id">
           <CalendarEvent
             v-bind="event"
             :tag="tag"
@@ -29,15 +29,29 @@ import CalendarEvent from "./CalendarEvent.vue";
 import { Event } from "~/models/Event";
 import EditEvent from "./EditEvent.vue";
 import _ from "lodash";
-import { Tag } from "~/models/Tag";
+import { useEventStore } from "~/stores/eventStore";
 
 interface CalendarEventsProps {
-  events: { event: Event; tag?: Tag }[];
+  day: Date;
+  tagFilter?: number;
 }
 
 const props = defineProps<CalendarEventsProps>();
+const store = useEventStore();
 
 const selectedEvent = ref<Event | null>(null);
+
+const daysEventsWithTags = computed(() =>
+  _(store.getEventsOfDay(props.day))
+    .chain()
+    .filter((e) => (props.tagFilter ?? -1) < 0 || e.tagId === props.tagFilter)
+    .sortBy([
+      (event) => event.start.getHours(),
+      (event) => event.start.getMinutes(),
+    ])
+    .map((event) => ({ event: event, tag: store.tags.get(event.tagId) }))
+    .value()
+);
 
 const selectEvent = (event: Event | null) => (selectedEvent.value = event);
 </script>

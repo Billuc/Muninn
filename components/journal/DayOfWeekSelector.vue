@@ -8,7 +8,7 @@
           'btn',
           'btn-outline',
           'btn-primary',
-          day == props.value ? 'btn-active' : undefined,
+          isSameDay(day, props.value) ? 'btn-active' : undefined,
           'flex',
           'flex-col',
           'flex-nowrap',
@@ -19,14 +19,22 @@
       "
       @click="() => onClick(day)"
     >
-      <div class="capitalize text-sm font-light leading-3">{{ getDay(day) }}</div>
+      <div class="capitalize text-sm font-light leading-3">
+        {{ getDay(day) }}
+      </div>
       <div class="text-base font-semibold leading-4">{{ getDate(day) }}</div>
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { addDays, eachDayOfInterval, format, startOfWeek } from "date-fns";
+import {
+  addDays,
+  eachDayOfInterval,
+  format,
+  startOfWeek,
+  isSameDay,
+} from "date-fns";
 
 interface DayOfWeekSelectorProps {
   value: Date;
