@@ -1,26 +1,24 @@
 <template>
-  <div class="py-2">
-    <ul
-      :class="
-        mergeClasses(
-          'grid',
-          'grid-cols-1',
-          'md:grid-cols-2',
-          'gap-1',
-          'p-0',
-          'relative'
-        )
-      "
-    >
-      <NotesGridElement
-        v-for="note in filteredNotes"
-        :key="`note-${note.id}`"
-        :label="note.title"
-        :href="`/notes/${note.id}`"
-        :tag="getTag(note.tagId)"
-      />
-      <CreateNote />
-    </ul>
+  <div
+    :class="
+      mergeClasses(
+        'grid',
+        'grid-cols-1',
+        'md:grid-cols-2',
+        'gap-1',
+        'py-2',
+        'relative'
+      )
+    "
+  >
+    <NotesGridElement
+      v-for="note in filteredNotes"
+      :key="`note-${note.id}`"
+      :label="note.title"
+      :href="`/notes/${note.id}`"
+      :tag="getTag(note.tagId)"
+    />
+    <CreateNote />
   </div>
 </template>
 

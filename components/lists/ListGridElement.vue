@@ -1,52 +1,41 @@
 <template>
-  <li
+  <NuxtLink
     :class="
       mergeClasses(
         'card',
+        'card-side',
+        'py-2',
+        'px-4',
+        'items-center',
+        'gap-2',
         'bg-base-200',
         'hover:bg-base-300',
         'transition-colors',
         'duration-300',
-        'list-none',
-        'w-full',
-        'h-full',
-        'py-2',
-        '-skew-y-2',
-        'origin-top-right',
-        'border-2',
-        'border-secondary',
-        'hover:border-secondary-focus'
+        'shadow-md'
       )
     "
+    :href="`/lists/${props.list.id}`"
   >
-    <NuxtLink
-      :class="
-        mergeClasses(
-          'w-full',
-          'h-full',
-          'flex',
-          'flex-col',
-          'justify-center',
-          'items-center',
-          'gap-2',
-          'm-0',
-          'no-underline',
-          'text-lg'
-        )
-      "
-      :href="`/lists/${props.list.id}`"
-    >
-      {{ props.list.title }}
-      <progress
-        class="progress progress-accent w-1/2"
-        :value="completion"
-        max="100"
-      ></progress>
-    </NuxtLink>
-  </li>
+    <FontAwesomeIcon :icon="faCheckSquare" size="2xl" class="text-accent" />
+
+    <div :class="mergeClasses('card-body', 'p-0', 'gap-0')">
+      <div class="card-title leading-5">
+        {{ props.list.title }}
+      </div>
+      <div class="text-xs opacity-75 ml-2">{{ done }} / {{ all }} done</div>
+    </div>
+
+    <div
+      class="radial-progress text-secondary"
+      :style="{ '--value': (100 * done) / all, '--size': '1.5rem' }"
+    ></div>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
+import { faCheckSquare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { List } from "~/models/List";
 
 interface ListGridElementProps {
@@ -55,9 +44,8 @@ interface ListGridElementProps {
 
 const props = defineProps<ListGridElementProps>();
 
-const completion = computed(
-  () =>
-    (100 * [...props.list.elements.values()].filter((el) => el.done).length) /
-    props.list.elements.size
+const done = computed(
+  () => [...props.list.elements.values()].filter((el) => el.done).length
 );
+const all = computed(() => props.list.elements.size);
 </script>

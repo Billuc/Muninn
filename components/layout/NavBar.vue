@@ -22,6 +22,8 @@
       <img src="/icon.svg" class="w-full" />
     </NavLink>
     <span class="text-3xl font-extrabold px-4">Muninn</span>
+
+    <slot></slot>
   </div>
 </template>
 

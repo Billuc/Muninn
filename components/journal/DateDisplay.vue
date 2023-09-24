@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h3 class="text-primary text-xl font-bold leading-4">
+    <h3 class="text-secondary text-xl font-bold leading-4">
       {{ format(props.date, "MMM d") }}
     </h3>
-    <h2 class="text-primary text-2xl font-extrabold">
+    <h2 class="text-secondary text-2xl font-extrabold">
       {{ format(props.date, "EEEE") }}
     </h2>
   </div>

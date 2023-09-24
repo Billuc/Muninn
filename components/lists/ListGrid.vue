@@ -1,5 +1,5 @@
 <template>
-  <ul
+  <div
     :class="
       mergeClasses(
         'grid',
@@ -17,7 +17,7 @@
       :list="list"
     />
     <CreateList />
-  </ul>
+  </div>
 </template>
 
 <script setup lang="ts">

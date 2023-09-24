@@ -4,7 +4,7 @@
     :data-set-theme="props.themeName"
     :data-theme="props.themeName"
     data-act-class="outline"
-    class="rounded-box p-2 border border-primary relative outline-offset-1"
+    class="rounded-box p-2 border-2 border-primary relative outline-offset-2"
   >
     <div class="my-1">{{ props.themeName }}</div>
     <Background :icon="faJournalWhills" />

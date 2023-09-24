@@ -1,54 +1,40 @@
 <template>
-  <li
+  <NuxtLink
     :class="
       mergeClasses(
         'card',
+        'card-side',
+        'py-2',
+        'px-4',
+        'items-center',
+        'gap-2',
         'bg-base-200',
         'hover:bg-base-300',
         'transition-colors',
         'duration-300',
-        'list-none',
-        'w-full',
-        'h-full',
-        'py-1',
-        '-skew-y-2',
-        'origin-top-right',
-        'border-2',
-        'border-secondary',
-        'hover:border-secondary-focus'
+        'shadow-md'
       )
     "
     @click="onClick"
+    :href="props.href"
   >
-    <NuxtLink
-      :class="
-        mergeClasses(
-          'w-full',
-          'h-full',
-          'flex',
-          'justify-center',
-          'items-center',
-          'gap-2',
-          'm-0',
-          'no-underline',
-          'text-lg',
-        )
-      "
-      :href="props.href"
-    >
-      <TagVue
-        v-if="props.tag"
-        :icon="props.tag.icon"
-        :color="props.tag.color"
-      />
-      {{ props.label }}
-    </NuxtLink>
-  </li>
+    <FontAwesomeIcon :icon="faLightbulb" size="2xl" class="text-accent" />
+
+    <div :class="mergeClasses('card-body', 'p-0', 'gap-0')">
+      <div class="card-title leading-5">
+        {{ props.label }}
+      </div>
+    </div>
+
+    <TagVue v-if="props.tag" :icon="props.tag.icon" :color="props.tag.color" />
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
 import { Tag } from "~/models/Tag";
 import TagVue from "../Tag.vue";
+import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 interface NotesGridElementProps {
   label: string;
