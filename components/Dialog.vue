@@ -1,5 +1,9 @@
 <template>
-  <dialog class="modal" ref="modalRef" @keydown.esc.prevent="closeModal">
+  <dialog
+    class="modal modal-bottom md:modal-middle"
+    ref="modalRef"
+    @keydown.esc.prevent="closeModal"
+  >
     <div class="modal-box overflow-y-visible max-w-[100vw] md:max-w-xl">
       <div :class="mergeClasses('text-lg', 'font-bold')">
         <slot name="title"></slot>

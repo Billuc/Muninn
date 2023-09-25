@@ -2,39 +2,14 @@
   <Dialog :is-opened="isOpened" @close="close">
     <template #title>Update event '{{ props.event?.title }}'</template>
     <template #default>
-      <div class="form-control gap-y-2">
-        <TextInput
-          label="Event name"
-          placeholder="Enter name..."
-          :value="title"
-          @input="setTitle"
-        />
-
-        <div class="flex flex-nowrap gap-2 overflow-x-auto">
-          <DateTimeSelector
-            :value="startDate"
-            @input="setStartDate"
-            label="Start of event"
-          />
-          <DateTimeSelector
-            :value="endDate"
-            @input="setEndDate"
-            label="End of event"
-            clearable
-          />
-        </div>
-
-        <FrequencySelecter
-          :frequency="frequency"
-          @update:frequency="setFrequency"
-        />
-
-        <TagSelecter
-          :tags="tags"
-          :selected="tagId"
-          @update:selected="setTagId"
-        />
-      </div>
+      <EventForm
+        v-model:title="title"
+        v-model:date="date"
+        v-model:time="time"
+        v-model:duration="duration"
+        v-model:frequency="frequency"
+        v-model:tag-id="tagId"
+      />
     </template>
     <template #actions>
       <Button class="btn-error ml-2" @click="removeEvent">Delete</Button>
@@ -47,11 +22,10 @@
 import Dialog from "../Dialog.vue";
 import { useEventStore } from "~/stores/eventStore";
 import { Event, Frequency } from "~/models/Event";
-import TextInput from "../TextInput.vue";
-import DateTimeSelector from "../DateTimeSelector.vue";
-import MultilineInput from "../MultilineInput.vue";
-import FrequencySelecter from "./FrequencySelecter.vue";
-import TagSelecter from "../TagSelecter.vue";
+import _ from "lodash";
+import EventForm from "./EventForm.vue";
+import { addMinutes } from "date-fns";
+import { formatTime } from "~/utils/dates";
 
 interface EditEventProps {
   event: Event | null;
@@ -60,22 +34,16 @@ interface EditEventProps {
 const props = defineProps<EditEventProps>();
 const emit = defineEmits(["close"]);
 const store = useEventStore();
-const tags = store.tagArray;
 
 const isOpened = computed(() => !!props.event);
 const title = ref("");
-const startDate = ref(new Date());
-const endDate = ref<Date | null>(null);
+const date = ref("");
+const time = ref("");
+const duration = ref("01:00");
 const frequency = ref<Frequency>(Frequency.Once);
 const tagId = ref(-1);
 
 const close = () => emit("close");
-
-const setTitle = (v: string) => (title.value = v);
-const setStartDate = (v: Date) => (startDate.value = v);
-const setEndDate = (v: Date | null) => (endDate.value = v);
-const setFrequency = (v: Frequency) => (frequency.value = v);
-const setTagId = (v: number) => (tagId.value = v);
 
 const editEvent = () => {
   if (!props.event) return;
@@ -83,8 +51,11 @@ const editEvent = () => {
   store.editEvent(props.event.id, {
     title: title.value,
     frequency: frequency.value,
-    start: startDate.value,
-    end: endDate.value ?? undefined,
+    start: parseDateTime(date.value, time.value),
+    end: addMinutes(
+      parseDateTime(date.value, time.value),
+      parseTimeAsMinutes(duration.value)
+    ),
     tagId: tagId.value,
   });
   close();
@@ -99,14 +70,18 @@ const removeEvent = () => {
 watchEffect(() => {
   if (props.event) {
     title.value = props.event.title;
-    startDate.value = props.event.start;
-    endDate.value = props.event.end ?? null;
+    date.value = formatDate(props.event.start);
+    time.value = formatTime(props.event.start);
+    duration.value = !props.event.end
+      ? "00:00"
+      : formatDuration(props.event.start, props.event.end);
     frequency.value = props.event.frequency;
     tagId.value = props.event.tagId;
   } else {
     title.value = "";
-    startDate.value = new Date();
-    endDate.value = new Date();
+    date.value = "";
+    time.value = "";
+    duration.value = "01:00";
     frequency.value = Frequency.Once;
     tagId.value = -1;
   }

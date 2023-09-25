@@ -6,6 +6,13 @@
       <template #title>Edit note "{{ props.note.title }}"</template>
       <template #default>
         <div class="form-control gap-y-2">
+          <InputAlt
+            type="text"
+            label="NoteName"
+            placeholder="Enter name..."
+            v-model="name"
+            :icon="faTag"
+          />
           <TextInput
             label="Note name"
             :value="name"
@@ -30,9 +37,10 @@
 <script setup lang="ts">
 import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
+import InputAlt from "../InputAlt.vue";
 import TagSelecter from "../TagSelecter.vue";
 import TextInput from "../TextInput.vue";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faTag } from "@fortawesome/free-solid-svg-icons";
 import { Note } from "~/models/Note";
 import { useNoteStore } from "~/stores/noteStore";
 
