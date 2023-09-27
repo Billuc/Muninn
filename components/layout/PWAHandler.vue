@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <div v-if="showPrompt" class="toast z-20">
-      <div class="alert alert-warning">
+      <div class="alert alert-warning whitespace-pre-wrap">
         <div>{{ message }}</div>
 
         <div>
@@ -15,7 +15,7 @@
             <Button
               @click="() => $pwa.cancelPrompt()"
               :icon="faRemove"
-              class="!btn-xs btn-circle ml-2"
+              class="ml-2"
             />
           </template>
           <template v-else-if="showInstall">

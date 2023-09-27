@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageHeading><span>Home</span></PageHeading>
+    <PageHeading><span>Hello</span></PageHeading>
 
     <HomeVue />
   </div>

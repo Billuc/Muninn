@@ -4,6 +4,8 @@
       mergeClasses(
         'btn',
         'btn-sm',
+        'h-fit',
+        'py-1',
         'tag',
         props.color ? `tag-${props.color}` : undefined
       )

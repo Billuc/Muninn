@@ -2,7 +2,10 @@
   <div>
     <template v-if="daysEventsWithTags.length > 0">
       <ul class="menu">
-        <li v-for="{ event, tag } in daysEventsWithTags" :key="'event-' + event.id">
+        <li
+          v-for="{ event, tag } in daysEventsWithTags"
+          :key="'event-' + event.id"
+        >
           <CalendarEvent
             v-bind="event"
             :tag="tag"
@@ -19,7 +22,9 @@
     </template>
 
     <template v-else>
-      <div class="text-center font-light py-4">No event for this day...</div>
+      <slot name="no-event">
+        <div class="text-center font-light py-4">No event for this day...</div>
+      </slot>
     </template>
   </div>
 </template>

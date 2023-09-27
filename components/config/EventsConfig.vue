@@ -3,7 +3,16 @@
     <h3 class="text-xl font-bold mb-4">Tags</h3>
 
     <div
-      :class="mergeClasses('grid', 'grid-cols-2', 'md:grid-cols-3', 'gap-2')"
+      :class="
+        mergeClasses(
+          'grid',
+          'grid-cols-2',
+          'sm:grid-cols-3',
+          'md:grid-cols-4',
+          'lg:grid-cols-5',
+          'gap-2'
+        )
+      "
     >
       <TagVue
         v-for="tag in tagArray"
