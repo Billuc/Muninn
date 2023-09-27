@@ -5,7 +5,7 @@
         'grid',
         'grid-cols-1',
         'md:grid-cols-2',
-        'gap-1',
+        'gap-2',
         'p-0',
         'relative'
       )

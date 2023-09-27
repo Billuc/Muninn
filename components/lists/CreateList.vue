@@ -9,15 +9,7 @@
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Create a new list</template>
       <template #default>
-        <div>
-          <TextInput
-            label="List name"
-            :value="name"
-            placeholder="Enter name..."
-            input-class="input-primary"
-            @input="setName"
-          />
-        </div>
+        <ListForm v-model:name="name" />
       </template>
       <template #actions>
         <Button class="btn-success" @click="newList">Create</Button>
@@ -30,8 +22,8 @@
 import { useListStore } from "~/stores/listStore";
 import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
-import TextInput from "../TextInput.vue";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import ListForm from "./ListForm.vue";
 
 const store = useListStore();
 const isOpened = ref(false);
@@ -39,7 +31,6 @@ const name = ref("");
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
-const setName = (v: string) => (name.value = v);
 
 function newList() {
   store.newList(name.value);

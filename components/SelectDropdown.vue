@@ -2,6 +2,7 @@
   <div class="w-52">
     <div class="my-select peer">
       <label
+        ref="label"
         tabindex="0"
         :class="
           mergeClasses(
@@ -23,6 +24,7 @@
       </label>
 
       <div
+        ref="dropdown"
         tabindex="0"
         :class="
           mergeClasses(
@@ -98,12 +100,18 @@ interface SelectDropdownProps {
 
 const props = defineProps<SelectDropdownProps>();
 const emit = defineEmits(["update:value"]);
+const dropdown = ref(null);
+const label = ref(null);
 
 const selected = computed(() =>
   props.options.find((o) => o.value === props.value)
 );
 
-const select = (opt: string) => emit("update:value", opt);
+const select = (opt: string) => {
+  emit("update:value", opt);
+  (dropdown.value as unknown as HTMLElement).blur();
+  (label.value as unknown as HTMLElement).blur();
+};
 </script>
 
 <style>
