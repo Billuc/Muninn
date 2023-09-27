@@ -6,7 +6,16 @@
       class="btn-circle btn-ghost btn-xs"
     />
 
-    <span tabindex="0" class="text-base font-bold">{{ monthLabel }}</span>
+    <MonthSelect
+      :month="props.date.getMonth()"
+      @update:month="selectMonth"
+      class="!w-fit"
+    />
+    <YearSelect
+      :year="props.date.getFullYear()"
+      @update:year="selectYear"
+      class="!w-fit"
+    />
 
     <Button
       :icon="faAngleRight"
@@ -18,18 +27,24 @@
 
 <script setup lang="ts">
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import { format } from "date-fns";
 import Button from "~/components/Button.vue";
+import MonthSelect from "../MonthSelect.vue";
+import YearSelect from "../YearSelect.vue";
 
 interface CalendarHeaderProps {
   date: Date;
 }
 
 const props = defineProps<CalendarHeaderProps>();
-const emit = defineEmits(["nextMonth", "previousMonth"]);
-
-const monthLabel = computed(() => format(props.date, "MMMM yyyy"));
+const emit = defineEmits([
+  "nextMonth",
+  "previousMonth",
+  "selectMonth",
+  "selectYear",
+]);
 
 const nextMonth = () => emit("nextMonth");
 const prevMonth = () => emit("previousMonth");
+const selectMonth = (newMonth: number) => emit("selectMonth", newMonth);
+const selectYear = (newYear: number) => emit("selectYear", newYear);
 </script>

@@ -3,8 +3,9 @@
     v-show="tags.length"
     :tags="tags"
     :selected="props.selected"
-    label=""
+    label="Filter by Tag"
     @update:selected="selectTag"
+    clearable
   />
 </template>
 

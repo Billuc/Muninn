@@ -41,7 +41,7 @@ const route = useRoute();
 const store = useNoteStore();
 const noteId = Number(route.params.id);
 const note = store.getNote(noteId);
-const tag = store.tags.get(note.tagId);
+const tag = computed(() => store.tags.get(note.tagId));
 
 useHead({
   title: `Notes - ${note.title}`,

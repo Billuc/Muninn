@@ -5,7 +5,6 @@
         mergeClasses(
           'card',
           'shadow-xl',
-          'overflow-hidden',
           'grid',
           'grid-cols-1',
           'md:grid-cols-5',
