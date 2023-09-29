@@ -7,9 +7,6 @@ module.exports = {
       "cupcake",
       "synthwave",
       "valentine",
-      "retro",
-      "pastel",
-      "cyberpunk",
     ],
   },
 };
