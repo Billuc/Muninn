@@ -5,6 +5,7 @@
     <div
       :class="
         mergeClasses(
+          'relative',
           'grid',
           'grid-cols-2',
           'sm:grid-cols-3',

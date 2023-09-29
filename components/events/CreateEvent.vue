@@ -2,7 +2,7 @@
   <div>
     <FABButton
       :icon="faPlus"
-      class="absolute -bottom-4 right-4 shadow-md btn-primary"
+      class="-bottom-4 right-4"
       @click="openModal"
     />
 

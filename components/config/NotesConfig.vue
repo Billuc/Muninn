@@ -5,6 +5,7 @@
     <div
       :class="
         mergeClasses(
+          'relative',
           'grid',
           'grid-cols-2',
           'sm:grid-cols-3',
@@ -37,13 +38,15 @@ import { useNoteStore } from "~/stores/noteStore";
 import TagVue from "../Tag.vue";
 import CreateNoteTag from "./CreateNoteTag.vue";
 import _ from "lodash";
-import { Tag, TagColor } from "~/models/Tag";
+import { Tag, TagColor, TagOrder } from "~/models/Tag";
 import EditNoteTag from "./EditNoteTag.vue";
 
 const store = useNoteStore();
 const tagToEdit = ref<Tag | null>(null);
 
-const tagArray = computed(() => store.tagArray as Tag[]);
+const tagArray = computed(() =>
+  _.sortBy(store.tagArray as Tag[], (t) => TagOrder.get(t.color))
+);
 const colorsUsed = computed(() => _.uniq(tagArray.value.map((t) => t.color)));
 const canCreate = computed(() =>
   _.some(Object.values(TagColor), (t) => !colorsUsed.value.includes(t))

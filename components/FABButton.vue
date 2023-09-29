@@ -5,6 +5,7 @@
       mergeClasses(
         'btn',
         'btn-circle',
+        'text-primary-content',
         'absolute',
         'transition-transform',
         'duration-300',
@@ -12,7 +13,8 @@
         'bg-gradient-to-br',
         'from-primary',
         'to-secondary',
-        'border-0'
+        'border-0',
+        'shadow-md'
       )
     "
     :disabled="props.disabled"

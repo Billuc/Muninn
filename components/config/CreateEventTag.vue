@@ -1,25 +1,16 @@
 <template>
   <div>
-    <TagVue class="w-full" @click="openModal" :icon="faPlus" />
+    <FABButton @click="openModal" :icon="faPlus" class="-bottom-4 right-4" />
 
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Create a new tag</template>
       <template #default>
-        <div class="form-control gap-y-2">
-          <TextInput
-            label="Tag name"
-            :value="title"
-            placeholder="Enter name..."
-            input-class="border-primary"
-            @input="setTitle"
-          />
-          <TagColorInput
-            :disabled-colors="props.disabledColors"
-            :value="color"
-            @input="setColor"
-          />
-          <IconInput :icon="icon" @input="setIcon" />
-        </div>
+        <TagForm
+          v-model:title="title"
+          v-model:color="color"
+          v-model:icon="icon"
+          :disabled-colors="props.disabledColors"
+        />
       </template>
       <template #actions>
         <Button class="btn-success" @click="newTag">Create</Button>
@@ -33,10 +24,9 @@ import { TagColor } from "~/models/Tag";
 import Button from "../Button.vue";
 import { faPlus, faTag } from "@fortawesome/free-solid-svg-icons";
 import _ from "lodash";
-import TagColorInput from "./TagColorInput.vue";
-import IconInput from "../IconInput.vue";
-import TagVue from "../Tag.vue";
 import { useEventStore } from "~/stores/eventStore";
+import FABButton from "../FABButton.vue";
+import TagForm from "./TagForm.vue";
 
 interface CreateEventTagProps {
   disabledColors: TagColor[];

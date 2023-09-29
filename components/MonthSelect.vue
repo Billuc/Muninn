@@ -17,7 +17,9 @@
               'w-40',
               'drop-shadow-xl',
               'border-0',
-              'text-center'
+              'text-center',
+              'rounded-box',
+              'mb-1'
             )
           "
         >

@@ -4,7 +4,7 @@
       mergeClasses(
         'btn',
         'btn-sm',
-        'h-fit',
+        'flex-nowrap',
         'py-1',
         'tag',
         props.color ? `tag-${props.color}` : undefined
@@ -16,7 +16,7 @@
       :icon="props.icon"
       :class="{ 'mr-1': !!props.text }"
     />
-    <span v-if="props.text">{{ props.text }}</span>
+    <span v-if="props.text" class="truncate">{{ props.text }}</span>
     <slot></slot>
   </div>
 </template>

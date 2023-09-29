@@ -3,7 +3,7 @@
     <FABButton
       :icon="faPlus"
       @click="openModal"
-      class="btn-primary -bottom-6 right-4"
+      class="-bottom-6 right-4"
     />
 
     <Dialog :is-opened="isOpened" @close="closeModal">

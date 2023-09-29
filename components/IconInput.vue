@@ -1,57 +1,57 @@
 <template>
-  <div
-    :class="
-      mergeClasses(
-        'flex',
-        'flex-wrap',
-        'items-center',
-        'justify-center',
-        'gap-x-4',
-        'gap-y-2',
-        'w-full'
-      )
-    "
+  <AutocompleteAlt
+    label="Icon"
+    placeholder="Search icons..."
+    :icon="faIcons"
+    :options="iconOptions"
+    :value="serialize(props.icon ?? [''])"
+    @update:value="onInput"
+    :clearable="props.clearable"
   >
-    <div class="flex-grow">
-      <Autocomplete
-        label="Icon"
-        placeholder="Search icons..."
-        :options="iconOptions"
-        @input="onInput"
-        lazy
-      >
-        <template #option="{ option, selectOption }">
-          <div @click="selectOption" tabindex="0">
-            <FontAwesomeIcon :icon="option.value" />
-            {{ option.text }}
-          </div>
-        </template>
-        <template #no-option> No icon found... </template>
-      </Autocomplete>
-    </div>
+    <template #selected="{ selected }">
+      <div>
+        <FontAwesomeIcon :icon="deserialize(selected.value)" />
+        {{ selected.text }}
+      </div>
+    </template>
 
-    <div v-if="props.icon">
-      <FontAwesomeIcon :icon="props.icon!" />
-      {{ props.icon[1] }}
-    </div>
-  </div>
+    <template #option="{ option, onSelect }">
+      <div @click="onSelect" class="hover:bg-base-100 rounded-box px-2">
+        <FontAwesomeIcon :icon="deserialize(option.value)" />
+        {{ option.text }}
+      </div>
+    </template>
+
+    <template #no-option> No icon found... </template>
+  </AutocompleteAlt>
 </template>
 
 <script setup lang="ts">
-import Autocomplete from "./Autocomplete.vue";
-import { fas } from "@fortawesome/free-solid-svg-icons";
+import { faIcons, fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import AutocompleteAlt from "./AutocompleteAlt.vue";
+import _ from "lodash";
 
 interface IconInputProps {
   icon?: string[];
+  clearable?: boolean;
 }
 
 const props = defineProps<IconInputProps>();
 const emit = defineEmits(["input"]);
+
+const SEPARATOR = "___";
+const serialize = (icon: string[]) => _.join(icon, SEPARATOR);
+const deserialize = (serializedIcon: string) =>
+  _.split(serializedIcon, SEPARATOR);
+
 const iconOptions = [...Object.values(fas), ...Object.values(fab)].map(
-  (icon) => ({ text: icon.iconName, value: [icon.prefix, icon.iconName] })
+  (icon) => ({
+    text: icon.iconName,
+    value: serialize([icon.prefix, icon.iconName]),
+  })
 );
 
-const onInput = (v: string) => emit("input", v);
+const onInput = (v: string) => emit("input", deserialize(v));
 </script>

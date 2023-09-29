@@ -6,12 +6,13 @@
     </div>
 
     <div class="flex">
-      <SelectDropdown
+      <AutocompleteDropdown
         class="flex-shrink"
         :options="props.options"
         :value="props.value"
         :placeholder="props.placeholder"
         @update:value="select"
+        @new-option="newOption"
       >
         <template #selected="selectedProps">
           <slot name="selected" v-bind="selectedProps"></slot>
@@ -24,7 +25,11 @@
         <template #option="optionProps">
           <slot name="option" v-bind="optionProps"></slot>
         </template>
-      </SelectDropdown>
+
+        <template #no-option="noOptionProps">
+          <slot name="no-option" v-bind="noOptionProps"></slot>
+        </template>
+      </AutocompleteDropdown>
 
       <Button
         v-if="props.clearable"
@@ -39,9 +44,9 @@
 <script setup lang="ts">
 import { IconDefinition, faRemove } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import SelectDropdown from "./SelectDropdown.vue";
+import AutocompleteDropdown from "./AutocompleteDropdown.vue";
 
-interface SelectOption {
+interface AutocompleteOption {
   text: string;
   value: string;
 }
@@ -50,15 +55,16 @@ interface SelectAltProps {
   label?: string;
   clearable?: boolean;
   icon?: IconDefinition;
-  options: SelectOption[];
+  options: AutocompleteOption[];
   value: string;
   placeholder?: string;
 }
 
 defineOptions({ inheritAttrs: false });
 const props = defineProps<SelectAltProps>();
-const emit = defineEmits(["clear", "update:value"]);
+const emit = defineEmits(["clear", "update:value", "newOption"]);
 
 const clear = () => emit("clear");
 const select = (opt: string) => emit("update:value", opt);
+const newOption = (newOpt: string) => emit("newOption", newOpt);
 </script>

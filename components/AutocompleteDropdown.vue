@@ -1,6 +1,6 @@
 <template>
   <div class="w-52">
-    <div class="my-select peer">
+    <div class="my-autocomplete peer">
       <label
         ref="label"
         tabindex="0"
@@ -17,15 +17,19 @@
             'block'
           )
         "
+        @focus="onLabelFocus"
       >
         <template v-if="selected">
-          <slot name="selected" :selected="selected">
+          <slot
+            name="selected"
+            :selected="selected"
+          >
             <span>{{ selected.text }}</span>
           </slot>
         </template>
         <template v-else>
           <slot name="placeholder" :placeholder="props.placeholder">
-            <span class="opacity-50">&nbsp;{{ props.placeholder }}</span>
+            <span class="opacity-50">{{ props.placeholder }}</span>
           </slot>
         </template>
       </label>
@@ -35,7 +39,7 @@
         tabindex="0"
         :class="
           mergeClasses(
-            'my-select-content',
+            'my-autocomplete-content',
             'bg-base-300',
             'min-w-full',
             'rounded-box',
@@ -51,26 +55,54 @@
             'overflow-y-auto',
             'overflow-x-visible',
             'shadow-xl',
-            'p-2',
+            'p-2'
           )
         "
       >
-        <div v-for="opt in props.options" :key="opt.value">
-          <slot
-            name="option"
-            :option="opt"
-            :onSelect="() => select(opt.value)"
-            :selected="opt.value === props.value"
-          >
-            <div
-              @click="() => select(opt.value)"
-              class="px-2 rounded-box hover:bg-base-200"
-              :class="{ 'bg-base-100': opt.value === props.value }"
+        <input
+          ref="input"
+          v-model="search"
+          :class="
+            mergeClasses(
+              'focus:outline-none',
+              'bg-base-100',
+              'focus:bg-base-200',
+              'rounded-box',
+              'px-2',
+              'w-full',
+              'block',
+              'mb-2'
+            )
+          "
+          placeholder="Search for icons..."
+        />
+
+        <template v-if="filteredOptions.length > 0">
+          <div v-for="(opt, i) in filteredOptions" :key="'option-' + i">
+            <slot
+              name="option"
+              :option="opt"
+              :onSelect="() => select(opt)"
+              :selected="opt.value === props.value"
             >
-              {{ opt.text }}
-            </div>
+              <div
+                @click="() => select(opt)"
+                class="px-2 rounded-box hover:bg-base-200"
+                :class="{ 'bg-base-100': opt.value === props.value }"
+              >
+                {{ opt.text }}
+              </div>
+            </slot>
+          </div>
+        </template>
+
+        <template v-else>
+          <slot name="no-option" :createOption="createOption" :search="search">
+            <button @click="() => createOption(search)">
+              New option : {{ search }}
+            </button>
           </slot>
-        </div>
+        </template>
       </div>
     </div>
 
@@ -88,8 +120,7 @@
           'top-0',
           'bottom-0',
           'left-0',
-          'right-0',
-          'z-20'
+          'right-0'
         )
       "
     ></label>
@@ -97,41 +128,59 @@
 </template>
 
 <script setup lang="ts">
-interface SelectOption {
+import _ from "lodash";
+
+interface AutocompleteOption {
   text: string;
   value: string;
 }
 
-interface SelectDropdownProps {
-  options: SelectOption[];
+interface AutocompleteDropdownProps {
   value: string;
   placeholder?: string;
+  options: AutocompleteOption[];
 }
 
-const props = defineProps<SelectDropdownProps>();
-const emit = defineEmits(["update:value"]);
+const props = defineProps<AutocompleteDropdownProps>();
+const emit = defineEmits(["update:value", "newOption"]);
 const dropdown = ref(null);
 const label = ref(null);
+const input = ref(null);
+
+const search = ref("");
 
 const selected = computed(() =>
   props.options.find((o) => o.value === props.value)
 );
+const filteredOptions = computed(() =>
+  props.options.filter(
+    (v) =>
+      (v.text.toLowerCase() === search.value.toLowerCase() ||
+        search.value.length >= 3) &&
+      _.includes(v.text.toLowerCase(), search.value.toLowerCase())
+  )
+);
 
-const select = (opt: string) => {
-  emit("update:value", opt);
+const onLabelFocus = () => {
+  (input.value as unknown as HTMLElement).focus();
+};
+const select = (opt: AutocompleteOption) => {
+  emit("update:value", opt.value);
   (dropdown.value as unknown as HTMLElement).blur();
+  (input.value as unknown as HTMLElement).blur();
   (label.value as unknown as HTMLElement).blur();
 };
+const createOption = (optionName: string) => emit("newOption", optionName);
 </script>
 
 <style>
-.my-select {
+.my-autocomplete {
   width: 100%;
   position: relative;
   display: inline-block;
 }
 
-.my-select .my-select-content {
+.my-autocomplete .my-autocomplete-content {
   visibility: hidden;
   opacity: 0;
   transform-origin: top;
@@ -146,11 +195,11 @@ const select = (opt: string) => {
   transition-duration: 200ms;
 }
 
-.my-select:focus-within .my-select-content {
+.my-autocomplete:focus-within .my-autocomplete-content {
   visibility: visible;
   opacity: 1;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  z-index: 30;
+  z-index: 20;
 }
 </style>

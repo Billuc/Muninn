@@ -2,21 +2,12 @@
   <Dialog :is-opened="isOpened" @close="close">
     <template #title> Edit tag '{{ props.tag?.title }}'</template>
     <template #default>
-      <div class="form-control my-4 gap-y-2">
-        <TextInput
-          label="Tag name"
-          :value="title"
-          placeholder="Enter name..."
-          input-class="border-primary"
-          @input="setTitle"
-        />
-        <TagColorInput
-          :disabled-colors="disabledColorsWithoutCurrent"
-          :value="color"
-          @input="setColor"
-        />
-        <IconInput :icon="icon" @input="setIcon" />
-      </div>
+      <TagForm
+        v-model:title="title"
+        v-model:color="color"
+        v-model:icon="icon"
+        :disabled-colors="disabledColorsWithoutCurrent"
+      />
     </template>
     <template #actions>
       <Button class="btn-error ml-2" @click="removeTag">Remove</Button>
@@ -30,9 +21,8 @@ import { useNoteStore } from "~/stores/noteStore";
 import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
 import { Tag, TagColor } from "~/models/Tag";
-import IconInput from "../IconInput.vue";
 import { faTag } from "@fortawesome/free-solid-svg-icons";
-import TagColorInput from "./TagColorInput.vue";
+import TagForm from "./TagForm.vue";
 
 interface EditNoteTagProps {
   tag: Tag | null;
@@ -51,10 +41,6 @@ const icon = ref<string[]>([faTag.prefix, faTag.iconName]);
 const disabledColorsWithoutCurrent = computed(() =>
   props.disabledColors.filter((c) => c !== props.tag?.color)
 );
-
-const setTitle = (newTitle: string) => (title.value = newTitle);
-const setColor = (newColor: TagColor) => (color.value = newColor);
-const setIcon = (newIcon: string[]) => (icon.value = newIcon);
 
 const close = () => emit("close");
 const editTag = () => {

@@ -1,12 +1,13 @@
 <template>
   <SelectAlt
-    :label="label ?? 'Tag'"
+    :label="props.label ?? 'Tag'"
     :icon="faTag"
     :options="tagOptions"
-    :value="String(selected)"
+    :value="String(props.selected)"
     @update:value="selectTag"
     @clear="() => selectTag('-1')"
-    :clearable="clearable"
+    :clearable="props.clearable"
+    :placeholder="props.placeholder ?? 'Choose a tag'"
   >
     <template #selected="{ selected }">
       <TagVue
@@ -33,12 +34,14 @@ import TagVue from "./Tag.vue";
 import { Tag, TagOrder } from "~/models/Tag";
 import _ from "lodash";
 import { faTag } from "@fortawesome/free-solid-svg-icons";
+import SelectAlt from "./SelectAlt.vue";
 
 interface TagSelecterProps {
   selected: number;
   label?: string;
   tags: Tag[];
   clearable?: boolean;
+  placeholder?: string;
 }
 
 const props = defineProps<TagSelecterProps>();
