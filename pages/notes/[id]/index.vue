@@ -2,6 +2,7 @@
   <div>
     <PageHeading>
       <template #prepend>
+        <BackButton to="notes" label="Back to notes" class="mr-4" />
         <TagVue
           v-if="tag"
           :text="tag.title"
@@ -30,6 +31,7 @@
 <script setup lang="ts">
 import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
 import TagVue from "~/components/Tag.vue";
+import BackButton from "~/components/journal/BackButton.vue";
 import Background from "~/components/layout/Background.vue";
 import PageHeading from "~/components/layout/PageHeading.vue";
 import DeleteNote from "~/components/notes/DeleteNote.vue";

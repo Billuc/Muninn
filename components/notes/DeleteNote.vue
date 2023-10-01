@@ -35,7 +35,7 @@ const closeModal = () => (isOpened.value = false);
 
 function remove() {
   store.removeNote(props.note.id);
-  router.push({ path: "/notes" });
+  router.push({ name: "notes" });
   closeModal();
 }
 </script>

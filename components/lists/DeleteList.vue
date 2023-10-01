@@ -35,7 +35,7 @@ const closeModal = () => (isOpened.value = false);
 
 function remove() {
   store.removeList(props.list.id);
-  router.push({ path: "/lists" });
+  router.push({ name: "lists" });
   closeModal();
 }
 </script>
