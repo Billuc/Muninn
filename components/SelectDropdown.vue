@@ -65,7 +65,7 @@
             >
               <div
                 @click="() => select(opt.value)"
-                class="px-2 rounded-box hover:bg-base-200"
+                class="px-2 rounded-box hover:bg-base-100"
                 :class="{ 'bg-base-100': opt.value === props.value }"
               >
                 {{ opt.text }}
@@ -93,10 +93,10 @@
           'peer-focus-within:opacity-20',
           'md:peer-focus-within:hidden',
           'fixed',
-          'top-0',
           'bottom-0',
           'left-0',
           'right-0',
+          'h-screen',
           'z-20'
         )
       "

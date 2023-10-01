@@ -20,10 +20,7 @@
         @focus="onLabelFocus"
       >
         <template v-if="selected">
-          <slot
-            name="selected"
-            :selected="selected"
-          >
+          <slot name="selected" :selected="selected">
             <span>{{ selected.text }}</span>
           </slot>
         </template>
@@ -65,8 +62,8 @@
           :class="
             mergeClasses(
               'focus:outline-none',
-              'bg-base-100',
-              'focus:bg-base-200',
+              'bg-base-200',
+              'focus:bg-base-300',
               'rounded-box',
               'px-2',
               'w-full',
@@ -87,7 +84,7 @@
             >
               <div
                 @click="() => select(opt)"
-                class="px-2 rounded-box hover:bg-base-200"
+                class="px-2 rounded-box hover:bg-base-100"
                 :class="{ 'bg-base-100': opt.value === props.value }"
               >
                 {{ opt.text }}
@@ -117,10 +114,11 @@
           'peer-focus-within:opacity-20',
           'md:peer-focus-within:hidden',
           'fixed',
-          'top-0',
           'bottom-0',
           'left-0',
-          'right-0'
+          'right-0',
+          'h-screen',
+          'z-20'
         )
       "
     ></label>
@@ -200,6 +198,6 @@ const createOption = (optionName: string) => emit("newOption", optionName);
   opacity: 1;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  z-index: 20;
+  z-index: 30;
 }
 </style>
