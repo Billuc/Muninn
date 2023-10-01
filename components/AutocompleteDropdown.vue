@@ -40,7 +40,7 @@
         :class="
           mergeClasses(
             'my-autocomplete-content',
-            'bg-base-300',
+            'bg-base-200',
             'min-w-full',
             'rounded-box',
             'text-center',

@@ -17,6 +17,7 @@
         class="w-full !btn-xs"
       />
     </template>
+
     <template #option="{ option, onSelect }">
       <TagVue
         :color="getTag(option.value)?.color"
@@ -25,6 +26,12 @@
         @click="onSelect"
         class="w-full hover:scale-95"
       />
+    </template>
+
+    <template #no-option>
+      <div class="text-sm italic font-light text-center">
+        No tag available. Check config page to create tags.
+      </div>
     </template>
   </SelectAlt>
 </template>
@@ -58,7 +65,8 @@ const tagOptions = computed(() =>
     .value()
 );
 
-const getTag = (tagId: string) => props.tags.find(t => t.id === Number(tagId));
+const getTag = (tagId: string) =>
+  props.tags.find((t) => t.id === Number(tagId));
 const selectTag = (id: string) => {
   if (props.selected === Number(id)) emit("update:selected", -1);
   else emit("update:selected", Number(id));

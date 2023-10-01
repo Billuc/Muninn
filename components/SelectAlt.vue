@@ -24,6 +24,10 @@
         <template #option="optionProps">
           <slot name="option" v-bind="optionProps"></slot>
         </template>
+
+        <template #no-option>
+          <slot name="no-option"></slot>
+        </template>
       </SelectDropdown>
     </template>
   </Field>

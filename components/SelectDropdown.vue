@@ -36,7 +36,7 @@
         :class="
           mergeClasses(
             'my-select-content',
-            'bg-base-300',
+            'bg-base-200',
             'min-w-full',
             'rounded-box',
             'text-center',
@@ -51,26 +51,34 @@
             'overflow-y-auto',
             'overflow-x-visible',
             'shadow-xl',
-            'p-2',
+            'p-2'
           )
         "
       >
-        <div v-for="opt in props.options" :key="opt.value">
-          <slot
-            name="option"
-            :option="opt"
-            :onSelect="() => select(opt.value)"
-            :selected="opt.value === props.value"
-          >
-            <div
-              @click="() => select(opt.value)"
-              class="px-2 rounded-box hover:bg-base-200"
-              :class="{ 'bg-base-100': opt.value === props.value }"
+        <template v-if="options.length > 0">
+          <div v-for="opt in props.options" :key="opt.value">
+            <slot
+              name="option"
+              :option="opt"
+              :onSelect="() => select(opt.value)"
+              :selected="opt.value === props.value"
             >
-              {{ opt.text }}
-            </div>
+              <div
+                @click="() => select(opt.value)"
+                class="px-2 rounded-box hover:bg-base-200"
+                :class="{ 'bg-base-100': opt.value === props.value }"
+              >
+                {{ opt.text }}
+              </div>
+            </slot>
+          </div>
+        </template>
+
+        <template v-else>
+          <slot name="no-option">
+            <div class="text-sm italic font-light text-center">No option</div>
           </slot>
-        </div>
+        </template>
       </div>
     </div>
 
