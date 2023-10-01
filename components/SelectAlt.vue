@@ -1,11 +1,11 @@
 <template>
-  <div :class="mergeClasses('label', 'gap-1', 'p-0')">
-    <div>
-      <FontAwesomeIcon v-if="props.icon" :icon="props.icon" class="mr-1" />
-      <span class="label-text">{{ props.label }}</span>
-    </div>
-
-    <div class="flex">
+  <Field
+    :icon="props.icon"
+    :clearable="props.clearable"
+    :label="props.label"
+    @clear="clear"
+  >
+    <template #input>
       <SelectDropdown
         class="flex-shrink"
         :options="props.options"
@@ -25,21 +25,14 @@
           <slot name="option" v-bind="optionProps"></slot>
         </template>
       </SelectDropdown>
-
-      <Button
-        v-if="props.clearable"
-        :icon="faRemove"
-        class="btn-circle !btn-xs"
-        @click="clear"
-      />
-    </div>
-  </div>
+    </template>
+  </Field>
 </template>
 
 <script setup lang="ts">
-import { IconDefinition, faRemove } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import SelectDropdown from "./SelectDropdown.vue";
+import Field from "./Field.vue";
 
 interface SelectOption {
   text: string;
@@ -55,7 +48,6 @@ interface SelectAltProps {
   placeholder?: string;
 }
 
-defineOptions({ inheritAttrs: false });
 const props = defineProps<SelectAltProps>();
 const emit = defineEmits(["clear", "update:value"]);
 

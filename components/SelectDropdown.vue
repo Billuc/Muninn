@@ -7,8 +7,8 @@
         :class="
           mergeClasses(
             'focus:outline-none',
-            'bg-base-100',
-            'focus:bg-base-200',
+            'bg-base-200',
+            'focus:bg-base-300',
             'text-end',
             'font-semibold',
             'rounded-box',
