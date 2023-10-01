@@ -43,6 +43,7 @@ const onUpdate = (ev: any) => {
       (ev.inputType === "insertText" && text.endsWith("\n")))
   ) {
     emit("enter", text.trim());
+    reset();
   } else {
     emit("input", text);
   }
@@ -50,9 +51,13 @@ const onUpdate = (ev: any) => {
 
 const reset = () => {
   const div = input.value as unknown as HTMLDivElement;
-  div.innerText = "";
+  div.innerText = value.value;
 };
-defineExpose({ reset });
+const blur = () => {
+  const div = input.value as unknown as HTMLDivElement;
+  div.blur()
+}
+defineExpose({ blur });
 
 watch([value], () => {
   const range = document!.getSelection()!.getRangeAt(0);

@@ -1,9 +1,10 @@
 <template>
-  <ul class="list-disc marker:text-base-300 pl-8">
+  <ul class="list-disc pl-8">
     <Entry
       v-for="(entry, index) in dateEntries"
       :entry="entry"
       @update:entry="(v) => updateEntry(index, v)"
+      @remove="() => removeEntry(index)"
       :key="`entry-${index}`"
     />
     <AddEntry @input="(v) => newEntry(v)" />
@@ -28,7 +29,9 @@ function updateEntry(index: number, newValue: string) {
   if (!newValue) store.removeEntry(date.value, index);
   else store.editEntry(date.value, index, newValue);
 }
-
+function removeEntry(index: number) {
+  store.removeEntry(date.value, index);
+}
 function newEntry(value: string) {
   if (!value) return;
   store.newEntry(date.value, value);

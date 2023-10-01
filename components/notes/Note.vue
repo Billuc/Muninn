@@ -25,7 +25,6 @@ const { note } = toRefs(props);
 const store = useNoteStore();
 
 function updateNoteText(newText: string) {
-  console.log(newText);
   store.editNote(note.value.id, note.value.title, newText, note.value.tagId);
 }
 const debouncedUpdateNoteText = _.debounce(updateNoteText, 2000);
