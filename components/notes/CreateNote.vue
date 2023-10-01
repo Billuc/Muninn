@@ -38,5 +38,10 @@ const closeModal = () => (isOpened.value = false);
 const newNote = () => {
   store.newNote(name.value, tagId.value);
   closeModal();
+  reset();
 };
+const reset = () => {
+  name.value = "";
+  tagId.value = -1;
+}
 </script>

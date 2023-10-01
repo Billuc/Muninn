@@ -43,12 +43,14 @@ const icon = ref<string[]>([faTag.prefix, faTag.iconName]);
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
-const setTitle = (newTitle: string) => (title.value = newTitle);
-const setColor = (newColor: TagColor) => (color.value = newColor);
-const setIcon = (newIcon: string[]) => (icon.value = newIcon);
-
 const newTag = () => {
   store.newTag(title.value, color.value, icon.value);
   closeModal();
+  reset();
+};
+const reset = () => {
+  title.value = "";
+  color.value = TagColor.red;
+  icon.value = [faTag.prefix, faTag.iconName];
 };
 </script>

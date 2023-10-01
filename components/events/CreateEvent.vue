@@ -1,10 +1,6 @@
 <template>
   <div>
-    <FABButton
-      :icon="faPlus"
-      class="-bottom-4 right-4"
-      @click="openModal"
-    />
+    <FABButton :icon="faPlus" class="-bottom-4 right-4" @click="openModal" />
 
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Create a new event</template>
@@ -59,5 +55,14 @@ const newEvent = () => {
     tagId: tagId.value,
   });
   closeModal();
+  reset();
+};
+const reset = () => {
+  title.value = "";
+  date.value = "";
+  time.value = "";
+  duration.value = "01:00";
+  frequency.value = Frequency.Once;
+  tagId.value = -1;
 };
 </script>

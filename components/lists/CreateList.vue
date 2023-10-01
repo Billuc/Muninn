@@ -1,10 +1,6 @@
 <template>
   <div>
-    <FABButton
-      :icon="faPlus"
-      @click="openModal"
-      class="-bottom-6 right-4"
-    />
+    <FABButton :icon="faPlus" @click="openModal" class="-bottom-6 right-4" />
 
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Create a new list</template>
@@ -32,8 +28,10 @@ const name = ref("");
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
-function newList() {
+const newList = () => {
   store.newList(name.value);
   closeModal();
-}
+  reset();
+};
+const reset = () => (name.value = "");
 </script>

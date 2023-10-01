@@ -73,7 +73,7 @@ watch([value], () => {
   selection.removeAllRanges();
 
   if (!!node) {
-    newRange.setStart(node, node && pos > node.textContent!.length ? 0 : pos);
+    newRange.setStart(node, pos > node.textContent!.length ? 0 : pos);
     newRange.collapse(true);
     selection.addRange(newRange);
   }
