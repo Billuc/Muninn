@@ -1,5 +1,5 @@
 <template>
-  <SelectAlt
+  <SelectField
     label="Tag Color"
     placeholder="Choose a tag color"
     :icon="faPalette"
@@ -23,15 +23,15 @@
         class="w-full hover:scale-95"
       />
     </template>
-  </SelectAlt>
+  </SelectField>
 </template>
 
 <script setup lang="ts">
 import { TagColor } from "~/models/Tag";
 import _ from "lodash";
-import SelectAlt from "../SelectAlt.vue";
 import { faPalette } from "@fortawesome/free-solid-svg-icons";
-import TagVue from "../Tag.vue";
+import TagVue from "../TagVue.vue";
+import SelectField from "../SelectField.vue";
 
 interface TagColorInputProps {
   disabledColors: TagColor[];

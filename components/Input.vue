@@ -1,81 +1,52 @@
 <template>
-  <div class="w-full flex-grow flex-shrink">
-    <InputLabel v-if="props.label" :label="props.label" />
-
-    <div
+  <div class="flex flex-nowrap">
+    <input
+      :value="props.value"
+      @input="onInput"
+      :type="props.type ?? 'text'"
+      :placeholder="props.placeholder"
+      :pattern="props.pattern"
       :class="
         mergeClasses(
-          'input',
-          'input-bordered',
-          'w-full',
-          'hover:brightness-95',
-          'focus:brightness-100',
-          'transition-all',
-          'duration-200',
-          'flex',
-          'flex-nowrap',
-          'items-center',
-          'gap-1',
-          'focus-within:outline',
-          'focus-within:outline-2',
-          'focus-within:outline-offset-2',
-          'focus-within:outline-base-content/20',
-          props.class
+          'focus:outline-none',
+          'flex-grow',
+          'flex-shrink',
+          'bg-transparent',
+          props.inputClass
         )
       "
-    >
-      <slot
-        name="input"
-        :attrs="$attrs"
-        :type="props.type"
-        :placeholder="props.placeholder"
-        :pattern="props.pattern"
-        :value="props.value"
-      >
-        <input
-          v-bind="$attrs"
-          :type="props.type"
-          :placeholder="props.placeholder"
-          :pattern="props.pattern"
-          :class="
-            mergeClasses(
-              'focus:outline-none',
-              'flex-grow',
-              'flex-shrink',
-              'bg-transparent'
-            )
-          "
-          :value="props.value"
-        />
-      </slot>
+      ref="input"
+    />
 
-      <Button
-        v-if="props.clearable"
-        :icon="faRemove"
-        class="btn-circle !btn-xs"
-        @click="clear"
-      />
-    </div>
+    <Button
+      v-if="props.clearable"
+      :icon="faRemove"
+      class="btn-circle !btn-xs"
+      @click="clear"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { faRemove } from "@fortawesome/free-solid-svg-icons";
-import InputLabel from "./InputLabel.vue";
 
 interface InputProps {
-  label?: string;
   value: string;
   placeholder?: string;
-  type: string;
+  type?: string;
   pattern?: string;
-  class?: string;
   clearable?: boolean;
+  inputClass?: string;
 }
 
-defineOptions({ inheritAttrs: false });
 const props = defineProps<InputProps>();
-const emit = defineEmits(["clear"]);
+const emit = defineEmits(["clear", "update:value"]);
+const input = ref(null);
 
 const clear = () => emit("clear");
+const onInput = (ev: any) => emit("update:value", ev.target.value);
+
+const focus = () => (input.value as unknown as HTMLElement).focus();
+const blur = () => (input.value as unknown as HTMLElement).blur();
+defineExpose({ focus, blur })
 </script>

@@ -3,13 +3,14 @@
     :icon="props.icon"
     :label="props.label"
     :clearable="props.clearable"
+    :value="props.value"
     @clear="clear"
   >
-    <template #input>
+    <template #input="{ value }">
       <AutocompleteDropdown
         class="flex-shrink"
         :options="props.options"
-        :value="props.value"
+        :value="value"
         :placeholder="props.placeholder"
         @update:value="select"
         @new-option="newOption"
@@ -44,7 +45,7 @@ interface AutocompleteOption {
   value: string;
 }
 
-interface SelectAltProps {
+interface AutocompleteFieldProps {
   label?: string;
   clearable?: boolean;
   icon?: IconDefinition;
@@ -53,7 +54,7 @@ interface SelectAltProps {
   placeholder?: string;
 }
 
-const props = defineProps<SelectAltProps>();
+const props = defineProps<AutocompleteFieldProps>();
 const emit = defineEmits(["clear", "update:value", "newOption"]);
 
 const clear = () => emit("clear");

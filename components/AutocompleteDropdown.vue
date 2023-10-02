@@ -56,10 +56,10 @@
           )
         "
       >
-        <input
+        <Input
           ref="input"
-          v-model="search"
-          :class="
+          v-model:value="search"
+          :input-class="
             mergeClasses(
               'focus:outline-none',
               'bg-base-200',
@@ -72,6 +72,8 @@
             )
           "
           placeholder="Search for icons..."
+          clearable
+          @clear="search = ''"
         />
 
         <template v-if="filteredOptions.length > 0">
@@ -126,6 +128,7 @@
 </template>
 
 <script setup lang="ts">
+import Input from "./Input.vue";
 import _ from "lodash";
 
 interface AutocompleteOption {

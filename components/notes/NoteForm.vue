@@ -1,11 +1,12 @@
 <template>
-  <div class="form-control gap-y-2">
-    <InputAlt
+  <Form ref="form">
+    <InputField
       label="Note Name"
       placeholder="Enter name..."
       :value="props.name"
       :icon="faFont"
-      @input="setName"
+      @update:value="setName"
+      :rules="[(v) => !!v]"
     />
     <TagSelecter
       :tags="store.tagArray"
@@ -13,12 +14,15 @@
       @update:selected="setTagId"
       clearable
     />
-  </div>
+  </Form>
 </template>
 
 <script setup lang="ts">
 import { faFont } from "@fortawesome/free-solid-svg-icons";
 import { useNoteStore } from "~/stores/noteStore";
+import Form from "~/components/Form.vue";
+import InputField from "../InputField.vue";
+import TagSelecter from "../TagSelecter.vue";
 
 interface NoteFormProps {
   name: string;
@@ -28,7 +32,11 @@ interface NoteFormProps {
 const props = defineProps<NoteFormProps>();
 const emit = defineEmits(["update:name", "update:tagId"]);
 const store = useNoteStore();
+const form = ref<InstanceType<typeof Form> | null>(null);
 
 const setName = (newName: string) => emit("update:name", newName);
 const setTagId = (newTagId: number) => emit("update:tagId", newTagId);
+
+const validate = () => form.value?.validate();
+defineExpose({ validate });
 </script>

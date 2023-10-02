@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import { useNoteStore } from "~/stores/noteStore";
-import TagVue from "../Tag.vue";
+import TagVue from "../TagVue.vue";
 import CreateNoteTag from "./CreateNoteTag.vue";
 import _ from "lodash";
 import { Tag, TagColor, TagOrder } from "~/models/Tag";

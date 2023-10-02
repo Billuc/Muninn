@@ -25,13 +25,13 @@
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-interface TagProps {
+interface TagVueProps {
   color?: string;
   icon?: string[] | IconDefinition;
   text?: string;
 }
 
-const props = defineProps<TagProps>();
+const props = defineProps<TagVueProps>();
 </script>
 
 <style>

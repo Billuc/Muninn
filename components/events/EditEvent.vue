@@ -9,6 +9,7 @@
         v-model:duration="duration"
         v-model:frequency="frequency"
         v-model:tag-id="tagId"
+        ref="form"
       />
     </template>
     <template #actions>
@@ -34,6 +35,7 @@ interface EditEventProps {
 const props = defineProps<EditEventProps>();
 const emit = defineEmits(["close"]);
 const store = useEventStore();
+const form = ref<InstanceType<typeof EventForm> | null>(null);
 
 const isOpened = computed(() => !!props.event);
 const title = ref("");
@@ -47,6 +49,7 @@ const close = () => emit("close");
 
 const editEvent = () => {
   if (!props.event) return;
+  if (!form.value?.validate()) return;
 
   store.editEvent(props.event.id, {
     title: title.value,

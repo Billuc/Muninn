@@ -1,29 +1,32 @@
 <template>
-  <div class="form-control gap-y-2">
-    <InputAlt
+  <Form ref="form">
+    <InputField
       label="Event Name"
       placeholder="Enter name..."
       :value="props.title"
       :icon="faFont"
       @input="setTitle"
+      :rules="[(v) => !!v]"
     />
-    <InputAlt
+    <InputField
       type="date"
       label="Event Date"
       placeholder="Enter name..."
       :value="date"
       :icon="faCalendar"
       @input="setDate"
+      :rules="[(v) => !!v]"
     />
-    <InputAlt
+    <InputField
       type="time"
       label="Event Time"
       placeholder="Enter name..."
       :value="time"
       :icon="faClock"
       @input="setTime"
+      :rules="[(v) => !!v]"
     />
-    <InputAlt
+    <InputField
       type="time"
       label="Event Duration"
       placeholder="Enter name..."
@@ -31,7 +34,7 @@
       :icon="faClockRotateLeft"
       @input="setDuration"
     />
-    <SelectAlt
+    <SelectField
       label="Frequency"
       :icon="faRepeat"
       :options="frequencyOptions"
@@ -44,7 +47,7 @@
       @update:selected="setTagId"
       clearable
     />
-  </div>
+  </Form>
 </template>
 
 <script setup lang="ts">
@@ -59,6 +62,9 @@ import {
   faRepeat,
 } from "@fortawesome/free-solid-svg-icons";
 import TagSelecter from "../TagSelecter.vue";
+import Form from "../Form.vue";
+import InputField from "../InputField.vue";
+import SelectField from "../SelectField.vue";
 
 interface EventFormProps {
   title: string;
@@ -79,6 +85,7 @@ const emit = defineEmits([
   "update:tagId",
 ]);
 const store = useEventStore();
+const form = ref<InstanceType<typeof Form> | null>(null);
 
 const frequencyOptions = Object.entries(Frequency).map(([text, freq]) => ({
   text: text,
@@ -91,4 +98,7 @@ const setTime = (v: string) => emit("update:time", v);
 const setDuration = (v: string) => emit("update:duration", v);
 const setFrequency = (v: Frequency) => emit("update:frequency", v);
 const setTagId = (v: number) => emit("update:tagId", v);
+
+const validate = () => form.value?.validate();
+defineExpose({ validate });
 </script>

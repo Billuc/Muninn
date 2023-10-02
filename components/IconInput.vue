@@ -1,5 +1,5 @@
 <template>
-  <AutocompleteAlt
+  <AutocompleteField
     label="Icon"
     placeholder="Search icons..."
     :icon="faIcons"
@@ -22,16 +22,20 @@
       </div>
     </template>
 
-    <template #no-option> No icon found... </template>
-  </AutocompleteAlt>
+    <template #no-option>
+      <div class="text-sm italic font-light text-center">
+        No icon found...
+      </div>
+    </template>
+  </AutocompleteField>
 </template>
 
 <script setup lang="ts">
 import { faIcons, fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import AutocompleteAlt from "./AutocompleteAlt.vue";
 import _ from "lodash";
+import AutocompleteField from "./AutocompleteField.vue";
 
 interface IconInputProps {
   icon?: string[];
@@ -46,12 +50,14 @@ const serialize = (icon: string[]) => _.join(icon, SEPARATOR);
 const deserialize = (serializedIcon: string) =>
   _.split(serializedIcon, SEPARATOR);
 
-const iconOptions = [...Object.values(fas), ...Object.values(fab)].map(
-  (icon) => ({
+const iconOptions = _([...Object.values(fas), ...Object.values(fab)])
+  .chain()
+  .map((icon) => ({
     text: icon.iconName,
     value: serialize([icon.prefix, icon.iconName]),
-  })
-);
+  }))
+  .uniqBy((tv) => tv.value)
+  .value();
 
 const onInput = (v: string) => emit("input", deserialize(v));
 </script>

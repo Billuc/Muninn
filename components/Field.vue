@@ -15,9 +15,9 @@
         name="input"
         :inputClass="inputClass"
         :onInput="onInput"
-        :attrs="$attrs"
+        :value="props.value"
       >
-        <input v-bind="$attrs" @input="onInput" :class="inputClass" />
+        <input @input="onInput" :class="inputClass" :value="props.value" />
       </slot>
 
       <slot name="clearable" :clearable="props.clearable">
@@ -35,29 +35,48 @@
 <script setup lang="ts">
 import { IconDefinition, faRemove } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import _ from "lodash";
 
 interface FieldProps {
   label?: string;
   clearable?: boolean;
   icon?: IconDefinition;
+  value: string;
+  rules?: ((v: string) => boolean)[];
 }
 
-defineOptions({ inheritAttrs: false });
 const props = defineProps<FieldProps>();
-const emit = defineEmits(["clear", "input"]);
+const emit = defineEmits(["clear", "update:value"]);
+const form = inject<{
+  bind: (uid: number, valid: Ref<boolean>) => void;
+  unbind: (uid: number) => void;
+}>("form");
 
-const inputClass = mergeClasses(
-  "focus:outline-none",
-  "bg-base-200",
-  "focus:bg-base-300",
-  "text-end",
-  "font-semibold",
-  "rounded-box",
-  "px-2",
-  "w-52",
-  "flex-shrink"
+const valid = computed(
+  () => !props.rules || _.every(props.rules, (rule) => rule(props.value))
+);
+const inputClass = computed(() =>
+  mergeClasses(
+    "focus:outline-none",
+    "bg-base-200",
+    "focus:bg-base-300",
+    "text-end",
+    "font-semibold",
+    "rounded-box",
+    "px-2",
+    "w-52",
+    "flex-shrink",
+    !valid.value ? "border border-error" : undefined
+  )
 );
 
 const clear = () => emit("clear");
-const onInput = (ev: any) => emit("input", ev.target.value);
+const onInput = (ev: any) => emit("update:value", ev.target.value);
+
+onMounted(() => {
+  if (form) form.bind(getCurrentInstance()!.uid, valid);
+});
+onBeforeUnmount(() => {
+  if (form) form.unbind(getCurrentInstance()!.uid);
+});
 </script>

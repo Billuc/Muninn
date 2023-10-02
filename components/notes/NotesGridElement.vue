@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { Tag } from "~/models/Tag";
-import TagVue from "../Tag.vue";
+import TagVue from "../TagVue.vue";
 import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 

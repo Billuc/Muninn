@@ -3,13 +3,14 @@
     :icon="props.icon"
     :clearable="props.clearable"
     :label="props.label"
+    :value="props.value"
     @clear="clear"
   >
-    <template #input>
+    <template #input="{ value }">
       <SelectDropdown
         class="flex-shrink"
         :options="props.options"
-        :value="props.value"
+        :value="value"
         :placeholder="props.placeholder"
         @update:value="select"
       >
@@ -43,7 +44,7 @@ interface SelectOption {
   value: string;
 }
 
-interface SelectAltProps {
+interface SelectFieldProps {
   label?: string;
   clearable?: boolean;
   icon?: IconDefinition;
@@ -52,7 +53,7 @@ interface SelectAltProps {
   placeholder?: string;
 }
 
-const props = defineProps<SelectAltProps>();
+const props = defineProps<SelectFieldProps>();
 const emit = defineEmits(["clear", "update:value"]);
 
 const clear = () => emit("clear");

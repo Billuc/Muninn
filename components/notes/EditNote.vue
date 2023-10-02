@@ -5,7 +5,7 @@
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Edit note "{{ props.note.title }}"</template>
       <template #default>
-        <NoteForm v-model:name="name" v-model:tag-id="tagId" />
+        <NoteForm v-model:name="name" v-model:tag-id="tagId" ref="form" />
       </template>
       <template #actions>
         <Button class="btn-success" @click="editNote">Save</Button>
@@ -28,6 +28,7 @@ interface EditNoteProps {
 
 const props = defineProps<EditNoteProps>();
 const store = useNoteStore();
+const form = ref<InstanceType<typeof NoteForm> | null>(null);
 
 const isOpened = ref(false);
 const name = ref(props.note.title);
@@ -37,6 +38,8 @@ const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
 function editNote() {
+  if (!form.value?.validate()) return;
+
   store.editNote(props.note.id, name.value, props.note.text, tagId.value);
   closeModal();
 }

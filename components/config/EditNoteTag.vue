@@ -7,6 +7,7 @@
         v-model:color="color"
         v-model:icon="icon"
         :disabled-colors="disabledColorsWithoutCurrent"
+        ref="form"
       />
     </template>
     <template #actions>
@@ -32,6 +33,7 @@ interface EditNoteTagProps {
 const props = defineProps<EditNoteTagProps>();
 const emit = defineEmits(["close"]);
 const store = useNoteStore();
+const form = ref<InstanceType<typeof TagForm> | null>(null);
 
 const isOpened = computed(() => !!props.tag);
 const title = ref("");
@@ -45,6 +47,7 @@ const disabledColorsWithoutCurrent = computed(() =>
 const close = () => emit("close");
 const editTag = () => {
   if (!props.tag) return;
+  if (!form.value?.validate()) return;
 
   store.editTag(props.tag.id, title.value, color.value, icon.value);
   close();

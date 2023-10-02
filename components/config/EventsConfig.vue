@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import TagVue from "../Tag.vue";
+import TagVue from "../TagVue.vue";
 import _ from "lodash";
 import { Tag, TagColor, TagOrder } from "~/models/Tag";
 import { useEventStore } from "~/stores/eventStore";

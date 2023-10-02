@@ -1,15 +1,11 @@
 <template>
   <div>
-    <FABButton
-      :icon="faPlus"
-      @click="openModal"
-      class="-bottom-6 right-4"
-    />
+    <FABButton :icon="faPlus" @click="openModal" class="-bottom-6 right-4" />
 
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Create a new note</template>
       <template #default>
-        <NoteForm v-model:name="name" v-model:tag-id="tagId" />
+        <NoteForm v-model:name="name" v-model:tag-id="tagId" ref="form" />
       </template>
       <template #actions>
         <Button class="btn-success" @click="newNote">Create</Button>
@@ -27,6 +23,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import NoteForm from "./NoteForm.vue";
 
 const store = useNoteStore();
+const form = ref<InstanceType<typeof NoteForm> | null>(null);
 
 const isOpened = ref(false);
 const name = ref("");
@@ -36,6 +33,8 @@ const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
 const newNote = () => {
+  if (!form.value?.validate()) return;
+
   store.newNote(name.value, tagId.value);
   closeModal();
   reset();
@@ -43,5 +42,5 @@ const newNote = () => {
 const reset = () => {
   name.value = "";
   tagId.value = -1;
-}
+};
 </script>

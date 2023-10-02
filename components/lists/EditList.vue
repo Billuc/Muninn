@@ -5,7 +5,7 @@
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Edit list "{{ props.list.title }}"</template>
       <template #default>
-        <ListForm v-model:name="name" />
+        <ListForm v-model:name="name" ref="form" />
       </template>
       <template #actions>
         <Button class="btn-success" label="Save" @click="editList"></Button>
@@ -28,6 +28,8 @@ interface EditListProps {
 
 const props = defineProps<EditListProps>();
 const store = useListStore();
+const form = ref<InstanceType<typeof ListForm> | null>(null);
+
 const isOpened = ref(false);
 const name = ref(props.list.title);
 
@@ -35,6 +37,8 @@ const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
 function editList() {
+  if (!form.value?.validate()) return;
+
   store.editList(props.list.id, name.value);
   closeModal();
 }

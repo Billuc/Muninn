@@ -10,6 +10,7 @@
           v-model:color="color"
           v-model:icon="icon"
           :disabled-colors="props.disabledColors"
+          ref="form"
         />
       </template>
       <template #actions>
@@ -34,6 +35,7 @@ interface CreateEventTagProps {
 
 const props = defineProps<CreateEventTagProps>();
 const store = useEventStore();
+const form = ref<InstanceType<typeof TagForm> | null>(null);
 
 const isOpened = ref(false);
 const title = ref("");
@@ -44,6 +46,8 @@ const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
 const newTag = () => {
+  if (!form.value?.validate()) return;
+
   store.newTag(title.value, color.value, icon.value);
   closeModal();
   reset();

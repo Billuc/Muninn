@@ -1,5 +1,5 @@
 <template>
-  <SelectAlt
+  <SelectField
     :label="props.label ?? 'Tag'"
     :icon="faTag"
     :options="tagOptions"
@@ -33,15 +33,15 @@
         No tag available. Check config page to create tags.
       </div>
     </template>
-  </SelectAlt>
+  </SelectField>
 </template>
 
 <script setup lang="ts">
-import TagVue from "./Tag.vue";
+import TagVue from "./TagVue.vue";
 import { Tag, TagOrder } from "~/models/Tag";
 import _ from "lodash";
 import { faTag } from "@fortawesome/free-solid-svg-icons";
-import SelectAlt from "./SelectAlt.vue";
+import SelectField from "./SelectField.vue";
 
 interface TagSelecterProps {
   selected: number;

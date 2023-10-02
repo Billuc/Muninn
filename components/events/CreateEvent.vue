@@ -12,6 +12,7 @@
           v-model:duration="duration"
           v-model:frequency="frequency"
           v-model:tag-id="tagId"
+          ref="form"
         />
       </template>
       <template #actions>
@@ -32,6 +33,7 @@ import { addMinutes } from "date-fns";
 
 const store = useEventStore();
 const isOpened = ref(false);
+const form = ref<InstanceType<typeof EventForm> | null>(null);
 
 const title = ref("");
 const date = ref("");
@@ -44,6 +46,8 @@ const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
 const newEvent = () => {
+  if (!form.value?.validate()) return;
+
   store.newEvent({
     title: title.value,
     frequency: frequency.value,

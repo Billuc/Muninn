@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { format } from "date-fns";
-import TagVue from "../Tag.vue";
+import TagVue from "../TagVue.vue";
 import { Tag } from "~/models/Tag";
 
 interface CalendarEventProps {
