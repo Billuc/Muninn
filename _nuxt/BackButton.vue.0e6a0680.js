@@ -1,1 +1,0 @@
-import{g as t,b_ as n,o as c,q as r,h as l,cb as p,M as m}from"./entry.fba0ea98.js";const f=t({__name:"BackButton",props:{to:{},toParams:{},label:{}},setup(o){const a=o,s=n(),e=()=>s.push({name:a.to,params:a.toParams});return(u,_)=>(c(),r(m,{icon:l(p),label:a.label??"Back",class:"btn-ghost",onClick:e},null,8,["icon","label"]))}});export{f as _};
