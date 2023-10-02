@@ -14,8 +14,9 @@
       "
     >
       <CalendarCard
-        v-model:date="date"
+        :date="props.date"
         :tag-filter="props.tagFilter"
+        @update:date="updateDate"
         :class="
           mergeClasses(
             'px-4',
@@ -27,7 +28,7 @@
         "
       />
       <CalendarEvents
-        :day="date"
+        :day="props.date"
         :tag-filter="props.tagFilter"
         :class="mergeClasses('md:col-span-2', 'rounded-box')"
       />
@@ -45,9 +46,11 @@ import _ from "lodash";
 
 interface CalendarProps {
   tagFilter: number;
+  date: Date;
 }
 
 const props = defineProps<CalendarProps>();
+const emit = defineEmits(["update:date"]);
 
-const date = ref(new Date());
+const updateDate = (newDate: Date) => emit("update:date", newDate);
 </script>

@@ -5,13 +5,13 @@
     @update:value="selectMonth"
   >
     <template #option="{ option, onSelect, selected }">
-      <div :class="mergeClasses('bg-base-300')" @click="onSelect">
+      <div @click="onSelect">
         <div
           :class="
             mergeClasses(
               'py-2',
               'font-semibold',
-              'bg-base-200',
+              'bg-base-100',
               'hover:bg-base-300',
               'mx-auto',
               'w-40',

@@ -5,13 +5,13 @@
     @update:value="selectYear"
   >
     <template #option="{ option, onSelect, selected }">
-      <div :class="mergeClasses('bg-base-300')" @click="onSelect">
+      <div @click="onSelect">
         <div
           :class="
             mergeClasses(
               'py-2',
               'font-semibold',
-              'bg-base-200',
+              'bg-base-100',
               'hover:bg-base-300',
               'mx-auto',
               'w-20',
@@ -41,7 +41,6 @@ interface YearSelectProps {
 
 const props = defineProps<YearSelectProps>();
 const emit = defineEmits(["update:year"]);
-const { year } = toRefs(props);
 
 const yearOptions = _.range(1970, 2100).map((y) => ({
   text: y.toString(),
