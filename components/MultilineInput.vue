@@ -17,9 +17,7 @@
     contenteditable
     tabindex="0"
     ref="input"
-  >
-    {{ value }}
-  </div>
+  ></div>
 </template>
 
 <script setup lang="ts">
@@ -38,11 +36,11 @@ const onUpdate = (ev: any) => {
   const text: string = ev.target?.innerText;
 
   if (
-    detectEnter &&
+    detectEnter.value &&
     (ev.inputType === "insertParagraph" ||
-      (ev.inputType === "insertText" && text.endsWith("\n")))
+      (ev.inputType === "insertText" && text.includes("\n")))
   ) {
-    emit("enter", text.trim());
+    emit("enter", text.replaceAll("\n", ""));
     reset();
   } else {
     emit("update:value", text);
@@ -55,24 +53,13 @@ const reset = () => {
 const blur = () => input.value?.blur();
 defineExpose({ blur });
 
+onMounted(() => {
+  input.value!.innerText = value.value;
+});
+
 watch([value], () => {
-  const range = document!.getSelection()!.getRangeAt(0);
-  const pos = range.endOffset;
-
-  input.value!.innerHTML = value.value;
-  
-  const newRange = document.createRange();
-  const selection = window.getSelection()!;
-  const node = input.value!.childNodes[0];
-  
-  console.log(range, node);
-
-  selection.removeAllRanges();
-
-  if (!!node) {
-    newRange.setStart(node, pos > node.textContent!.length ? 0 : pos);
-    newRange.collapse(true);
-    selection.addRange(newRange);
+  if (value.value !== input.value?.innerText) {
+    input.value!.innerText = value.value;
   }
 });
 </script>
