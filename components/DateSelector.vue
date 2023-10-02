@@ -3,8 +3,9 @@
     :label="props.label"
     type="date"
     pattern="\d{4}-\d{2}-\d{2}"
-    @change="onChange"
+    @update:value="onChange"
     :value="valueAsString"
+    input-class="input input-primary input-sm"
   />
 </template>
 
@@ -18,15 +19,13 @@ interface DateSelectorProps {
 }
 
 const props = defineProps<DateSelectorProps>();
-const emit = defineEmits(["input"]);
+const emit = defineEmits(["update:value"]);
 
-const { value } = toRefs(props);
-const valueAsString = computed(() => format(value.value, "yyyy-MM-dd"));
+const valueAsString = computed(() => format(props.value, "yyyy-MM-dd"));
 
-function onChange(ev: any) {
-  const newValue = ev.target?.value;
+function onChange(newValue: string) {
   const newDateValue = parse(newValue, "yyyy-MM-dd", new Date());
 
-  if (!isNaN(newDateValue.valueOf())) emit("input", newDateValue);
+  if (!isNaN(newDateValue.valueOf())) emit("update:value", newDateValue);
 }
 </script>

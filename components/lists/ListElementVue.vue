@@ -4,26 +4,28 @@
       mergeClasses('m-0', 'flex', 'flex-nowrap', 'items-start', 'gap-x-2')
     "
   >
-    <div class="flex flex-nowrap, items-center gap-x-2">
-      <FontAwesomeIcon :icon="faBars" class="handle cursor-pointer" />
+    <div class="flex flex-nowrap items-center gap-x-4">
+      <FontAwesomeIcon :icon="faBars" class="handle cursor-pointer" size="lg" />
       <Checkbox
-        :value="element.done"
-        @input="updateDone"
+        :value="done"
+        @update:value="updateDone"
         class="checkbox-primary"
         ref="checkbox"
       />
     </div>
-    <MultilineField
-      :value="element.title"
+    <MultilineInput
+      :value="title"
       placeholder="Write here..."
-      @input="debouncedUpdateTitle"
-      :class="{
-        'flex-grow': true,
-        '!leading-5': true,
-        'line-through': element.done,
-      }"
+      @update:value="updateTitle"
+      :class="
+        mergeClasses(
+          'flex-grow',
+          '!leading-5',
+          done ? 'line-through' : undefined
+        )
+      "
       detect-enter
-      @enter="updateTitleNow"
+      @enter="updateNow"
     />
     <Button
       v-if="element.id >= 0"
@@ -35,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import MultilineField from "../MultilineField.vue";
+import MultilineInput from "../MultilineInput.vue";
 import Checkbox from "../Checkbox.vue";
 import Button from "../Button.vue";
 import { faBars, faRemove } from "@fortawesome/free-solid-svg-icons";
@@ -51,36 +53,32 @@ interface ListElementVueProps {
 
 const props = defineProps<ListElementVueProps>();
 const store = useListStore();
+const checkbox = ref<InstanceType<typeof Checkbox> | null>(null);
 
-const { element } = toRefs(props);
-const checkbox = ref(null);
+const done = ref(props.element.done);
+const title = ref(props.element.title);
 
 const updateDone = (newDone: boolean) => {
-  store.editElement(
-    props.listId,
-    element.value.id,
-    element.value.title,
-    newDone
-  );
-  (checkbox.value as any)?.reset();
+  done.value = newDone;
+  debouncedUpdate();
+  // checkbox.value?.reset();
 };
 const updateTitle = (newTitle: string) => {
-  if (!newTitle) store.removeElement(props.listId, element.value.id);
-  else
-    store.editElement(
-      props.listId,
-      element.value.id,
-      newTitle,
-      element.value.done
-    );
+  title.value = newTitle;
+  debouncedUpdate();
 };
 const removeElement = () => {
-  store.removeElement(props.listId, element.value.id);
+  store.removeElement(props.listId, props.element.id);
 };
 
-const debouncedUpdateTitle = _.debounce(updateTitle, 2000);
-const updateTitleNow = (newTitle: string) => {
-  updateTitle(newTitle);
-  debouncedUpdateTitle.cancel();
+const update = () => {
+  if (!title.value) removeElement();
+  else
+    store.editElement(props.listId, props.element.id, title.value, done.value);
+};
+const debouncedUpdate = _.debounce(update, 2000);
+const updateNow = () => {
+  debouncedUpdate.cancel();
+  update();
 };
 </script>

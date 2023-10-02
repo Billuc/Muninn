@@ -1,11 +1,10 @@
 <template>
   <li class="m-0 marker:text-neutral">
     <div class="flex flex-nowrap">
-      <MultilineField
-        :value="elementText"
+      <MultilineInput
+        v-model:value="elementText"
         placeholder="Write here..."
         class="w-full"
-        @input="(v) => (elementText = v)"
         detect-enter
         @enter="update"
         @focus="focused = true"
@@ -23,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import MultilineField from "../MultilineField.vue";
+import MultilineInput from "../MultilineInput.vue";
 import _ from "lodash";
 import EntryActions from "./EntryActions.vue";
 

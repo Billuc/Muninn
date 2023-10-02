@@ -3,15 +3,13 @@
     <PageHeading><span>Journal</span></PageHeading>
     <Background :icon="faJournalWhills" />
 
-    <div class="flex flex-col items-center justify-center my-4 gap-2">
-      <div>
-        <DateSelector
-          :value="date"
-          @input="changeDate"
-          class="input-primary input-sm"
-        />
+    <div class="flex flex-col items-center justify-center my-4 gap-4">
+      <div class="flex flex-nowrap gap-x-4">
+        <DateSelector v-model:value="date" />
+        <Button @click="date = new Date()" class="btn-primary btn-outline">Today</Button>
       </div>
-      <DayOfWeekSelector :value="date" @input="changeDate" />
+      
+      <DayOfWeekSelector v-model:value="date" />
     </div>
 
     <DateDisplay :date="date" />
@@ -22,6 +20,7 @@
 
 <script setup lang="ts">
 import { faJournalWhills } from "@fortawesome/free-solid-svg-icons";
+import Button from "~/components/Button.vue";
 import DateSelector from "~/components/DateSelector.vue";
 import DateDisplay from "~/components/journal/DateDisplay.vue";
 import DayOfWeekSelector from "~/components/journal/DayOfWeekSelector.vue";
@@ -34,8 +33,4 @@ useHead({
 });
 
 const date = ref(new Date());
-
-function changeDate(newDate: Date) {
-  date.value = newDate;
-}
 </script>

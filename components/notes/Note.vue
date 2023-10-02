@@ -1,6 +1,6 @@
 <template>
   <div :class="mergeClasses('flex', 'flex-col', 'flex-nowrap', 'gap-y-2')">
-    <MultilineField
+    <MultilineInput
       :value="note.text"
       placeholder="Write here..."
       @input="debouncedUpdateNoteText"
@@ -15,6 +15,7 @@
 import { useNoteStore } from "~/stores/noteStore";
 import _ from "lodash";
 import { Note } from "~/models/Note";
+import MultilineInput from "../MultilineInput.vue";
 
 interface NoteProps {
   note: Note;

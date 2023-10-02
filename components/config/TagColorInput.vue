@@ -39,7 +39,7 @@ interface TagColorInputProps {
 }
 
 const props = defineProps<TagColorInputProps>();
-const emit = defineEmits(["input"]);
+const emit = defineEmits(["update:value"]);
 
 const colorOptions = computed(() =>
   _(Object.values(TagColor))
@@ -49,7 +49,5 @@ const colorOptions = computed(() =>
     .value()
 );
 
-const onInput = (v: TagColor) => {
-  emit("input", v);
-};
+const onInput = (v: TagColor) => emit("update:value", v);
 </script>

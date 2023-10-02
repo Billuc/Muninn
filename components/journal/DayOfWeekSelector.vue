@@ -41,7 +41,7 @@ interface DayOfWeekSelectorProps {
 }
 
 const props = defineProps<DayOfWeekSelectorProps>();
-const emit = defineEmits(["input"]);
+const emit = defineEmits(["update:value"]);
 
 const daysOfWeek = eachDayOfInterval({
   start: startOfWeek(props.value, { weekStartsOn: 1 }),
@@ -51,7 +51,5 @@ const daysOfWeek = eachDayOfInterval({
 const getDay = (date: Date) => format(date, "EEE");
 const getDate = (date: Date) => date.getDate();
 
-function onClick(newValue: Date) {
-  emit("input", newValue);
-}
+const onClick = (newValue: Date) => emit("update:value", newValue);
 </script>

@@ -1,26 +1,24 @@
 <template>
   <li class="m-0 marker:text-base-300">
-    <MultilineField
-      :value="elementText"
+    <MultilineInput
+      v-model:value="elementText"
       placeholder="Write here..."
-      @input="(v) => (elementText = v)"
       class="w-full"
       detect-enter
-      @enter="addEntry"
+      @enter="newEntry"
     />
   </li>
 </template>
 
 <script setup lang="ts">
-import MultilineField from "../MultilineField.vue";
-import _ from "lodash";
+import MultilineInput from "../MultilineInput.vue";
 
-const emit = defineEmits(["input"]);
+const emit = defineEmits(["new-entry"]);
 
 const elementText = ref("");
 
-const addEntry = (newValue: string) => {
-  emit("input", newValue.trim());
+const newEntry = (newValue: string) => {
+  emit("new-entry", newValue.trim());
   elementText.value = "";
 };
 </script>

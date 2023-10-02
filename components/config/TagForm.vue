@@ -11,9 +11,9 @@
     <TagColorInput
       :disabled-colors="props.disabledColors"
       :value="props.color"
-      @input="setColor"
+      @update:value="setColor"
     />
-    <IconInput :icon="props.icon" @input="setIcon" />
+    <IconInput :icon="props.icon" @update:icon="setIcon" />
   </Form>
 </template>
 

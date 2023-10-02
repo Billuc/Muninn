@@ -43,7 +43,7 @@ interface IconInputProps {
 }
 
 const props = defineProps<IconInputProps>();
-const emit = defineEmits(["input"]);
+const emit = defineEmits(["update:icon"]);
 
 const SEPARATOR = "___";
 const serialize = (icon: string[]) => _.join(icon, SEPARATOR);
@@ -59,5 +59,5 @@ const iconOptions = _([...Object.values(fas), ...Object.values(fab)])
   .uniqBy((tv) => tv.value)
   .value();
 
-const onInput = (v: string) => emit("input", deserialize(v));
+const onInput = (v: string) => emit("update:icon", deserialize(v));
 </script>

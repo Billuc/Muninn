@@ -12,19 +12,19 @@
 <script setup lang="ts">
 interface CheckboxProps {
   value: boolean;
-  disabled?: boolean
+  disabled?: boolean;
 }
 
 var props = defineProps<CheckboxProps>();
-var emit = defineEmits(["input"]);
-var checkbox = ref(null);
+var emit = defineEmits(["update:value"]);
+var checkbox = ref<HTMLInputElement | null>(null);
 
 function onInput(ev: any) {
-  emit("input", ev.target.checked);
+  emit("update:value", ev.target.checked);
 }
 
 const reset = () => {
-  (checkbox.value as unknown as HTMLInputElement).checked = props.value;
+  if (checkbox.value) checkbox.value.checked = props.value;
 };
 defineExpose({ reset });
 </script>

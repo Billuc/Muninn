@@ -7,7 +7,7 @@
       @remove="() => removeEntry(index)"
       :key="`entry-${index}`"
     />
-    <AddEntry @input="(v) => newEntry(v)" />
+    <AddEntry @new-entry="(v) => newEntry(v)" />
   </ul>
 </template>
 

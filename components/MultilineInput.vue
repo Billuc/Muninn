@@ -1,59 +1,76 @@
 <template>
-  <Input
-    :class="mergeClasses('h-fit', 'min-h-[3rem]', props.class)"
-    type="text"
-    :label="props.label"
-    :clearable="props.clearable"
-    :placeholder="props.placeholder"
-    :value="props.value"
-    @clear="onClear"
+  <div
+    :class="
+      mergeClasses(
+        'focus:outline-0',
+        'm-0',
+        'leading-normal',
+        'whitespace-pre-wrap',
+        'empty:before:content-[attr(placeholder)]',
+        'empty:before:text-sm',
+        'empty:before:opacity-75',
+        'empty:before:cursor-text'
+      )
+    "
+    @input="onUpdate"
+    :placeholder="placeholder || ''"
+    contenteditable
+    tabindex="0"
+    ref="input"
   >
-    <template #input="inputProps">
-      <textarea
-        v-bind="inputProps"
-        :class="
-          mergeClasses(
-            'focus:outline-none',
-            'flex-grow',
-            'leading-5',
-            'resize-none',
-            'py-1',
-            'box-content'
-          )
-        "
-        @input="onInput"
-        rows="1"
-        ref="textarea"
-      />
-    </template>
-  </Input>
+    {{ value }}
+  </div>
 </template>
 
 <script setup lang="ts">
-import Input from "./Input.vue";
-
 interface MultilineInputProps {
-  label?: string;
   value: string;
+  detectEnter?: boolean;
   placeholder?: string;
-  class?: string;
-  clearable?: boolean;
 }
 
 const props = defineProps<MultilineInputProps>();
-const emit = defineEmits(["input"]);
-const { value } = toRefs(props);
-const textarea = ref(null);
+const emit = defineEmits(["update:value", "enter"]);
+const { value, placeholder, detectEnter } = toRefs(props);
+const input = ref<HTMLDivElement | null>(null);
 
-const onInput = (ev: any) => emit("input", ev.target.value);
-const onClear = (v: string) => emit("input", null);
+const onUpdate = (ev: any) => {
+  const text: string = ev.target?.innerText;
+
+  if (
+    detectEnter &&
+    (ev.inputType === "insertParagraph" ||
+      (ev.inputType === "insertText" && text.endsWith("\n")))
+  ) {
+    emit("enter", text.trim());
+    reset();
+  } else {
+    emit("update:value", text);
+  }
+};
+const reset = () => {
+  if (input.value) input.value.innerText = value.value;
+};
+
+const blur = () => input.value?.blur();
+defineExpose({ blur });
 
 watch([value], () => {
-  let numberOfLineBreaks = (value.value.match(/\n/g) || []).length;
-  // min-height + lines x line-height + padding + border
-  let newHeight = 20 + numberOfLineBreaks * 20;
+  const range = document!.getSelection()!.getRangeAt(0);
+  const pos = range.endOffset;
 
-  const textareaEl = textarea.value as unknown as HTMLTextAreaElement;
-  textareaEl.style.height = newHeight + "px";
+  input.value!.innerHTML = value.value;
+
+  const newRange = document.createRange();
+  const selection = window.getSelection()!;
+  const node = input.value!.childNodes[0];
+
+  selection.removeAllRanges();
+
+  if (!!node) {
+    newRange.setStart(node, pos > node.textContent!.length ? 0 : pos);
+    newRange.collapse(true);
+    selection.addRange(newRange);
+  }
 });
 </script>
