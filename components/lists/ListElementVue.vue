@@ -60,8 +60,8 @@ const title = ref(props.element.title);
 
 const updateDone = (newDone: boolean) => {
   done.value = newDone;
+  checkbox.value?.reset();
   debouncedUpdate();
-  // checkbox.value?.reset();
 };
 const updateTitle = (newTitle: string) => {
   title.value = newTitle;

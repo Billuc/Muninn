@@ -10,6 +10,7 @@
       v-model:value="elementText"
       placeholder="Write here..."
       class="w-full"
+      detect-enter
       @enter="addElement"
     />
     <Button :icon="faPlus" class="btn-circle !btn-xs" @click="addElement" />
