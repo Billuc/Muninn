@@ -17,7 +17,11 @@
         :onInput="onInput"
         :value="props.value"
       >
-        <input @input="onInput" :class="inputClass" :value="props.value" />
+        <input
+          @input="(ev: any) => onInput(ev.target.value)"
+          :class="inputClass"
+          :value="props.value"
+        />
       </slot>
 
       <slot name="clearable" :clearable="props.clearable">
@@ -71,7 +75,7 @@ const inputClass = computed(() =>
 );
 
 const clear = () => emit("clear");
-const onInput = (ev: any) => emit("update:value", ev.target.value);
+const onInput = (v: string) => emit("update:value", v);
 
 onMounted(() => {
   if (form) form.bind(getCurrentInstance()!.uid, valid);

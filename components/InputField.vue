@@ -11,8 +11,8 @@
     <template #input="{ inputClass, onInput, value }">
       <input
         :type="props.type ?? 'text'"
-        :value="props.value"
-        @input="onInput"
+        :value="value"
+        @input="(ev: any) => onInput(ev.target.value)"
         :class="inputClass"
         :pattern="props.pattern"
         :placeholder="props.placeholder"

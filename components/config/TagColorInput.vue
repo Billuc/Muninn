@@ -6,6 +6,7 @@
     :value="props.value"
     :options="colorOptions"
     @update:value="onInput"
+    :rules="rules"
   >
     <template #selected="{ selected }">
       <TagVue
@@ -36,11 +37,17 @@ import SelectField from "../SelectField.vue";
 interface TagColorInputProps {
   disabledColors: TagColor[];
   value: TagColor;
+  required?: boolean;
 }
 
 const props = defineProps<TagColorInputProps>();
 const emit = defineEmits(["update:value"]);
 
+const rules = computed(() =>
+  props.required
+    ? [(v: string) => !!v, (v: string) => !props.disabledColors.includes(v as TagColor)]
+    : [(v: string) => !props.disabledColors.includes(v as TagColor)]
+);
 const colorOptions = computed(() =>
   _(Object.values(TagColor))
     .chain()

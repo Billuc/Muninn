@@ -60,10 +60,12 @@ watch([value], () => {
   const pos = range.endOffset;
 
   input.value!.innerHTML = value.value;
-
+  
   const newRange = document.createRange();
   const selection = window.getSelection()!;
   const node = input.value!.childNodes[0];
+  
+  console.log(range, node);
 
   selection.removeAllRanges();
 

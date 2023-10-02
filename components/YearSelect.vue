@@ -2,6 +2,7 @@
   <SelectDropdown
     :options="yearOptions"
     :value="props.year.toString()"
+    label-class="font-semibold"
     @update:value="selectYear"
   >
     <template #option="{ option, onSelect, selected }">

@@ -5,7 +5,7 @@
       placeholder="Enter name..."
       :value="props.title"
       :icon="faFont"
-      @input="setTitle"
+      @update:value="setTitle"
       :rules="[(v) => !!v]"
     />
     <InputField
@@ -14,7 +14,7 @@
       placeholder="Enter name..."
       :value="date"
       :icon="faCalendar"
-      @input="setDate"
+      @update:value="setDate"
       :rules="[(v) => !!v]"
     />
     <InputField
@@ -23,7 +23,7 @@
       placeholder="Enter name..."
       :value="time"
       :icon="faClock"
-      @input="setTime"
+      @update:value="setTime"
       :rules="[(v) => !!v]"
     />
     <InputField
@@ -32,7 +32,7 @@
       placeholder="Enter name..."
       :value="duration"
       :icon="faClockRotateLeft"
-      @input="setDuration"
+      @update:value="setDuration"
     />
     <SelectField
       label="Frequency"
@@ -40,6 +40,7 @@
       :options="frequencyOptions"
       :value="frequency"
       @update:value="setFrequency"
+      :rules="[(v) => !!v]"
     />
     <TagSelecter
       :tags="store.tagArray"

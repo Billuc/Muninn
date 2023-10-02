@@ -1,9 +1,9 @@
 <template>
   <div :class="mergeClasses('flex', 'flex-col', 'flex-nowrap', 'gap-y-2')">
     <MultilineInput
-      :value="note.text"
+      :value="noteText"
       placeholder="Write here..."
-      @input="debouncedUpdateNoteText"
+      @update:value="updateNoteText"
       :class="
         mergeClasses('textarea', 'textarea-md', 'bg-base-200', 'shadow-md')
       "
@@ -22,11 +22,22 @@ interface NoteProps {
 }
 
 const props = defineProps<NoteProps>();
-const { note } = toRefs(props);
 const store = useNoteStore();
 
-function updateNoteText(newText: string) {
-  store.editNote(note.value.id, note.value.title, newText, note.value.tagId);
+const noteText = ref(props.note.text);
+
+const updateNoteText = (newText: string) => {
+  noteText.value = newText;
+  debouncedUpdateNote();
+};
+
+function updateNote() {
+  store.editNote(
+    props.note.id,
+    props.note.title,
+    noteText.value,
+    props.note.tagId
+  );
 }
-const debouncedUpdateNoteText = _.debounce(updateNoteText, 2000);
+const debouncedUpdateNote = _.debounce(updateNote, 2000);
 </script>

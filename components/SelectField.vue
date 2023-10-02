@@ -4,15 +4,18 @@
     :clearable="props.clearable"
     :label="props.label"
     :value="props.value"
+    :rules="props.rules"
     @clear="clear"
+    @update:value="select"
   >
-    <template #input="{ value }">
+    <template #input="{ value, inputClass, onInput }">
       <SelectDropdown
         class="flex-shrink"
         :options="props.options"
         :value="value"
         :placeholder="props.placeholder"
-        @update:value="select"
+        :label-class="inputClass"
+        @update:value="onInput"
       >
         <template #selected="selectedProps">
           <slot name="selected" v-bind="selectedProps"></slot>
@@ -51,6 +54,7 @@ interface SelectFieldProps {
   options: SelectOption[];
   value: string;
   placeholder?: string;
+  rules?: ((v: string) => boolean)[];
 }
 
 const props = defineProps<SelectFieldProps>();

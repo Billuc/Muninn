@@ -6,15 +6,9 @@
         tabindex="0"
         :class="
           mergeClasses(
-            'focus:outline-none',
-            'bg-base-200',
-            'focus:bg-base-300',
-            'text-end',
-            'font-semibold',
-            'rounded-box',
-            'px-2',
             'w-full',
-            'block'
+            'block',
+            props.labelClass
           )
         "
       >
@@ -114,6 +108,7 @@ interface SelectDropdownProps {
   options: SelectOption[];
   value: string;
   placeholder?: string;
+  labelClass?: string;
 }
 
 const props = defineProps<SelectDropdownProps>();

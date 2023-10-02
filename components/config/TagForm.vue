@@ -5,13 +5,14 @@
       placeholder="Enter name..."
       :icon="faFont"
       :value="props.title"
-      @input="setTitle"
+      @update:value="setTitle"
       :rules="[(v) => !!v]"
     />
     <TagColorInput
       :disabled-colors="props.disabledColors"
       :value="props.color"
       @update:value="setColor"
+      required
     />
     <IconInput :icon="props.icon" @update:icon="setIcon" />
   </Form>

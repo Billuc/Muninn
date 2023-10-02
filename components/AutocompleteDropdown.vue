@@ -6,15 +6,9 @@
         tabindex="0"
         :class="
           mergeClasses(
-            'focus:outline-none',
-            'bg-base-200',
-            'focus:bg-base-300',
-            'text-end',
-            'font-semibold',
-            'rounded-box',
-            'px-2',
             'w-full',
-            'block'
+            'block',
+            props.labelClass
           )
         "
         @focus="onLabelFocus"
@@ -140,6 +134,7 @@ interface AutocompleteDropdownProps {
   value: string;
   placeholder?: string;
   options: AutocompleteOption[];
+  labelClass?: string;
 }
 
 const props = defineProps<AutocompleteDropdownProps>();

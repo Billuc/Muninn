@@ -5,7 +5,7 @@
       placeholder="Enter name..."
       :value="props.name"
       :icon="faFont"
-      @input="setName"
+      @update:value="setName"
       :rules="[(v) => !!v]"
     />
   </Form>

@@ -4,15 +4,18 @@
     :label="props.label"
     :clearable="props.clearable"
     :value="props.value"
+    :rules="props.rules"
     @clear="clear"
+    @update:value="select"
   >
-    <template #input="{ value }">
+    <template #input="{ value, onInput, inputClass }">
       <AutocompleteDropdown
         class="flex-shrink"
         :options="props.options"
         :value="value"
         :placeholder="props.placeholder"
-        @update:value="select"
+        :label-class="inputClass"
+        @update:value="onInput"
         @new-option="newOption"
       >
         <template #selected="selectedProps">
@@ -52,6 +55,7 @@ interface AutocompleteFieldProps {
   options: AutocompleteOption[];
   value: string;
   placeholder?: string;
+  rules?: ((v: string) => boolean)[];
 }
 
 const props = defineProps<AutocompleteFieldProps>();

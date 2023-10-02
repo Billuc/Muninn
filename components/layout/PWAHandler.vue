@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <div v-if="showPrompt" class="toast z-20">
-      <div class="alert alert-warning whitespace-pre-wrap">
+      <div class="alert alert-info gap-2 whitespace-pre-wrap">
         <div>{{ message }}</div>
 
         <div>
@@ -10,24 +10,24 @@
               v-if="needRefresh"
               @click="() => $pwa.updateServiceWorker()"
               :icon="faRotateRight"
-              class="ml-2"
+              class="ml-2 btn-warning"
             />
             <Button
               @click="() => $pwa.cancelPrompt()"
               :icon="faRemove"
-              class="ml-2"
+              class="ml-2 btn-warning"
             />
           </template>
           <template v-else-if="showInstall">
             <Button
               @click="() => $pwa.install()"
               :icon="faDownload"
-              class="ml-2"
+              class="ml-2 btn-warning"
             />
             <Button
               @click="() => $pwa.cancelInstall()"
               :icon="faRemove"
-              class="ml-2"
+              class="ml-2 btn-warning"
             />
           </template>
         </div>

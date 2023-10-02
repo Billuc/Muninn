@@ -2,6 +2,7 @@
   <SelectDropdown
     :options="monthOptions"
     :value="props.month.toString()"
+    label-class="font-semibold"
     @update:value="selectMonth"
   >
     <template #option="{ option, onSelect, selected }">
