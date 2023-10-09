@@ -16,7 +16,7 @@
     </PageHeading>
     <Background :icon="faCheckSquare" />
 
-    <div :class="mergeClasses('flex', 'justify-end', 'gap-x-1', 'my-6')">
+    <div :class="mergeClasses('flex', 'justify-center', 'gap-x-2', 'mb-10', '-mt-4')">
       <ShowCheckedToggle
         :hide-checked="hideChecked"
         @update:hide-checked="(v) => (hideChecked = v)"
@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { faCheckSquare } from "@fortawesome/free-solid-svg-icons";
-import BackButton from "~/components/journal/BackButton.vue";
+import BackButton from "~/components/layout/BackButton.vue";
 import Background from "~/components/layout/Background.vue";
 import PageHeading from "~/components/layout/PageHeading.vue";
 import ClearCheckedButton from "~/components/lists/ClearCheckedButton.vue";

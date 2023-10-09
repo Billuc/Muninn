@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
 import TagVue from "~/components/TagVue.vue";
-import BackButton from "~/components/journal/BackButton.vue";
+import BackButton from "~/components/layout/BackButton.vue";
 import Background from "~/components/layout/Background.vue";
 import PageHeading from "~/components/layout/PageHeading.vue";
 import DeleteNote from "~/components/notes/DeleteNote.vue";

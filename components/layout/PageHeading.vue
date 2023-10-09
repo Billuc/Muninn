@@ -2,11 +2,9 @@
   <div
     :class="
       mergeClasses(
+        'page-heading',
         'w-full',
-        'flex',
-        'flex-wrap',
-        'justify-center',
-        'items-center',
+        'text-center',
         'mb-6',
         'md:mb-8'
       )
@@ -23,3 +21,9 @@
 </template>
 
 <script setup lang="ts"></script>
+
+<style>
+.page-heading * {
+  display: inline;
+}
+</style>

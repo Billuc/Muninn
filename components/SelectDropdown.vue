@@ -7,7 +7,8 @@
         :class="
           mergeClasses(
             'w-full',
-            'block',
+            'inline-block',
+            'truncate',
             props.labelClass
           )
         "

@@ -2,7 +2,7 @@
   <Button
     :icon="faAnglesLeft"
     :label="props.label ?? 'Back'"
-    class="btn-ghost"
+    class="back-button btn-ghost"
     @click="onClick"
   ></Button>
 </template>
@@ -22,3 +22,9 @@ const router = useRouter();
 
 const onClick = () => router.push({ name: props.to, params: props.toParams });
 </script>
+
+<style>
+.page-heading .back-button {
+  display: inline-flex;
+}
+</style>

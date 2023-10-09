@@ -10,7 +10,7 @@
       </slot>
     </div>
 
-    <div class="flex w-52">
+    <div class="flex flex-nowrap flex-shrink flex-grow max-w-[13rem]">
       <slot
         name="input"
         :inputClass="inputClass"
@@ -68,7 +68,7 @@ const inputClass = computed(() =>
     "font-semibold",
     "rounded-box",
     "px-2",
-    "w-52",
+    "w-full",
     "flex-shrink",
     !valid.value ? "border border-error" : undefined
   )

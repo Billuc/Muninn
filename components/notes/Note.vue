@@ -1,5 +1,9 @@
 <template>
-  <div :class="mergeClasses('flex', 'flex-col', 'flex-nowrap', 'gap-y-2')">
+  <div
+    :class="
+      mergeClasses('relative', 'flex', 'flex-col', 'flex-nowrap', 'gap-y-2')
+    "
+  >
     <MultilineInput
       :value="noteText"
       placeholder="Write here..."
