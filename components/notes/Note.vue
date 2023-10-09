@@ -4,13 +4,10 @@
       mergeClasses('relative', 'flex', 'flex-col', 'flex-nowrap', 'gap-y-2')
     "
   >
-    <MultilineInput
+    <MarkdownEditor
       :value="noteText"
       placeholder="Write here..."
       @update:value="updateNoteText"
-      :class="
-        mergeClasses('textarea', 'textarea-md', 'bg-base-200', 'shadow-md')
-      "
     />
   </div>
 </template>
@@ -19,7 +16,7 @@
 import { useNoteStore } from "~/stores/noteStore";
 import _ from "lodash";
 import { Note } from "~/models/Note";
-import MultilineInput from "../MultilineInput.vue";
+import MarkdownEditor from "../MarkdownEditor.vue";
 
 interface NoteProps {
   note: Note;
