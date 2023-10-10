@@ -1,0 +1,1 @@
+import{g as s,b_ as n,o as c,q as l,h as r,cb as _,K as u}from"./entry.b18e108e.js";const i=s({__name:"BackButton",props:{to:{},toParams:{},label:{}},setup(t){const a=t,o=n(),e=()=>o.push({name:a.to,params:a.toParams});return(p,m)=>(c(),l(u,{icon:r(_),label:a.label??"Back",class:"back-button btn-ghost",onClick:e},null,8,["icon","label"]))}});export{i as _};
