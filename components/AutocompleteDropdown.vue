@@ -1,122 +1,72 @@
 <template>
-  <div class="w-52">
-    <div class="my-autocomplete peer">
-      <label
-        ref="label"
-        tabindex="0"
-        :class="props.labelClass"
-        @focus="onLabelFocus"
-      >
-        <template v-if="selected">
-          <slot name="selected" :selected="selected">
-            <span>{{ selected.text }}</span>
-          </slot>
-        </template>
-        <template v-else>
-          <slot name="placeholder" :placeholder="props.placeholder">
-            <span class="opacity-50">{{ props.placeholder }}</span>
-          </slot>
-        </template>
-      </label>
+  <Dropdown :label-class="props.labelClass" ref="dropdown" @focus="onFocus">
+    <template #label>
+      <template v-if="selected">
+        <slot name="selected" :selected="selected">
+          <span>{{ selected.text }}</span>
+        </slot>
+      </template>
+      <template v-else>
+        <slot name="placeholder" :placeholder="props.placeholder">
+          <span class="opacity-50">{{ props.placeholder }}</span>
+        </slot>
+      </template>
+    </template>
 
-      <div
-        ref="dropdown"
-        tabindex="0"
-        :class="
+    <template #content>
+      <Input
+        ref="input"
+        v-model:value="search"
+        :input-class="
           mergeClasses(
-            'my-autocomplete-content',
+            'focus:outline-none',
             'bg-base-200',
-            'min-w-full',
+            'focus:bg-base-300',
             'rounded-box',
-            'text-center',
-            'md:text-end',
-            'fixed',
-            'md:absolute',
-            'bottom-0',
-            'left-0',
-            'md:bottom-auto',
-            'md:left-auto',
-            'max-h-56',
-            'overflow-y-auto',
-            'overflow-x-visible',
-            'shadow-xl',
-            'p-2'
+            'px-2',
+            'w-full',
+            'block',
+            'mb-2'
           )
         "
-      >
-        <Input
-          ref="input"
-          v-model:value="search"
-          :input-class="
-            mergeClasses(
-              'focus:outline-none',
-              'bg-base-200',
-              'focus:bg-base-300',
-              'rounded-box',
-              'px-2',
-              'w-full',
-              'block',
-              'mb-2'
-            )
-          "
-          placeholder="Search for icons..."
-          clearable
-          @clear="search = ''"
-        />
+        placeholder="Search for icons..."
+        clearable
+        @clear="search = ''"
+      />
 
-        <template v-if="filteredOptions.length > 0">
-          <div v-for="(opt, i) in filteredOptions" :key="'option-' + i">
-            <slot
-              name="option"
-              :option="opt"
-              :onSelect="() => select(opt)"
-              :selected="opt.value === props.value"
+      <template v-if="filteredOptions.length > 0">
+        <div v-for="(opt, i) in filteredOptions" :key="'option-' + i">
+          <slot
+            name="option"
+            :option="opt"
+            :onSelect="() => select(opt)"
+            :selected="opt.value === props.value"
+          >
+            <div
+              @click="() => select(opt)"
+              class="px-2 rounded-box hover:bg-base-100"
+              :class="{ 'bg-base-100': opt.value === props.value }"
             >
-              <div
-                @click="() => select(opt)"
-                class="px-2 rounded-box hover:bg-base-100"
-                :class="{ 'bg-base-100': opt.value === props.value }"
-              >
-                {{ opt.text }}
-              </div>
-            </slot>
-          </div>
-        </template>
-
-        <template v-else>
-          <slot name="no-option" :createOption="createOption" :search="search">
-            <button @click="() => createOption(search)">
-              New option : {{ search }}
-            </button>
+              {{ opt.text }}
+            </div>
           </slot>
-        </template>
-      </div>
-    </div>
+        </div>
+      </template>
 
-    <label
-      tabindex="0"
-      :class="
-        mergeClasses(
-          'hidden',
-          'bg-black',
-          'opacity-0',
-          'peer-focus-within:block',
-          'peer-focus-within:opacity-20',
-          'md:peer-focus-within:hidden',
-          'fixed',
-          'bottom-0',
-          'left-0',
-          'right-0',
-          'h-screen',
-          'z-20'
-        )
-      "
-    ></label>
-  </div>
+      <template v-else>
+        <slot name="no-option" :createOption="createOption" :search="search">
+          <button @click="() => createOption(search)">
+            New option : {{ search }}
+          </button>
+        </slot>
+      </template>
+    </template>
+  </Dropdown>
 </template>
 
 <script setup lang="ts">
 import Input from "./Input.vue";
+import Dropdown from "./Dropdown.vue";
 import _ from "lodash";
 
 interface AutocompleteOption {
@@ -133,9 +83,8 @@ interface AutocompleteDropdownProps {
 
 const props = defineProps<AutocompleteDropdownProps>();
 const emit = defineEmits(["update:value", "newOption"]);
-const dropdown = ref(null);
-const label = ref(null);
-const input = ref(null);
+const dropdown = ref<InstanceType<typeof Dropdown> | null>(null);
+const input = ref<HTMLElement | null>(null);
 
 const search = ref("");
 
@@ -151,45 +100,11 @@ const filteredOptions = computed(() =>
   )
 );
 
-const onLabelFocus = () => {
-  (input.value as unknown as HTMLElement).focus();
-};
+const onFocus = () => input.value?.focus();
 const select = (opt: AutocompleteOption) => {
   emit("update:value", opt.value);
-  (dropdown.value as unknown as HTMLElement).blur();
-  (input.value as unknown as HTMLElement).blur();
-  (label.value as unknown as HTMLElement).blur();
+  dropdown.value?.blur();
+  input.value?.blur();
 };
 const createOption = (optionName: string) => emit("newOption", optionName);
 </script>
-
-<style>
-.my-autocomplete {
-  width: 100%;
-  position: relative;
-  display: inline-flex;
-}
-
-.my-autocomplete .my-autocomplete-content {
-  visibility: hidden;
-  opacity: 0;
-  transform-origin: top;
-  --tw-scale-x: 0.95;
-  --tw-scale-y: 0.95;
-  transform: scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
-    backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  transition-duration: 200ms;
-}
-
-.my-autocomplete:focus-within .my-autocomplete-content {
-  visibility: visible;
-  opacity: 1;
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  z-index: 30;
-}
-</style>
