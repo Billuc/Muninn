@@ -4,13 +4,7 @@
       <label
         ref="label"
         tabindex="0"
-        :class="
-          mergeClasses(
-            'w-full',
-            'block',
-            props.labelClass
-          )
-        "
+        :class="props.labelClass"
         @focus="onLabelFocus"
       >
         <template v-if="selected">
@@ -173,7 +167,7 @@ const createOption = (optionName: string) => emit("newOption", optionName);
 .my-autocomplete {
   width: 100%;
   position: relative;
-  display: inline-block;
+  display: inline-flex;
 }
 
 .my-autocomplete .my-autocomplete-content {

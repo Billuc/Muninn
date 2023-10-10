@@ -4,14 +4,7 @@
       <label
         ref="label"
         tabindex="0"
-        :class="
-          mergeClasses(
-            'w-full',
-            'inline-block',
-            'truncate',
-            props.labelClass
-          )
-        "
+        :class="props.labelClass"
       >
         <template v-if="selected">
           <slot name="selected" :selected="selected">
@@ -132,7 +125,7 @@ const select = (opt: string) => {
 .my-select {
   width: 100%;
   position: relative;
-  display: inline-block;
+  display: inline-flex;
 }
 
 .my-select .my-select-content {

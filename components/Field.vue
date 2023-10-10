@@ -10,7 +10,7 @@
       </slot>
     </div>
 
-    <div class="flex flex-nowrap flex-shrink flex-grow max-w-[13rem]">
+    <div class="flex flex-nowrap flex-shrink w-52">
       <slot
         name="input"
         :inputClass="inputClass"
@@ -68,8 +68,10 @@ const inputClass = computed(() =>
     "font-semibold",
     "rounded-box",
     "px-2",
-    "w-full",
+    "w-0",
+    "flex-grow",
     "flex-shrink",
+    "truncate",
     !valid.value ? "border border-error" : undefined
   )
 );

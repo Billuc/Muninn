@@ -10,7 +10,7 @@
   >
     <template #input="{ value, onInput, inputClass }">
       <AutocompleteDropdown
-        class="flex-shrink"
+        class="flex-shrink w-full"
         :options="props.options"
         :value="value"
         :placeholder="props.placeholder"
