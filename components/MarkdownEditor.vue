@@ -80,7 +80,7 @@ onMounted(() => {
     ...easyMDEOptions,
     element: document.getElementById(textareaId) ?? undefined,
   });
-  mde.value.codemirror.on("changes", () => {
+  mde.value.codemirror.on("change", () => {
     emit("update:value", mde.value!.value());
   });
 

@@ -23,7 +23,7 @@
 <script setup lang="ts"></script>
 
 <style>
-.page-heading * {
+.page-heading > * {
   display: inline;
 }
 </style>

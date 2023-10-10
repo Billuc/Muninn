@@ -15,13 +15,16 @@
         'bg-base-100',
         'shadow-xl',
         'relative',
-        'md:rounded-box'
+        'md:rounded-box',
+        'max-w-[100vw]'
       )
     "
   >
     <slot name="navbar"></slot>
 
-    <div :class="mergeClasses(wide ? 'max-w-full' : 'max-w-3xl', 'mx-auto')">
+    <div
+      :class="mergeClasses(props.wide ? 'max-w-full' : 'max-w-3xl', 'mx-auto')"
+    >
       <slot></slot>
     </div>
   </div>
