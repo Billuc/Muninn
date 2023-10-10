@@ -27,6 +27,7 @@
             'left-0',
             'md:bottom-auto',
             'md:left-auto',
+            'md:top-full',
             'max-h-56',
             'overflow-y-auto',
             'overflow-x-visible',

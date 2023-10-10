@@ -8,11 +8,8 @@ export function formatTime(date: Date) {
   return format(date, "HH:mm");
 }
 
-export function formatDuration(start: Date, end: Date) {
-  const duration = intervalToDuration({ start: start, end: end });
-  return `${("0" + duration.hours?.toString() ?? "0").slice(-2)}:${(
-    "0" + duration.minutes?.toString() ?? "0"
-  ).slice(-2)}`;
+export function getDuration(start: Date, end: Date) {
+  return intervalToDuration({ start: start, end: end });
 }
 
 export function parseDate(dateAsString: string) {
@@ -25,9 +22,4 @@ export function parseDateTime(dateAsString: string, timeAsString: string) {
     "yyyy-MM-dd'T'HH:mm",
     new Date()
   );
-}
-
-export function parseTimeAsMinutes(timeAsString: string) {
-  const time = parse(timeAsString, "HH:mm", new Date());
-  return 60 * time.getHours() + time.getMinutes();
 }

@@ -11,7 +11,7 @@
     <InputField
       type="date"
       label="Event Date"
-      placeholder="Enter name..."
+      placeholder="Enter date..."
       :value="date"
       :icon="faCalendar"
       @update:value="setDate"
@@ -20,19 +20,19 @@
     <InputField
       type="time"
       label="Event Time"
-      placeholder="Enter name..."
+      placeholder="Enter time..."
       :value="time"
       :icon="faClock"
       @update:value="setTime"
       :rules="[(v) => !!v]"
     />
-    <InputField
-      type="time"
+    <DurationField
       label="Event Duration"
-      placeholder="Enter name..."
-      :value="duration"
       :icon="faClockRotateLeft"
-      @update:value="setDuration"
+      :hours="props.hours"
+      :minutes="props.minutes"
+      @update:hours="setHours"
+      @update:minutes="setMinutes"
     />
     <SelectField
       label="Frequency"
@@ -66,12 +66,14 @@ import TagSelecter from "../TagSelecter.vue";
 import Form from "../Form.vue";
 import InputField from "../InputField.vue";
 import SelectField from "../SelectField.vue";
+import DurationField from "../DurationField.vue";
 
 interface EventFormProps {
   title: string;
   date: string;
   time: string;
-  duration: string;
+  hours: number;
+  minutes: number;
   frequency: Frequency;
   tagId: number;
 }
@@ -81,7 +83,8 @@ const emit = defineEmits([
   "update:title",
   "update:date",
   "update:time",
-  "update:duration",
+  "update:hours",
+  "update:minutes",
   "update:frequency",
   "update:tagId",
 ]);
@@ -96,7 +99,8 @@ const frequencyOptions = Object.entries(Frequency).map(([text, freq]) => ({
 const setTitle = (v: string) => emit("update:title", v);
 const setDate = (v: string) => emit("update:date", v);
 const setTime = (v: string) => emit("update:time", v);
-const setDuration = (v: string) => emit("update:duration", v);
+const setHours = (v: number) => emit("update:hours", v);
+const setMinutes = (v: number) => emit("update:minutes", v);
 const setFrequency = (v: Frequency) => emit("update:frequency", v);
 const setTagId = (v: number) => emit("update:tagId", v);
 

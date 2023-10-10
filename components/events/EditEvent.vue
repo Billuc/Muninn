@@ -6,7 +6,8 @@
         v-model:title="title"
         v-model:date="date"
         v-model:time="time"
-        v-model:duration="duration"
+        v-model:hours="hours"
+        v-model:minutes="minutes"
         v-model:frequency="frequency"
         v-model:tag-id="tagId"
         ref="form"
@@ -25,7 +26,7 @@ import { useEventStore } from "~/stores/eventStore";
 import { Event, Frequency } from "~/models/Event";
 import _ from "lodash";
 import EventForm from "./EventForm.vue";
-import { addMinutes } from "date-fns";
+import { addHours, addMinutes } from "date-fns";
 import { formatTime } from "~/utils/dates";
 
 interface EditEventProps {
@@ -41,7 +42,8 @@ const isOpened = computed(() => !!props.event);
 const title = ref("");
 const date = ref("");
 const time = ref("");
-const duration = ref("01:00");
+const hours = ref(1);
+const minutes = ref(0);
 const frequency = ref<Frequency>(Frequency.Once);
 const tagId = ref(-1);
 
@@ -56,8 +58,8 @@ const editEvent = () => {
     frequency: frequency.value,
     start: parseDateTime(date.value, time.value),
     end: addMinutes(
-      parseDateTime(date.value, time.value),
-      parseTimeAsMinutes(duration.value)
+      addHours(parseDateTime(date.value, time.value), hours.value),
+      minutes.value
     ),
     tagId: tagId.value,
   });
@@ -75,16 +77,23 @@ watchEffect(() => {
     title.value = props.event.title;
     date.value = formatDate(props.event.start);
     time.value = formatTime(props.event.start);
-    duration.value = !props.event.end
-      ? "00:00"
-      : formatDuration(props.event.start, props.event.end);
     frequency.value = props.event.frequency;
     tagId.value = props.event.tagId;
+
+    if (props.event.end) {
+      const duration = getDuration(props.event.start, props.event.end);
+      hours.value = duration.hours ?? 0;
+      minutes.value = duration.minutes ?? 0;
+    } else {
+      hours.value = 0;
+      minutes.value = 0;
+    }
   } else {
     title.value = "";
     date.value = "";
     time.value = "";
-    duration.value = "01:00";
+    hours.value = 1;
+    minutes.value = 0;
     frequency.value = Frequency.Once;
     tagId.value = -1;
   }
