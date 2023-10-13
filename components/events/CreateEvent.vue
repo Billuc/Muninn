@@ -9,8 +9,7 @@
           v-model:title="title"
           v-model:date="date"
           v-model:time="time"
-          v-model:hours="hours"
-          v-model:minutes="minutes"
+          v-model:duration="duration"
           v-model:frequency="frequency"
           v-model:tag-id="tagId"
           ref="form"
@@ -30,17 +29,15 @@ import Dialog from "../Dialog.vue";
 import { useEventStore } from "~/stores/eventStore";
 import { Frequency } from "~/models/Event";
 import EventForm from "./EventForm.vue";
-import { addHours, addMinutes } from "date-fns";
 
 const store = useEventStore();
 const isOpened = ref(false);
 const form = ref<InstanceType<typeof EventForm> | null>(null);
 
 const title = ref("");
-const date = ref("");
-const time = ref("");
-const hours = ref(1);
-const minutes = ref(0);
+const date = ref(formatDate(new Date()));
+const time = ref<[number?, number?]>([new Date().getHours() + 1, 0]);
+const duration = ref<[number?, number?]>([1, 0]);
 const frequency = ref<Frequency>(Frequency.Once);
 const tagId = ref(-1);
 
@@ -50,14 +47,13 @@ const closeModal = () => (isOpened.value = false);
 const newEvent = () => {
   if (!form.value?.validate()) return;
 
+  const start = parseDateTime(date.value, time.value);
+
   store.newEvent({
     title: title.value,
     frequency: frequency.value,
-    start: parseDateTime(date.value, time.value),
-    end: addMinutes(
-      addHours(parseDateTime(date.value, time.value), hours.value),
-      minutes.value
-    ),
+    start: start,
+    end: addDuration(start, duration.value),
     tagId: tagId.value,
   });
   closeModal();
@@ -66,9 +62,8 @@ const newEvent = () => {
 const reset = () => {
   title.value = "";
   date.value = "";
-  time.value = "";
-  hours.value = 1;
-  minutes.value = 0;
+  time.value = [undefined, undefined];
+  duration.value = [1, 0];
   frequency.value = Frequency.Once;
   tagId.value = -1;
 };

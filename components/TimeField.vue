@@ -3,12 +3,12 @@
     :icon="props.icon"
     :clearable="props.clearable"
     :label="props.label"
-    :value="durationValue"
+    :value="timeValue"
     @clear="clear"
     :rules="rules"
   >
     <template #input="{ inputClass }">
-      <DurationPicker
+      <TimePicker
         :hours="props.hours"
         :minutes="props.minutes"
         :label-class="inputClass"
@@ -23,9 +23,9 @@
 <script setup lang="ts">
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import Field from "./Field.vue";
-import DurationPicker from "./DurationPicker.vue";
+import TimePicker from "./TimePicker.vue";
 
-interface DurationFieldProps {
+interface TimeFieldProps {
   label?: string;
   clearable?: boolean;
   icon?: IconDefinition;
@@ -34,20 +34,20 @@ interface DurationFieldProps {
   required?: boolean;
 }
 
-const props = defineProps<DurationFieldProps>();
+const props = defineProps<TimeFieldProps>();
 const emit = defineEmits(["clear", "update:hours", "update:minutes"]);
 
 const clear = () => emit("clear");
 const onUpdateHours = (hour: number) => emit("update:hours", hour);
 const onUpdateMinutes = (minute: number) => emit("update:minutes", minute);
 
-const durationValue = computed(
+const timeValue = computed(
   () =>
     (props.hours === undefined ? "--" : ("00" + props.hours).slice(-2)) +
     ":" +
     (props.minutes === undefined ? "--" : ("00" + props.minutes).slice(-2))
 );
 
-const DURATION_REGEX = new RegExp("[0-9]{2}:[0-9]{2}");
-const rules = props.required ? [(v: string) => DURATION_REGEX.test(v)] : [];
+const TIME_REGEX = new RegExp("[0-9]{2}:[0-9]{2}");
+const rules = props.required ? [(v: string) => TIME_REGEX.test(v)] : [];
 </script>

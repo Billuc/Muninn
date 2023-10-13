@@ -15,17 +15,28 @@
       </div>
     </template>
 
-    <template #option="{ option, onSelect }">
-      <div @click="onSelect" class="hover:bg-base-100 rounded-box px-2">
+    <template #option="{ option, onSelect, selected }">
+      <div
+        @click="onSelect"
+        :class="
+          mergeClasses(
+            'hover:bg-base-100',
+            'rounded-box',
+            'px-2',
+            'flex',
+            'justify-between',
+            'items-center',
+            selected ? 'border border-neutral' : 'border-0'
+          )
+        "
+      >
         <FontAwesomeIcon :icon="deserialize(option.value)" />
         {{ option.text }}
       </div>
     </template>
 
     <template #no-option>
-      <div class="text-sm italic font-light text-center">
-        No icon found...
-      </div>
+      <div class="text-sm italic font-light text-center">No icon found...</div>
     </template>
   </AutocompleteField>
 </template>

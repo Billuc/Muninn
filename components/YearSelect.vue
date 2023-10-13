@@ -5,30 +5,6 @@
     label-class="font-semibold"
     @update:value="selectYear"
   >
-    <template #option="{ option, onSelect, selected }">
-      <div @click="onSelect">
-        <div
-          :class="
-            mergeClasses(
-              'py-2',
-              'font-semibold',
-              'bg-base-100',
-              'hover:bg-base-300',
-              'mx-auto',
-              'w-20',
-              'drop-shadow-xl',
-              'border-0',
-              'text-center',
-              'rounded-box',
-              'mb-1',
-              selected ? 'selected' : undefined
-            )
-          "
-        >
-          {{ option.text }}
-        </div>
-      </div>
-    </template>
   </SelectDropdown>
 </template>
 

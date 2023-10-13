@@ -6,8 +6,7 @@
         v-model:title="title"
         v-model:date="date"
         v-model:time="time"
-        v-model:hours="hours"
-        v-model:minutes="minutes"
+        v-model:duration="duration"
         v-model:frequency="frequency"
         v-model:tag-id="tagId"
         ref="form"
@@ -26,8 +25,6 @@ import { useEventStore } from "~/stores/eventStore";
 import { Event, Frequency } from "~/models/Event";
 import _ from "lodash";
 import EventForm from "./EventForm.vue";
-import { addHours, addMinutes } from "date-fns";
-import { formatTime } from "~/utils/dates";
 
 interface EditEventProps {
   event: Event | null;
@@ -41,9 +38,8 @@ const form = ref<InstanceType<typeof EventForm> | null>(null);
 const isOpened = computed(() => !!props.event);
 const title = ref("");
 const date = ref("");
-const time = ref("");
-const hours = ref(1);
-const minutes = ref(0);
+const time = ref<[number?, number?]>([undefined, undefined]);
+const duration = ref<[number?, number?]>([1, 0]);
 const frequency = ref<Frequency>(Frequency.Once);
 const tagId = ref(-1);
 
@@ -53,14 +49,13 @@ const editEvent = () => {
   if (!props.event) return;
   if (!form.value?.validate()) return;
 
+  const start = parseDateTime(date.value, time.value);
+
   store.editEvent(props.event.id, {
     title: title.value,
     frequency: frequency.value,
-    start: parseDateTime(date.value, time.value),
-    end: addMinutes(
-      addHours(parseDateTime(date.value, time.value), hours.value),
-      minutes.value
-    ),
+    start: start,
+    end: addDuration(start, duration.value),
     tagId: tagId.value,
   });
   close();
@@ -76,24 +71,21 @@ watchEffect(() => {
   if (props.event) {
     title.value = props.event.title;
     date.value = formatDate(props.event.start);
-    time.value = formatTime(props.event.start);
+    time.value = [props.event.start.getHours(), props.event.start.getMinutes()];
     frequency.value = props.event.frequency;
     tagId.value = props.event.tagId;
 
     if (props.event.end) {
-      const duration = getDuration(props.event.start, props.event.end);
-      hours.value = duration.hours ?? 0;
-      minutes.value = duration.minutes ?? 0;
+      const eventDuration = getDuration(props.event.start, props.event.end);
+      duration.value = [eventDuration.hours, eventDuration.minutes];
     } else {
-      hours.value = 0;
-      minutes.value = 0;
+      duration.value = [0, 0]
     }
   } else {
     title.value = "";
     date.value = "";
-    time.value = "";
-    hours.value = 1;
-    minutes.value = 0;
+    time.value = [undefined, undefined];
+    duration.value = [1, 0];
     frequency.value = Frequency.Once;
     tagId.value = -1;
   }

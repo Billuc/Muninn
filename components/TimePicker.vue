@@ -1,7 +1,7 @@
 <template>
   <Dropdown :label-class="props.labelClass">
     <template #label>
-      <span>{{ durationLabel }}</span>
+      <span>{{ timeLabel }}</span>
     </template>
 
     <template #content>
@@ -25,13 +25,13 @@
 import Dropdown from "./Dropdown.vue";
 import DropdownList from "./DropdownList.vue";
 
-interface DurationPickerProps {
+interface TimePickerProps {
   hours?: number;
   minutes?: number;
   labelClass: string;
 }
 
-const props = defineProps<DurationPickerProps>();
+const props = defineProps<TimePickerProps>();
 const emit = defineEmits(["update:hours", "update:minutes"]);
 
 const hourElements = [...Array(24)].map((v, i) => ({
@@ -43,7 +43,7 @@ const minuteElements = [...Array(12)].map((v, i) => ({
   value: 5 * i,
 }));
 
-const durationLabel = computed(
+const timeLabel = computed(
   () =>
     (props.hours === undefined ? "--" : ("00" + props.hours).slice(-2)) +
     ":" +

@@ -15,22 +15,21 @@
 
     <template #content>
       <template v-if="options.length > 0">
-        <div v-for="opt in props.options" :key="opt.value">
-          <slot
-            name="option"
-            :option="opt"
-            :onSelect="() => select(opt.value)"
-            :selected="opt.value === props.value"
-          >
-            <div
-              @click="() => select(opt.value)"
-              class="px-2 rounded-box hover:bg-base-100"
-              :class="{ 'bg-base-100': opt.value === props.value }"
+        <DropdownList
+          :elements="props.options"
+          :selected="props.value"
+          @select="select"
+        >
+          <template #element="{ element, onSelect, selected }">
+            <slot
+              name="option"
+              :option="element"
+              :onSelect="onSelect"
+              :selected="selected"
             >
-              {{ opt.text }}
-            </div>
-          </slot>
-        </div>
+            </slot>
+          </template>
+        </DropdownList>
       </template>
 
       <template v-else>
@@ -44,6 +43,7 @@
 
 <script setup lang="ts">
 import Dropdown from "./Dropdown.vue";
+import DropdownList from "./DropdownList.vue";
 
 interface SelectOption {
   text: string;

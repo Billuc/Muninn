@@ -17,22 +17,23 @@
       @update:value="setDate"
       :rules="[(v) => !!v]"
     />
-    <InputField
-      type="time"
+    <TimeField
       label="Event Time"
-      placeholder="Enter time..."
-      :value="time"
       :icon="faClock"
-      @update:value="setTime"
-      :rules="[(v) => !!v]"
+      :hours="props.time[0]"
+      :minutes="props.time[1]"
+      @update:hours="(v) => setTime([v, props.time[1]])"
+      @update:minutes="(v) => setTime([props.time[0], v])"
+      required
     />
     <DurationField
       label="Event Duration"
       :icon="faClockRotateLeft"
-      :hours="props.hours"
-      :minutes="props.minutes"
-      @update:hours="setHours"
-      @update:minutes="setMinutes"
+      :hours="props.duration[0]"
+      :minutes="props.duration[1]"
+      @update:hours="(v) => setDuration([v, props.duration[1]])"
+      @update:minutes="(v) => setDuration([props.duration[0], v])"
+      required
     />
     <SelectField
       label="Frequency"
@@ -67,13 +68,13 @@ import Form from "../Form.vue";
 import InputField from "../InputField.vue";
 import SelectField from "../SelectField.vue";
 import DurationField from "../DurationField.vue";
+import TimeField from "../TimeField.vue";
 
 interface EventFormProps {
   title: string;
   date: string;
-  time: string;
-  hours: number;
-  minutes: number;
+  time: [number?, number?];
+  duration: [number?, number?];
   frequency: Frequency;
   tagId: number;
 }
@@ -83,8 +84,7 @@ const emit = defineEmits([
   "update:title",
   "update:date",
   "update:time",
-  "update:hours",
-  "update:minutes",
+  "update:duration",
   "update:frequency",
   "update:tagId",
 ]);
@@ -98,9 +98,8 @@ const frequencyOptions = Object.entries(Frequency).map(([text, freq]) => ({
 
 const setTitle = (v: string) => emit("update:title", v);
 const setDate = (v: string) => emit("update:date", v);
-const setTime = (v: string) => emit("update:time", v);
-const setHours = (v: number) => emit("update:hours", v);
-const setMinutes = (v: number) => emit("update:minutes", v);
+const setTime = (v: [number?, number?]) => emit("update:time", v);
+const setDuration = (v: [number?, number?]) => emit("update:duration", v);
 const setFrequency = (v: Frequency) => emit("update:frequency", v);
 const setTagId = (v: number) => emit("update:tagId", v);
 

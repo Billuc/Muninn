@@ -20,13 +20,12 @@
         :input-class="
           mergeClasses(
             'focus:outline-none',
-            'bg-base-200',
-            'focus:bg-base-300',
+            'bg-base-100',
+            'focus:bg-base-100',
             'rounded-box',
             'px-2',
             'w-full',
-            'block',
-            'mb-2'
+            'block'
           )
         "
         placeholder="Search for icons..."
@@ -34,23 +33,26 @@
         @clear="search = ''"
       />
 
+      <div class="divider m-0"></div>
+
       <template v-if="filteredOptions.length > 0">
-        <div v-for="(opt, i) in filteredOptions" :key="'option-' + i">
-          <slot
-            name="option"
-            :option="opt"
-            :onSelect="() => select(opt)"
-            :selected="opt.value === props.value"
-          >
-            <div
-              @click="() => select(opt)"
-              class="px-2 rounded-box hover:bg-base-100"
-              :class="{ 'bg-base-100': opt.value === props.value }"
+        <DropdownList
+          :elements="filteredOptions"
+          :selected="props.value"
+          emit-item
+          @select="select"
+          class="max-h-36"
+        >
+          <template #element="{ element, onSelect, selected }">
+            <slot
+              name="option"
+              :option="element"
+              :onSelect="onSelect"
+              :selected="selected"
             >
-              {{ opt.text }}
-            </div>
-          </slot>
-        </div>
+            </slot>
+          </template>
+        </DropdownList>
       </template>
 
       <template v-else>
