@@ -1,5 +1,5 @@
 <template>
-  <div class="markdown-editor">
+  <div class="markdown-editor" ref="editor">
     <textarea :id="textareaId" />
   </div>
 </template>
@@ -11,10 +11,12 @@ import _ from "lodash";
 interface MarkdownEditorProps {
   value: string;
   placeholder?: string;
+  editing: boolean;
 }
 
 const props = defineProps<MarkdownEditorProps>();
 const emit = defineEmits(["update:value"]);
+const { editing, value } = toRefs(props);
 
 useHead({
   link: [
@@ -29,14 +31,16 @@ useHead({
     },
   ],
 });
-const toggled = ref(false);
 const mde = ref<EasyMDE | undefined>(undefined);
+const editor = ref<HTMLElement | null>(null);
 
 const textareaId = _.uniqueId("textarea");
-const previewButtonId = _.uniqueId("mde-preview");
 const easyMDEOptions: EasyMDE.Options = {
   initialValue: props.value,
   placeholder: props.placeholder,
+  previewClass: ["editor-preview", "prose", "max-w-full"],
+  spellChecker: false,
+  forceSync: true,
   toolbar: [
     "bold",
     "italic",
@@ -52,27 +56,23 @@ const easyMDEOptions: EasyMDE.Options = {
     "image",
     "table",
     "horizontal-rule",
-    "|",
-    {
-      name: "preview",
-      className: "fa fa-edit",
-      action: togglePreview,
-      title: "Edit",
-      attributes: {
-        id: previewButtonId,
-      },
-      noDisable: true,
-    },
   ],
 };
 
-function togglePreview() {
-  toggled.value = !toggled.value;
-  EasyMDE.togglePreview(mde.value!);
+function syncPreview() {
+  // preview = !editing
+  if (mde.value!.isPreviewActive() === editing.value)
+    EasyMDE.togglePreview(mde.value!);
 
-  if (toggled.value)
-    document.getElementById(previewButtonId)?.classList.remove("active");
-  else document.getElementById(previewButtonId)?.classList.add("active");
+  if (editing.value) {
+    editor.value
+      ?.getElementsByClassName("editor-toolbar")[0]
+      ?.classList.add("active");
+  } else {
+    editor.value
+      ?.getElementsByClassName("editor-toolbar")[0]
+      ?.classList.remove("active");
+  }
 }
 
 onMounted(() => {
@@ -84,6 +84,30 @@ onMounted(() => {
     emit("update:value", mde.value!.value());
   });
 
-  togglePreview();
+  syncPreview();
+});
+
+watch([editing], () => {
+  syncPreview();
+});
+watch([value], () => {
+  if (mde.value?.value() !== value.value) mde.value?.value(value.value);
 });
 </script>
+
+<style>
+.markdown-editor .editor-toolbar {
+  max-height: 0;
+  opacity: 0;
+  transition: all ease-in-out 0.5s;
+}
+
+.markdown-editor .editor-toolbar.active {
+  max-height: 100px;
+  opacity: 1;
+}
+
+.markdown-editor .CodeMirror {
+  border-radius: 4px;
+}
+</style>

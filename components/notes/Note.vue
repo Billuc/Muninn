@@ -4,10 +4,17 @@
       mergeClasses('relative', 'flex', 'flex-col', 'flex-nowrap', 'gap-y-2')
     "
   >
+    <NoteActions
+      :editing="editing"
+      @edit="editing = true"
+      @save="save"
+      @cancel="cancel"
+    />
     <MarkdownEditor
       :value="noteText"
       placeholder="Write here..."
       @update:value="updateNoteText"
+      :editing="editing"
     />
   </div>
 </template>
@@ -17,6 +24,7 @@ import { useNoteStore } from "~/stores/noteStore";
 import _ from "lodash";
 import { Note } from "~/models/Note";
 import MarkdownEditor from "../MarkdownEditor.vue";
+import NoteActions from "./NoteActions.vue";
 
 interface NoteProps {
   note: Note;
@@ -26,10 +34,18 @@ const props = defineProps<NoteProps>();
 const store = useNoteStore();
 
 const noteText = ref(props.note.text);
+const editing = ref(false);
 
 const updateNoteText = (newText: string) => {
   noteText.value = newText;
-  debouncedUpdateNote();
+};
+const save = () => {
+  updateNote();
+  nextTick(() => editing.value = false);
+};
+const cancel = () => {
+  noteText.value = props.note.text;
+  nextTick(() => editing.value = false);
 };
 
 function updateNote() {
@@ -40,5 +56,4 @@ function updateNote() {
     props.note.tagId
   );
 }
-const debouncedUpdateNote = _.debounce(updateNote, 2000);
 </script>
