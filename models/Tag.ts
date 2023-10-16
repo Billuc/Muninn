@@ -1,5 +1,7 @@
+import { ID } from "./ID";
+
 export interface Tag {
-  id: number;
+  id: ID;
   title: string;
   color: TagColor;
   icon: string[];

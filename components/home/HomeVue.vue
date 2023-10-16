@@ -35,6 +35,4 @@ import PageHeading from "../layout/PageHeading.vue";
 import { format } from "date-fns";
 
 const date = new Date();
-
-const formattedDate = computed(() => format(date, "EEEE 'the' do 'of' MMMM"));
 </script>

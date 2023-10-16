@@ -1,5 +1,7 @@
+import { ID } from "./ID";
+
 export interface ListElementDTO {
-  id: number;
+  id: ID;
   title: string;
   done: boolean;
   index: number;
@@ -7,16 +9,16 @@ export interface ListElementDTO {
 }
 
 export interface ListElement {
-  id: number;
+  id: ID;
   title: string;
   done: boolean;
   index: number;
-  parentId?: number;
+  parentId?: ID;
 }
 
 export interface List {
-  id: number;
+  id: ID;
   title: string;
-  elements: Map<number, ListElement>;
+  elements: Map<ID, ListElement>;
   nextElementId: number;
 }

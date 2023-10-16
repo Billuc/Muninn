@@ -1,6 +1,8 @@
+import { ID } from "./ID";
+
 export interface Note {
-  id: number;
+  id: ID;
   title: string;
-  tagId: number;
+  tagId: ID;
   text: string;
 }

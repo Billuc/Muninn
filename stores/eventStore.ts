@@ -4,13 +4,13 @@ import {
   format,
   parse,
   startOfDay,
-  eachMonthOfInterval,
-  isSameMonth,
 } from "date-fns";
 import { Event, EventData, Frequency, UpdateEvent } from "~/models/Event";
 import { Tag, TagColor } from "~/models/Tag";
 import { definePersistedStore } from "~/tools/persistedPinia";
 import _ from "lodash";
+import { ID } from "~/models/ID";
+import { v4 as uuidv4 } from "uuid";
 
 const formatDate = (key: Date) => format(key, "yyyy-MM-dd HH:mm");
 const parseDate = (key: string) => parse(key, "yyyy-MM-dd HH:mm", new Date());
@@ -45,8 +45,8 @@ const hasRepetitionAtDay = (event: EventData, day: Date) => {
 
 export const useEventStore = definePersistedStore("events", {
   state: () => ({
-    events: new Map<number, EventData>(),
-    tags: new Map<number, Tag>(),
+    events: new Map<ID, EventData>(),
+    tags: new Map<ID, Tag>(),
     nextEventId: 0,
     nextTagId: 0,
   }),
@@ -68,17 +68,17 @@ export const useEventStore = definePersistedStore("events", {
     },
     newEvent(event: Omit<Event, "id">) {
       const eventData: EventData = {
-        id: this.nextEventId,
+        id: uuidv4(),
         title: event.title,
         frequency: event.frequency,
         start: formatDate(event.start),
         end: event.end ? formatDate(event.end) : undefined,
         tagId: event.tagId,
       };
-      this.events.set(this.nextEventId, eventData);
+      this.events.set(eventData.id, eventData);
       this.nextEventId++;
     },
-    editEvent(key: number, event: UpdateEvent) {
+    editEvent(key: ID, event: UpdateEvent) {
       const eventToEdit = this.events.get(key);
 
       if (!eventToEdit) {
@@ -95,7 +95,7 @@ export const useEventStore = definePersistedStore("events", {
       };
       this.events.set(key, eventData);
     },
-    removeEvent(key: number) {
+    removeEvent(key: ID) {
       if (!this.events.delete(key))
         throw new Error(`[Events] Key ${key} not found`);
     },
@@ -103,18 +103,19 @@ export const useEventStore = definePersistedStore("events", {
       if (_.some([...this.tags.values()], (t) => t.color === color))
         throw new Error(`[Events] Tag with color ${color} already exists`);
 
-      this.tags.set(this.nextTagId, {
-        id: this.nextTagId,
+      const tagData = {
+        id: uuidv4(),
         title: title,
         color: color,
         icon: icon,
-      });
+      };
+      this.tags.set(tagData.id, tagData);
       this.nextTagId++;
     },
-    removeTag(tagId: number) {
+    removeTag(tagId: ID) {
       this.tags.delete(tagId);
     },
-    editTag(tagId: number, title: string, color: TagColor, icon: string[]) {
+    editTag(tagId: ID, title: string, color: TagColor, icon: string[]) {
       if (!this.tags.has(tagId))
         throw new Error(`[Events] Tag with ID ${tagId} not found`);
 

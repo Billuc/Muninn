@@ -1,48 +1,52 @@
+import { ID } from "~/models/ID";
 import { ListElement, List, ListElementDTO } from "~/models/List";
 import { definePersistedStore } from "~/tools/persistedPinia";
+import { v4 as uuidv4 } from "uuid";
 
 export const useListStore = definePersistedStore("lists", {
   state: () => ({
-    lists: new Map<number, List>(),
+    lists: new Map<ID, List>(),
     nextListId: 0,
   }),
   actions: {
-    getList(listId: number) {
+    getList(listId: ID) {
       if (!this.lists.has(listId))
         throw new Error(`[Lists] List with ID ${listId} not found`);
       else return this.lists.get(listId)!;
     },
     newList(title: string) {
-      this.lists.set(this.nextListId, {
-        id: this.nextListId,
+      const listData = {
+        id: uuidv4(),
         title: title,
-        elements: new Map<number, ListElement>(),
-        nextElementId: 0,
-      });
+        elements: new Map<ID, ListElement>(),
+        nextElementId: 0
+      }
+      this.lists.set(listData.id, listData);
       this.nextListId++;
     },
-    editList(listId: number, title: string) {
+    editList(listId: ID, title: string) {
       this.getList(listId).title = title;
     },
-    removeList(listId: number) {
+    removeList(listId: ID) {
       if (!this.lists.delete(listId)) {
         throw new Error(`[Lists] List with ID ${listId} not found`);
       }
     },
-    newElement(listId: number, title: string, parentId?: number) {
+    newElement(listId: ID, title: string, parentId?: ID) {
       const list = this.getList(listId);
-      list.elements.set(list.nextElementId, {
-        id: list.nextElementId,
+      const elementData = {
+        id: uuidv4(),
         title: title,
         done: false,
         index: list.elements.size,
         parentId: parentId,
-      });
+      };
+      list.elements.set(elementData.id, elementData);
       list.nextElementId++;
     },
     editElement(
-      listId: number,
-      elementId: number,
+      listId: ID,
+      elementId: ID,
       title: string,
       done: boolean
     ) {
@@ -55,7 +59,7 @@ export const useListStore = definePersistedStore("lists", {
       list.elements.get(elementId)!.title = title;
       list.elements.get(elementId)!.done = done;
     },
-    removeElement(listId: number, elementId: number) {
+    removeElement(listId: ID, elementId: ID) {
       const list = this.getList(listId);
       const children = this.getElementChildren(listId, elementId);
 
@@ -67,9 +71,9 @@ export const useListStore = definePersistedStore("lists", {
       children.forEach((el) => this.removeElement(listId, el.id));
     },
     orderElements(
-      listId: number,
+      listId: ID,
       elements: ListElementDTO[],
-      elementId?: number
+      elementId?: ID
     ) {
       const list = this.getList(listId);
       elements.forEach((element, index) => {
@@ -85,7 +89,7 @@ export const useListStore = definePersistedStore("lists", {
         this.orderElements(listId, element.children, element.id);
       });
     },
-    removeChecked(listId: number) {
+    removeChecked(listId: ID) {
       const list = this.getList(listId);
 
       for (const elementId of list.elements.keys()) {
@@ -95,7 +99,7 @@ export const useListStore = definePersistedStore("lists", {
         }
       }
     },
-    getElementChildren(listId: number, elementId: number) {
+    getElementChildren(listId: ID, elementId: ID) {
       var children = [];
 
       for (const [id, element] of this.getList(listId).elements) {

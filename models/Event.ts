@@ -1,5 +1,7 @@
+import { ID } from "./ID";
+
 export interface Event {
-  id: number;
+  id: ID;
   title: string;
   start: Date;
   end?: Date;
@@ -8,7 +10,7 @@ export interface Event {
 }
 
 export interface EventData {
-  id: number;
+  id: ID;
   title: string;
   start: string;
   end?: string;
@@ -17,7 +19,7 @@ export interface EventData {
 }
 
 export interface UpdateEvent {
-  title?: string;
+  title?: ID;
   start?: Date;
   end?: Date;
   frequency?: Frequency;
