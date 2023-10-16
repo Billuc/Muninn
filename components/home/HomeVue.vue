@@ -1,6 +1,11 @@
 <template>
   <div>
-    <DateDisplay :date="date" class="pl-8" />
+    <PageHeading>
+      Today is
+      <span class="text-secondary">{{ format(date, "EEEE") }}</span> the
+      <span class="text-secondary">{{ format(date, "do") }}</span> of
+      <span>{{ format(date, "MMMM") }}</span>
+    </PageHeading>
 
     <div
       :class="
@@ -12,7 +17,7 @@
           'w-full',
           'mt-4',
           'gap-3',
-          'md:min-h-[384px]',
+          'md:min-h-[384px]'
         )
       "
     >
@@ -24,9 +29,12 @@
 </template>
 
 <script setup lang="ts">
-import DateDisplay from "../journal/DateDisplay.vue";
 import HomeJournal from "./HomeJournal.vue";
 import HomeEvents from "./HomeEvents.vue";
+import PageHeading from "../layout/PageHeading.vue";
+import { format } from "date-fns";
 
 const date = new Date();
+
+const formattedDate = computed(() => format(date, "EEEE 'the' do 'of' MMMM"));
 </script>
