@@ -4,8 +4,15 @@
       mergeClasses('m-0', 'flex', 'flex-nowrap', 'items-center', 'gap-x-2')
     "
   >
-    <div class="w-[26px] h-4 flex-shrink-0"></div>
-    <Checkbox :value="false" disabled class="checkbox-primary" />
+    <div class="flex flex-nowrap items-center gap-x-4">
+      <FontAwesomeIcon :icon="faBars" class="text-base-300" size="lg" />
+      <Checkbox
+        :value="false"
+        disabled
+        class="checkbox-primary"
+      />
+    </div>
+    
     <MultilineInput
       v-model:value="elementText"
       placeholder="Write here..."
@@ -21,11 +28,13 @@
 import MultilineInput from "../MultilineInput.vue";
 import Checkbox from "../Checkbox.vue";
 import Button from "../Button.vue";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useListStore } from "~/stores/listStore";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 interface AddElementProps {
   listId: number;
+  parentId?: number;
 }
 
 const props = defineProps<AddElementProps>();
@@ -33,7 +42,8 @@ const store = useListStore();
 const elementText = ref("");
 
 const addElement = () => {
-  if (!!elementText.value) store.newElement(props.listId, elementText.value);
+  if (!!elementText.value)
+    store.newElement(props.listId, elementText.value, props.parentId);
   elementText.value = "";
 };
 </script>

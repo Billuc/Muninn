@@ -1,32 +1,20 @@
 <template>
-  <div :class="mergeClasses('flex', 'flex-col', 'flex-nowrap')">
-    <Draggable
-      v-model="elementsArray"
-      handle=".handle"
-      item-key="id"
-      :animation="150"
-    >
-      <template #item="{ element }">
-        <ListElementVue
-          v-if="!element.done || !hideChecked"
-          :list-id="list.id"
-          :element="element"
-          class="mt-1"
-        />
-      </template>
-    </Draggable>
-
-    <AddElement :list-id="list.id" class="mt-1" />
+  <div>
+    <ListElementsVue
+      :list-id="props.list.id"
+      :elements="elementTree"
+      :hide-checked="props.hideChecked"
+    />
+    <AddElement :list-id="props.list.id" class="mt-1" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useListStore } from "@/stores/listStore";
-import ListElementVue from "./ListElementVue.vue";
-import { List } from "~/models/List";
+import { List, ListElementDTO, ListElement } from "~/models/List";
 import _ from "lodash";
-import Draggable from "vuedraggable";
 import AddElement from "./AddElement.vue";
+import ListElementsVue from "./ListElementsVue.vue";
 
 interface ListProps {
   hideChecked: boolean;
@@ -34,15 +22,39 @@ interface ListProps {
 }
 
 const props = defineProps<ListProps>();
-const { hideChecked, list } = toRefs(props);
+const { list } = toRefs(props);
 const store = useListStore();
 
-const elementsArray = computed({
-  get() {
-    return _.sortBy([...list.value.elements.values()], (el) => el.index);
-  },
-  set(newArray) {
-    store.orderElements(list.value.id, newArray);
-  },
-});
+const listElements = computed(() => [...list.value.elements.values()]);
+const elementTree = ref(buildListArray(list.value.id, listElements.value));
+
+function buildListArray(
+  listId: number,
+  elements: ListElement[],
+  elementId?: number
+): ListElementDTO[] {
+  return _(elements)
+    .chain()
+    .filter((el) => el.parentId === elementId)
+    .sortBy((el) => el.index)
+    .map<ListElementDTO>((el) => ({
+      id: el.id,
+      title: el.title,
+      done: el.done,
+      index: el.index,
+      children: buildListArray(listId, elements, el.id),
+    }))
+    .value();
+}
+
+watch(
+  [listElements],
+  () => (elementTree.value = buildListArray(list.value.id, listElements.value)),
+  { deep: true }
+);
+watch(
+  [elementTree],
+  () => store.orderElements(list.value.id, elementTree.value),
+  { deep: true }
+);
 </script>

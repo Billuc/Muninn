@@ -13,6 +13,7 @@
         ref="checkbox"
       />
     </div>
+
     <MultilineInput
       :value="title"
       placeholder="Write here..."
@@ -44,11 +45,11 @@ import { faBars, faRemove } from "@fortawesome/free-solid-svg-icons";
 import { useListStore } from "~/stores/listStore";
 import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { ListElement } from "~/models/List";
+import { ListElementDTO } from "~/models/List";
 
 interface ListElementVueProps {
   listId: number;
-  element: ListElement;
+  element: ListElementDTO;
 }
 
 const props = defineProps<ListElementVueProps>();
