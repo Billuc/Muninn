@@ -46,6 +46,8 @@ import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { ListElementDTO } from "~/models/List";
 import { ID } from "~/models/ID";
+import { useGeneralStore } from "~/stores/generalStore";
+import { SyncStatus } from "~/models/Status";
 
 interface ListElementVueProps {
   listId: ID;
@@ -54,6 +56,7 @@ interface ListElementVueProps {
 
 const props = defineProps<ListElementVueProps>();
 const store = useListStore();
+const generalStore = useGeneralStore();
 const checkbox = ref<InstanceType<typeof Checkbox> | null>(null);
 
 const done = ref(props.element.done);
@@ -62,10 +65,12 @@ const title = ref(props.element.title);
 const updateDone = (newDone: boolean) => {
   done.value = newDone;
   checkbox.value?.reset();
+  generalStore.setSyncStatus(SyncStatus.Syncing);
   debouncedUpdate();
 };
 const updateTitle = (newTitle: string) => {
   title.value = newTitle;
+  generalStore.setSyncStatus(SyncStatus.Syncing);
   debouncedUpdate();
 };
 const removeElement = () => {
@@ -76,6 +81,7 @@ const update = () => {
   if (!title.value) removeElement();
   else
     store.editElement(props.listId, props.element.id, title.value, done.value);
+  generalStore.setSyncStatus(SyncStatus.Synced);
 };
 const debouncedUpdate = _.debounce(update, 2000);
 const updateNow = () => {

@@ -2,21 +2,15 @@
   <li class="m-0 marker:text-neutral">
     <div class="flex flex-nowrap">
       <MultilineInput
-        v-model:value="elementText"
+        :value="elementText"
         placeholder="Write here..."
         class="w-full"
         detect-enter
-        @enter="update"
-        @focus="focused = true"
-        ref="input"
+        @enter="updateNow"
+        @update:value="updateText"
       />
 
-      <EntryActions
-        @validate="update"
-        @cancel="cancel"
-        @remove="remove"
-        v-show="focused"
-      />
+      <EntryActions @remove="remove" />
     </div>
   </li>
 </template>
@@ -25,28 +19,37 @@
 import MultilineInput from "../MultilineInput.vue";
 import _ from "lodash";
 import EntryActions from "./EntryActions.vue";
+import { SyncStatus } from "~/models/Status";
+import { useGeneralStore } from "~/stores/generalStore";
+import { useJournalStore } from "~/stores/journalStore";
+import { ID } from "~/models/ID";
 
 interface EntryProps {
   entry: string;
+  id: ID;
+  date: Date;
 }
 
 const props = defineProps<EntryProps>();
-const emit = defineEmits(["update:entry", "remove"]);
 const elementText = ref(props.entry);
-const focused = ref(false);
-const input = ref(null);
+const store = useJournalStore();
+const generalStore = useGeneralStore();
+
+const updateText = (newText: string) => {
+  elementText.value = newText;
+  generalStore.setSyncStatus(SyncStatus.Syncing);
+  debouncedUpdate();
+};
+const remove = () => store.removeEntry(props.date, props.id);
 
 const update = () => {
-  emit("update:entry", elementText.value);
-  focused.value = false;
-  (input.value as any).blur();
+  if (!elementText.value) store.removeEntry(props.date, props.id);
+  else store.editEntry(props.date, props.id, elementText.value);
+  generalStore.setSyncStatus(SyncStatus.Synced);
 };
-const cancel = () => {
-  elementText.value = props.entry;
-  focused.value = false;
-};
-const remove = () => {
-  emit("remove");
-  focused.value = false;
+const debouncedUpdate = _.debounce(update, 2000);
+const updateNow = () => {
+  debouncedUpdate.cancel();
+  update();
 };
 </script>

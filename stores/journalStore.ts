@@ -1,11 +1,14 @@
 import { format } from "date-fns";
+import { v4 as uuidv4 } from "uuid";
+import { ID } from "~/models/ID";
+import { JournalEntry } from "~/models/Journal";
 import { definePersistedStore } from "~/tools/persistedPinia";
 
 const keyAsString = (key: Date) => format(key, "yyyy-MM-dd");
 
 export const useJournalStore = definePersistedStore("journal", {
   state: () => ({
-    entries: new Map<string, string[]>(),
+    entries: new Map<string, Map<ID, JournalEntry>>(),
   }),
   actions: {
     getEntries(key: Date) {
@@ -15,34 +18,36 @@ export const useJournalStore = definePersistedStore("journal", {
       const stringKey = keyAsString(key);
 
       if (!this.entries.has(stringKey)) {
-        this.entries.set(stringKey, []);
+        this.entries.set(stringKey, new Map<ID, JournalEntry>());
       }
 
-      this.entries.get(stringKey)!.push(entry);
-    },
-    editEntry(key: Date, index: number, entry: string) {
-      const entriesArray = this.entries.get(keyAsString(key))
+      const journalEntry = {
+        date: key,
+        id: uuidv4(),
+        text: entry,
+      };
 
-      if (!entriesArray) {
+      this.entries.get(stringKey)!.set(journalEntry.id, journalEntry);
+    },
+    editEntry(key: Date, id: ID, entry: string) {
+      if (!this.entries.has(keyAsString(key))) {
         throw new Error(`[Journal] Key ${key} not found`);
       }
 
-      if (entriesArray[index] === undefined) {
-        throw new Error(`[Journal] Index ${index} out of range for key ${key}`);
-      }
-      entriesArray.splice(index, 1, entry);
-    },
-    removeEntry(key: Date, index: number) {
-      const entriesArray = this.entries.get(keyAsString(key))
+      const daysEntries = this.entries.get(keyAsString(key))!;
 
-      if (!entriesArray) {
+      if (!daysEntries.has(id)) {
+        throw new Error(`[Journal] Entry with ID ${id} not found`);
+      }
+      daysEntries.set(id, { date: key, id, text: entry });
+    },
+    removeEntry(key: Date, id: ID) {
+      if (!this.entries.has(keyAsString(key))) {
         throw new Error(`[Journal] Key ${key} not found`);
       }
 
-      if (entriesArray[index] === undefined) {
-        throw new Error(`[Journal] Index ${index} out of range for key ${key}`);
-      }
-      entriesArray.splice(index, 1);
+      if (!this.entries.get(keyAsString(key))!.delete(id))
+        throw new Error(`[Journal] Entry with ID ${id} not found`);
     },
   },
 });

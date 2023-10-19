@@ -40,16 +40,15 @@
       <img src="/icon.svg" class="w-full" />
     </NuxtLink>
     <span class="text-3xl font-extrabold px-4">Muninn</span>
-
-    <slot></slot>
+    <StatusIcon/>
   </div>
 </template>
 
 <script setup>
-import NavLink from "./NavLink.vue";
 import NavBurger from "./NavBurger.vue";
 import { useGeneralStore } from "~/stores/generalStore";
 import { storeToRefs } from "pinia";
+import StatusIcon from "./StatusIcon.vue";
 
 const emit = defineEmits(["open"]);
 const store = useGeneralStore();
