@@ -1,5 +1,5 @@
 <template>
-  <div tabindex="0" class="btn btn-square md:btn-lg">
+  <div tabindex="0" class="btn btn-square btn-ghost md:btn-lg">
     <FontAwesomeIcon :icon="faBars" />
   </div>
 </template>

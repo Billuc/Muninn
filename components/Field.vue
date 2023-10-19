@@ -1,5 +1,5 @@
 <template>
-  <div :class="mergeClasses('label', 'gap-2', 'p-0')">
+  <label :class="mergeClasses('label', 'gap-2', 'p-0')">
     <div class="w-28 flex-shrink-0">
       <slot name="label" :icon="props.icon" :label="props.label">
         <FontAwesomeIcon v-if="props.icon" :icon="props.icon" class="mr-1" />
@@ -33,7 +33,7 @@
         />
       </slot>
     </div>
-  </div>
+  </label>
 </template>
 
 <script setup lang="ts">

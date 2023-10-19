@@ -1,5 +1,9 @@
 <template>
-  <div class="drawer">
+  <div
+    :class="
+      mergeClasses('drawer', leftHanded ? undefined : 'max-md:drawer-end')
+    "
+  >
     <input type="checkbox" class="drawer-toggle" v-model="drawerOpen" />
 
     <div class="drawer-content">
@@ -18,28 +22,50 @@
       <div
         :class="
           mergeClasses(
-            'flex',
-            'flex-col',
-            'flex-nowrap',
-            'justify-end',
-            'md:justify-start',
-            'p-4',
-            'md:w-64',
-            'min-h-full',
-            'bg-base-200',
-            'text-base-content'
+            'absolute',
+            'bottom-4',
+            'md:bottom-auto',
+            'top-auto',
+            'md:top-4',
+            'grid',
+            'grid-cols-4',
+            'md:grid-cols-2',
+            '[&>*:nth-child(3n+1)]:col-start-2',
+            'md:[&>*:nth-child(3n+1)]:col-start-1',
+            'justify-items-center',
+            'md:justify-items-stretch',
+            'w-full',
+            'md:w-52',
+            'px-4'
           )
         "
       >
-        <NavLink href="/" class="!p-2">
-          <img src="/icon.svg" class="h-full" />
-          <span class="hidden md:inline">Muninn</span>
-        </NavLink>
-        <NavLink href="/journal" :icon="faJournalWhills" label="Journal" />
-        <NavLink href="/lists" :icon="faCheckSquare" label="Lists" />
-        <NavLink href="/events" :icon="faCalendar" label="Events" />
-        <NavLink href="/notes" :icon="faLightbulb" label="Notes" />
+        <NavLink
+          href="/journal"
+          :icon="faJournalWhills"
+          label="Journal"
+          color="btn-primary"
+        />
+        <NavLink
+          href="/lists"
+          :icon="faCheckSquare"
+          label="Lists"
+          color="btn-primary"
+        />
+        <NavLink
+          href="/events"
+          :icon="faCalendar"
+          label="Events"
+          color="btn-primary"
+        />
+        <NavLink
+          href="/notes"
+          :icon="faLightbulb"
+          label="Notes"
+          color="btn-primary"
+        />
         <NavLink href="/config" :icon="faCog" label="Config" />
+        <NavLink :icon="faClose" label="Close" @click="drawerOpen = false" />
       </div>
     </div>
   </div>
@@ -49,6 +75,7 @@
 import {
   faCalendar,
   faCheckSquare,
+  faClose,
   faCog,
   faJournalWhills,
   faLightbulb,
@@ -56,8 +83,12 @@ import {
 import NavBar from "./NavBar.vue";
 import Page from "./Page.vue";
 import NavLink from "./NavLink.vue";
+import { useGeneralStore } from "~/stores/generalStore";
+import { storeToRefs } from "pinia";
 
 const router = useRouter();
+const store = useGeneralStore();
+const { leftHanded } = storeToRefs(store);
 
 const drawerOpen = ref(false);
 </script>

@@ -1,28 +1,30 @@
 <template>
   <input
     type="checkbox"
-    class="checkbox"
+    class="toggle"
     :checked="props.value"
     @input="onInput"
-    ref="checkbox"
+    ref="toggle"
     :disabled="props.disabled"
   />
 </template>
 
 <script setup lang="ts">
-interface CheckboxProps {
+interface ToggleProps {
   value: boolean;
   disabled?: boolean;
 }
 
-var props = defineProps<CheckboxProps>();
+const props = defineProps<ToggleProps>();
 var emit = defineEmits(["update:value"]);
-var checkbox = ref<HTMLInputElement | null>(null);
+var toggle = ref<HTMLInputElement | null>(null);
 
-const onInput = (ev: any) => emit("update:value", ev.target.checked);
+function onInput(ev: any) {
+  emit("update:value", ev.target.checked);
+}
 
 const reset = () => {
-  if (checkbox.value) checkbox.value.checked = props.value;
+  if (toggle.value) toggle.value.checked = props.value;
 };
 defineExpose({ reset });
 </script>
