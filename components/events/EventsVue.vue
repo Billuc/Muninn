@@ -17,6 +17,6 @@
 import Calendar from "~/components/events/Calendar.vue";
 import EventTagFilter from "~/components/events/EventTagFilter.vue";
 
-const tagFilter = ref(-1);
+const tagFilter = ref("");
 const date = ref(new Date());
 </script>

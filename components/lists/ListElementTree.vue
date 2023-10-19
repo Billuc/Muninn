@@ -24,26 +24,16 @@ import { ListElementDTO } from "~/models/List";
 import ListElementVue from "./ListElementVue.vue";
 import ListElementsVue from "./ListElementsVue.vue";
 import AddElement from "./AddElement.vue";
+import { ID } from "~/models/ID";
 
 interface ListElementTreeProps {
   element: ListElementDTO;
-  listId: number;
+  listId: ID;
   hideChecked: boolean;
 }
 
 const props = defineProps<ListElementTreeProps>();
 const emit = defineEmits(["update:element"]);
-
-const onUpdateChildren = (newChildren: ListElementDTO[]) => {
-  console.log("tree", props.element.title, newChildren);
-  emit("update:element", {
-    id: props.element.id,
-    title: props.element.title,
-    done: props.element.done,
-    index: props.element.index,
-    children: newChildren,
-  });
-};
 </script>
 
 <style>

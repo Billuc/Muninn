@@ -42,9 +42,10 @@ import { Tag, TagOrder } from "~/models/Tag";
 import _ from "lodash";
 import { faTag } from "@fortawesome/free-solid-svg-icons";
 import SelectField from "./SelectField.vue";
+import { ID } from "~/models/ID";
 
 interface TagSelecterProps {
-  selected: number;
+  selected: ID;
   label?: string;
   tags: Tag[];
   clearable?: boolean;
@@ -65,10 +66,9 @@ const tagOptions = computed(() =>
     .value()
 );
 
-const getTag = (tagId: string) =>
-  props.tags.find((t) => t.id === Number(tagId));
+const getTag = (tagId: string) => props.tags.find((t) => t.id === tagId);
 const selectTag = (id: string) => {
-  if (props.selected === Number(id)) emit("update:selected", -1);
-  else emit("update:selected", Number(id));
+  if (props.selected === id) emit("update:selected", "");
+  else emit("update:selected", id);
 };
 </script>

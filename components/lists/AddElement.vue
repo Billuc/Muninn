@@ -31,10 +31,11 @@ import Button from "../Button.vue";
 import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useListStore } from "~/stores/listStore";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { ID } from "~/models/ID";
 
 interface AddElementProps {
-  listId: number;
-  parentId?: number;
+  listId: ID;
+  parentId?: ID;
 }
 
 const props = defineProps<AddElementProps>();

@@ -23,23 +23,14 @@ import { ListElementDTO } from "~/models/List";
 import _ from "lodash";
 import Draggable from "vuedraggable";
 import ListElementTree from "./ListElementTree.vue";
+import { ID } from "~/models/ID";
 
 interface ListElementsVueProps {
-  listId: number;
+  listId: ID;
   elements: ListElementDTO[];
   hideChecked: boolean;
 }
 
 const props = defineProps<ListElementsVueProps>();
 const emit = defineEmits(["update:elements"]);
-
-const onUpdate = (newElements: ListElementDTO[]) =>
-  emit("update:elements", newElements);
-const onElementUpdated = (updatedElement: ListElementDTO) => {
-  const index = props.elements.findIndex((el) => el.id === updatedElement.id);
-  const clone = _.cloneDeep(props.elements);
-  clone.splice(index, 1, updatedElement);
-  console.log("elements", clone);
-  emit("update:elements", clone);
-};
 </script>

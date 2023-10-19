@@ -69,6 +69,7 @@ import InputField from "../InputField.vue";
 import SelectField from "../SelectField.vue";
 import DurationField from "../DurationField.vue";
 import TimeField from "../TimeField.vue";
+import { ID } from "~/models/ID";
 
 interface EventFormProps {
   title: string;
@@ -76,7 +77,7 @@ interface EventFormProps {
   time: [number?, number?];
   duration: [number?, number?];
   frequency: Frequency;
-  tagId: number;
+  tagId: ID;
 }
 
 const props = defineProps<EventFormProps>();
@@ -101,7 +102,7 @@ const setDate = (v: string) => emit("update:date", v);
 const setTime = (v: [number?, number?]) => emit("update:time", v);
 const setDuration = (v: [number?, number?]) => emit("update:duration", v);
 const setFrequency = (v: Frequency) => emit("update:frequency", v);
-const setTagId = (v: number) => emit("update:tagId", v);
+const setTagId = (v: ID) => emit("update:tagId", v);
 
 const validate = () => form.value?.validate();
 defineExpose({ validate });

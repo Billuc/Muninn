@@ -28,9 +28,10 @@ import { useNoteStore } from "~/stores/noteStore";
 import NotesGridElement from "./NotesGridElement.vue";
 import CreateNote from "./CreateNote.vue";
 import _ from "lodash";
+import { ID } from "~/models/ID";
 
 interface NotesGridProps {
-  tagFilter: number;
+  tagFilter: ID;
 }
 
 const props = defineProps<NotesGridProps>();
@@ -39,9 +40,9 @@ const { notes } = storeToRefs(store);
 
 const filteredNotes = computed(() =>
   [...notes.value.values()].filter(
-    (n) => props.tagFilter < 0 || props.tagFilter === n.tagId
+    (n) => !props.tagFilter || props.tagFilter === n.tagId
   )
 );
 
-const getTag = (id: number) => store.tags.get(id);
+const getTag = (id: ID) => store.tags.get(id);
 </script>

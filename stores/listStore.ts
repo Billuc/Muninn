@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from "uuid";
 export const useListStore = definePersistedStore("lists", {
   state: () => ({
     lists: new Map<ID, List>(),
-    nextListId: 0,
   }),
   actions: {
     getList(listId: ID) {
@@ -22,7 +21,6 @@ export const useListStore = definePersistedStore("lists", {
         nextElementId: 0
       }
       this.lists.set(listData.id, listData);
-      this.nextListId++;
     },
     editList(listId: ID, title: string) {
       this.getList(listId).title = title;

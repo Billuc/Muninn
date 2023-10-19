@@ -9,21 +9,17 @@ export const useNoteStore = definePersistedStore("notes", {
   state: () => ({
     notes: new Map<ID, Note>(),
     tags: new Map<ID, Tag>(),
-    nextNoteId: 0,
-    nextTagId: 0,
   }),
   getters: {
-    getNote: (state) => {
-      return (noteId: ID) => {
-        if (!state.notes.has(noteId)) {
-          throw new Error(`[Notes] Note with ID ${noteId} not found`);
-        }
-        return state.notes.get(noteId)!;
-      };
-    },
     tagArray: (state) => [...state.tags.values()],
   },
   actions: {
+    getNote(noteId: ID) {
+      if (!this.notes.has(noteId)) {
+        throw new Error(`[Notes] Note with ID ${noteId} not found`);
+      }
+      return this.notes.get(noteId)!;
+    },
     newNote(title: string, tagId: ID) {
       const noteData = {
         id: uuidv4(),
@@ -32,7 +28,6 @@ export const useNoteStore = definePersistedStore("notes", {
         text: "",
       };
       this.notes.set(noteData.id, noteData);
-      this.nextNoteId++;
     },
     editNote(noteId: ID, title: string, text: string, tagId: ID) {
       this.getNote(noteId).title = title;
@@ -55,7 +50,6 @@ export const useNoteStore = definePersistedStore("notes", {
         icon: icon,
       };
       this.tags.set(tagData.id, tagData);
-      this.nextTagId++;
     },
     removeTag(tagId: ID) {
       this.tags.delete(tagId);

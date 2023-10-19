@@ -21,10 +21,11 @@
 import { addMonths, setMonth, setYear } from "date-fns";
 import CalendarHeader from "./CalendarHeader.vue";
 import CalendarMonthView from "./CalendarMonthView.vue";
+import { ID } from "~/models/ID";
 
 interface CalendarCardProps {
   date: Date;
-  tagFilter?: number;
+  tagFilter?: ID;
 }
 
 const props = defineProps<CalendarCardProps>();

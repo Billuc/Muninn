@@ -39,7 +39,7 @@ const date = ref(formatDate(new Date()));
 const time = ref<[number?, number?]>([new Date().getHours() + 1, 0]);
 const duration = ref<[number?, number?]>([1, 0]);
 const frequency = ref<Frequency>(Frequency.Once);
-const tagId = ref(-1);
+const tagId = ref("");
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
@@ -65,6 +65,6 @@ const reset = () => {
   time.value = [undefined, undefined];
   duration.value = [1, 0];
   frequency.value = Frequency.Once;
-  tagId.value = -1;
+  tagId.value = "";
 };
 </script>

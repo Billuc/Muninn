@@ -6510,6 +6510,11 @@ pinkie@^2.0.0:
   resolved "https://registry.npmjs.org/pinkie/-/pinkie-2.0.4.tgz"
   integrity sha512-MnUuEycAemtSaeFSjXKW/aroV7akBbY+Sv+RkyqFjgAe73F+MR0TBWKBRDkmfWq/HiFmdavfZ1G7h4SPZXaCSg==
 
+pipelineer@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/pipelineer/-/pipelineer-1.0.1.tgz#55fa98e3765ec6ab8bb6c6d689cb0433e896dc30"
+  integrity sha512-PpnKoWFOkoPDIqT59e7UMeJv+EDPO31kwiYXRHWcNK5aNhHzp7Ja+4aryKGu91hRXARatNa6sDuu3U+PbI+73g==
+
 pirates@^4.0.1:
   version "4.0.6"
   resolved "https://registry.npmjs.org/pirates/-/pirates-4.0.6.tgz"

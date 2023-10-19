@@ -15,6 +15,7 @@ import { List, ListElementDTO, ListElement } from "~/models/List";
 import _ from "lodash";
 import AddElement from "./AddElement.vue";
 import ListElementsVue from "./ListElementsVue.vue";
+import { ID } from "~/models/ID";
 
 interface ListProps {
   hideChecked: boolean;
@@ -29,9 +30,9 @@ const listElements = computed(() => [...list.value.elements.values()]);
 const elementTree = ref(buildListArray(list.value.id, listElements.value));
 
 function buildListArray(
-  listId: number,
+  listId: ID,
   elements: ListElement[],
-  elementId?: number
+  elementId?: ID
 ): ListElementDTO[] {
   return _(elements)
     .chain()

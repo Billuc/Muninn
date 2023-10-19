@@ -9,11 +9,12 @@
 </template>
 
 <script setup lang="ts">
+import { ID } from "~/models/ID";
 import TagSelecter from "../TagSelecter.vue";
 import { useEventStore } from "~/stores/eventStore";
 
 interface EventTagFilterProps {
-  selected: number;
+  selected: ID;
 }
 
 const props = defineProps<EventTagFilterProps>();
@@ -21,5 +22,5 @@ const emit = defineEmits(["update:selected"]);
 const store = useEventStore();
 const tags = store.tagArray;
 
-const selectTag = (id: number) => emit("update:selected", id);
+const selectTag = (id: ID) => emit("update:selected", id);
 </script>

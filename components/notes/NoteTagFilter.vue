@@ -12,9 +12,10 @@
 <script setup lang="ts">
 import { useNoteStore } from "~/stores/noteStore";
 import TagSelecter from "../TagSelecter.vue";
+import { ID } from "~/models/ID";
 
 interface NoteTagFilterProps {
-  selected: number;
+  selected: ID;
 }
 
 const props = defineProps<NoteTagFilterProps>();
@@ -22,5 +23,5 @@ const emit = defineEmits(["update:selected"]);
 const store = useNoteStore();
 const tags = store.tagArray
 
-const selectTag = (id: number) => emit("update:selected", id);
+const selectTag = (id: ID) => emit("update:selected", id);
 </script>

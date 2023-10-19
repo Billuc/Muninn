@@ -32,7 +32,7 @@ import { useListStore } from "~/stores/listStore";
 
 const route = useRoute();
 const store = useListStore();
-const listId = Number(route.params.id);
+const listId = getOneParam(route.params.id);
 const list = store.getList(listId);
 
 useHead({

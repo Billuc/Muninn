@@ -1,44 +1,68 @@
-const mapReplacer = (key: any, value: any) => {
-  if (value instanceof Map) {
-    return {
-      dataType: "Map",
-      value: Array.from(value.entries()),
-    };
-  } else {
-    return value;
-  }
+import { PipelineFactory } from "pipelineer";
+
+interface JSONProperty {
+  key: any;
+  value: any;
+}
+
+const mapReplacer = {
+  exec: (req: JSONProperty, next: (req: JSONProperty) => any | undefined) => {
+    const value =
+      req.value instanceof Map
+        ? { dataType: "Map", value: Array.from(req.value.entries()) }
+        : req.value;
+    return next({ key: req.key, value }) ?? value;
+  },
+};
+const idReplacer = {
+  exec: (req: JSONProperty, next: (req: JSONProperty) => any | undefined) => {
+    const value =
+      req.key == "id" || String(req.key).includes("Id")
+        ? String(req.value)
+        : req.value;
+    return next({ key: req.key, value }) ?? value;
+  },
 };
 
-const idReplacer = (key: any, value: any) => {
-  if (key == "id" || String(key).includes("Id")) {
-    return String(value);
-  } else {
-    return value;
-  }
+const replacerFactory = new PipelineFactory<JSONProperty, any>();
+replacerFactory.push(mapReplacer);
+replacerFactory.push(idReplacer);
+const replacer = replacerFactory.build();
+
+export const serializeWithMaps = (v: any) =>
+  JSON.stringify(v, (key, value) => replacer.exec({ key, value }));
+
+const mapReviver = {
+  exec: (req: JSONProperty, next: (req: JSONProperty) => any | undefined) => {
+    const value =
+      typeof req.value === "object" &&
+      req.value !== null &&
+      req.value.dataType === "Map"
+        ? new Map(
+            req.value.value.map(([k, v]: [any, any]) => [
+              v.id !== undefined ? String(k) : k,
+              v,
+            ])
+          )
+        : req.value;
+    return next({ key: req.key, value }) ?? value;
+  },
 };
 
-const replacer = (k: any, v: any) => idReplacer(k, mapReplacer(k, v));
-
-export const serializeWithMaps = (value: any) =>
-  JSON.stringify(value, replacer);
-
-const mapReviver = (key: any, value: any) => {
-  if (typeof value === "object" && value !== null) {
-    if (value.dataType === "Map") {
-      return new Map(value.value);
-    }
-  }
-  return value;
+const idReviver = {
+  exec: (req: JSONProperty, next: (req: JSONProperty) => any | undefined) => {
+    const value =
+      req.key == "id" || String(req.key).includes("Id")
+        ? String(req.value)
+        : req.value;
+    return next({ key: req.key, value }) ?? value;
+  },
 };
 
-const idReviver = (key: any, value: any) => {
-  if (key == "id" || String(key).includes("Id")) {
-    return String(value);
-  } else {
-    return value;
-  }
-};
+const reviverFactory = new PipelineFactory<JSONProperty, any>();
+reviverFactory.push(mapReviver);
+reviverFactory.push(idReviver);
+const reviver = reviverFactory.build();
 
-const reviver = (k: any, v: any) => idReviver(k, mapReviver(k, v));
-
-export const deserializeWithMaps = (text: string) => JSON.parse(text, reviver);
+export const deserializeWithMaps = (text: string) =>
+  JSON.parse(text, (key, value) => reviver.exec({ key, value }));

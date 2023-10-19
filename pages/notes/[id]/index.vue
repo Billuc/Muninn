@@ -41,7 +41,7 @@ import { useNoteStore } from "~/stores/noteStore";
 
 const route = useRoute();
 const store = useNoteStore();
-const noteId = Number(route.params.id);
+const noteId = getOneParam(route.params.id);
 const note = store.getNote(noteId);
 const tag = computed(() => store.tags.get(note.tagId));
 

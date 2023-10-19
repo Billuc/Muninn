@@ -35,10 +35,11 @@ import { Event } from "~/models/Event";
 import EditEvent from "./EditEvent.vue";
 import _ from "lodash";
 import { useEventStore } from "~/stores/eventStore";
+import { ID } from "~/models/ID";
 
 interface CalendarEventsProps {
   day: Date;
-  tagFilter?: number;
+  tagFilter?: ID;
 }
 
 const props = defineProps<CalendarEventsProps>();
@@ -49,7 +50,7 @@ const selectedEvent = ref<Event | null>(null);
 const daysEventsWithTags = computed(() =>
   _(store.getEventsOfDay(props.day))
     .chain()
-    .filter((e) => (props.tagFilter ?? -1) < 0 || e.tagId === props.tagFilter)
+    .filter((e) => !props.tagFilter || e.tagId === props.tagFilter)
     .sortBy([
       (event) => event.start.getHours(),
       (event) => event.start.getMinutes(),

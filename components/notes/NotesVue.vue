@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import NoteTagFilter from "~/components/notes/NoteTagFilter.vue";
 import NotesGrid from "~/components/notes/NotesGrid.vue";
+import { ID } from "~/models/ID";
 
-const selected = ref<number>(-1);
+const selected = ref<ID>("");
 </script>

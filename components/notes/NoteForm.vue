@@ -23,10 +23,11 @@ import { useNoteStore } from "~/stores/noteStore";
 import Form from "~/components/Form.vue";
 import InputField from "../InputField.vue";
 import TagSelecter from "../TagSelecter.vue";
+import { ID } from "~/models/ID";
 
 interface NoteFormProps {
   name: string;
-  tagId: number;
+  tagId: ID;
 }
 
 const props = defineProps<NoteFormProps>();
@@ -35,7 +36,7 @@ const store = useNoteStore();
 const form = ref<InstanceType<typeof Form> | null>(null);
 
 const setName = (newName: string) => emit("update:name", newName);
-const setTagId = (newTagId: number) => emit("update:tagId", newTagId);
+const setTagId = (newTagId: ID) => emit("update:tagId", newTagId);
 
 const validate = () => form.value?.validate();
 defineExpose({ validate });

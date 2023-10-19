@@ -29,10 +29,11 @@ import {
   startOfWeek,
 } from "date-fns";
 import CalendarDayButton from "./CalendarDayButton.vue";
+import { ID } from "~/models/ID";
 
 interface CalendarMonthViewProps {
   date: Date;
-  tagFilter?: number;
+  tagFilter?: ID;
 }
 
 const props = defineProps<CalendarMonthViewProps>();

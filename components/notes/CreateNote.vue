@@ -27,7 +27,7 @@ const form = ref<InstanceType<typeof NoteForm> | null>(null);
 
 const isOpened = ref(false);
 const name = ref("");
-const tagId = ref(-1);
+const tagId = ref("");
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
@@ -41,6 +41,6 @@ const newNote = () => {
 };
 const reset = () => {
   name.value = "";
-  tagId.value = -1;
+  tagId.value = "";
 };
 </script>

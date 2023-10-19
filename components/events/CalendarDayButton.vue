@@ -18,12 +18,13 @@
 
 <script setup lang="ts">
 import { isSameDay, isSameMonth } from "date-fns";
+import { ID } from "~/models/ID";
 import { useEventStore } from "~/stores/eventStore";
 
 interface CalendarDayButtonProps {
   day: Date;
   date: Date;
-  tagFilter?: number;
+  tagFilter?: ID;
 }
 
 const props = defineProps<CalendarDayButtonProps>();
@@ -32,7 +33,7 @@ const store = useEventStore();
 const eventNumber = computed(() =>
   store
     .getEventsOfDay(props.day)
-    .filter((ev) => (props.tagFilter ?? -1) < 0 || ev.tagId === props.tagFilter)
+    .filter((ev) => !props.tagFilter || ev.tagId === props.tagFilter)
     .length
 );
 </script>

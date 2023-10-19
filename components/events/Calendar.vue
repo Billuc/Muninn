@@ -43,9 +43,10 @@ import CalendarEvents from "./CalendarEvents.vue";
 import CreateEvent from "./CreateEvent.vue";
 import CalendarCard from "./CalendarCard.vue";
 import _ from "lodash";
+import { ID } from "~/models/ID";
 
 interface CalendarProps {
-  tagFilter: number;
+  tagFilter: ID;
   date: Date;
 }
 

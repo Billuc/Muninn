@@ -41,7 +41,7 @@ const date = ref("");
 const time = ref<[number?, number?]>([undefined, undefined]);
 const duration = ref<[number?, number?]>([1, 0]);
 const frequency = ref<Frequency>(Frequency.Once);
-const tagId = ref(-1);
+const tagId = ref("");
 
 const close = () => emit("close");
 
@@ -87,7 +87,7 @@ watchEffect(() => {
     time.value = [undefined, undefined];
     duration.value = [1, 0];
     frequency.value = Frequency.Once;
-    tagId.value = -1;
+    tagId.value = "";
   }
 });
 </script>

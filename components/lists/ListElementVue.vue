@@ -29,7 +29,6 @@
       @enter="updateNow"
     />
     <Button
-      v-if="element.id >= 0"
       :icon="faRemove"
       class="btn-circle !btn-xs"
       @click="removeElement"
@@ -46,9 +45,10 @@ import { useListStore } from "~/stores/listStore";
 import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { ListElementDTO } from "~/models/List";
+import { ID } from "~/models/ID";
 
 interface ListElementVueProps {
-  listId: number;
+  listId: ID;
   element: ListElementDTO;
 }
 

@@ -47,8 +47,6 @@ export const useEventStore = definePersistedStore("events", {
   state: () => ({
     events: new Map<ID, EventData>(),
     tags: new Map<ID, Tag>(),
-    nextEventId: 0,
-    nextTagId: 0,
   }),
   getters: {
     tagArray: (state) => [...state.tags.values()],
@@ -76,7 +74,6 @@ export const useEventStore = definePersistedStore("events", {
         tagId: event.tagId,
       };
       this.events.set(eventData.id, eventData);
-      this.nextEventId++;
     },
     editEvent(key: ID, event: UpdateEvent) {
       const eventToEdit = this.events.get(key);
@@ -110,7 +107,6 @@ export const useEventStore = definePersistedStore("events", {
         icon: icon,
       };
       this.tags.set(tagData.id, tagData);
-      this.nextTagId++;
     },
     removeTag(tagId: ID) {
       this.tags.delete(tagId);
