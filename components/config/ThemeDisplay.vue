@@ -3,10 +3,27 @@
     data-key="theme"
     :data-set-theme="props.themeName"
     :data-theme="props.themeName"
-    data-act-class="outline"
-    class="rounded-box p-2 border-2 border-primary relative outline-offset-2"
+    :class="
+      mergeClasses(
+        'rounded-box',
+        'px-2',
+        'relative',
+        'w-full',
+        'flex',
+        'gap-1',
+        'justify-center',
+        'items-center',
+        'border-2',
+        props.selected ? 'border-neutral' : 'border-transparent'
+      )
+    "
   >
-    <div class="my-1">{{ props.themeName }}</div>
+    <div>
+      {{ props.themeName[0].toUpperCase() + props.themeName.slice(1) }}
+    </div>
+    <div class="inline-block w-1 h-4 rounded-box bg-primary"></div>
+    <div class="inline-block w-1 h-4 rounded-box bg-secondary"></div>
+    <div class="inline-block w-1 h-4 rounded-box bg-accent"></div>
     <Background :icon="faJournalWhills" />
   </button>
 </template>
@@ -17,6 +34,7 @@ import Background from "../layout/Background.vue";
 
 interface ThemeDisplayProps {
   themeName: string;
+  selected?: boolean;
 }
 
 const props = defineProps<ThemeDisplayProps>();

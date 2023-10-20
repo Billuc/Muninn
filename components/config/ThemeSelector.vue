@@ -1,37 +1,44 @@
 <template>
-  <div
-    :class="
-      mergeClasses(
-        'grid',
-        'grid-cols-2',
-        'sm:grid-cols-3',
-        'md:grid-cols-4',
-        'lg:grid-cols-5',
-        'gap-4',
-        'pl-4'
-      )
-    "
+  <SelectField
+    label="Theme"
+    :icon="faPalette"
+    v-model:value="value"
+    :options="options"
   >
-    <ThemeDisplay
-      v-for="theme in themes"
-      :theme-name="theme"
-      :key="'select-' + theme"
-    />
-  </div>
+    <template #selected="{ selected }">
+      <ThemeDisplay :theme-name="selected.value" disabled />
+    </template>
+    <template #option="{ option, selected, onSelect }">
+      <div class="px-2 py-1">
+        <ThemeDisplay
+          :theme-name="option.value"
+          :selected="selected"
+          @click="onSelect"
+        />
+      </div>
+    </template>
+  </SelectField>
 </template>
 
 <script setup lang="ts">
 import _ from "lodash";
 import { themeChange } from "theme-change";
 import ThemeDisplay from "./ThemeDisplay.vue";
+import SelectField from "../SelectField.vue";
+import { faPalette } from "@fortawesome/free-solid-svg-icons";
 
-const themes = [
-  "light",
-  "dark",
-  "synthwave",
-  "valentine",
-  "cupcake",
+const options = [
+  { text: "Light", value: "light" },
+  { text: "Dark", value: "dark" },
+  { text: "Synthwave", value: "synthwave" },
+  { text: "Valentine", value: "valentine" },
+  { text: "Cupcake", value: "cupcake" },
 ];
 
-onMounted(() => themeChange(false));
+const value = ref("light");
+
+onMounted(() => {
+  themeChange(false);
+  value.value = localStorage.getItem("theme") ?? "light";
+});
 </script>

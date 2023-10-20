@@ -1,14 +1,15 @@
 <template>
   <div class="w-52">
     <div class="my-dropdown peer">
-      <label
+      <input type="text" class="w-0" />
+      <div
         ref="label"
         tabindex="0"
         :class="props.labelClass"
         @focus="onLabelFocus"
       >
         <slot name="label"></slot>
-      </label>
+      </div>
 
       <div
         ref="dropdown"

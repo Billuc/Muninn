@@ -39,8 +39,8 @@
     <NuxtLink href="/" class="btn btn-square btn-ghost md:btn-lg !p-2" exact>
       <img src="/icon.svg" class="w-full" />
     </NuxtLink>
-    <span class="text-3xl font-extrabold px-4">Muninn</span>
-    <StatusIcon/>
+    <span class="text-3xl font-extrabold mx-2">Muninn</span>
+    <StatusIcon class="mx-2" />
   </div>
 </template>
 
