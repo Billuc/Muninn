@@ -14,10 +14,11 @@ const mapReplacer = {
     return next({ key: req.key, value }) ?? value;
   },
 };
-const idReplacer = {
+const idReplacer = { // Might delete later
   exec: (req: JSONProperty, next: (req: JSONProperty) => any | undefined) => {
     const value =
-      req.key == "id" || String(req.key).includes("Id")
+      (req.key == "id" || String(req.key).includes("Id")) &&
+      req.value !== undefined
         ? String(req.value)
         : req.value;
     return next({ key: req.key, value }) ?? value;
@@ -48,8 +49,7 @@ const mapReviver = {
     return next({ key: req.key, value }) ?? value;
   },
 };
-
-const idReviver = {
+const idReviver = { // Might delete later
   exec: (req: JSONProperty, next: (req: JSONProperty) => any | undefined) => {
     const value =
       req.key == "id" || String(req.key).includes("Id")

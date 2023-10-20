@@ -5,3 +5,9 @@ export interface JournalEntry {
   id: ID;
   text: string;
 }
+
+export interface JournalEntryDTO {
+  date: string;
+  id: ID;
+  text: string;
+}

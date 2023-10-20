@@ -22,7 +22,5 @@ interface EntryListProps {
 
 const props = defineProps<EntryListProps>();
 const store = useJournalStore();
-const dateEntries = computed(() => [
-  ...(store.getEntries(props.date)?.values() ?? []),
-]);
+const dateEntries = computed(() => store.getEntries(props.date));
 </script>

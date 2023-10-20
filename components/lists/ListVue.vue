@@ -36,7 +36,11 @@ function buildListArray(
 ): ListElementDTO[] {
   return _(elements)
     .chain()
-    .filter((el) => el.parentId === elementId)
+    .filter((el) =>
+      elementId === undefined
+        ? el.parentId === undefined || el.parentId === "undefined" // I messed up serialization so I need this now (might delete later)
+        : el.parentId === elementId
+    )
     .sortBy((el) => el.index)
     .map<ListElementDTO>((el) => ({
       id: el.id,
