@@ -34,7 +34,7 @@
       />
     </div>
 
-    <CreateEvent />
+    <CreateEvent :date="props.date" />
   </div>
 </template>
 

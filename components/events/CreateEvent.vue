@@ -30,12 +30,18 @@ import { useEventStore } from "~/stores/eventStore";
 import { Frequency } from "~/models/Event";
 import EventForm from "./EventForm.vue";
 
+interface CreateEventProps {
+  date?: Date;
+}
+
+const props = defineProps<CreateEventProps>();
 const store = useEventStore();
+const { date: propsDate } = toRefs(props);
 const isOpened = ref(false);
 const form = ref<InstanceType<typeof EventForm> | null>(null);
 
 const title = ref("");
-const date = ref(formatDate(new Date()));
+const date = ref(formatDate(propsDate?.value ?? new Date()));
 const time = ref<[number?, number?]>([new Date().getHours() + 1, 0]);
 const duration = ref<[number?, number?]>([1, 0]);
 const frequency = ref<Frequency>(Frequency.Once);
@@ -67,4 +73,8 @@ const reset = () => {
   frequency.value = Frequency.Once;
   tagId.value = "";
 };
+
+watch([propsDate], () => {
+  date.value = formatDate(propsDate?.value ?? new Date());
+});
 </script>
