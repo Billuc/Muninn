@@ -1,7 +1,10 @@
 <template>
-  <div class="card shadow-lg p-1 bg-base-200 min-h-[192px]">
+  <div
+    class="card shadow-lg p-1 bg-base-200 min-h-[192px] max-md:max-h-[192px]"
+  >
     <div class="text-xl font-semibold text-center mb-2">Journal</div>
-    <EntryList :date="props.date" />
+
+    <EntryList :date="props.date" class="overflow-y-auto" />
   </div>
 </template>
 

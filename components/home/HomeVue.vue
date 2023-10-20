@@ -1,11 +1,8 @@
 <template>
   <div>
-    <PageHeading>
-      Today is
-      <span class="text-secondary">{{ format(date, "EEEE") }}</span> the
-      <span class="text-secondary">{{ format(date, "do") }}</span> of
-      <span>{{ format(date, "MMMM") }}</span>
-    </PageHeading>
+    <div class="flex justify-evenly mb-6">
+      <HomeDateDisplay :date="date" />
+    </div>
 
     <div
       :class="
@@ -31,8 +28,7 @@
 <script setup lang="ts">
 import HomeJournal from "./HomeJournal.vue";
 import HomeEvents from "./HomeEvents.vue";
-import PageHeading from "../layout/PageHeading.vue";
-import { format } from "date-fns";
+import HomeDateDisplay from "./HomeDateDisplay.vue";
 
 const date = new Date();
 </script>

@@ -23,10 +23,10 @@
         :class="
           mergeClasses(
             'absolute',
-            'bottom-4',
+            'bottom-0',
             'md:bottom-auto',
             'top-auto',
-            'md:top-4',
+            'md:top-0',
             'grid',
             'grid-cols-4',
             'md:grid-cols-2',
@@ -36,7 +36,10 @@
             'md:justify-items-stretch',
             'w-full',
             'md:w-52',
-            'px-4'
+            'p-4',
+            'bg-base-300',
+            'rounded-t-box',
+            'md:rounded-box'
           )
         "
       >

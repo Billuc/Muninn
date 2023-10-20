@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3 class="text-secondary text-xl font-bold leading-4">
-      {{ format(props.date, "MMM d") }}
+      {{ format(props.date, "MMMM d") }}
     </h3>
     <h2 class="text-secondary text-2xl font-extrabold">
       {{ format(props.date, "EEEE") }}

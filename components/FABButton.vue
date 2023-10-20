@@ -9,10 +9,11 @@
         'absolute',
         'transition-transform',
         'duration-300',
-        'hover:-rotate-90',
+        'hover:scale-105',
         'bg-gradient-to-br',
         'from-primary',
-        'to-secondary',
+        'via-primary',
+        'to-accent',
         'border-0',
         'shadow-md'
       )
