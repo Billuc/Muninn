@@ -15,6 +15,7 @@
         :value="value"
         :placeholder="props.placeholder"
         :label-class="inputClass"
+        :flat-list="props.flatList"
         @update:value="onInput"
       >
         <template #selected="selectedProps">
@@ -55,6 +56,7 @@ interface SelectFieldProps {
   value: string;
   placeholder?: string;
   rules?: ((v: string) => boolean)[];
+  flatList?: boolean;
 }
 
 const props = defineProps<SelectFieldProps>();

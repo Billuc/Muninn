@@ -8,6 +8,7 @@
     @clear="() => selectTag('-1')"
     :clearable="props.clearable"
     :placeholder="props.placeholder ?? 'Choose a tag'"
+    flat-list
   >
     <template #selected="{ selected }">
       <TagVue

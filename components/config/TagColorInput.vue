@@ -6,6 +6,7 @@
     :value="props.value"
     :options="colorOptions"
     @update:value="onInput"
+    flat-list
     :rules="rules"
   >
     <template #selected="{ selected }">

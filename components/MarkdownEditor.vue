@@ -38,7 +38,7 @@ const textareaId = _.uniqueId("textarea");
 const easyMDEOptions: EasyMDE.Options = {
   initialValue: props.value,
   placeholder: props.placeholder,
-  previewClass: ["editor-preview", "prose", "max-w-full"],
+  previewClass: ["editor-preview", "prose", "max-w-full", "!bg-base-100"],
   spellChecker: false,
   forceSync: true,
   toolbar: [

@@ -19,6 +19,7 @@
           :elements="props.options"
           :selected="props.value"
           @select="select"
+          :flat="props.flatList"
         >
           <template #element="{ element, onSelect, selected }">
             <slot
@@ -55,6 +56,7 @@ interface SelectDropdownProps {
   value: string;
   placeholder?: string;
   labelClass?: string;
+  flatList?: boolean;
 }
 
 const props = defineProps<SelectDropdownProps>();

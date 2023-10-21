@@ -5,9 +5,9 @@
         'overflow-y-auto',
         'max-h-48',
         'snap-y',
-        'shadow-[inset_0_0_8px_-2px_black]',
+        props.flat ? undefined : 'shadow-[inset_0_0_8px_-2px_black]',
         'rounded-sm',
-        'bg-base-100'
+        props.flat ? undefined : 'bg-base-100'
       )
     "
   >
@@ -57,6 +57,7 @@ interface DropdownListProps {
   elements: DropdownListElement<T>[];
   selected?: T;
   emitItem?: boolean;
+  flat?: boolean;
 }
 
 const props = defineProps<DropdownListProps>();

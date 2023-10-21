@@ -4,6 +4,7 @@
     :icon="faPalette"
     v-model:value="value"
     :options="options"
+    flat-list
   >
     <template #selected="{ selected }">
       <ThemeDisplay :theme-name="selected.value" disabled />

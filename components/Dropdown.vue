@@ -1,9 +1,12 @@
 <template>
   <div class="w-52">
-    <div class="my-dropdown peer">
-      <input type="text" class="w-0" />
+    <div
+      :class="
+        mergeClasses('w-full', 'inline-flex', 'relative', 'peer ', 'group')
+      "
+    >
+      <input type="button" class="absolute invisible" />
       <div
-        ref="label"
         tabindex="0"
         :class="props.labelClass"
         @focus="onLabelFocus"
@@ -12,11 +15,17 @@
       </div>
 
       <div
-        ref="dropdown"
         tabindex="0"
         :class="
           mergeClasses(
-            'my-dropdown-content',
+            'invisible',
+            'opacity-0',
+            'transition-opacity',
+            'duration-200',
+            'group-focus-within:visible',
+            'group-focus-within:opacity-100',
+            'z-30',
+            undefined,
             'bg-base-200',
             'min-w-full',
             'rounded-box',
@@ -43,14 +52,14 @@
 
     <label
       tabindex="0"
+      ref="backdrop"
       :class="
         mergeClasses(
-          'hidden',
           'bg-black',
           'opacity-0',
-          'peer-focus-within:block',
-          'peer-focus-within:opacity-20',
-          'md:peer-focus-within:hidden',
+          'pointer-events-none',
+          'max-md:peer-focus-within:opacity-20',
+          'max-md:peer-focus-within:pointer-events-auto',
           'fixed',
           'bottom-0',
           'left-0',
@@ -72,45 +81,12 @@ interface DropdownProps {
 
 const props = defineProps<DropdownProps>();
 const emit = defineEmits(["focus"]);
-const dropdown = ref<HTMLElement | null>(null);
-const label = ref<HTMLElement | null>(null);
+const backdrop = ref<HTMLElement | null>(null);
 
 const onLabelFocus = () => emit("focus");
 const blur = () => {
-  dropdown.value?.blur();
-  label.value?.blur();
+  backdrop.value?.focus();
+  backdrop.value?.blur();
 };
-
 defineExpose({ blur });
 </script>
-
-<style>
-.my-dropdown {
-  width: 100%;
-  position: relative;
-  display: inline-flex;
-}
-
-.my-dropdown .my-dropdown-content {
-  visibility: hidden;
-  opacity: 0;
-  transform-origin: top;
-  --tw-scale-x: 0.95;
-  --tw-scale-y: 0.95;
-  transform: scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
-    backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  transition-duration: 200ms;
-}
-
-.my-dropdown:focus-within .my-dropdown-content {
-  visibility: visible;
-  opacity: 1;
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  z-index: 30;
-}
-</style>
