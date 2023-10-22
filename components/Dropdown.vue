@@ -5,7 +5,7 @@
         mergeClasses('w-full', 'inline-flex', 'relative', 'peer ', 'group')
       "
     >
-      <input type="button" class="absolute invisible" />
+      <input type="checkbox" class="absolute opacity-0" />
       <div
         tabindex="0"
         :class="props.labelClass"
