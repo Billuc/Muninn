@@ -49,6 +49,15 @@
       @update:selected="setTagId"
       clearable
     />
+    <InputField
+      label="Event Description"
+      placeholder="Enter description..."
+      :value="description"
+      :icon="faFont"
+      @update:value="setDescription"
+      clearable
+      @clear="() => setDescription('')"
+    />
   </Form>
 </template>
 
@@ -78,6 +87,7 @@ interface EventFormProps {
   duration: [number?, number?];
   frequency: Frequency;
   tagId: ID;
+  description: string;
 }
 
 const props = defineProps<EventFormProps>();
@@ -88,6 +98,7 @@ const emit = defineEmits([
   "update:duration",
   "update:frequency",
   "update:tagId",
+  "update:description",
 ]);
 const store = useEventStore();
 const form = ref<InstanceType<typeof Form> | null>(null);
@@ -103,6 +114,7 @@ const setTime = (v: [number?, number?]) => emit("update:time", v);
 const setDuration = (v: [number?, number?]) => emit("update:duration", v);
 const setFrequency = (v: Frequency) => emit("update:frequency", v);
 const setTagId = (v: ID) => emit("update:tagId", v);
+const setDescription = (v: string) => emit("update:description", v);
 
 const validate = () => form.value?.validate();
 defineExpose({ validate });

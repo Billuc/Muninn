@@ -57,6 +57,7 @@ export const useEventStore = definePersistedStore("events", {
         .filter((evD) => hasRepetitionAtDay(evD, day))
         .map((evD) => ({
           id: evD.id,
+          description: evD.description ?? "",
           frequency: evD.frequency,
           start: parseDate(evD.start),
           title: evD.title,
@@ -68,6 +69,7 @@ export const useEventStore = definePersistedStore("events", {
       const eventData: EventData = {
         id: uuidv4(),
         title: event.title,
+        description: event.description,
         frequency: event.frequency,
         start: formatDate(event.start),
         end: event.end ? formatDate(event.end) : undefined,
@@ -85,6 +87,7 @@ export const useEventStore = definePersistedStore("events", {
       const eventData: EventData = {
         id: key,
         title: event.title ?? eventToEdit.title,
+        description: event.description ?? eventToEdit.description,
         frequency: event.frequency ?? eventToEdit.frequency,
         start: event.start ? formatDate(event.start) : eventToEdit.start,
         end: event.end ? formatDate(event.end) : eventToEdit.end,

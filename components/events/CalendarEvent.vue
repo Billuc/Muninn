@@ -4,12 +4,13 @@
       mergeClasses(
         'border-b',
         'last-of-type:border-b-0',
-        'p-2',
+        'p-1',
         'border-base-300',
         'border-dashed',
         'cursor-pointer',
         'flex',
-        'items-center'
+        'items-center',
+        'bg-base-300'
       )
     "
   >
@@ -18,6 +19,7 @@
       <p class="focus:outline-none text-lg font-medium leading-5">
         {{ props.title }}
       </p>
+      <p class="text-xs">{{ props.description }}</p>
     </div>
 
     <TagVue v-if="props.tag" :icon="props.tag.icon" :color="props.tag.color" />

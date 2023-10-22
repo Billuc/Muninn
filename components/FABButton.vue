@@ -5,6 +5,7 @@
       mergeClasses(
         'btn',
         'btn-circle',
+        'btn-sm',
         'text-primary-content',
         'absolute',
         'transition-transform',
@@ -21,7 +22,7 @@
     :disabled="props.disabled"
   >
     <Spinner v-if="props.loading" />
-    <FontAwesomeIcon v-else :icon="props.icon" />
+    <FontAwesomeIcon v-else :icon="props.icon" size="sm" />
   </button>
 </template>
 

@@ -1,6 +1,10 @@
 <template>
   <label :class="mergeClasses('label', 'gap-2', 'p-0')">
-    <div class="w-28 flex-shrink-0">
+    <div
+      :class="
+        mergeClasses('w-28', 'flex-shrink-0', 'inline-flex', 'items-center')
+      "
+    >
       <slot name="label" :icon="props.icon" :label="props.label">
         <FontAwesomeIcon v-if="props.icon" :icon="props.icon" class="mr-1" />
 

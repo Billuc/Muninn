@@ -10,7 +10,7 @@
             v-bind="event"
             :tag="tag"
             @click="selectEvent(event)"
-            :class="mergeClasses('px-6', 'rounded-box')"
+            :class="mergeClasses('px-6', 'rounded-box', 'mb-1')"
           />
         </li>
       </ul>

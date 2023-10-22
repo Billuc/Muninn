@@ -12,12 +12,15 @@
     <CalendarEvents :day="props.date" class="overflow-y-auto">
       <template #no-event>{{ "" }}</template>
     </CalendarEvents>
+
+    <CreateEvent :date="props.date" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useEventStore } from "~/stores/eventStore";
 import CalendarEvents from "../events/CalendarEvents.vue";
+import CreateEvent from "../events/CreateEvent.vue";
 
 interface HomeEventsProps {
   date: Date;

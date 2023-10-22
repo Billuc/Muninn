@@ -12,6 +12,7 @@
           v-model:duration="duration"
           v-model:frequency="frequency"
           v-model:tag-id="tagId"
+          v-model:description="description"
           ref="form"
         />
       </template>
@@ -46,6 +47,7 @@ const time = ref<[number?, number?]>([new Date().getHours() + 1, 0]);
 const duration = ref<[number?, number?]>([1, 0]);
 const frequency = ref<Frequency>(Frequency.Once);
 const tagId = ref("");
+const description = ref("");
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
@@ -61,6 +63,7 @@ const newEvent = () => {
     start: start,
     end: addDuration(start, duration.value),
     tagId: tagId.value,
+    description: description.value
   });
   closeModal();
   reset();
@@ -72,6 +75,7 @@ const reset = () => {
   duration.value = [1, 0];
   frequency.value = Frequency.Once;
   tagId.value = "";
+  description.value = "";
 };
 
 watch([propsDate], () => {

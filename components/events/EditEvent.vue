@@ -9,6 +9,7 @@
         v-model:duration="duration"
         v-model:frequency="frequency"
         v-model:tag-id="tagId"
+        v-model:description="description"
         ref="form"
       />
     </template>
@@ -42,6 +43,7 @@ const time = ref<[number?, number?]>([undefined, undefined]);
 const duration = ref<[number?, number?]>([1, 0]);
 const frequency = ref<Frequency>(Frequency.Once);
 const tagId = ref("");
+const description = ref("");
 
 const close = () => emit("close");
 
@@ -57,6 +59,7 @@ const editEvent = () => {
     start: start,
     end: addDuration(start, duration.value),
     tagId: tagId.value,
+    description: description.value,
   });
   close();
 };
@@ -74,12 +77,13 @@ watchEffect(() => {
     time.value = [props.event.start.getHours(), props.event.start.getMinutes()];
     frequency.value = props.event.frequency;
     tagId.value = props.event.tagId;
+    description.value = props.event.description ?? "";
 
     if (props.event.end) {
       const eventDuration = getDuration(props.event.start, props.event.end);
       duration.value = [eventDuration.hours, eventDuration.minutes];
     } else {
-      duration.value = [0, 0]
+      duration.value = [0, 0];
     }
   } else {
     title.value = "";
@@ -88,6 +92,7 @@ watchEffect(() => {
     duration.value = [1, 0];
     frequency.value = Frequency.Once;
     tagId.value = "";
+    description.value = "";
   }
 });
 </script>
