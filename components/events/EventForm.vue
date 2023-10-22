@@ -8,14 +8,13 @@
       @update:value="setTitle"
       :rules="[(v) => !!v]"
     />
-    <InputField
-      type="date"
+    <DateField
       label="Event Date"
       placeholder="Enter date..."
       :value="date"
       :icon="faCalendar"
       @update:value="setDate"
-      :rules="[(v) => !!v]"
+      required
     />
     <TimeField
       label="Event Time"
@@ -79,10 +78,11 @@ import SelectField from "../SelectField.vue";
 import DurationField from "../DurationField.vue";
 import TimeField from "../TimeField.vue";
 import { ID } from "~/models/ID";
+import DateField from "../DateField.vue";
 
 interface EventFormProps {
   title: string;
-  date: string;
+  date: Date;
   time: [number?, number?];
   duration: [number?, number?];
   frequency: Frequency;
@@ -109,7 +109,7 @@ const frequencyOptions = Object.entries(Frequency).map(([text, freq]) => ({
 }));
 
 const setTitle = (v: string) => emit("update:title", v);
-const setDate = (v: string) => emit("update:date", v);
+const setDate = (v: Date) => emit("update:date", v);
 const setTime = (v: [number?, number?]) => emit("update:time", v);
 const setDuration = (v: [number?, number?]) => emit("update:duration", v);
 const setFrequency = (v: Frequency) => emit("update:frequency", v);

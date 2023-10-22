@@ -8,7 +8,7 @@
     @clear="clear"
     @update:value="select"
   >
-    <template #input="{ value, onInput, inputClass }">
+    <template #input="{ value, onInput, inputClass, id }">
       <AutocompleteDropdown
         class="flex-shrink w-full"
         :options="props.options"
@@ -17,6 +17,7 @@
         :label-class="inputClass"
         @update:value="onInput"
         @new-option="newOption"
+        :input-id="id"
       >
         <template #selected="selectedProps">
           <slot name="selected" v-bind="selectedProps"></slot>

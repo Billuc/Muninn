@@ -8,7 +8,7 @@
     @clear="clear"
     @update:value="select"
   >
-    <template #input="{ value, inputClass, onInput }">
+    <template #input="{ value, inputClass, onInput, id }">
       <SelectDropdown
         class="flex-shrink w-full"
         :options="props.options"
@@ -17,6 +17,7 @@
         :label-class="inputClass"
         :flat-list="props.flatList"
         @update:value="onInput"
+        :input-id="id"
       >
         <template #selected="selectedProps">
           <slot name="selected" v-bind="selectedProps"></slot>

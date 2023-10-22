@@ -38,7 +38,7 @@ const form = ref<InstanceType<typeof EventForm> | null>(null);
 
 const isOpened = computed(() => !!props.event);
 const title = ref("");
-const date = ref("");
+const date = ref(new Date());
 const time = ref<[number?, number?]>([undefined, undefined]);
 const duration = ref<[number?, number?]>([1, 0]);
 const frequency = ref<Frequency>(Frequency.Once);
@@ -51,7 +51,7 @@ const editEvent = () => {
   if (!props.event) return;
   if (!form.value?.validate()) return;
 
-  const start = parseDateTime(date.value, time.value);
+  const start = parseDateTime(formatDate(date.value), time.value);
 
   store.editEvent(props.event.id, {
     title: title.value,
@@ -73,7 +73,7 @@ const removeEvent = () => {
 watchEffect(() => {
   if (props.event) {
     title.value = props.event.title;
-    date.value = formatDate(props.event.start);
+    date.value = props.event.start;
     time.value = [props.event.start.getHours(), props.event.start.getMinutes()];
     frequency.value = props.event.frequency;
     tagId.value = props.event.tagId;
@@ -87,7 +87,7 @@ watchEffect(() => {
     }
   } else {
     title.value = "";
-    date.value = "";
+    date.value = new Date();
     time.value = [undefined, undefined];
     duration.value = [1, 0];
     frequency.value = Frequency.Once;

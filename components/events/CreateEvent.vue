@@ -42,7 +42,7 @@ const isOpened = ref(false);
 const form = ref<InstanceType<typeof EventForm> | null>(null);
 
 const title = ref("");
-const date = ref(formatDate(propsDate?.value ?? new Date()));
+const date = ref(propsDate?.value ?? new Date());
 const time = ref<[number?, number?]>([new Date().getHours() + 1, 0]);
 const duration = ref<[number?, number?]>([1, 0]);
 const frequency = ref<Frequency>(Frequency.Once);
@@ -55,7 +55,7 @@ const closeModal = () => (isOpened.value = false);
 const newEvent = () => {
   if (!form.value?.validate()) return;
 
-  const start = parseDateTime(date.value, time.value);
+  const start = parseDateTime(formatDate(date.value), time.value);
 
   store.newEvent({
     title: title.value,
@@ -63,14 +63,14 @@ const newEvent = () => {
     start: start,
     end: addDuration(start, duration.value),
     tagId: tagId.value,
-    description: description.value
+    description: description.value,
   });
   closeModal();
   reset();
 };
 const reset = () => {
   title.value = "";
-  date.value = "";
+  date.value = new Date();
   time.value = [undefined, undefined];
   duration.value = [1, 0];
   frequency.value = Frequency.Once;
@@ -79,6 +79,6 @@ const reset = () => {
 };
 
 watch([propsDate], () => {
-  date.value = formatDate(propsDate?.value ?? new Date());
+  date.value = propsDate?.value ?? new Date();
 });
 </script>

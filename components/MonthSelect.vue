@@ -14,6 +14,7 @@ import SelectDropdown from "./SelectDropdown.vue";
 
 interface MonthSelectProps {
   month: number;
+  compact?: boolean;
 }
 
 const props = defineProps<MonthSelectProps>();
@@ -22,7 +23,7 @@ const emit = defineEmits(["update:month"]);
 const monthOptions = eachMonthOfInterval({
   start: startOfYear(new Date()),
   end: endOfYear(new Date()),
-}).map((d) => ({ text: format(d, "MMMM"), value: d.getMonth().toString() }));
+}).map((d) => ({ text: format(d, props.compact ? "MMM" : "MMMM"), value: d.getMonth().toString() }));
 
 const selectMonth = (newMonth: string) =>
   emit("update:month", Number(newMonth));

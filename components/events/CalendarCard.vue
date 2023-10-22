@@ -2,18 +2,19 @@
   <div>
     <CalendarHeader
       :date="props.date"
+      :compact="props.compact"
       @previousMonth="previousMonth"
       @nextMonth="nextMonth"
       @select-month="selectMonth"
       @select-year="selectYear"
-      class="px-4"
     />
     <CalendarMonthView
       :date="props.date"
       :tag-filter="props.tagFilter"
+      :compact="props.compact"
       class="pt-4"
       @selectDate="selectDate"
-    ></CalendarMonthView>
+    />
   </div>
 </template>
 
@@ -26,6 +27,7 @@ import { ID } from "~/models/ID";
 interface CalendarCardProps {
   date: Date;
   tagFilter?: ID;
+  compact?: boolean;
 }
 
 const props = defineProps<CalendarCardProps>();

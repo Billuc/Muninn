@@ -7,7 +7,7 @@
     @clear="clear"
     :rules="rules"
   >
-    <template #input="{ inputClass }">
+    <template #input="{ inputClass, id }">
       <DurationPicker
         :hours="props.hours"
         :minutes="props.minutes"
@@ -15,6 +15,7 @@
         class="flex-shrink w-full"
         @update:hours="onUpdateHours"
         @update:minutes="onUpdateMinutes"
+        :input-id="id"
       />
     </template>
   </Field>

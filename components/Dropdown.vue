@@ -2,15 +2,17 @@
   <div class="w-52">
     <div
       :class="
-        mergeClasses('w-full', 'inline-flex', 'relative', 'peer ', 'group')
+        mergeClasses(
+          'w-full',
+          'inline-flex',
+          'relative',
+          'peer ',
+          'my-dropdown'
+        )
       "
     >
-      <input type="checkbox" class="absolute opacity-0" />
-      <div
-        tabindex="0"
-        :class="props.labelClass"
-        @focus="onLabelFocus"
-      >
+      <input type="checkbox" class="absolute opacity-0" :id="props.inputId" />
+      <div tabindex="0" :class="props.labelClass" @focus="onLabelFocus">
         <slot name="label"></slot>
       </div>
 
@@ -18,12 +20,11 @@
         tabindex="0"
         :class="
           mergeClasses(
+            'my-dropdown-content',
             'invisible',
             'opacity-0',
             'transition-opacity',
             'duration-200',
-            'group-focus-within:visible',
-            'group-focus-within:opacity-100',
             'z-30',
             undefined,
             'bg-base-200',
@@ -77,6 +78,7 @@ import _ from "lodash";
 
 interface DropdownProps {
   labelClass?: string;
+  inputId?: string;
 }
 
 const props = defineProps<DropdownProps>();
@@ -86,7 +88,13 @@ const backdrop = ref<HTMLElement | null>(null);
 const onLabelFocus = () => emit("focus");
 const blur = () => {
   backdrop.value?.focus();
-  backdrop.value?.blur();
 };
 defineExpose({ blur });
 </script>
+
+<style>
+.my-dropdown:focus-within > .my-dropdown-content {
+  visibility: visible;
+  opacity: 1;
+}
+</style>

@@ -8,7 +8,7 @@
     @clear="onClear"
     @update:value="onInput"
   >
-    <template #input="{ inputClass, onInput, value }">
+    <template #input="{ inputClass, onInput, value, id }">
       <input
         :type="props.type ?? 'text'"
         :value="value"
@@ -16,6 +16,7 @@
         :class="inputClass"
         :pattern="props.pattern"
         :placeholder="props.placeholder"
+        :id="id"
       />
     </template>
   </Field>

@@ -10,9 +10,9 @@
     "
   >
     {{ day.getDate() }}
-    <div class="absolute left-1/2 bottom-[2px] -translate-x-1/2">
+    <!-- <div class="absolute left-1/2 bottom-[2px] -translate-x-1/2">
       {{ ".".repeat(Math.min(3, eventNumber)) }}
-    </div>
+    </div> -->
   </Button>
 </template>
 
@@ -28,12 +28,12 @@ interface CalendarDayButtonProps {
 }
 
 const props = defineProps<CalendarDayButtonProps>();
-const store = useEventStore();
+// const store = useEventStore();
 
-const eventNumber = computed(() =>
-  store
-    .getEventsOfDay(props.day)
-    .filter((ev) => !props.tagFilter || ev.tagId === props.tagFilter)
-    .length
-);
+// const eventNumber = computed(() =>
+//   store
+//     .getEventsOfDay(props.day)
+//     .filter((ev) => !props.tagFilter || ev.tagId === props.tagFilter)
+//     .length
+// );
 </script>

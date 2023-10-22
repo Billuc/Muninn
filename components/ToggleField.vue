@@ -5,8 +5,8 @@
     :value="String(props.value)"
     :rules="rules"
   >
-    <template #input>
-      <Toggle :value="props.value" @update:value="onInput" />
+    <template #input="{ id }">
+      <Toggle :value="props.value" @update:value="onInput" :id="id" />
     </template>
   </Field>
 </template>

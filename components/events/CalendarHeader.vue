@@ -1,5 +1,5 @@
 <template>
-  <div :class="mergeClasses('px-4', 'flex', 'items-center', 'justify-between')">
+  <div :class="mergeClasses('flex', 'items-center', 'justify-between')">
     <Button
       :icon="faAngleLeft"
       @click="prevMonth"
@@ -8,6 +8,7 @@
 
     <MonthSelect
       :month="props.date.getMonth()"
+      :compact="props.compact"
       @update:month="selectMonth"
       class="!w-fit"
     />
@@ -33,6 +34,7 @@ import YearSelect from "../YearSelect.vue";
 
 interface CalendarHeaderProps {
   date: Date;
+  compact?: boolean;
 }
 
 const props = defineProps<CalendarHeaderProps>();

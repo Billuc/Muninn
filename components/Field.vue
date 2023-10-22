@@ -1,9 +1,10 @@
 <template>
-  <label :class="mergeClasses('label', 'gap-2', 'p-0')">
-    <div
+  <div :class="mergeClasses('label', 'gap-2', 'p-0')">
+    <label
       :class="
         mergeClasses('w-28', 'flex-shrink-0', 'inline-flex', 'items-center')
       "
+      :for="id"
     >
       <slot name="label" :icon="props.icon" :label="props.label">
         <FontAwesomeIcon v-if="props.icon" :icon="props.icon" class="mr-1" />
@@ -12,7 +13,7 @@
           <span class="label-text truncate">{{ props.label }}</span>
         </slot>
       </slot>
-    </div>
+    </label>
 
     <div class="flex flex-nowrap flex-shrink w-52">
       <slot
@@ -20,11 +21,13 @@
         :inputClass="inputClass"
         :onInput="onInput"
         :value="props.value"
+        :id="id"
       >
         <input
           @input="(ev: any) => onInput(ev.target.value)"
           :class="inputClass"
           :value="props.value"
+          :id="id"
         />
       </slot>
 
@@ -37,7 +40,7 @@
         />
       </slot>
     </div>
-  </label>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -59,6 +62,7 @@ const form = inject<{
   bind: (uid: number, valid: Ref<boolean>) => void;
   unbind: (uid: number) => void;
 }>("form");
+const id = _.uniqueId("field-");
 
 const valid = computed(
   () => !props.rules || _.every(props.rules, (rule) => rule(props.value))
