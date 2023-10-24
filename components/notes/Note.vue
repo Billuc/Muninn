@@ -8,7 +8,6 @@
       :editing="editing"
       @edit="editing = true"
       @save="save"
-      @cancel="cancel"
     />
     <MarkdownEditor
       :value="noteText"
@@ -41,10 +40,6 @@ const updateNoteText = (newText: string) => {
 };
 const save = () => {
   updateNote();
-  nextTick(() => editing.value = false);
-};
-const cancel = () => {
-  noteText.value = props.note.text;
   nextTick(() => editing.value = false);
 };
 
