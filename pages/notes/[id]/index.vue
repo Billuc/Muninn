@@ -16,10 +16,7 @@
       </span>
 
       <template #append>
-        <div class="inline-block">
-          <EditNote :note="note" />
-          <DeleteNote :note="note" />
-        </div>
+        <NoteActions :note="note" />
       </template>
     </PageHeading>
     <Background :icon="faLightbulb" />
@@ -37,6 +34,7 @@ import PageHeading from "~/components/layout/PageHeading.vue";
 import DeleteNote from "~/components/notes/DeleteNote.vue";
 import EditNote from "~/components/notes/EditNote.vue";
 import Note from "~/components/notes/Note.vue";
+import NoteActions from "~/components/notes/NoteActions.vue";
 import { useNoteStore } from "~/stores/noteStore";
 
 const route = useRoute();

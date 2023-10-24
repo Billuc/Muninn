@@ -1,17 +1,22 @@
 <template>
-  <div class="inline-block">
-    <Button :icon="faPen" @click="openModal" class="text-info btn-ghost" />
-
-    <Dialog :is-opened="isOpened" @close="closeModal">
-      <template #title>Edit note "{{ props.note.title }}"</template>
-      <template #default>
-        <NoteForm v-model:name="name" v-model:tag-id="tagId" ref="form" />
-      </template>
-      <template #actions>
-        <Button class="btn-success" @click="editNote">Save</Button>
-      </template>
-    </Dialog>
-  </div>
+  <Action
+    :icon="faPen"
+    label="Edit note"
+    icon-class="text-info"
+    @click="openModal"
+  >
+    <template #dialog>
+      <Dialog :is-opened="isOpened" @close="closeModal">
+        <template #title>Edit note "{{ props.note.title }}"</template>
+        <template #default>
+          <NoteForm v-model:name="name" v-model:tag-id="tagId" ref="form" />
+        </template>
+        <template #actions>
+          <Button class="btn-success" @click="editNote">Save</Button>
+        </template>
+      </Dialog>
+    </template>
+  </Action>
 </template>
 
 <script setup lang="ts">

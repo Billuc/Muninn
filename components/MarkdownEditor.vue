@@ -100,6 +100,7 @@ watch([value], () => {
   max-height: 0;
   opacity: 0;
   transition: all ease-in-out 0.5s;
+  @apply rounded-t-box;
 }
 
 .markdown-editor .editor-toolbar.active {
@@ -108,6 +109,6 @@ watch([value], () => {
 }
 
 .markdown-editor .CodeMirror {
-  border-radius: 4px;
+  @apply rounded-box;
 }
 </style>

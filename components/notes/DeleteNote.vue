@@ -1,17 +1,22 @@
 <template>
-  <div class="inline-block">
-    <Button :icon="faTrash" @click="openModal" class="text-error btn-ghost" />
-
-    <Dialog :is-opened="isOpened" @close="closeModal">
-      <template #title>
-        Are you sure you want to remove note "{{ props.note.title }}" ?
-      </template>
-      <template #actions>
-        <Button class="btn-error" @click="closeModal">No</Button>
-        <Button class="btn-success ml-2" @click="remove">Yes</Button>
-      </template>
-    </Dialog>
-  </div>
+  <Action
+    :icon="faTrash"
+    label="Delete note"
+    icon-class="text-error"
+    @click="openModal"
+  >
+    <template #dialog>
+      <Dialog :is-opened="isOpened" @close="closeModal">
+        <template #title>
+          Are you sure you want to remove note "{{ props.note.title }}" ?
+        </template>
+        <template #actions>
+          <Button class="btn-error" @click="closeModal">No</Button>
+          <Button class="btn-success ml-2" @click="remove">Yes</Button>
+        </template>
+      </Dialog>
+    </template>
+  </Action>
 </template>
 
 <script setup lang="ts">

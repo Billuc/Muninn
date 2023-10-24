@@ -4,7 +4,7 @@
       mergeClasses('relative', 'flex', 'flex-col', 'flex-nowrap', 'gap-y-2')
     "
   >
-    <NoteActions
+    <NoteEditorActions
       :editing="editing"
       @edit="editing = true"
       @save="save"
@@ -24,7 +24,7 @@ import { useNoteStore } from "~/stores/noteStore";
 import _ from "lodash";
 import { Note } from "~/models/Note";
 import MarkdownEditor from "../MarkdownEditor.vue";
-import NoteActions from "./NoteActions.vue";
+import NoteEditorActions from "./NoteEditorActions.vue";
 
 interface NoteProps {
   note: Note;

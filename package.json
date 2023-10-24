@@ -19,6 +19,9 @@
     "nuxt-lodash": "^2.5.0"
   },
   "dependencies": {
+    "@bytemd/plugin-gemoji": "^1.21.0",
+    "@bytemd/plugin-gfm": "^1.21.0",
+    "@bytemd/vue-next": "^1.21.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
