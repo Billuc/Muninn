@@ -7,6 +7,7 @@ export interface Event {
   start: Date;
   end?: Date;
   frequency: Frequency;
+  frequencyMultiplier: number;
   tagId: ID;
 }
 
@@ -17,6 +18,7 @@ export interface EventData {
   start: string;
   end?: string;
   frequency: Frequency;
+  frequencyMultiplier: number;
   tagId: ID;
 }
 
@@ -26,6 +28,7 @@ export interface UpdateEvent {
   start?: Date;
   end?: Date;
   frequency?: Frequency;
+  frequencyMultiplier?: number;
   tagId?: ID;
 }
 
@@ -36,3 +39,11 @@ export enum Frequency {
   Monthly = "monthly",
   Yearly = "yearly",
 }
+
+export const FrequencyMapper: { [k in Frequency]: string } = {
+  [Frequency.Once]: "Once",
+  [Frequency.Daily]: "Every X days",
+  [Frequency.Weekly]: "Every X weeks",
+  [Frequency.Monthly]: "Every X months",
+  [Frequency.Yearly]: "Every X years",
+};

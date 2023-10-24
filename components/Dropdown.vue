@@ -43,7 +43,8 @@
             'overflow-y-auto',
             'overflow-x-visible',
             'shadow-xl',
-            'p-2'
+            'p-2',
+            'mt-1'
           )
         "
       >

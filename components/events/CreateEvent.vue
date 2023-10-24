@@ -11,6 +11,7 @@
           v-model:time="time"
           v-model:duration="duration"
           v-model:frequency="frequency"
+          v-model:frequency-multiplier="frequencyMultiplier"
           v-model:tag-id="tagId"
           v-model:description="description"
           ref="form"
@@ -46,6 +47,7 @@ const date = ref(propsDate?.value ?? new Date());
 const time = ref<[number?, number?]>([new Date().getHours() + 1, 0]);
 const duration = ref<[number?, number?]>([1, 0]);
 const frequency = ref<Frequency>(Frequency.Once);
+const frequencyMultiplier = ref(1);
 const tagId = ref("");
 const description = ref("");
 
@@ -60,6 +62,7 @@ const newEvent = () => {
   store.newEvent({
     title: title.value,
     frequency: frequency.value,
+    frequencyMultiplier: frequencyMultiplier.value,
     start: start,
     end: addDuration(start, duration.value),
     tagId: tagId.value,
@@ -74,6 +77,7 @@ const reset = () => {
   time.value = [undefined, undefined];
   duration.value = [1, 0];
   frequency.value = Frequency.Once;
+  frequencyMultiplier.value = 1;
   tagId.value = "";
   description.value = "";
 };

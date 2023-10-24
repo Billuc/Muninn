@@ -1,7 +1,12 @@
 import {
+  differenceInCalendarDays,
+  differenceInCalendarMonths,
+  differenceInCalendarYears,
   eachDayOfInterval,
   endOfDay,
   format,
+  getWeek,
+  intervalToDuration,
   parse,
   startOfDay,
 } from "date-fns";
@@ -25,18 +30,29 @@ const hasRepetitionAtDay = (event: EventData, day: Date) => {
     case Frequency.Once:
       return endOfDay(end) >= day;
     case Frequency.Daily:
-      return true;
-    case Frequency.Weekly:
       return eachDayOfInterval({ start, end }).some(
-        (d) => d.getDay() === day.getDay()
+        (d) => differenceInCalendarDays(d, day) % event.frequencyMultiplier == 0
       );
+    case Frequency.Weekly:
+      return eachDayOfInterval({ start, end }).some((d) => {
+        const difference = differenceInCalendarDays(d, day);
+        return (
+          difference % 7 == 0 &&
+          (difference / 7) % event.frequencyMultiplier == 0
+        );
+      });
     case Frequency.Monthly:
       return eachDayOfInterval({ start, end }).some(
-        (d) => d.getDate() === day.getDate()
+        (d) =>
+          d.getDate() === day.getDate() &&
+          differenceInCalendarMonths(d, day) % event.frequencyMultiplier == 0
       );
     case Frequency.Yearly:
       return eachDayOfInterval({ start, end }).some(
-        (d) => d.getDate() === day.getDate() && d.getMonth() === day.getMonth()
+        (d) =>
+          d.getDate() === day.getDate() &&
+          d.getMonth() === day.getMonth() &&
+          differenceInCalendarYears(d, day) % event.frequencyMultiplier == 0
       );
     default:
       return false;
@@ -59,6 +75,7 @@ export const useEventStore = definePersistedStore("events", {
           id: evD.id,
           description: evD.description ?? "",
           frequency: evD.frequency,
+          frequencyMultiplier: evD.frequencyMultiplier,
           start: parseDate(evD.start),
           title: evD.title,
           end: evD.end ? parseDate(evD.end) : undefined,
@@ -71,6 +88,7 @@ export const useEventStore = definePersistedStore("events", {
         title: event.title,
         description: event.description,
         frequency: event.frequency,
+        frequencyMultiplier: event.frequencyMultiplier,
         start: formatDate(event.start),
         end: event.end ? formatDate(event.end) : undefined,
         tagId: event.tagId,
@@ -89,6 +107,8 @@ export const useEventStore = definePersistedStore("events", {
         title: event.title ?? eventToEdit.title,
         description: event.description ?? eventToEdit.description,
         frequency: event.frequency ?? eventToEdit.frequency,
+        frequencyMultiplier:
+          event.frequencyMultiplier ?? eventToEdit.frequencyMultiplier,
         start: event.start ? formatDate(event.start) : eventToEdit.start,
         end: event.end ? formatDate(event.end) : eventToEdit.end,
         tagId: event.tagId ?? eventToEdit.tagId,

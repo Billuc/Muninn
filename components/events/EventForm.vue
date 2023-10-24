@@ -38,9 +38,19 @@
       label="Frequency"
       :icon="faRepeat"
       :options="frequencyOptions"
-      :value="frequency"
+      :value="props.frequency"
       @update:value="setFrequency"
       :rules="[(v) => !!v]"
+    />
+    <InputField
+      type="number"
+      label="Frequency 'X'"
+      placeholder="Enter name..."
+      :value="String(props.frequencyMultiplier)"
+      :icon="faHashtag"
+      @update:value="setFrequencyMultiplier"
+      :rules="[(v) => !!v]"
+      v-if="props.frequency !== 'once'"
     />
     <TagSelecter
       :tags="store.tagArray"
@@ -61,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { Frequency } from "~/models/Event";
+import { Frequency, FrequencyMapper } from "~/models/Event";
 import { useEventStore } from "~/stores/eventStore";
 import _ from "lodash";
 import {
@@ -69,6 +79,7 @@ import {
   faClock,
   faClockRotateLeft,
   faFont,
+  faHashtag,
   faRepeat,
 } from "@fortawesome/free-solid-svg-icons";
 import TagSelecter from "../TagSelecter.vue";
@@ -86,6 +97,7 @@ interface EventFormProps {
   time: [number?, number?];
   duration: [number?, number?];
   frequency: Frequency;
+  frequencyMultiplier: number;
   tagId: ID;
   description: string;
 }
@@ -97,14 +109,15 @@ const emit = defineEmits([
   "update:time",
   "update:duration",
   "update:frequency",
+  "update:frequency-multiplier",
   "update:tagId",
   "update:description",
 ]);
 const store = useEventStore();
 const form = ref<InstanceType<typeof Form> | null>(null);
 
-const frequencyOptions = Object.entries(Frequency).map(([text, freq]) => ({
-  text: text,
+const frequencyOptions = Object.values(Frequency).map((freq) => ({
+  text: FrequencyMapper[freq],
   value: freq,
 }));
 
@@ -113,6 +126,8 @@ const setDate = (v: Date) => emit("update:date", v);
 const setTime = (v: [number?, number?]) => emit("update:time", v);
 const setDuration = (v: [number?, number?]) => emit("update:duration", v);
 const setFrequency = (v: Frequency) => emit("update:frequency", v);
+const setFrequencyMultiplier = (v: string) =>
+  emit("update:frequency-multiplier", Number(v));
 const setTagId = (v: ID) => emit("update:tagId", v);
 const setDescription = (v: string) => emit("update:description", v);
 
