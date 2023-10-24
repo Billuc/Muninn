@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FABButton :icon="faPlus" @click="openModal" class="-bottom-6 right-4" />
+    <FABButton :icon="faPlus" @click="openModal" class="-bottom-4 right-4" />
 
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Create a new note</template>

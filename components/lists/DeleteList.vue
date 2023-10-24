@@ -1,17 +1,22 @@
 <template>
-  <div class="inline-block">
-    <Button :icon="faTrash" @click="openModal" class="text-error btn-ghost" />
-
-    <Dialog :is-opened="isOpened" @close="closeModal">
-      <template #title>
-        Are you sure you want to remove list "{{ props.list.title }}" ?
-      </template>
-      <template #actions>
-        <Button class="btn-error" @click="closeModal">No</Button>
-        <Button class="btn-success ml-2" @click="remove">Yes</Button>
-      </template>
-    </Dialog>
-  </div>
+  <Action
+    :icon="faTrash"
+    icon-class="text-error"
+    label="Delete list"
+    @click="openModal"
+  >
+    <template #dialog>
+      <Dialog :is-opened="isOpened" @close="closeModal">
+        <template #title>
+          Are you sure you want to remove list "{{ props.list.title }}" ?
+        </template>
+        <template #actions>
+          <Button class="btn-error" @click="closeModal">No</Button>
+          <Button class="btn-success ml-2" @click="remove">Yes</Button>
+        </template>
+      </Dialog>
+    </template>
+  </Action>
 </template>
 
 <script setup lang="ts">
@@ -20,6 +25,7 @@ import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { List } from "~/models/List";
+import Action from "../Action.vue";
 
 interface DeleteListProps {
   list: List;

@@ -21,4 +21,5 @@ export interface List {
   title: string;
   elements: Map<ID, ListElement>;
   nextElementId: number;
+  hideChecked: boolean;
 }

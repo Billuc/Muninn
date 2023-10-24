@@ -1,31 +1,23 @@
 <template>
-  <label class="btn btn-sm swap">
-    <input type="checkbox" :value="props.hideChecked" @change="onChange" />
-
-    <!-- false -->
-    <div class="swap-off">
-      <FontAwesomeIcon :icon="faEyeSlash" />
-      <span class="hidden md:inline ml-1">Hide checked</span>
-    </div>
-
-    <!-- true -->
-    <div class="swap-on">
-      <FontAwesomeIcon :icon="faEye" />
-      <span class="hidden md:inline ml-1">Show checked</span>
-    </div>
-  </label>
+  <Action
+    :icon="props.list.hideChecked ? faEye : faEyeSlash"
+    :label="props.list.hideChecked ? 'Show checked' : 'Hide checked'"
+    @click="onClick"
+  />
 </template>
 
 <script setup lang="ts">
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import Action from "../Action.vue";
+import { useListStore } from "~/stores/listStore";
+import { List } from "~/models/List";
 
 interface ShowCheckedToggleProps {
-  hideChecked: boolean;
+  list: List;
 }
 
 const props = defineProps<ShowCheckedToggleProps>();
-const emit = defineEmits(["update:hideChecked"]);
+const store = useListStore();
 
-const onChange = (ev: any) => emit("update:hideChecked", !props.hideChecked);
+const onClick = () => store.toggleChecked(props.list.id);
 </script>

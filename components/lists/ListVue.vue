@@ -3,7 +3,7 @@
     <ListElementsVue
       :list-id="props.list.id"
       :elements="elementTree"
-      :hide-checked="props.hideChecked"
+      :hide-checked="props.list.hideChecked"
     />
     <AddElement :list-id="props.list.id" class="mt-1" />
   </div>
@@ -18,7 +18,6 @@ import ListElementsVue from "./ListElementsVue.vue";
 import { ID } from "~/models/ID";
 
 interface ListProps {
-  hideChecked: boolean;
   list: List;
 }
 

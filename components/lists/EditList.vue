@@ -1,17 +1,22 @@
 <template>
-  <div class="inline-block">
-    <Button :icon="faPen" @click="openModal" class="text-info btn-ghost" />
-
-    <Dialog :is-opened="isOpened" @close="closeModal">
-      <template #title>Edit list "{{ props.list.title }}"</template>
-      <template #default>
-        <ListForm v-model:name="name" ref="form" />
-      </template>
-      <template #actions>
-        <Button class="btn-success" label="Save" @click="editList"></Button>
-      </template>
-    </Dialog>
-  </div>
+  <Action
+    :icon="faPen"
+    icon-class="text-info"
+    label="Edit list"
+    @click="openModal"
+  >
+    <template #dialog>
+      <Dialog :is-opened="isOpened" @close="closeModal">
+        <template #title>Edit list "{{ props.list.title }}"</template>
+        <template #default>
+          <ListForm v-model:name="name" ref="form" />
+        </template>
+        <template #actions>
+          <Button class="btn-success" label="Save" @click="editList"></Button>
+        </template>
+      </Dialog>
+    </template>
+  </Action>
 </template>
 
 <script setup lang="ts">
@@ -21,6 +26,7 @@ import Dialog from "../Dialog.vue";
 import { List } from "~/models/List";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import ListForm from "./ListForm.vue";
+import Action from "../Action.vue";
 
 interface EditListProps {
   list: List;

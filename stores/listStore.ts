@@ -18,7 +18,8 @@ export const useListStore = definePersistedStore("lists", {
         id: uuidv4(),
         title: title,
         elements: new Map<ID, ListElement>(),
-        nextElementId: 0
+        nextElementId: 0,
+        hideChecked: true
       }
       this.lists.set(listData.id, listData);
     },
@@ -86,6 +87,10 @@ export const useListStore = definePersistedStore("lists", {
 
         this.orderElements(listId, element.children, element.id);
       });
+    },
+    toggleChecked(listId: ID) {
+      const list = this.getList(listId);
+      list.hideChecked = !list.hideChecked;
     },
     removeChecked(listId: ID) {
       const list = this.getList(listId);
