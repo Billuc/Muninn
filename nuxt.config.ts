@@ -1,3 +1,5 @@
+import typescript from "@rollup/plugin-typescript";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
@@ -23,6 +25,7 @@ export default defineNuxtConfig({
         interval: 2000,
       },
     },
+    plugins: [typescript()],
   },
   app: {
     baseURL: "/Muninn/",
@@ -64,5 +67,9 @@ export default defineNuxtConfig({
     prerender: {
       routes: ["/"],
     },
+  },
+  typescript: {
+    strict: true,
+    shim: false,
   },
 });

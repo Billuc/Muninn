@@ -76,9 +76,15 @@ function syncPreview() {
 }
 
 onMounted(() => {
+  const textArea = document.getElementById(textareaId);
+  if (!textArea) {
+    console.error("Couldn't find textarea with ID : " + textareaId);
+    return;
+  }
+
   mde.value = new EasyMDE({
     ...easyMDEOptions,
-    element: document.getElementById(textareaId) ?? undefined,
+    element: textArea,
   });
   mde.value.codemirror.on("change", () => {
     emit("update:value", mde.value!.value());

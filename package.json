@@ -12,6 +12,7 @@
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@pinia-plugin-persistedstate/nuxt": "^1.1.1",
+    "@rollup/plugin-typescript": "^11.1.5",
     "@tailwindcss/typography": "^0.5.10",
     "@vite-pwa/nuxt": "^0.1.1",
     "daisyui": "^3.6.5",
@@ -19,9 +20,6 @@
     "nuxt-lodash": "^2.5.0"
   },
   "dependencies": {
-    "@bytemd/plugin-gemoji": "^1.21.0",
-    "@bytemd/plugin-gfm": "^1.21.0",
-    "@bytemd/vue-next": "^1.21.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
@@ -30,11 +28,19 @@
     "@types/uuid": "^9.0.5",
     "date-fns": "^2.30.0",
     "easymde": "^2.18.0",
+    "idb": "^7.1.1",
     "pinia": "^2.1.6",
     "pinia-plugin-persistedstate": "^3.2.0",
     "pipelineer": "^1.0.1",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.1",
     "theme-change": "^2.5.0",
+    "tsyringe": "^4.8.0",
     "uuid": "^9.0.1",
     "vuedraggable": "^4.1.0"
+  },
+  "peerDependencies": {
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2"
   }
 }
