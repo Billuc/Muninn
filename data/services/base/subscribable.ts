@@ -20,7 +20,7 @@ export default abstract class SubscribableService<T extends { id: ID }> {
   // Subscription stuff
 
   subscribe(
-    value: Ref<T> | Ref<T[]>,
+    value: Ref<T | null> | Ref<T[] | null>,
     filter?: (v: T) => boolean
   ): Subscription {
     const subscriber = new ServiceSubscriber<T>(value, filter);

@@ -26,3 +26,9 @@ export interface List {
 export interface CreateList {
   title: string;
 }
+
+export interface CreateListElement {
+  title: string;
+  parentId?: ID;
+  listId: ID;
+}

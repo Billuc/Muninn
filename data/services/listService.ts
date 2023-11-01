@@ -12,12 +12,12 @@ export class ListService extends SubscribableService<List> {
   }
 
   async get(id: ID): Promise<List> {
-    const list = this._get(id);
+    const list = await this._get(id);
     return list;
   }
 
   async getAll(): Promise<List[]> {
-    const lists = this._getAll();
+    const lists = await this._getAll();
     return lists;
   }
 

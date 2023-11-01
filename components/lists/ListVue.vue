@@ -1,64 +1,57 @@
 <template>
-  <div>
-    <ListElementsVue
+  <div v-if="pending">
+    <ListsListElementsVue
       :list-id="props.list.id"
       :elements="elementTree"
       :hide-checked="props.list.hideChecked"
     />
-    <AddElement :list-id="props.list.id" class="mt-1" />
+    <ListsAddElement :list-id="props.list.id" class="mt-1" />
   </div>
+  <Loading v-else />
 </template>
 
 <script setup lang="ts">
-import { useListStore } from "@/stores/listStore";
-import { List, ListElementDTO, ListElement } from "~/models/List";
 import _ from "lodash";
-import AddElement from "./AddElement.vue";
-import ListElementsVue from "./ListElementsVue.vue";
-import { ID } from "~/models/ID";
+import { type List, type ListTreeElement } from "~/data/models/List";
+import { ListElementService } from "~/data/services/listElementService";
 
 interface ListProps {
   list: List;
 }
 
 const props = defineProps<ListProps>();
-const { list } = toRefs(props);
-const store = useListStore();
 
-const listElements = computed(() => [...list.value.elements.values()]);
-const elementTree = ref(buildListArray(list.value.id, listElements.value));
+const listElementService = useService(ListElementService);
+const { pending, data: listElements } = useLazyAsyncData(
+  `elements-${props.list.id}`,
+  () => listElementService.getAllFromList(props.list.id)
+);
+const subscription = listElementService.subscribe(
+  listElements,
+  (v) => v.listId == props.list.id
+);
 
-function buildListArray(
-  listId: ID,
-  elements: ListElement[],
-  elementId?: ID
-): ListElementDTO[] {
-  return _(elements)
-    .chain()
-    .filter((el) =>
-      elementId === undefined
-        ? el.parentId === undefined || el.parentId === "undefined" // I messed up serialization so I need this now (might delete later)
-        : el.parentId === elementId
-    )
-    .sortBy((el) => el.index)
-    .map<ListElementDTO>((el) => ({
-      id: el.id,
-      title: el.title,
-      done: el.done,
-      index: el.index,
-      children: buildListArray(listId, elements, el.id),
-    }))
-    .value();
-}
+const elementTree = ref<ListTreeElement[]>([]);
 
 watch(
   [listElements],
-  () => (elementTree.value = buildListArray(list.value.id, listElements.value)),
+  () =>
+    (elementTree.value = buildListTree(
+      props.list.id,
+      listElements.value ?? []
+    )),
   { deep: true }
 );
 watch(
   [elementTree],
-  () => store.orderElements(list.value.id, elementTree.value),
+  async () => {
+    const updatedElements = flattenListTree(props.list.id, elementTree.value);
+    for (const e of updatedElements) {
+      await listElementService.update(e);
+    }
+  },
   { deep: true }
 );
+
+onBeforeUnmount(() => subscription.unsubscribe());
 </script>

@@ -10,22 +10,28 @@
         'relative'
       )
     "
+    v-if="!pending"
   >
     <ListGridElement
-      v-for="[id, list] in lists"
-      :key="`list-${id}`"
+      v-for="list in lists"
+      :key="`list-${list.id}`"
       :list="list"
     />
     <CreateList />
   </div>
+  <Loading v-else />
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { useListStore } from "~/stores/listStore";
 import ListGridElement from "./ListGridElement.vue";
 import CreateList from "./CreateList.vue";
+import { ListService } from "~/data/services/listService";
+import { List } from "~/data/models/List";
+import Loading from "../layout/Loading.vue";
 
-const store = useListStore();
-const { lists } = storeToRefs(store);
+const { container } = useContainer();
+const listService = container.resolve<ListService>(ListService);
+const { pending, data: lists } = useLazyAsyncData("lists", () =>
+  listService.getAll()
+);
 </script>

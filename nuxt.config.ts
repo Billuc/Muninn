@@ -5,8 +5,6 @@ export default defineNuxtConfig({
   ssr: false,
   spaLoadingTemplate: "./app/spa-loading-template.html",
   modules: [
-    "@pinia/nuxt",
-    "@pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/tailwindcss",
     "nuxt-lodash",
     "@vite-pwa/nuxt",

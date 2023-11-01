@@ -9,15 +9,21 @@
 <script setup lang="ts">
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Action from "../Action.vue";
-import { useListStore } from "~/stores/listStore";
-import { List } from "~/models/List";
+import { List } from "~/data/models/List";
+import { ListService } from "~/data/services/listService";
 
 interface ShowCheckedToggleProps {
   list: List;
 }
 
 const props = defineProps<ShowCheckedToggleProps>();
-const store = useListStore();
+const service = useService(ListService);
 
-const onClick = () => store.toggleChecked(props.list.id);
+const onClick = async () => {
+  await service.update({
+    id: props.list.id,
+    title: props.list.title,
+    hideChecked: !props.list.hideChecked,
+  });
+};
 </script>

@@ -22,4 +22,8 @@ export default class Transaction<T extends "readonly" | "readwrite"> {
   async commit(): Promise<void> {
     await this._transaction.done;
   }
+
+  rollback(): void {
+    this._transaction.abort()
+  }
 }

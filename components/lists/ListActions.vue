@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { List } from "~/models/List";
+import { List } from "~/data/models/List";
 import ShowCheckedToggle from "./ShowCheckedToggle.vue";
 import ClearCheckedButton from "./ClearCheckedButton.vue";
 import Actions from "../Actions.vue";

@@ -6,12 +6,14 @@ import Transaction from "./transaction";
 import MigrateJournalMigration from "./migrations/1-MigrateJournal";
 import _ from "lodash";
 import MigrateListsMigration from "./migrations/2-MigrateLists";
+import FixParentIdSerializationMigration from "./migrations/3-FixParentIdSerialization";
 
 export default class Database {
   private readonly DB_NAME = "muninn-db";
   private readonly MIGRATIONS: Migration[] = [
     new MigrateJournalMigration(),
     new MigrateListsMigration(),
+    new FixParentIdSerializationMigration(),
   ];
 
   private _dbVersion: number;
@@ -62,6 +64,9 @@ export default class Database {
 
     try {
       return await fn(transaction);
+    } catch (e) {
+      transaction.rollback();
+      throw e;
     } finally {
       await transaction.commit();
     }

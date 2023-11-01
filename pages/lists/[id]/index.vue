@@ -1,5 +1,6 @@
 <template>
-  <div v-if="list">
+  <Loading v-if="pending" />
+  <div v-else-if="list">
     <PageHeading>
       <template #prepend>
         <BackButton to="lists" label="Back to lists" class="mr-4" />
@@ -30,25 +31,26 @@ import { faCheckSquare } from "@fortawesome/free-solid-svg-icons";
 import BackButton from "~/components/layout/BackButton.vue";
 import Background from "~/components/layout/Background.vue";
 import ErrorPage from "~/components/layout/ErrorPage.vue";
+import Loading from "~/components/layout/Loading.vue";
 import PageHeading from "~/components/layout/PageHeading.vue";
 import ListActions from "~/components/lists/ListActions.vue";
 import ListPage from "~/components/lists/ListPage.vue";
-import { useListStore } from "~/stores/listStore";
+import { ListService } from "~/data/services/listService";
 
 const route = useRoute();
-const store = useListStore();
 const listId = getOneParam(route.params.id);
-const list = getList();
 
-useHead({
-  title: `Lists - ${list?.title}`,
-});
+const listService = useService(ListService);
+const { pending, data: list } = useLazyAsyncData(`list-${listId}`, () =>
+  listService.get(listId)
+);
+const subscription = listService.subscribe(list, (l) => l.id == listId);
 
-function getList() {
-  try {
-    return store.getList(listId);
-  } catch {
-    return null;
-  }
-}
+watch([list], () =>
+  useHead({
+    title: `Lists - ${list.value?.title}`,
+  })
+);
+
+onBeforeUnmount(() => subscription.unsubscribe());
 </script>

@@ -23,7 +23,7 @@
 import { useListStore } from "~/stores/listStore";
 import Button from "../Button.vue";
 import Dialog from "../Dialog.vue";
-import { List } from "~/models/List";
+import { List } from "~/data/models/List";
 import { faBroom } from "@fortawesome/free-solid-svg-icons";
 import Action from "../Action.vue";
 
