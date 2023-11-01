@@ -4,10 +4,15 @@ import typescript from "@rollup/plugin-typescript";
 export default defineNuxtConfig({
   ssr: false,
   spaLoadingTemplate: "./app/spa-loading-template.html",
+  alias: {
+    pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs"
+  },
   modules: [
     "@nuxtjs/tailwindcss",
     "nuxt-lodash",
     "@vite-pwa/nuxt",
+    "@pinia/nuxt",
+    "@pinia-plugin-persistedstate/nuxt",
   ],
   css: ["@fortawesome/fontawesome-svg-core/styles.css"],
   devServer: {

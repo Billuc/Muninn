@@ -1,5 +1,5 @@
-import { defineStore, DefineStoreOptions, StateTree } from "pinia";
-import { deserializeWithMaps, serializeWithMaps } from "~/tools/serializer";
+import { defineStore, type DefineStoreOptions, type StateTree } from "@pinia/nuxt/node_modules/pinia";
+import { deserializeWithMaps, serializeWithMaps } from "./serializer";
 
 export function definePersistedStore<
   Id extends string,

@@ -1,7 +1,13 @@
-import { ID } from "./ID";
+import { type ID } from "./ID";
 
 export interface Tag {
   id: ID;
+  title: string;
+  color: TagColor;
+  icon: string[];
+}
+
+export interface CreateTag {
   title: string;
   color: TagColor;
   icon: string[];

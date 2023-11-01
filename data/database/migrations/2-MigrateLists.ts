@@ -1,4 +1,4 @@
-import { IDBPDatabase, IDBPObjectStore, IDBPTransaction } from "idb";
+import type { IDBPDatabase, IDBPObjectStore, IDBPTransaction } from "idb";
 import Migration from "../migration";
 import { deserializeWithMaps } from "./serializer";
 

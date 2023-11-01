@@ -1,12 +1,16 @@
+import _ from "lodash";
 import { Pipeline, PipelineFactory } from "pipelineer";
-import { IDBPDatabase, openDB } from "idb";
-import UpgradeDatabase from "./upgradeDatabase";
+import { type IDBPDatabase, openDB } from "idb";
+
+import type UpgradeDatabase from "./upgradeDatabase";
 import Migration from "./migration";
 import Transaction from "./transaction";
+
 import MigrateJournalMigration from "./migrations/1-MigrateJournal";
-import _ from "lodash";
 import MigrateListsMigration from "./migrations/2-MigrateLists";
 import FixParentIdSerializationMigration from "./migrations/3-FixParentIdSerialization";
+import MigrateEventsMigration from "./migrations/4-MigrateEvents";
+import MigrateNotesMigration from "./migrations/5-MigrateNotes";
 
 export default class Database {
   private readonly DB_NAME = "muninn-db";
@@ -14,6 +18,8 @@ export default class Database {
     new MigrateJournalMigration(),
     new MigrateListsMigration(),
     new FixParentIdSerializationMigration(),
+    new MigrateEventsMigration(),
+    new MigrateNotesMigration(),
   ];
 
   private _dbVersion: number;
@@ -25,7 +31,7 @@ export default class Database {
       UpgradeDatabase,
       Promise<undefined>
     >();
-    for (const migration of this.MIGRATIONS) {
+    for (const migration of _.sortBy(this.MIGRATIONS, (m) => m.version)) {
       upgraderFactory.push(migration);
     }
     this._upgrader = upgraderFactory.build();

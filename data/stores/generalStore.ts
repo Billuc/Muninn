@@ -1,5 +1,5 @@
-import { SyncStatus } from "~/models/Status";
-import { definePersistedStore } from "~/tools/persistedPinia";
+import { SyncStatus } from "~/data/models/Status";
+import { definePersistedStore } from "./tools/persistedPinia";
 
 export const useGeneralStore = definePersistedStore("general", {
   state: () => ({
