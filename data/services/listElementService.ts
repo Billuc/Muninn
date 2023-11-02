@@ -53,6 +53,16 @@ export class ListElementService extends SubscribableService<ListElement> {
     };
     
     const updated = await this._update(updatedElement);
+
+    if (updatedElement.done) {
+      const children = await this.getAllChildren(element.listId, element.id);
+      const childrenPromises = children.map(async c => await this.update({
+        id: c.id,
+        done: true
+      }));
+      await Promise.all(childrenPromises);
+    }
+
     return updated;
   }
 
