@@ -12,25 +12,20 @@
     "
     v-if="!pending"
   >
-    <ListGridElement
+    <ListsListGridElement
       v-for="list in lists"
       :key="`list-${list.id}`"
       :list="list"
     />
-    <CreateList />
+    <ListsCreateList />
   </div>
-  <Loading v-else />
+  <LayoutLoading v-else />
 </template>
 
 <script setup lang="ts">
-import ListGridElement from "./ListGridElement.vue";
-import CreateList from "./CreateList.vue";
 import { ListService } from "~/data/services/listService";
-import { List } from "~/data/models/List";
-import Loading from "../layout/Loading.vue";
 
-const { container } = useContainer();
-const listService = container.resolve<ListService>(ListService);
+const listService = useService(ListService);
 const { pending, data: lists } = useLazyAsyncData("lists", () =>
   listService.getAll()
 );

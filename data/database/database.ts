@@ -11,6 +11,7 @@ import MigrateListsMigration from "./migrations/2-MigrateLists";
 import FixParentIdSerializationMigration from "./migrations/3-FixParentIdSerialization";
 import MigrateEventsMigration from "./migrations/4-MigrateEvents";
 import MigrateNotesMigration from "./migrations/5-MigrateNotes";
+import ListIdAndParentIdIndexMigration from "./migrations/6-ListIdAndParentIdIndex";
 
 export default class Database {
   private readonly DB_NAME = "muninn-db";
@@ -20,6 +21,7 @@ export default class Database {
     new FixParentIdSerializationMigration(),
     new MigrateEventsMigration(),
     new MigrateNotesMigration(),
+    new ListIdAndParentIdIndexMigration(),
   ];
 
   private _dbVersion: number;

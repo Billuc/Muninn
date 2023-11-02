@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import ListVue from "./ListVue.vue";
-import { List } from "~/data/models/List";
+import { type List } from "~/data/models/List";
 
 interface ListPageProps {
   list: List;

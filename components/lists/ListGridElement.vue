@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import { faCheckSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { List, ListElement } from "~/data/models/List";
+import { type List } from "~/data/models/List";
 import { ListElementService } from "~/data/services/listElementService";
 
 interface ListGridElementProps {
@@ -45,8 +45,7 @@ interface ListGridElementProps {
 
 const props = defineProps<ListGridElementProps>();
 
-const { container } = useContainer();
-const listElementService = container.resolve(ListElementService);
+const listElementService = useService(ListElementService);
 const { pending, data: elements } = useLazyAsyncData(
   "elements-" + props.list.id,
   () => listElementService.getAllFromList(props.list.id)

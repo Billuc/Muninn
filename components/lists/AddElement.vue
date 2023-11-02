@@ -6,32 +6,30 @@
   >
     <div class="flex flex-nowrap items-center gap-x-4">
       <FontAwesomeIcon :icon="faBars" class="text-base-300" size="lg" />
-      <Checkbox
-        :value="false"
-        disabled
-        class="checkbox-primary"
-      />
+      <Checkbox :value="false" disabled class="checkbox-primary" />
     </div>
-    
+
     <MultilineInput
       v-model:value="elementText"
       placeholder="Write here..."
       class="w-full"
       detect-enter
-      @enter="addElement"
+      @enter="execute"
     />
-    <Button :icon="faPlus" class="btn-circle !btn-xs" @click="addElement" />
+    <Button
+      :icon="faPlus"
+      class="btn-circle !btn-xs"
+      :loading="loading"
+      @click="execute"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import MultilineInput from "../MultilineInput.vue";
-import Checkbox from "../Checkbox.vue";
-import Button from "../Button.vue";
 import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useListStore } from "~/stores/listStore";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { ID } from "~/models/ID";
+import { type ID } from "~/data/models/ID";
+import { ListElementService } from "~/data/services/listElementService";
 
 interface AddElementProps {
   listId: ID;
@@ -39,12 +37,17 @@ interface AddElementProps {
 }
 
 const props = defineProps<AddElementProps>();
-const store = useListStore();
+const service = useService(ListElementService);
 const elementText = ref("");
 
-const addElement = () => {
+const { loading, execute } = useAsyncAction(async () => {
   if (!!elementText.value)
-    store.newElement(props.listId, elementText.value, props.parentId);
+    await service.create({
+      listId: props.listId,
+      title: elementText.value,
+      parentId: props.parentId,
+    });
+
   elementText.value = "";
-};
+});
 </script>

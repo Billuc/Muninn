@@ -1,9 +1,9 @@
 import { Subscription } from "rxjs/internal/Subscription";
-import { ID } from "../../models/ID";
-import ServiceAction from "./serviceAction";
+import type { ID } from "../../models/ID";
+import type ServiceAction from "./serviceAction";
 import ServiceSubscriber from "./subscriber";
 import { Subject } from "rxjs/internal/Subject";
-import { Ref } from "vue";
+import type { Ref } from "vue";
 import Database from "~/data/database/database";
 
 export default abstract class SubscribableService<T extends { id: ID }> {

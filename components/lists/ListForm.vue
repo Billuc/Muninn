@@ -12,9 +12,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Form } from "#build/components";
 import { faFont } from "@fortawesome/free-solid-svg-icons";
-import Form from "../Form.vue";
-import InputField from "../InputField.vue";
 
 interface ListFormProps {
   name: string;

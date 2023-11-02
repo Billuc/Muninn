@@ -1,7 +1,7 @@
 import _ from "lodash";
-import { ID } from "~/data/models/ID";
-import { ListTreeElement } from "~/data/models/List";
-import { ListElement } from "~/data/models/List";
+import type { ID } from "~/data/models/ID";
+import type { ListTreeElement } from "~/data/models/List";
+import type { ListElement } from "~/data/models/List";
 
 export function buildListTree(
   listId: ID,
@@ -40,7 +40,7 @@ export function flattenListTree(
       done: treeElement.done,
       index: i,
       listId: listId,
-      parentId: parentId,
+      parentId: parentId ?? "",
     });
 
     elements.concat(

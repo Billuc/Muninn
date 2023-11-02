@@ -7,7 +7,7 @@
     <div class="flex flex-nowrap items-center gap-x-4">
       <FontAwesomeIcon :icon="faBars" class="handle cursor-pointer" size="lg" />
       <Checkbox
-        :value="done"
+        :value="props.element.done"
         @update:value="updateDone"
         class="checkbox-primary"
         ref="checkbox"
@@ -22,7 +22,7 @@
         mergeClasses(
           'flex-grow',
           '!leading-5',
-          done ? 'line-through' : undefined
+          props.element.done ? 'line-through' : undefined
         )
       "
       detect-enter
@@ -37,55 +37,56 @@
 </template>
 
 <script setup lang="ts">
-import MultilineInput from "../MultilineInput.vue";
-import Checkbox from "../Checkbox.vue";
-import Button from "../Button.vue";
-import { faBars, faRemove } from "@fortawesome/free-solid-svg-icons";
-import { useListStore } from "~/stores/listStore";
 import _ from "lodash";
+import { faBars, faRemove } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { ListElementDTO } from "~/models/List";
-import { ID } from "~/models/ID";
-import { useGeneralStore } from "~/stores/generalStore";
-import { SyncStatus } from "~/models/Status";
+import { type ListElement } from "~/data/models/List";
+import { type ID } from "~/data/models/ID";
+import { useGeneralStore } from "~/data/stores/generalStore";
+import { SyncStatus } from "~/data/models/Status";
+import type { Checkbox } from "#build/components";
+import { ListElementService } from "~/data/services/listElementService";
 
 interface ListElementVueProps {
   listId: ID;
-  element: ListElementDTO;
+  element: ListElement;
 }
 
 const props = defineProps<ListElementVueProps>();
-const store = useListStore();
 const generalStore = useGeneralStore();
+const service = useService(ListElementService);
 const checkbox = ref<InstanceType<typeof Checkbox> | null>(null);
 
-const done = ref(props.element.done);
 const title = ref(props.element.title);
 
-const updateDone = (newDone: boolean) => {
-  done.value = newDone;
-  checkbox.value?.reset();
+const { loading, execute: updateDone } = useAsyncAction(async (newDone: boolean) => {
   generalStore.setSyncStatus(SyncStatus.Syncing);
-  debouncedUpdate();
-};
-const updateTitle = (newTitle: string) => {
-  title.value = newTitle;
-  generalStore.setSyncStatus(SyncStatus.Syncing);
-  debouncedUpdate();
-};
-const removeElement = () => {
-  store.removeElement(props.listId, props.element.id);
-};
-
-const update = () => {
-  if (!title.value) removeElement();
-  else
-    store.editElement(props.listId, props.element.id, title.value, done.value);
+  await service.update({
+    id: props.element.id,
+    done: newDone,
+  });
   generalStore.setSyncStatus(SyncStatus.Synced);
+})
+const updateTitle = async (newTitle: string) => {
+  title.value = newTitle;
+  
+  generalStore.setSyncStatus(SyncStatus.Syncing);
+  await debouncedUpdate(null);
 };
+const { loading: removing, execute: removeElement } = useAsyncAction(async () => {
+  await service.remove(props.element.id);
+})
+
+const { loading: updating, execute: update } = useAsyncAction(async () => {
+  if (!title.value) await service.remove(props.element.id);
+  else await service.update({ id: props.element.id, title: title.value });
+
+  generalStore.setSyncStatus(SyncStatus.Synced);
+})
+
 const debouncedUpdate = _.debounce(update, 2000);
-const updateNow = () => {
+const updateNow = async () => {
   debouncedUpdate.cancel();
-  update();
+  await update(null);
 };
 </script>

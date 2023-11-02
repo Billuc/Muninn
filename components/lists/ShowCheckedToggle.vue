@@ -8,8 +8,7 @@
 
 <script setup lang="ts">
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import Action from "../Action.vue";
-import { List } from "~/data/models/List";
+import { type List } from "~/data/models/List";
 import { ListService } from "~/data/services/listService";
 
 interface ShowCheckedToggleProps {

@@ -1,6 +1,6 @@
 import { Ref } from "vue";
-import ServiceAction from "./serviceAction";
-import { ID } from "../../models/ID";
+import type ServiceAction from "./serviceAction";
+import type { ID } from "../../models/ID";
 
 export default class ServiceSubscriber<T extends { id: ID }> {
   private _value: Ref<T | null> | Ref<T[] | null>;

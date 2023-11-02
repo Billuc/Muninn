@@ -1,4 +1,4 @@
-import { ID } from "../../models/ID";
+import type { ID } from "../../models/ID";
 
 interface CreateServiceAction<T> {
   action: "create";

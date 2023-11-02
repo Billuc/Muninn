@@ -9,10 +9,15 @@
       <Dialog :is-opened="isOpened" @close="closeModal">
         <template #title>Edit list "{{ props.list.title }}"</template>
         <template #default>
-          <ListForm v-model:name="name" ref="form" />
+          <ListsListForm v-model:name="name" ref="form" />
         </template>
         <template #actions>
-          <Button class="btn-success" label="Save" @click="editList"></Button>
+          <Button
+            class="btn-success"
+            label="Save"
+            @click="execute"
+            :loading="loading"
+          />
         </template>
       </Dialog>
     </template>
@@ -20,32 +25,33 @@
 </template>
 
 <script setup lang="ts">
-import { useListStore } from "~/stores/listStore";
-import Button from "../Button.vue";
-import Dialog from "../Dialog.vue";
-import { List } from "~/data/models/List";
+import { type List } from "~/data/models/List";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
-import ListForm from "./ListForm.vue";
-import Action from "../Action.vue";
+import { ListService } from "~/data/services/listService";
+import type { ListsListForm } from "#build/components";
 
 interface EditListProps {
   list: List;
 }
 
 const props = defineProps<EditListProps>();
-const store = useListStore();
-const form = ref<InstanceType<typeof ListForm> | null>(null);
+const listService = useService(ListService);
 
+const form = ref<InstanceType<typeof ListsListForm> | null>(null);
 const isOpened = ref(false);
 const name = ref(props.list.title);
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
-function editList() {
+const { loading, execute } = useAsyncAction(async () => {
   if (!form.value?.validate()) return;
 
-  store.editList(props.list.id, name.value);
+  await listService.update({
+    id: props.list.id,
+    hideChecked: props.list.hideChecked,
+    title: name.value,
+  });
   closeModal();
-}
+});
 </script>

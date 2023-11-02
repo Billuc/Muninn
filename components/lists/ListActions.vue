@@ -1,20 +1,15 @@
 <template>
   <Actions>
-    <EditList :list="props.list" />
-    <DeleteList :list="props.list" />
+    <ListsEditList :list="props.list" />
+    <ListsDeleteList :list="props.list" />
 
-    <ShowCheckedToggle :list="props.list" />
-    <ClearCheckedButton :list="props.list" />
+    <ListsShowCheckedToggle :list="props.list" />
+    <ListsClearCheckedButton :list="props.list" />
   </Actions>
 </template>
 
 <script setup lang="ts">
-import { List } from "~/data/models/List";
-import ShowCheckedToggle from "./ShowCheckedToggle.vue";
-import ClearCheckedButton from "./ClearCheckedButton.vue";
-import Actions from "../Actions.vue";
-import EditList from "./EditList.vue";
-import DeleteList from "./DeleteList.vue";
+import { type List } from "~/data/models/List";
 
 interface ListActionsProps {
   list: List;

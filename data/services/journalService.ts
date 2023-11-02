@@ -1,7 +1,7 @@
 import { v4 } from "uuid";
 import Database from "../database/database";
-import { CreateJournalEntry, JournalEntry } from "../models/Journal";
-import { ID } from "../models/ID";
+import type { CreateJournalEntry, JournalEntry } from "../models/Journal";
+import type { ID } from "../models/ID";
 import SubscribableService from "./base/subscribable";
 import { injectable } from "tsyringe";
 

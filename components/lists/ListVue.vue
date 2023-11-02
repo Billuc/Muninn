@@ -1,13 +1,12 @@
 <template>
-  <div v-if="pending">
+  <div>
     <ListsListElementsVue
       :list-id="props.list.id"
-      :elements="elementTree"
       :hide-checked="props.list.hideChecked"
     />
     <ListsAddElement :list-id="props.list.id" class="mt-1" />
   </div>
-  <Loading v-else />
+  <!-- <Loading v-else /> -->
 </template>
 
 <script setup lang="ts">
@@ -21,37 +20,38 @@ interface ListProps {
 
 const props = defineProps<ListProps>();
 
-const listElementService = useService(ListElementService);
-const { pending, data: listElements } = useLazyAsyncData(
-  `elements-${props.list.id}`,
-  () => listElementService.getAllFromList(props.list.id)
-);
-const subscription = listElementService.subscribe(
-  listElements,
-  (v) => v.listId == props.list.id
-);
+// const listElementService = useService(ListElementService);
+// const { pending, data: listElements } = useLazyAsyncData(
+//   `elements-${props.list.id}`,
+//   () => listElementService.getAllFromList(props.list.id)
+// );
+// useSubscription(
+//   listElementService,
+//   listElements,
+//   (v) => v.listId == props.list.id
+// );
 
-const elementTree = ref<ListTreeElement[]>([]);
+// const elementTree = ref<ListTreeElement[]>([]);
 
-watch(
-  [listElements],
-  () =>
-    (elementTree.value = buildListTree(
-      props.list.id,
-      listElements.value ?? []
-    )),
-  { deep: true }
-);
-watch(
-  [elementTree],
-  async () => {
-    const updatedElements = flattenListTree(props.list.id, elementTree.value);
-    for (const e of updatedElements) {
-      await listElementService.update(e);
-    }
-  },
-  { deep: true }
-);
+// maybe do not build the entire tree and let each element build its own sub tree and handle it
 
-onBeforeUnmount(() => subscription.unsubscribe());
+// watch(
+//   [listElements],
+//   () =>
+//     (elementTree.value = buildListTree(
+//       props.list.id,
+//       listElements.value ?? []
+//     )),
+//   { deep: true }
+// );
+// watch(
+//   [elementTree],
+//   async () => {
+//     const updatedElements = flattenListTree(props.list.id, elementTree.value);
+//     for (const e of updatedElements) {
+//       await listElementService.update(e);
+//     }
+//   },
+//   { deep: true }
+// );
 </script>

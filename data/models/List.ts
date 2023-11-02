@@ -1,19 +1,11 @@
 import { type ID } from "./ID";
 
-export interface ListTreeElement {
-  id: ID;
-  title: string;
-  done: boolean;
-  index: number;
-  children: ListTreeElement[];
-}
-
 export interface ListElement {
   id: ID;
   title: string;
   done: boolean;
   index: number;
-  parentId?: ID;
+  parentId: ID;
   listId: ID;
 }
 
@@ -29,6 +21,12 @@ export interface CreateList {
 
 export interface CreateListElement {
   title: string;
-  parentId?: ID;
+  parentId: ID;
   listId: ID;
+}
+
+export interface UpdateListElement {
+  id: ID,
+  title?: string;
+  done?: boolean;
 }

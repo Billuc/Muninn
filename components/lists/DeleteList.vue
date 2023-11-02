@@ -11,8 +11,12 @@
           Are you sure you want to remove list "{{ props.list.title }}" ?
         </template>
         <template #actions>
-          <Button class="btn-error" @click="closeModal">No</Button>
-          <Button class="btn-success ml-2" @click="remove">Yes</Button>
+          <Button class="btn-error" @click="closeModal" :loading="loading">
+            No
+          </Button>
+          <Button class="btn-success ml-2" @click="execute" :loading="loading">
+            Yes
+          </Button>
         </template>
       </Dialog>
     </template>
@@ -20,28 +24,26 @@
 </template>
 
 <script setup lang="ts">
-import { useListStore } from "~/stores/listStore";
-import Button from "../Button.vue";
-import Dialog from "../Dialog.vue";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { List } from "~/data/models/List";
-import Action from "../Action.vue";
+import { type List } from "~/data/models/List";
+import { ListService } from "~/data/services/listService";
 
 interface DeleteListProps {
   list: List;
 }
 
 const props = defineProps<DeleteListProps>();
-const store = useListStore();
 const router = useRouter();
+const listService = useService(ListService);
+
 const isOpened = ref(false);
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
-function remove() {
-  store.removeList(props.list.id);
-  router.push({ name: "lists" });
+const { loading, execute } = useAsyncAction(async () => {
+  await listService.remove(props.list.id);
+  await router.push({ name: "lists " });
   closeModal();
-}
+});
 </script>
