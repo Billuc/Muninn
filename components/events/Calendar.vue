@@ -13,7 +13,7 @@
         )
       "
     >
-      <CalendarCard
+      <EventsCalendarCard
         :date="props.date"
         :tag-filter="props.tagFilter"
         @update:date="updateDate"
@@ -27,23 +27,20 @@
           )
         "
       />
-      <CalendarEvents
+      <EventsCalendarEvents
         :day="props.date"
         :tag-filter="props.tagFilter"
         :class="mergeClasses('md:col-span-2', 'rounded-box')"
       />
     </div>
 
-    <CreateEvent :date="props.date" />
+    <EventsCreateEvent :date="props.date" />
   </div>
 </template>
 
 <script setup lang="ts">
-import CalendarEvents from "./CalendarEvents.vue";
-import CreateEvent from "./CreateEvent.vue";
-import CalendarCard from "./CalendarCard.vue";
 import _ from "lodash";
-import { ID } from "~/models/ID";
+import { type ID } from "~/data/models/ID";
 
 interface CalendarProps {
   tagFilter: ID;

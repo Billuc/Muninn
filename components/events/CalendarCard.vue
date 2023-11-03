@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CalendarHeader
+    <EventsCalendarHeader
       :date="props.date"
       :compact="props.compact"
       @previousMonth="previousMonth"
@@ -8,7 +8,7 @@
       @select-month="selectMonth"
       @select-year="selectYear"
     />
-    <CalendarMonthView
+    <EventsCalendarMonthView
       :date="props.date"
       :tag-filter="props.tagFilter"
       :compact="props.compact"
@@ -20,9 +20,7 @@
 
 <script setup lang="ts">
 import { addMonths, setMonth, setYear } from "date-fns";
-import CalendarHeader from "./CalendarHeader.vue";
-import CalendarMonthView from "./CalendarMonthView.vue";
-import { ID } from "~/models/ID";
+import { type ID } from "~/data/models/ID";
 
 interface CalendarCardProps {
   date: Date;

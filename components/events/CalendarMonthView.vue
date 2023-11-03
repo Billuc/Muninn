@@ -7,7 +7,7 @@
       {{ dayLabel }}
     </div>
 
-    <CalendarDayButton
+    <EventsCalendarDayButton
       v-for="day in daysOfMonth"
       :key="'day-' + day"
       :day="day"
@@ -28,8 +28,7 @@ import {
   startOfMonth,
   startOfWeek,
 } from "date-fns";
-import CalendarDayButton from "./CalendarDayButton.vue";
-import { ID } from "~/models/ID";
+import { type ID } from "~/data/models/ID";
 
 interface CalendarMonthViewProps {
   date: Date;

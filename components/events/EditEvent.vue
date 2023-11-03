@@ -2,7 +2,7 @@
   <Dialog :is-opened="isOpened" @close="close">
     <template #title>Update event '{{ props.event?.title }}'</template>
     <template #default>
-      <EventForm
+      <EventsEventForm
         v-model:title="title"
         v-model:date="date"
         v-model:time="time"
@@ -15,18 +15,29 @@
       />
     </template>
     <template #actions>
-      <Button class="btn-error ml-2" @click="removeEvent">Delete</Button>
-      <Button class="btn-success ml-2" @click="editEvent">Save</Button>
+      <Button
+        class="btn-error ml-2"
+        @click="removeEvent"
+        :loading="removing || updating"
+      >
+        Delete
+      </Button>
+      <Button
+        class="btn-success ml-2"
+        @click="editEvent"
+        :loading="removing || updating"
+      >
+        Save
+      </Button>
     </template>
   </Dialog>
 </template>
 
 <script setup lang="ts">
-import Dialog from "../Dialog.vue";
-import { useEventStore } from "~/stores/eventStore";
-import { Event, Frequency } from "~/models/Event";
+import type { EventsEventForm } from "#build/components";
 import _ from "lodash";
-import EventForm from "./EventForm.vue";
+import { type Event, Frequency } from "~/data/models/Event";
+import { EventService } from "~/data/services/eventService";
 
 interface EditEventProps {
   event: Event | null;
@@ -34,10 +45,11 @@ interface EditEventProps {
 
 const props = defineProps<EditEventProps>();
 const emit = defineEmits(["close"]);
-const store = useEventStore();
-const form = ref<InstanceType<typeof EventForm> | null>(null);
+const service = useService(EventService);
 
 const isOpened = computed(() => !!props.event);
+const form = ref<InstanceType<typeof EventsEventForm> | null>(null);
+
 const title = ref("");
 const date = ref(new Date());
 const time = ref<[number?, number?]>([undefined, undefined]);
@@ -49,13 +61,14 @@ const description = ref("");
 
 const close = () => emit("close");
 
-const editEvent = () => {
+const { loading: updating, execute: editEvent } = useAsyncAction(async () => {
   if (!props.event) return;
   if (!form.value?.validate()) return;
 
   const start = parseDateTime(formatDate(date.value), time.value);
 
-  store.editEvent(props.event.id, {
+  await service.update({
+    id: props.event.id,
     title: title.value,
     frequency: frequency.value,
     frequencyMultiplier: frequencyMultiplier.value,
@@ -65,13 +78,13 @@ const editEvent = () => {
     description: description.value,
   });
   close();
-};
-const removeEvent = () => {
+});
+const { loading: removing, execute: removeEvent } = useAsyncAction(async () => {
   if (!props.event) return;
 
-  store.removeEvent(props.event.id);
+  await service.remove(props.event.id);
   close();
-};
+});
 
 watchEffect(() => {
   if (props.event) {

@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { Frequency } from "~/models/Event";
+import { Frequency } from "~/data/models/Event";
 
 interface FrequencyProps {
   frequency: Frequency;

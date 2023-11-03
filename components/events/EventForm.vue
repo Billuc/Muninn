@@ -1,5 +1,6 @@
 <template>
-  <Form ref="form">
+  <LayoutLoading v-if="pending"/>
+  <Form ref="form" v-else>
     <InputField
       label="Event Name"
       placeholder="Enter name..."
@@ -53,7 +54,7 @@
       v-if="props.frequency !== 'once'"
     />
     <TagSelecter
-      :tags="store.tagArray"
+      :tags="tags!"
       :selected="props.tagId"
       @update:selected="setTagId"
       clearable
@@ -71,8 +72,6 @@
 </template>
 
 <script setup lang="ts">
-import { Frequency, FrequencyMapper } from "~/models/Event";
-import { useEventStore } from "~/stores/eventStore";
 import _ from "lodash";
 import {
   faCalendar,
@@ -82,14 +81,10 @@ import {
   faHashtag,
   faRepeat,
 } from "@fortawesome/free-solid-svg-icons";
-import TagSelecter from "../TagSelecter.vue";
-import Form from "../Form.vue";
-import InputField from "../InputField.vue";
-import SelectField from "../SelectField.vue";
-import DurationField from "../DurationField.vue";
-import TimeField from "../TimeField.vue";
-import { ID } from "~/models/ID";
-import DateField from "../DateField.vue";
+import { Frequency, FrequencyMapper } from "~/data/models/Event";
+import { type ID } from "~/data/models/ID";
+import type { Form } from "#build/components";
+import { EventTagService } from "~/data/services/eventTagService";
 
 interface EventFormProps {
   title: string;
@@ -113,13 +108,15 @@ const emit = defineEmits([
   "update:tagId",
   "update:description",
 ]);
-const store = useEventStore();
-const form = ref<InstanceType<typeof Form> | null>(null);
+const service = useService(EventTagService);
 
+const form = ref<InstanceType<typeof Form> | null>(null);
 const frequencyOptions = Object.values(Frequency).map((freq) => ({
   text: FrequencyMapper[freq],
   value: freq,
 }));
+
+const { pending, data: tags } = useLazyAsyncData("event-tags", () => service.getAll());
 
 const setTitle = (v: string) => emit("update:title", v);
 const setDate = (v: Date) => emit("update:date", v);

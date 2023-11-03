@@ -5,7 +5,7 @@
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Create a new event</template>
       <template #default>
-        <EventForm
+        <EventsEventForm
           v-model:title="title"
           v-model:date="date"
           v-model:time="time"
@@ -18,32 +18,32 @@
         />
       </template>
       <template #actions>
-        <Button class="btn-success" @click="newEvent">Create</Button>
+        <Button class="btn-success" @click="execute" :loading="loading">
+          Create
+        </Button>
       </template>
     </Dialog>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { EventsEventForm } from "#build/components";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import FABButton from "../FABButton.vue";
-import Dialog from "../Dialog.vue";
-import { useEventStore } from "~/stores/eventStore";
-import { Frequency } from "~/models/Event";
-import EventForm from "./EventForm.vue";
+import { Frequency } from "~/data/models/Event";
+import { EventService } from "~/data/services/eventService";
 
 interface CreateEventProps {
   date?: Date;
 }
 
 const props = defineProps<CreateEventProps>();
-const store = useEventStore();
-const { date: propsDate } = toRefs(props);
+const service = useService(EventService);
+
 const isOpened = ref(false);
-const form = ref<InstanceType<typeof EventForm> | null>(null);
+const form = ref<InstanceType<typeof EventsEventForm> | null>(null);
 
 const title = ref("");
-const date = ref(propsDate?.value ?? new Date());
+const date = ref(props.date ?? new Date());
 const time = ref<[number?, number?]>([new Date().getHours() + 1, 0]);
 const duration = ref<[number?, number?]>([1, 0]);
 const frequency = ref<Frequency>(Frequency.Once);
@@ -54,12 +54,11 @@ const description = ref("");
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
-const newEvent = () => {
+const { loading, execute } = useAsyncAction(async () => {
   if (!form.value?.validate()) return;
 
   const start = parseDateTime(formatDate(date.value), time.value);
-
-  store.newEvent({
+  await service.create({
     title: title.value,
     frequency: frequency.value,
     frequencyMultiplier: frequencyMultiplier.value,
@@ -68,12 +67,13 @@ const newEvent = () => {
     tagId: tagId.value,
     description: description.value,
   });
+  
   closeModal();
   reset();
-};
+});
 const reset = () => {
   title.value = "";
-  date.value = new Date();
+  date.value = props.date ?? new Date();
   time.value = [undefined, undefined];
   duration.value = [1, 0];
   frequency.value = Frequency.Once;
@@ -82,7 +82,5 @@ const reset = () => {
   description.value = "";
 };
 
-watch([propsDate], () => {
-  date.value = propsDate?.value ?? new Date();
-});
+watchEffect(() => (date.value = props.date ?? new Date()));
 </script>

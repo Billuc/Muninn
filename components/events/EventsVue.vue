@@ -13,19 +13,17 @@
       Today
     </Button>
 
-    <EventTagFilter
+    <EventsEventTagFilter
       :selected="tagFilter"
       @update:selected="(v) => (tagFilter = v)"
     />
 
-    <Calendar :tag-filter="tagFilter" v-model:date="date" class="w-full mt-2" />
+    <EventsCalendar :tag-filter="tagFilter" v-model:date="date" class="w-full mt-2" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { isSameDay } from "date-fns";
-import Calendar from "~/components/events/Calendar.vue";
-import EventTagFilter from "~/components/events/EventTagFilter.vue";
 
 const tagFilter = ref("");
 const date = ref(new Date());

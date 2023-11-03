@@ -4,7 +4,7 @@
       {{ props.label ?? "Frequency :" }}
     </div>
     
-    <FrequencyVue
+    <EventsFrequencyVue
       v-for="freq in frequencies"
       :frequency="freq"
       @click="() => selectFrequency(freq)"
@@ -17,8 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { Frequency } from "~/models/Event";
-import FrequencyVue from "./FrequencyVue.vue";
+import { Frequency } from "~/data/models/Event";
 
 interface FrequencySelecterProps {
   frequency: Frequency;

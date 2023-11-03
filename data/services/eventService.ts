@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { v4 } from "uuid";
 import Database from "../database/database";
 import type { Event, CreateEvent } from "../models/Event";
@@ -19,6 +20,15 @@ export class EventService extends SubscribableService<Event> {
   async getAll(): Promise<Event[]> {
     const events = await this._getAll();
     return events;
+  }
+
+  async getAllForDay(day: Date): Promise<Event[]> {
+    const allEvents = await this._getAll();
+
+    const eventsForDay = _.filter(allEvents, (ev) =>
+      hasRepetitionAtDay(ev, day)
+    );
+    return eventsForDay;
   }
 
   async create(create: CreateEvent): Promise<Event> {

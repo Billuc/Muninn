@@ -18,8 +18,7 @@
 
 <script setup lang="ts">
 import { isSameDay, isSameMonth } from "date-fns";
-import { ID } from "~/models/ID";
-import { useEventStore } from "~/stores/eventStore";
+import { type ID } from "~/data/models/ID";
 
 interface CalendarDayButtonProps {
   day: Date;

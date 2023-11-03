@@ -1,12 +1,13 @@
 <template>
-  <div>
+  <LayoutLoading v-if="loadingTags || loadingEvents" />
+  <div v-else>
     <template v-if="daysEventsWithTags.length > 0">
       <ul class="menu">
         <li
           v-for="{ event, tag } in daysEventsWithTags"
           :key="'event-' + event.id"
         >
-          <CalendarEvent
+          <EventsCalendarEvent
             v-bind="event"
             :tag="tag"
             @click="selectEvent(event)"
@@ -15,10 +16,10 @@
         </li>
       </ul>
 
-      <EditEvent
+      <EventsEditEvent
         :event="selectedEvent"
         @close="() => selectEvent(null)"
-      ></EditEvent>
+      />
     </template>
 
     <template v-else>
@@ -30,12 +31,11 @@
 </template>
 
 <script setup lang="ts">
-import CalendarEvent from "./CalendarEvent.vue";
-import { Event } from "~/models/Event";
-import EditEvent from "./EditEvent.vue";
 import _ from "lodash";
-import { useEventStore } from "~/stores/eventStore";
-import { ID } from "~/models/ID";
+import { type Event } from "~/data/models/Event";
+import { type ID } from "~/data/models/ID";
+import { EventService } from "~/data/services/eventService";
+import { EventTagService } from "~/data/services/eventTagService";
 
 interface CalendarEventsProps {
   day: Date;
@@ -43,21 +43,37 @@ interface CalendarEventsProps {
 }
 
 const props = defineProps<CalendarEventsProps>();
-const store = useEventStore();
+const eventService = useService(EventService);
+const eventTagService = useService(EventTagService);
 
 const selectedEvent = ref<Event | null>(null);
 
+const { pending: loadingTags, data: tags } = useLazyAsyncData(
+  "event-tags",
+  () => eventTagService.getAll()
+);
+const {
+  loading: loadingEvents,
+  data: daysEvents,
+  execute,
+} = useAsyncAction((d: Date) => eventService.getAllForDay(d));
+
 const daysEventsWithTags = computed(() =>
-  _(store.getEventsOfDay(props.day))
+  _(daysEvents)
     .chain()
     .filter((e) => !props.tagFilter || e.tagId === props.tagFilter)
     .sortBy([
       (event) => event.start.getHours(),
       (event) => event.start.getMinutes(),
     ])
-    .map((event) => ({ event: event, tag: store.tags.get(event.tagId) }))
+    .map((event) => ({
+      event: event,
+      tag: tags.value?.find((t) => t.id == event.tagId),
+    }))
     .value()
 );
 
 const selectEvent = (event: Event | null) => (selectedEvent.value = event);
+
+watchEffect(async () => await execute(props.day));
 </script>

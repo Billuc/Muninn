@@ -28,9 +28,6 @@
 
 <script setup lang="ts">
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import Button from "~/components/Button.vue";
-import MonthSelect from "../MonthSelect.vue";
-import YearSelect from "../YearSelect.vue";
 
 interface CalendarHeaderProps {
   date: Date;
