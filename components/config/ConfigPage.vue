@@ -9,27 +9,22 @@
         label="Left Handed"
         :icon="faHand"
       />
-      <ThemeSelector />
+      <ConfigThemeSelector />
     </Form>
 
     <h2 class="text-2xl font-bold my-4">Events</h2>
 
-    <EventsConfig />
+    <ConfigEventsConfig />
 
     <h2 class="text-2xl font-bold my-4">Notes</h2>
 
-    <NotesConfig />
+    <ConfigNotesConfig />
   </div>
 </template>
 
 <script setup lang="ts">
-import { useGeneralStore } from "~/stores/generalStore";
-import ToggleField from "../ToggleField.vue";
-import ThemeSelector from "./ThemeSelector.vue";
-import EventsConfig from "./EventsConfig.vue";
-import NotesConfig from "./NotesConfig.vue";
+import { useGeneralStore } from "~/data/stores/generalStore";
 import { faHand } from "@fortawesome/free-solid-svg-icons";
-import Form from "../Form.vue";
 
 const store = useGeneralStore();
 

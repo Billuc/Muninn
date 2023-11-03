@@ -8,7 +8,7 @@
       @update:value="setTitle"
       :rules="[(v) => !!v]"
     />
-    <TagColorInput
+    <ConfigTagColorInput
       :disabled-colors="props.disabledColors"
       :value="props.color"
       @update:value="setColor"
@@ -19,12 +19,9 @@
 </template>
 
 <script setup lang="ts">
-import { TagColor } from "~/models/Tag";
+import type { Form } from "#build/components";
 import { faFont } from "@fortawesome/free-solid-svg-icons";
-import TagColorInput from "./TagColorInput.vue";
-import IconInput from "../IconInput.vue";
-import Form from "../Form.vue";
-import InputField from "../InputField.vue";
+import { TagColor } from "~/data/models/Tag";
 
 interface TagFormProps {
   title: string;

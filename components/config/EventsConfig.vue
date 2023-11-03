@@ -1,5 +1,6 @@
 <template>
-  <div class="pl-4">
+  <LayoutLoading v-if="pending" />
+  <div class="pl-4" v-else>
     <h3 class="text-xl font-bold mb-4">Tags</h3>
 
     <div
@@ -23,8 +24,8 @@
         @click="() => editTag(tag)"
       />
 
-      <CreateEventTag v-if="canCreate" :disabled-colors="colorsUsed" />
-      <EditEventTag
+      <ConfigCreateEventTag v-if="canCreate" :disabled-colors="colorsUsed" />
+      <ConfigEditEventTag
         :tag="tagToEdit"
         @close="tagToEdit = null"
         :disabled-colors="colorsUsed"
@@ -34,18 +35,20 @@
 </template>
 
 <script setup lang="ts">
-import TagVue from "../TagVue.vue";
 import _ from "lodash";
-import { Tag, TagColor, TagOrder } from "~/models/Tag";
-import { useEventStore } from "~/stores/eventStore";
-import CreateEventTag from "./CreateEventTag.vue";
-import EditEventTag from "./EditEventTag.vue";
+import { type Tag, TagColor, TagOrder } from "~/data/models/Tag";
+import { EventTagService } from "~/data/services/eventTagService";
 
-const store = useEventStore();
+const service = useService(EventTagService);
 const tagToEdit = ref<Tag | null>(null);
 
+const { pending, data } = useLazyAsyncData(
+  "event-tags",
+  async () => await service.getAll()
+);
+
 const tagArray = computed(() =>
-  _.sortBy(store.tagArray as Tag[], (t) => TagOrder.get(t.color))
+  _.sortBy(data.value ?? [], (t) => TagOrder.get(t.color))
 );
 const colorsUsed = computed(() => _.uniq(tagArray.value.map((t) => t.color)));
 const canCreate = computed(() =>

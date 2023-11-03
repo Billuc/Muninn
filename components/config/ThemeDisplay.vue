@@ -24,13 +24,12 @@
     <div class="inline-block w-1 h-4 rounded-box bg-primary"></div>
     <div class="inline-block w-1 h-4 rounded-box bg-secondary"></div>
     <div class="inline-block w-1 h-4 rounded-box bg-accent"></div>
-    <Background :icon="faJournalWhills" />
+    <LayoutBackground :icon="faJournalWhills" />
   </button>
 </template>
 
 <script setup lang="ts">
 import { faJournalWhills } from "@fortawesome/free-solid-svg-icons";
-import Background from "../layout/Background.vue";
 
 interface ThemeDisplayProps {
   themeName: string;

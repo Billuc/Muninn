@@ -5,7 +5,7 @@
     <Dialog :is-opened="isOpened" @close="closeModal">
       <template #title>Create a new tag</template>
       <template #default>
-        <TagForm
+        <ConfigTagForm
           v-model:title="title"
           v-model:color="color"
           v-model:icon="icon"
@@ -14,28 +14,28 @@
         />
       </template>
       <template #actions>
-        <Button class="btn-success" @click="newTag">Create</Button>
+        <Button class="btn-success" @click="execute" :loading="loading">
+          Create
+        </Button>
       </template>
     </Dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { TagColor } from "~/models/Tag";
-import Button from "../Button.vue";
-import { faPlus, faTag } from "@fortawesome/free-solid-svg-icons";
-import { useNoteStore } from "~/stores/noteStore";
 import _ from "lodash";
-import TagForm from "./TagForm.vue";
-import FABButton from "../FABButton.vue";
+import { faPlus, faTag } from "@fortawesome/free-solid-svg-icons";
+import { TagColor } from "~/data/models/Tag";
+import { NoteTagService } from "~/data/services/noteTagService";
+import type { ConfigTagForm } from "#build/components";
 
 interface CreateNoteTagProps {
   disabledColors: TagColor[];
 }
 
 const props = defineProps<CreateNoteTagProps>();
-const store = useNoteStore();
-const form = ref<InstanceType<typeof TagForm> | null>(null);
+const service = useService(NoteTagService);
+const form = ref<InstanceType<typeof ConfigTagForm> | null>(null);
 
 const isOpened = ref(false);
 const title = ref("");
@@ -45,13 +45,17 @@ const icon = ref<string[]>([faTag.prefix, faTag.iconName]);
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
-const newTag = () => {
+const { loading, execute } = useAsyncAction(async () => {
   if (!form.value?.validate()) return;
 
-  store.newTag(title.value, color.value, icon.value);
+  await service.create({
+    color: color.value,
+    icon: icon.value,
+    title: title.value,
+  });
   closeModal();
   reset();
-};
+});
 const reset = () => {
   title.value = "";
   color.value = TagColor.red;

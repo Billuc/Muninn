@@ -1,4 +1,4 @@
-import { defineStore, type DefineStoreOptions, type StateTree } from "@pinia/nuxt/node_modules/pinia";
+import { defineStore, type DefineStoreOptions, type StateTree } from "pinia";
 import { deserializeWithMaps, serializeWithMaps } from "./serializer";
 
 export function definePersistedStore<

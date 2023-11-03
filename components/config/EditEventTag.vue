@@ -2,7 +2,7 @@
   <Dialog :is-opened="isOpened" @close="close">
     <template #title> Edit tag '{{ props.tag?.title }}'</template>
     <template #default>
-      <TagForm
+      <ConfigTagForm
         v-model:title="title"
         v-model:color="color"
         v-model:icon="icon"
@@ -11,19 +11,29 @@
       />
     </template>
     <template #actions>
-      <Button class="btn-error ml-2" @click="removeTag">Remove</Button>
-      <Button class="btn-success ml-2" @click="editTag">Save</Button>
+      <Button
+        class="btn-error ml-2"
+        @click="removeTag"
+        :loading="updating || removing"
+      >
+        Remove
+      </Button>
+      <Button
+        class="btn-success ml-2"
+        @click="editTag"
+        :loading="updating || removing"
+      >
+        Save
+      </Button>
     </template>
   </Dialog>
 </template>
 
 <script setup lang="ts">
-import Button from "../Button.vue";
-import Dialog from "../Dialog.vue";
-import { Tag, TagColor } from "~/models/Tag";
 import { faTag } from "@fortawesome/free-solid-svg-icons";
-import { useEventStore } from "~/stores/eventStore";
-import TagForm from "./TagForm.vue";
+import { type Tag, TagColor } from "~/data/models/Tag";
+import { EventTagService } from "~/data/services/eventTagService";
+import type { ConfigTagForm } from "#build/components";
 
 interface EditEventTagProps {
   tag: Tag | null;
@@ -32,8 +42,8 @@ interface EditEventTagProps {
 
 const props = defineProps<EditEventTagProps>();
 const emit = defineEmits(["close"]);
-const store = useEventStore();
-const form = ref<InstanceType<typeof TagForm> | null>(null);
+const service = useService(EventTagService);
+const form = ref<InstanceType<typeof ConfigTagForm> | null>(null);
 
 const isOpened = computed(() => !!props.tag);
 const title = ref("");
@@ -45,19 +55,24 @@ const disabledColorsWithoutCurrent = computed(() =>
 );
 
 const close = () => emit("close");
-const editTag = () => {
+const { loading: updating, execute: editTag } = useAsyncAction(async () => {
   if (!props.tag) return;
   if (!form.value?.validate()) return;
 
-  store.editTag(props.tag.id, title.value, color.value, icon.value);
+  await service.update({
+    id: props.tag.id,
+    title: title.value,
+    color: color.value,
+    icon: icon.value,
+  });
   close();
-};
-const removeTag = () => {
+});
+const { loading: removing, execute: removeTag } = useAsyncAction(async () => {
   if (!props.tag) return;
 
-  store.removeTag(props.tag.id);
+  await service.remove(props.tag.id);
   close();
-};
+});
 
 watchEffect(() => {
   if (props.tag) {

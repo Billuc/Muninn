@@ -29,11 +29,9 @@
 </template>
 
 <script setup lang="ts">
-import { TagColor } from "~/models/Tag";
 import _ from "lodash";
 import { faPalette } from "@fortawesome/free-solid-svg-icons";
-import TagVue from "../TagVue.vue";
-import SelectField from "../SelectField.vue";
+import { TagColor } from "~/data/models/Tag";
 
 interface TagColorInputProps {
   disabledColors: TagColor[];
