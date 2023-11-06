@@ -46,7 +46,6 @@ import { faIcons, fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import _ from "lodash";
-import AutocompleteField from "./AutocompleteField.vue";
 
 interface IconInputProps {
   icon?: string[];

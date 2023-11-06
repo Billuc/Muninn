@@ -5,15 +5,13 @@
     </template>
 
     <template #content>
-      <CalendarCard :date="props.value" @update:date="onSelectDate" compact />
+      <EventsCalendarCard :date="props.value" @update:date="onSelectDate" compact />
     </template>
   </Dropdown>
 </template>
 
 <script setup lang="ts">
 import { format } from "date-fns";
-import Dropdown from "./Dropdown.vue";
-import CalendarCard from "./events/CalendarCard.vue";
 
 interface TimePickerProps {
   value: Date;

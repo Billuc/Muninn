@@ -7,13 +7,13 @@
     <input type="checkbox" class="drawer-toggle" v-model="drawerOpen" />
 
     <div class="drawer-content">
-      <Page :wide="router.currentRoute.value.path == '/'">
+      <LayoutPage :wide="router.currentRoute.value.path == '/'">
         <template #navbar>
-          <NavBar @open="drawerOpen = true" />
+          <LayoutNavBar @open="drawerOpen = true" />
         </template>
 
         <slot></slot>
-      </Page>
+      </LayoutPage>
     </div>
 
     <div class="drawer-side z-20">
@@ -43,32 +43,32 @@
           )
         "
       >
-        <NavLink
+        <LayoutNavLink
           href="/journal"
           :icon="faJournalWhills"
           label="Journal"
           color="btn-primary"
         />
-        <NavLink
+        <LayoutNavLink
           href="/lists"
           :icon="faCheckSquare"
           label="Lists"
           color="btn-primary"
         />
-        <NavLink
+        <LayoutNavLink
           href="/events"
           :icon="faCalendar"
           label="Events"
           color="btn-primary"
         />
-        <NavLink
+        <LayoutNavLink
           href="/notes"
           :icon="faLightbulb"
           label="Notes"
           color="btn-primary"
         />
-        <NavLink href="/config" :icon="faCog" label="Config" />
-        <NavLink :icon="faClose" label="Close" @click="drawerOpen = false" />
+        <LayoutNavLink href="/config" :icon="faCog" label="Config" />
+        <LayoutNavLink :icon="faClose" label="Close" @click="drawerOpen = false" />
       </div>
     </div>
   </div>
@@ -83,10 +83,7 @@ import {
   faJournalWhills,
   faLightbulb,
 } from "@fortawesome/free-solid-svg-icons";
-import NavBar from "./NavBar.vue";
-import Page from "./Page.vue";
-import NavLink from "./NavLink.vue";
-import { useGeneralStore } from "~/stores/generalStore";
+import { useGeneralStore } from "~/data/stores/generalStore";
 import { storeToRefs } from "pinia";
 
 const router = useRouter();

@@ -35,20 +35,21 @@
       )
     "
   >
-    <NavBurger @click="open" />
+    <LayoutNavBurger @click="open" />
+
     <NuxtLink href="/" class="btn btn-square btn-ghost md:btn-lg !p-2" exact>
       <img src="/icon.svg" class="w-full" />
     </NuxtLink>
+
     <span class="text-3xl font-extrabold mx-2">Muninn</span>
-    <StatusIcon class="mx-2" />
+
+    <LayoutStatusIcon class="mx-2" />
   </div>
 </template>
 
 <script setup>
-import NavBurger from "./NavBurger.vue";
-import { useGeneralStore } from "~/stores/generalStore";
+import { useGeneralStore } from "~/data/stores/generalStore";
 import { storeToRefs } from "pinia";
-import StatusIcon from "./StatusIcon.vue";
 
 const emit = defineEmits(["open"]);
 const store = useGeneralStore();

@@ -67,8 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import Input from "./Input.vue";
-import Dropdown from "./Dropdown.vue";
+import type { Dropdown } from "#build/components";
 import _ from "lodash";
 
 interface AutocompleteOption {

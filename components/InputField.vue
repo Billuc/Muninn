@@ -23,8 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import Field from "./Field.vue";
+import { type IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
 interface InputFieldProps {
   label?: string;

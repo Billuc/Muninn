@@ -16,8 +16,8 @@
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { storeToRefs } from "pinia";
-import { SyncStatus } from "~/models/Status";
-import { useGeneralStore } from "~/stores/generalStore";
+import { SyncStatus } from "~/data/models/Status";
+import { useGeneralStore } from "~/data/stores/generalStore";
 
 const store = useGeneralStore();
 const { syncStatus } = storeToRefs(store);

@@ -11,7 +11,6 @@
 
 <script setup lang="ts">
 import { format, parse } from "date-fns";
-import Input from "./Input.vue";
 
 interface DateSelectorProps {
   value: Date;

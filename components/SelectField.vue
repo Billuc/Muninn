@@ -40,9 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import SelectDropdown from "./SelectDropdown.vue";
-import Field from "./Field.vue";
+import { type IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
 interface SelectOption {
   text: string;

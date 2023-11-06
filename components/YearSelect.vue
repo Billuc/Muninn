@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import SelectDropdown from "./SelectDropdown.vue";
 import _ from "lodash";
 
 interface YearSelectProps {

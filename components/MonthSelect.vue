@@ -10,7 +10,6 @@
 
 <script setup lang="ts">
 import { eachMonthOfInterval, endOfYear, format, startOfYear } from "date-fns";
-import SelectDropdown from "./SelectDropdown.vue";
 
 interface MonthSelectProps {
   month: number;

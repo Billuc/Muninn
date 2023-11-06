@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconDefinition, faRemove } from "@fortawesome/free-solid-svg-icons";
+import { type IconDefinition, faRemove } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import _ from "lodash";
 

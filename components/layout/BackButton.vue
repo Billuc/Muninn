@@ -9,7 +9,6 @@
 
 <script setup lang="ts">
 import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
-import Button from "../Button.vue";
 
 interface BackButtonProps {
   to: string;

@@ -43,8 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import Dropdown from "./Dropdown.vue";
-import DropdownList from "./DropdownList.vue";
+import type { Dropdown } from '#build/components';
 
 interface SelectOption {
   text: string;

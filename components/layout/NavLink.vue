@@ -16,13 +16,15 @@
     "
   >
     <FontAwesomeIcon :icon="props.icon" v-if="props.icon" />
+
     <span v-if="props.label" class="hidden md:block">{{ props.label }}</span>
+    
     <slot></slot>
   </NuxtLink>
 </template>
 
 <script setup lang="ts">
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { type IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import mergeClasses from "~/utils/mergeClasses";
 

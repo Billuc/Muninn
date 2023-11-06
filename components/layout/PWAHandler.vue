@@ -42,7 +42,6 @@ import {
   faRemove,
   faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
-import Button from "../Button.vue";
 
 const { $pwa } = useNuxtApp();
 const ready = computed(() => $pwa?.offlineReady);

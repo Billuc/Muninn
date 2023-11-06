@@ -22,9 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import Dropdown from "./Dropdown.vue";
-import DropdownList from "./DropdownList.vue";
-
 interface DurationPickerProps {
   hours?: number;
   minutes?: number;

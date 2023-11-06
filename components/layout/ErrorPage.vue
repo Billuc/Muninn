@@ -19,9 +19,7 @@
 
     <NuxtLink
       :href="props.fallbackUrl"
-      :class="
-        mergeClasses('btn', 'flex-row', 'flex-nowrap', 'mt-4')
-      "
+      :class="mergeClasses('btn', 'flex-row', 'flex-nowrap', 'mt-4')"
     >
       <FontAwesomeIcon :icon="faAnglesLeft" />
       Return
@@ -32,7 +30,6 @@
 <script setup lang="ts">
 import { faAnglesLeft, faCancel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import NavLink from "./NavLink.vue";
 
 interface ErrorPageProps {
   code: string | number;

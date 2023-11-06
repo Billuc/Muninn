@@ -20,10 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import Field from "./Field.vue";
+import { type IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { format } from "date-fns";
-import DatePicker from "./DatePicker.vue";
 
 interface TimeFieldProps {
   label?: string;

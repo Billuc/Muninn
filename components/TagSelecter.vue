@@ -38,12 +38,10 @@
 </template>
 
 <script setup lang="ts">
-import TagVue from "./TagVue.vue";
-import { Tag, TagOrder } from "~/models/Tag";
 import _ from "lodash";
 import { faTag } from "@fortawesome/free-solid-svg-icons";
-import SelectField from "./SelectField.vue";
-import { ID } from "~/models/ID";
+import { type Tag, TagOrder } from "~/data/models/Tag";
+import { type ID } from "~/data/models/ID";
 
 interface TagSelecterProps {
   selected: ID;
