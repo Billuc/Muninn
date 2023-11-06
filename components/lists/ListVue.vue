@@ -11,8 +11,7 @@
 
 <script setup lang="ts">
 import _ from "lodash";
-import { type List, type ListTreeElement } from "~/data/models/List";
-import { ListElementService } from "~/data/services/listElementService";
+import { type List } from "~/data/models/List";
 
 interface ListProps {
   list: List;

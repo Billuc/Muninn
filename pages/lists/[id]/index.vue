@@ -1,24 +1,24 @@
 <template>
-  <Loading v-if="pending" />
+  <LayoutLoading v-if="pending" />
   <div v-else-if="list">
-    <PageHeading>
+    <LayoutPageHeading>
       <template #prepend>
-        <BackButton to="lists" label="Back to lists" class="mr-4" />
+        <LayoutBackButton to="lists" label="Back to lists" class="mr-4" />
       </template>
 
       <span class="text-center mb-0 mr-2">{{ list.title }}</span>
 
       <template #append>
-        <ListActions class="inline-block ml-2" :list="list" />
+        <ListsListActions class="inline-block ml-2" :list="list" />
       </template>
-    </PageHeading>
-    <Background :icon="faCheckSquare" />
+    </LayoutPageHeading>
+    <LayoutBackground :icon="faCheckSquare" />
 
-    <ListPage :list="list" />
+    <ListsListPage :list="list" />
   </div>
   <div v-else>
-    <Background :icon="faCheckSquare" />
-    <ErrorPage
+    <LayoutBackground :icon="faCheckSquare" />
+    <LayoutErrorPage
       :code="404"
       :message="`List with ID ${listId} not found !`"
       fallback-url="/lists"
@@ -28,13 +28,6 @@
 
 <script setup lang="ts">
 import { faCheckSquare } from "@fortawesome/free-solid-svg-icons";
-import BackButton from "~/components/layout/BackButton.vue";
-import Background from "~/components/layout/Background.vue";
-import ErrorPage from "~/components/layout/ErrorPage.vue";
-import Loading from "~/components/layout/Loading.vue";
-import PageHeading from "~/components/layout/PageHeading.vue";
-import ListActions from "~/components/lists/ListActions.vue";
-import ListPage from "~/components/lists/ListPage.vue";
 import { ListService } from "~/data/services/listService";
 
 const route = useRoute();

@@ -1,4 +1,4 @@
-import { IDBPDatabase, IDBPIndex, IDBPObjectStore, IDBPTransaction } from "idb";
+import type { IDBPDatabase, IDBPIndex, IDBPObjectStore, IDBPTransaction } from "idb";
 
 export default class Transaction<T extends "readonly" | "readwrite"> {
   _database: IDBPDatabase;

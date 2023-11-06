@@ -1,6 +1,6 @@
-import { PipelineMiddleware } from "pipelineer";
-import UpgradeDatabase from "./upgradeDatabase";
-import { IDBPDatabase, IDBPTransaction } from "idb";
+import { type PipelineMiddleware } from "pipelineer";
+import type UpgradeDatabase from "./upgradeDatabase";
+import type { IDBPDatabase, IDBPTransaction } from "idb";
 
 export default abstract class Migration
   implements PipelineMiddleware<UpgradeDatabase, Promise<undefined>>

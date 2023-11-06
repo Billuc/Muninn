@@ -1,8 +1,9 @@
 <template>
-  <div v-if="note">
-    <PageHeading>
+  <LayoutLoading v-if="pending" />
+  <div v-else-if="note">
+    <LayoutPageHeading>
       <template #prepend>
-        <BackButton to="notes" label="Back to notes" class="mr-4" />
+        <LayoutBackButton to="notes" label="Back to notes" class="mr-4" />
         <TagVue
           v-if="tag"
           :text="tag.title"
@@ -16,16 +17,16 @@
       </span>
 
       <template #append>
-        <NoteActions :note="note" />
+        <NotesNoteActions :note="note" />
       </template>
-    </PageHeading>
-    <Background :icon="faLightbulb" />
+    </LayoutPageHeading>
+    <LayoutBackground :icon="faLightbulb" />
 
-    <Note :note="note" />
+    <NotesNote :note="note" />
   </div>
   <div v-else>
-    <Background :icon="faLightbulb" />
-    <ErrorPage
+    <LayoutBackground :icon="faLightbulb" />
+    <LayoutErrorPage
       :code="404"
       :message="`Note with ID ${noteId} not found !`"
       fallback-url="/notes"
@@ -35,30 +36,27 @@
 
 <script setup lang="ts">
 import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
-import TagVue from "~/components/TagVue.vue";
-import BackButton from "~/components/layout/BackButton.vue";
-import Background from "~/components/layout/Background.vue";
-import ErrorPage from "~/components/layout/ErrorPage.vue";
-import PageHeading from "~/components/layout/PageHeading.vue";
-import Note from "~/components/notes/Note.vue";
-import NoteActions from "~/components/notes/NoteActions.vue";
-import { useNoteStore } from "~/stores/noteStore";
+import type { Tag } from "~/data/models/Tag";
+import { NoteService } from "~/data/services/noteService";
+import { NoteTagService } from "~/data/services/noteTagService";
 
 const route = useRoute();
-const store = useNoteStore();
 const noteId = getOneParam(route.params.id);
-const note = getNote();
-const tag = computed(() => store.tags.get(note?.tagId ?? ""));
+const noteService = useService(NoteService);
+const noteTagService = useService(NoteTagService);
 
-useHead({
-  title: `Notes - ${note?.title}`,
+const { pending, data: note } = useLazyAsyncData(`note-${noteId}`, () =>
+  noteService.get(noteId)
+);
+useSubscription(noteService, note);
+
+const tag = ref<Tag | null>(null);
+
+watch([note], async () => {
+  useHead({
+    title: `Notes - ${note.value?.title}`,
+  });
+
+  if (note.value) tag.value = await noteTagService.get(note.value.tagId);
 });
-
-function getNote() {
-  try {
-    return store.getNote(noteId);
-  } catch {
-    return null;
-  }
-}
 </script>

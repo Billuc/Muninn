@@ -1,4 +1,4 @@
-import { IDBPDatabase, IDBPTransaction } from "idb";
+import type { IDBPDatabase, IDBPTransaction } from "idb";
 
 export default interface UpdateDatabase {
   db: IDBPDatabase;

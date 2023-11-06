@@ -1,4 +1,4 @@
-import { Ref } from "vue";
+import { type Ref } from "vue";
 import type ServiceAction from "./serviceAction";
 import type { ID } from "../../models/ID";
 
