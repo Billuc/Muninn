@@ -31,10 +31,9 @@
 </template>
 
 <script setup lang="ts">
-import { Tag } from "~/models/Tag";
-import TagVue from "../TagVue.vue";
 import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { type Tag } from "~/data/models/Tag";
 
 interface NotesGridElementProps {
   label: string;

@@ -1,5 +1,6 @@
 <template>
-  <Form ref="form">
+  <LayoutLoading v-if="pending" />
+  <Form ref="form" v-else>
     <InputField
       label="Note Name"
       placeholder="Enter name..."
@@ -9,7 +10,7 @@
       :rules="[(v) => !!v]"
     />
     <TagSelecter
-      :tags="store.tagArray"
+      :tags="noteTags!"
       :selected="props.tagId"
       @update:selected="setTagId"
       clearable
@@ -18,12 +19,10 @@
 </template>
 
 <script setup lang="ts">
+import type { Form } from "#build/components";
 import { faFont } from "@fortawesome/free-solid-svg-icons";
-import { useNoteStore } from "~/stores/noteStore";
-import Form from "~/components/Form.vue";
-import InputField from "../InputField.vue";
-import TagSelecter from "../TagSelecter.vue";
-import { ID } from "~/models/ID";
+import { type ID } from "~/data/models/ID";
+import { NoteTagService } from "~/data/services/noteTagService";
 
 interface NoteFormProps {
   name: string;
@@ -32,8 +31,12 @@ interface NoteFormProps {
 
 const props = defineProps<NoteFormProps>();
 const emit = defineEmits(["update:name", "update:tagId"]);
-const store = useNoteStore();
+const noteTagService = useService(NoteTagService);
+
 const form = ref<InstanceType<typeof Form> | null>(null);
+const { pending, data: noteTags } = useLazyAsyncData("note-tags", () =>
+  noteTagService.getAll()
+);
 
 const setName = (newName: string) => emit("update:name", newName);
 const setTagId = (newTagId: ID) => emit("update:tagId", newTagId);

@@ -9,10 +9,16 @@
       <Dialog :is-opened="isOpened" @close="closeModal">
         <template #title>Edit note "{{ props.note.title }}"</template>
         <template #default>
-          <NoteForm v-model:name="name" v-model:tag-id="tagId" ref="form" />
+          <NotesNoteForm
+            v-model:name="name"
+            v-model:tag-id="tagId"
+            ref="form"
+          />
         </template>
         <template #actions>
-          <Button class="btn-success" @click="editNote">Save</Button>
+          <Button class="btn-success" @click="editNote" :loading="loading">
+            Save
+          </Button>
         </template>
       </Dialog>
     </template>
@@ -20,32 +26,36 @@
 </template>
 
 <script setup lang="ts">
-import Button from "../Button.vue";
-import Dialog from "../Dialog.vue";
+import type { NotesNoteForm } from "#build/components";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { Note } from "~/models/Note";
-import { useNoteStore } from "~/stores/noteStore";
-import NoteForm from "./NoteForm.vue";
+import { type Note } from "~/data/models/Note";
+import { NoteService } from "~/data/services/noteService";
 
 interface EditNoteProps {
   note: Note;
 }
 
 const props = defineProps<EditNoteProps>();
-const store = useNoteStore();
-const form = ref<InstanceType<typeof NoteForm> | null>(null);
+const noteService = useService(NoteService);
 
+const form = ref<InstanceType<typeof NotesNoteForm> | null>(null);
 const isOpened = ref(false);
+
 const name = ref(props.note.title);
 const tagId = ref(props.note.tagId);
 
 const openModal = () => (isOpened.value = true);
 const closeModal = () => (isOpened.value = false);
 
-function editNote() {
+const { loading, execute: editNote } = useAsyncAction(async () => {
   if (!form.value?.validate()) return;
 
-  store.editNote(props.note.id, name.value, props.note.text, tagId.value);
+  await noteService.update({
+    id: props.note.id,
+    title: name.value,
+    tagId: tagId.value,
+    text: props.note.text,
+  });
   closeModal();
-}
+});
 </script>

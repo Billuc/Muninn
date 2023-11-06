@@ -1,12 +1,24 @@
 <template>
   <div class="mx-auto">
     <template v-if="props.editing">
-      <Button :icon="faSave" @click="save" class="btn-success mx-1">
+      <Button
+        :icon="faSave"
+        @click="save"
+        class="btn-success mx-1"
+        :loading="props.loading"
+      >
         Save
       </Button>
     </template>
     <template v-else>
-      <Button :icon="faEdit" @click="edit" class="mx-1">Edit</Button>
+      <Button
+        :icon="faEdit"
+        @click="edit"
+        class="mx-1"
+        :loading="props.loading"
+      >
+        Edit
+      </Button>
     </template>
   </div>
 </template>
@@ -16,6 +28,7 @@ import { faEdit, faSave } from "@fortawesome/free-solid-svg-icons";
 
 interface NoteActionsProps {
   editing: boolean;
+  loading: boolean;
 }
 
 const props = defineProps<NoteActionsProps>();

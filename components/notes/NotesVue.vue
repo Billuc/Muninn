@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center gap-2">
-    <NoteTagFilter
+    <NotesNoteTagFilter
       :selected="selected"
       @update:selected="(v) => (selected = v)"
     />
@@ -10,9 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import NoteTagFilter from "~/components/notes/NoteTagFilter.vue";
-import NotesGrid from "~/components/notes/NotesGrid.vue";
-import { ID } from "~/models/ID";
+import { type ID } from "~/data/models/ID";
 
 const selected = ref<ID>("");
 </script>

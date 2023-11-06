@@ -1,7 +1,8 @@
 <template>
+  <LayoutLoading v-if="pending"/>
   <TagSelecter
-    v-show="tags.length"
-    :tags="tags"
+    v-show="tags!.length"
+    :tags="tags!"
     :selected="props.selected"
     label="Filter by Tag"
     @update:selected="selectTag"
@@ -10,9 +11,8 @@
 </template>
 
 <script setup lang="ts">
-import { useNoteStore } from "~/stores/noteStore";
-import TagSelecter from "../TagSelecter.vue";
-import { ID } from "~/models/ID";
+import { type ID } from "~/data/models/ID";
+import { NoteTagService } from "~/data/services/noteTagService";
 
 interface NoteTagFilterProps {
   selected: ID;
@@ -20,8 +20,9 @@ interface NoteTagFilterProps {
 
 const props = defineProps<NoteTagFilterProps>();
 const emit = defineEmits(["update:selected"]);
-const store = useNoteStore();
-const tags = store.tagArray
+const noteTagService = useService(NoteTagService);
+
+const { pending, data: tags } = useLazyAsyncData('note-tags', () => noteTagService.getAll());
 
 const selectTag = (id: ID) => emit("update:selected", id);
 </script>

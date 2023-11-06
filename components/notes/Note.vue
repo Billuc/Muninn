@@ -4,8 +4,9 @@
       mergeClasses('relative', 'flex', 'flex-col', 'flex-nowrap', 'gap-y-2')
     "
   >
-    <NoteEditorActions
+    <NotesNoteEditorActions
       :editing="editing"
+      :loading="loading"
       @edit="editing = true"
       @save="save"
     />
@@ -19,18 +20,16 @@
 </template>
 
 <script setup lang="ts">
-import { useNoteStore } from "~/stores/noteStore";
 import _ from "lodash";
-import { Note } from "~/models/Note";
-import MarkdownEditor from "../MarkdownEditor.vue";
-import NoteEditorActions from "./NoteEditorActions.vue";
+import { type Note } from "~/data/models/Note";
+import { NoteService } from "~/data/services/noteService";
 
 interface NoteProps {
   note: Note;
 }
 
 const props = defineProps<NoteProps>();
-const store = useNoteStore();
+const noteService = useService(NoteService);
 
 const noteText = ref(props.note.text);
 const editing = ref(false);
@@ -38,17 +37,12 @@ const editing = ref(false);
 const updateNoteText = (newText: string) => {
   noteText.value = newText;
 };
-const save = () => {
-  updateNote();
-  nextTick(() => editing.value = false);
-};
 
-function updateNote() {
-  store.editNote(
-    props.note.id,
-    props.note.title,
-    noteText.value,
-    props.note.tagId
-  );
-}
+const { loading, execute: save } = useAsyncAction(async () => {
+  await noteService.update({
+    ...props.note,
+    text: noteText.value,
+  });
+  editing.value = false;
+});
 </script>
