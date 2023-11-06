@@ -4,13 +4,11 @@
   >
     <div class="text-xl font-semibold text-center mb-2">Journal</div>
 
-    <EntryList :date="props.date" class="overflow-y-auto" />
+    <JournalEntryList :date="props.date" class="overflow-y-auto" />
   </div>
 </template>
 
 <script setup lang="ts">
-import EntryList from "../journal/EntryList.vue";
-
 interface HomeJournalProps {
   date: Date;
 }

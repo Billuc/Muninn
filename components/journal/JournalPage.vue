@@ -14,21 +14,17 @@
         Today
       </Button>
 
-      <DayOfWeekSelector v-model:value="date" />
+      <JournalDayOfWeekSelector v-model:value="date" />
     </div>
 
-    <DateDisplay :date="date" />
+    <JournalDateDisplay :date="date" />
 
-    <EntryList :date="date" class="mt-4" />
+    <JournalEntryList :date="date" class="mt-4" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { isSameDay } from "date-fns";
-import Button from "../Button.vue";
-import DateDisplay from "./DateDisplay.vue";
-import DayOfWeekSelector from "./DayOfWeekSelector.vue";
-import EntryList from "./EntryList.vue";
 
 const date = ref(new Date());
 

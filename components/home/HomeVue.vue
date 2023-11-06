@@ -26,9 +26,5 @@
 </template>
 
 <script setup lang="ts">
-import HomeJournal from "./HomeJournal.vue";
-import HomeEvents from "./HomeEvents.vue";
-import HomeDateDisplay from "./HomeDateDisplay.vue";
-
 const date = new Date();
 </script>

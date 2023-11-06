@@ -9,27 +9,27 @@
       today
     </div>
 
-    <CalendarEvents :day="props.date" class="overflow-y-auto">
+    <EventsCalendarEvents :day="props.date" class="overflow-y-auto">
       <template #no-event>{{ "" }}</template>
-    </CalendarEvents>
+    </EventsCalendarEvents>
 
-    <CreateEvent :date="props.date" />
+    <EventsCreateEvent :date="props.date" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { useEventStore } from "~/stores/eventStore";
-import CalendarEvents from "../events/CalendarEvents.vue";
-import CreateEvent from "../events/CreateEvent.vue";
+import { EventService } from "~/data/services/eventService";
 
 interface HomeEventsProps {
   date: Date;
 }
 
 const props = defineProps<HomeEventsProps>();
-const store = useEventStore();
+const service = useService(EventService);
 
-const numberOfEventsToday = computed(
-  () => store.getEventsOfDay(props.date).length
+const { pending, data: events } = useLazyAsyncData(
+  `events-${props.date.toDateString()}`,
+  () => service.getAllForDay(props.date)
 );
+const numberOfEventsToday = computed(() => (events.value ?? []).length);
 </script>

@@ -10,19 +10,17 @@
         @update:value="updateText"
       />
 
-      <EntryActions @remove="remove" />
+      <JournalEntryActions @remove="remove" />
     </div>
   </li>
 </template>
 
 <script setup lang="ts">
-import MultilineInput from "../MultilineInput.vue";
 import _ from "lodash";
-import EntryActions from "./EntryActions.vue";
-import { SyncStatus } from "~/models/Status";
-import { useGeneralStore } from "~/stores/generalStore";
-import { useJournalStore } from "~/stores/journalStore";
-import { ID } from "~/models/ID";
+import { SyncStatus } from "~/data/models/Status";
+import { useGeneralStore } from "~/data/stores/generalStore";
+import { type ID } from "~/data/models/ID";
+import { JournalService } from "~/data/services/journalService";
 
 interface EntryProps {
   entry: string;
@@ -31,25 +29,31 @@ interface EntryProps {
 }
 
 const props = defineProps<EntryProps>();
-const elementText = ref(props.entry);
-const store = useJournalStore();
 const generalStore = useGeneralStore();
+const journalService = useService(JournalService);
+
+const elementText = ref(props.entry);
+
+const { loading: removing, execute: remove } = useAsyncAction(() => journalService.remove(props.id));
+const { loading: updating, execute: update } = useAsyncAction(async () => {
+  if (!elementText.value) await journalService.remove(props.id);
+  else await journalService.update({
+    id: props.id,
+    date: props.date,
+    text: elementText.value
+  });
+
+  generalStore.setSyncStatus(SyncStatus.Synced);
+})
 
 const updateText = (newText: string) => {
   elementText.value = newText;
   generalStore.setSyncStatus(SyncStatus.Syncing);
-  debouncedUpdate();
-};
-const remove = () => store.removeEntry(props.date, props.id);
-
-const update = () => {
-  if (!elementText.value) store.removeEntry(props.date, props.id);
-  else store.editEntry(props.date, props.id, elementText.value);
-  generalStore.setSyncStatus(SyncStatus.Synced);
+  debouncedUpdate(null);
 };
 const debouncedUpdate = _.debounce(update, 2000);
 const updateNow = () => {
   debouncedUpdate.cancel();
-  update();
+  update(null);
 };
 </script>

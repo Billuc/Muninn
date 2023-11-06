@@ -18,29 +18,39 @@
       detect-enter
       @enter="newEntry"
     />
-    <Button :icon="faPlus" class="btn-circle !btn-xs" @click="newEntry" />
+    <Button :icon="faPlus" class="btn-circle !btn-xs" @click="newEntry" :loading="loading" />
   </li>
 </template>
 
 <script setup lang="ts">
-import { useJournalStore } from "~/stores/journalStore";
-import MultilineInput from "../MultilineInput.vue";
-import Button from "../Button.vue";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { SyncStatus } from "~/data/models/Status";
+import { JournalService } from "~/data/services/journalService";
+import { useGeneralStore } from "~/data/stores/generalStore";
 
 interface AddEntryProps {
   date: Date;
 }
 
 const props = defineProps<AddEntryProps>();
-const store = useJournalStore();
+const journalService = useService(JournalService);
+const generalStore = useGeneralStore();
 
 const elementText = ref("");
 
-const newEntry = () => {
-  if (!!elementText.value.trim())
-    store.newEntry(props.date, elementText.value.trim());
+const { loading, execute: newEntry } = useAsyncAction(async () => {
+  if (!elementText.value.trim()) {
+    elementText.value = "";
+    return;
+  }
+  
+  generalStore.setSyncStatus(SyncStatus.Syncing);
+  await journalService.create({
+    date: props.date,
+    text: elementText.value
+  });
 
   elementText.value = "";
-};
+  generalStore.setSyncStatus(SyncStatus.Synced);
+});
 </script>

@@ -1,26 +1,29 @@
 <template>
-  <ul class="list-disc pl-8">
-    <Entry
-      v-for="entry in dateEntries"
+  <LayoutLoading v-if="pending" />
+  <ul class="list-disc pl-8" v-else>
+    <JournalEntry
+      v-for="entry in entries"
       :entry="entry.text"
       :id="entry.id"
       :date="entry.date"
       :key="`entry-${entry.id}`"
     />
-    <AddEntry :date="props.date" />
+    <JournalAddEntry :date="props.date" />
   </ul>
 </template>
 
 <script setup lang="ts">
-import { useJournalStore } from "@/stores/journalStore";
-import Entry from "./Entry.vue";
-import AddEntry from "./AddEntry.vue";
+import { JournalService } from "~/data/services/journalService";
 
 interface EntryListProps {
   date: Date;
 }
 
 const props = defineProps<EntryListProps>();
-const store = useJournalStore();
-const dateEntries = computed(() => store.getEntries(props.date));
+const journalService = useService(JournalService);
+
+const { pending, data: entries } = useLazyAsyncData(
+  `entries-${props.date.toDateString()}`,
+  () => journalService.getForDay(props.date)
+);
 </script>
