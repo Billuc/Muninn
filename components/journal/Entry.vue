@@ -25,7 +25,6 @@ import { JournalService } from "~/data/services/journalService";
 interface EntryProps {
   entry: string;
   id: ID;
-  date: Date;
 }
 
 const props = defineProps<EntryProps>();
@@ -39,7 +38,6 @@ const { loading: updating, execute: update } = useAsyncAction(async () => {
   if (!elementText.value) await journalService.remove(props.id);
   else await journalService.update({
     id: props.id,
-    date: props.date,
     text: elementText.value
   });
 

@@ -1,6 +1,10 @@
 import { v4 } from "uuid";
 import Database from "../database/database";
-import type { CreateJournalEntry, JournalEntry } from "../models/Journal";
+import type {
+  CreateJournalEntry,
+  JournalEntry,
+  UpdateJournalEntry,
+} from "../models/Journal";
 import type { ID } from "../models/ID";
 import SubscribableService from "./base/subscribable";
 import { injectable } from "tsyringe";
@@ -14,13 +18,16 @@ export class JournalService extends SubscribableService<JournalEntry> {
   }
 
   async getForDay(date: Date): Promise<JournalEntry[]> {
-    const entries = await this._getAllFromIndex(this.DATE_INDEX, date);
+    const entries = await this._getAllFromIndex(
+      this.DATE_INDEX,
+      formatDate(date)
+    );
     return entries;
   }
 
   async create(create: CreateJournalEntry): Promise<JournalEntry> {
     const entry: JournalEntry = {
-      date: create.date,
+      date: formatDate(create.date),
       id: v4(),
       text: create.text,
     };
@@ -28,8 +35,12 @@ export class JournalService extends SubscribableService<JournalEntry> {
     return created;
   }
 
-  async update(update: JournalEntry): Promise<JournalEntry> {
-    const updated = await this._update(update);
+  async update(update: UpdateJournalEntry): Promise<JournalEntry> {
+    const entry = await this._get(update.id);
+    const updated = await this._update({
+      ...entry,
+      text: update.text ?? entry.text,
+    });
     return updated;
   }
 

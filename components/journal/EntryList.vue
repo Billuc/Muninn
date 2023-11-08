@@ -5,7 +5,6 @@
       v-for="entry in entries"
       :entry="entry.text"
       :id="entry.id"
-      :date="entry.date"
       :key="`entry-${entry.id}`"
     />
     <JournalAddEntry :date="props.date" />
@@ -22,8 +21,13 @@ interface EntryListProps {
 const props = defineProps<EntryListProps>();
 const journalService = useService(JournalService);
 
-const { pending, data: entries } = useLazyAsyncData(
-  `entries-${props.date.toDateString()}`,
-  () => journalService.getForDay(props.date)
-);
+const { date: dateRef } = toRefs(props);
+
+const {
+  pending,
+  data: entries,
+  execute,
+} = useLazyAsyncData(`entries`, () => journalService.getForDay(dateRef.value), {
+  watch: [dateRef],
+});
 </script>

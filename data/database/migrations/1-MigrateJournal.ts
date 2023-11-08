@@ -38,8 +38,8 @@ export default class MigrateJournalMigration extends Migration {
       for (const entry of dateEntries[1]) {
         const journalEntry = {
           id: entry[1].id,
-          date: new Date(entry[1].date),
-          text: entry[1].date,
+          date: entry[1].date,
+          text: entry[1].text,
         };
         await journalStore.add(journalEntry);
       }
