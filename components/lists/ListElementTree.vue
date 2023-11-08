@@ -18,7 +18,7 @@
         mergeClasses(
           'mt-1',
           'pl-4',
-          'transition-transform',
+          'transition-all',
           'duration-300',
           'tree-add'
         )
@@ -42,10 +42,11 @@ const props = defineProps<ListElementTreeProps>();
 
 <style>
 .tree-root > .tree-add {
-  transform: scaleY(0);
+  height: 0px;
+  overflow: hidden;
 }
 
 .tree-root:focus-within > .tree-add {
-  transform: scaleY(1);
+  height: 1.5rem;
 }
 </style>

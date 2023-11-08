@@ -38,7 +38,7 @@ export class ListElementService extends SubscribableService<ListElement> {
       done: false,
       index: 0,
       listId: create.listId,
-      parentId: create.parentId,
+      parentId: create.parentId ?? "",
     };
     const created = await this._create(listElement);
     return created;
