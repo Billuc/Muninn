@@ -10,15 +10,16 @@
     "
   >
     {{ day.getDate() }}
-    <!-- <div class="absolute left-1/2 bottom-[2px] -translate-x-1/2">
+    <div class="absolute left-1/2 bottom-[2px] -translate-x-1/2">
       {{ ".".repeat(Math.min(3, eventNumber)) }}
-    </div> -->
+    </div>
   </Button>
 </template>
 
 <script setup lang="ts">
 import { isSameDay, isSameMonth } from "date-fns";
 import { type ID } from "~/data/models/ID";
+import { EventService } from "~/data/services/eventService";
 
 interface CalendarDayButtonProps {
   day: Date;
@@ -27,12 +28,16 @@ interface CalendarDayButtonProps {
 }
 
 const props = defineProps<CalendarDayButtonProps>();
-// const store = useEventStore();
+const service = useService(EventService);
+const { data: events } = useLazyAsyncData(
+  `events-at-day-${props.day.toDateString()}`,
+  () => service.getAllForDay(props.day)
+);
 
-// const eventNumber = computed(() =>
-//   store
-//     .getEventsOfDay(props.day)
-//     .filter((ev) => !props.tagFilter || ev.tagId === props.tagFilter)
-//     .length
-// );
+const eventNumber = computed(
+  () =>
+    (events.value ?? []).filter(
+      (ev) => !props.tagFilter || ev.tagId === props.tagFilter
+    ).length
+);
 </script>

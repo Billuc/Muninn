@@ -22,7 +22,7 @@ const props = defineProps<EventTagFilterProps>();
 const emit = defineEmits(["update:selected"]);
 const service = useService(EventTagService);
 
-const { pending, data: tags } = useLazyAsyncData("event-tags", () => service.getAll());
+const { pending, data: tags } = useLazyAsyncData(() => service.getAll());
 
 const selectTag = (id: ID) => emit("update:selected", id);
 </script>

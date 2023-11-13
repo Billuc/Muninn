@@ -116,7 +116,7 @@ const frequencyOptions = Object.values(Frequency).map((freq) => ({
   value: freq,
 }));
 
-const { pending, data: tags } = useLazyAsyncData("event-tags", () => service.getAll());
+const { pending, data: tags } = useLazyAsyncData(() => service.getAll());
 
 const setTitle = (v: string) => emit("update:title", v);
 const setDate = (v: Date) => emit("update:date", v);

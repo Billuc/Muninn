@@ -1,5 +1,5 @@
 <template>
-  <LayoutLoading v-if="loadingTags || loadingEvents" />
+  <LayoutLoading v-if="loading" />
   <div v-else>
     <template v-if="daysEventsWithTags.length > 0">
       <ul class="menu">
@@ -47,19 +47,17 @@ const eventService = useService(EventService);
 const eventTagService = useService(EventTagService);
 
 const selectedEvent = ref<Event | null>(null);
+const { day: dayRef } = toRefs(props);
 
-const { pending: loadingTags, data: tags } = useLazyAsyncData(
-  "event-tags",
-  () => eventTagService.getAll()
+const { pending: loadingTags, data: tags } = useLazyAsyncData(() => eventTagService.getAll());
+const { pending: loadingEvents, data: daysEvents } = useLazyAsyncData(
+  "events",
+  () => eventService.getAllForDay(dayRef.value),
+  { watch: [dayRef] }
 );
-const {
-  loading: loadingEvents,
-  data: daysEvents,
-  execute,
-} = useAsyncAction((d: Date) => eventService.getAllForDay(d));
 
 const daysEventsWithTags = computed(() =>
-  _(daysEvents)
+  _(daysEvents.value)
     .chain()
     .filter((e) => !props.tagFilter || e.tagId === props.tagFilter)
     .sortBy([
@@ -72,8 +70,7 @@ const daysEventsWithTags = computed(() =>
     }))
     .value()
 );
+const loading = computed(() => loadingTags.value || loadingEvents.value);
 
 const selectEvent = (event: Event | null) => (selectedEvent.value = event);
-
-watchEffect(async () => await execute(props.day));
 </script>

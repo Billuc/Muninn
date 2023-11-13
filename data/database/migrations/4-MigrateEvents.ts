@@ -1,6 +1,7 @@
 import type { IDBPDatabase, IDBPObjectStore, IDBPTransaction } from "idb";
 import Migration from "../migration";
 import { deserializeWithMaps } from "./serializer";
+import { parse } from "date-fns";
 
 export default class MigrateEventsMigration extends Migration {
   version: number = 4;
@@ -90,8 +91,8 @@ export default class MigrateEventsMigration extends Migration {
         id: event.id,
         description: event.description,
         title: event.title,
-        start: event.start,
-        end: event.end,
+        start: parse(event.start, "yyyy-MM-dd HH:mm", new Date()),
+        end: event.end ? parse(event.end, "yyyy-MM-dd HH:mm", new Date()) : undefined,
         frequency: event.frequency,
         frequencyMultiplier: event.frequencyMultiplier,
         tagId: event.tagId,
