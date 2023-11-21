@@ -1,7 +1,7 @@
 <template>
   <LayoutLoading v-if="pending"/>
   <TagSelecter
-    v-show="tags!.length"
+    v-else-if="tags!.length"
     :tags="tags!"
     :selected="props.selected"
     label="Filter by Tag"
@@ -22,7 +22,7 @@ const props = defineProps<NoteTagFilterProps>();
 const emit = defineEmits(["update:selected"]);
 const noteTagService = useService(NoteTagService);
 
-const { pending, data: tags } = useLazyAsyncData('note-tags', () => noteTagService.getAll());
+const { pending, data: tags } = useLazyAsyncData(() => noteTagService.getAll());
 
 const selectTag = (id: ID) => emit("update:selected", id);
 </script>

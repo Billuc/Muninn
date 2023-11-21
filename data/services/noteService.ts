@@ -8,7 +8,7 @@ import { injectable } from "tsyringe";
 @injectable()
 export class NoteService extends SubscribableService<Note> {
   constructor(database: Database) {
-    super(database, "events");
+    super(database, "notes");
   }
 
   async get(id: ID): Promise<Note> {

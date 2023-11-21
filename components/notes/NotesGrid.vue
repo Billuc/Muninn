@@ -43,10 +43,10 @@ const noteTagService = useService(NoteTagService);
 const { pending: loadingNotes, data: notes } = useLazyAsyncData("notes", () =>
   noteService.getAll()
 );
-const { pending: loadingNoteTags, data: noteTags } = useLazyAsyncData(
-  "note-tags",
-  () => noteTagService.getAll()
+const { pending: loadingNoteTags, data: noteTags } = useLazyAsyncData(() =>
+  noteTagService.getAll()
 );
+useSubscription(noteService, notes);
 
 const notesAndTags = computed(() => {
   if (!notes.value || !noteTags.value) return [];
@@ -57,7 +57,7 @@ const notesAndTags = computed(() => {
   );
   const joinedNotesAndTags: [Note, Tag][] = _.map(filteredNotes, (note) => [
     note,
-    tagsById[note.tagId][0],
+    tagsById[note.tagId]?.[0],
   ]);
   return joinedNotesAndTags;
 });
