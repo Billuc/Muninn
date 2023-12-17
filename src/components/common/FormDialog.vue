@@ -24,9 +24,9 @@ const onSubmit = () => emit("submit");
       </QCardSection>
 
       <QForm @submit.prevent="onSubmit">
-        <QCardSection>
+        <div class="q-px-md">
           <slot name="form"></slot>
-        </QCardSection>
+        </div>
 
         <QCardActions align="right">
           <slot name="actions"></slot>

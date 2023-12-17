@@ -41,9 +41,9 @@ const deleteList = async () => {
     />
 
     <FormDialog v-model="dialogOpened" @submit="deleteList">
-      <template #title
-        >Are you sure you want to delete list {{ props.list.title }}</template
-      >
+      <template #title>
+        Are you sure you want to delete list {{ props.list.title }}
+      </template>
 
       <template #actions>
         <QBtn :loading="removing" @click="dialogOpened = false">No</QBtn>

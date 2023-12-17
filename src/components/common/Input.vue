@@ -14,6 +14,7 @@ const onUpdate = (v: string | number | null) => emit("update:model-value", v);
   <QInput
     filled
     dense
+    hide-bottom-space
     :label="props.label"
     :model-value="props.modelValue"
     @update:model-value="onUpdate"

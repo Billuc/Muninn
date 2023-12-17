@@ -72,6 +72,7 @@ const removeNode = (id: string) => console.log(id);
       :elements="elements"
       @edit-node="editNode"
       @remove-node="removeNode"
+      class="q-mt-sm"
     />
   </div>
 </template>
