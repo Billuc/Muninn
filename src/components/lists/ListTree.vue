@@ -44,6 +44,7 @@ const removeNode = (id: string) => {
 };
 
 const fixExpanded = (id: string) => {
+  // Clicking to edit also toggles expand, so we toggle it again
   tree.value?.setExpanded(id, !tree.value?.isExpanded(id));
 };
 </script>

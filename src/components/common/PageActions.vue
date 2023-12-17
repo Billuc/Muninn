@@ -7,6 +7,8 @@
     mobile-arrows
     indicator-color="transparent"
     dense
+    @touchstart.stop
+    @mousedown.stop
   >
     <slot></slot>
   </QTabs>
