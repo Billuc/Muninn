@@ -27,8 +27,16 @@ const onClick = () =>
 
 <style>
 @media screen and (max-width: 600px) {
+  .back-button {
+    padding: 4px;
+  }
+
   .back-button .q-btn__content span {
     display: none !important;
+  }
+
+  .back-button .q-btn__content i {
+    margin: 0
   }
 }
 </style>

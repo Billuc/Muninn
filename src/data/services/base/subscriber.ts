@@ -33,7 +33,9 @@ export default class ServiceSubscriber<T extends { id: ID }> {
         break;
       case "remove":
         if (Array.isArray(this._value.value)) {
-          this._value.value.filter((t) => t.id !== action.id);
+          this._value.value = this._value.value.filter(
+            (t) => t.id !== action.id
+          );
         } else if (this._value.value && this._value.value.id === action.id) {
           this._value.value = null;
         }

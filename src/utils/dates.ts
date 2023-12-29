@@ -10,6 +10,7 @@ import {
   intervalToDuration,
   parse,
   startOfDay,
+  isSameDay
 } from "date-fns";
 
 import { Frequency } from "@/data/models/Event";
@@ -22,6 +23,18 @@ export function formatDate(date: Date) {
 
 export function formatTime(date: Date) {
   return format(date, "HH:mm");
+}
+
+export function prettyFormatInterval(start: Date, end?: Date) {
+  if (!end) {
+    return format(start, "dd MMM HH:mm");
+  }
+
+  if (isSameDay(start, end)) {
+    return format(start, "dd MMM HH:mm") + " - " + format(end, "HH:mm")
+  }
+
+  return format(start, "dd MMM HH:mm") + " - " + format(end, "dd MMM HH:mm")
 }
 
 export function getDuration(start: Date, end: Date) {

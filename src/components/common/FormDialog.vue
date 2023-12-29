@@ -24,7 +24,7 @@ const onSubmit = () => emit("submit");
       </QCardSection>
 
       <QForm @submit.prevent="onSubmit">
-        <div class="q-px-md">
+        <div class="q-px-md form-content">
           <slot name="form"></slot>
         </div>
 
@@ -35,3 +35,11 @@ const onSubmit = () => emit("submit");
     </QCard>
   </QDialog>
 </template>
+
+<style>
+.form-content > div {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 8px;
+}
+</style>

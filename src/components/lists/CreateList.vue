@@ -28,7 +28,7 @@ const createList = async () => {
     <PageAction
       color="primary"
       icon="mdi-plus"
-      label="Add List"
+      label="Add list"
       @click="dialogOpened = true"
     />
 

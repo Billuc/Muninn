@@ -8,7 +8,7 @@ import NoteEditor from "@/components/notes/NoteEditor.vue";
 import NoteModeToggle from "@/components/notes/NoteModeToggle.vue";
 import { useService } from "@/composables/useService";
 import { useSubscription } from "@/composables/useSubscription";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { getOneParam } from "@/utils/route";
 import { NoteService } from "@/data/services/noteService";
@@ -23,12 +23,21 @@ useSubscription(noteService, note);
 
 const noteText = ref(note.value.text);
 const editing = ref(false);
+
+watch([editing], () => {
+  if (!editing.value) {
+    noteService.update({
+      ...note.value,
+      text: noteText.value,
+    });
+  }
+});
 </script>
 
 <template>
   <div>
     <Title>
-      <template #prefix><BackButton name="lists" /></template>
+      <template #prefix><BackButton name="notes" /></template>
       <template #text>{{ note.title }}</template>
     </Title>
 
