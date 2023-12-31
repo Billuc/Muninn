@@ -6,7 +6,7 @@
       <slot name="prefix">&nbsp;</slot>
     </div>
 
-    <div class="text-h2 title-text">
+    <div class="text-h3 title-text">
       <slot name="text" />
     </div>
 
@@ -24,18 +24,18 @@
 }
 
 .title-prefix {
-  width: 16.666%;
+  width: 15%;
   text-align: left;
 }
 
 .title-text {
-  width: 66.667%;
+  width: 70%;
   overflow: hidden;
   text-align: center;
 }
 
 .title-suffix {
-  width: 16.666%;
+  width: 15%;
   text-align: right;
 }
 </style>

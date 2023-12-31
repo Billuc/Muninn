@@ -1,10 +1,11 @@
+import { injectable } from "tsyringe";
 import { v4 } from "uuid";
+
 import Database from "../database/database";
+import SubscribableService from "./base/subscribable";
+
 import type { Tag, CreateTag } from "../models/Tag";
 import type { ID } from "../models/ID";
-import SubscribableService from "./base/subscribable";
-import { injectable } from "tsyringe";
-
 @injectable()
 export class EventTagService extends SubscribableService<Tag> {
   constructor(database: Database) {
@@ -22,6 +23,7 @@ export class EventTagService extends SubscribableService<Tag> {
   }
 
   async create(create: CreateTag): Promise<Tag> {
+    console.log(create);
     const tag: Tag = {
       id: v4(),
       title: create.title,

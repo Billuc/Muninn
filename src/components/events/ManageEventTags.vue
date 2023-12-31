@@ -4,7 +4,7 @@ import PageAction from "@/components/common/PageAction.vue";
 
 const router = useRouter();
 
-const toTags = () => router.push({ name: "event-tags" });
+const toTags = () => router.push({ name: "calendar-tags" });
 </script>
 
 <template>
