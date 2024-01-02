@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import Input from "@/components/common/Input.vue";
 import DateTimeInput from "@/components/common/DateTimeInput.vue";
+import EventTagSelect from "@/components/events/tags/EventTagSelect.vue";
 import { required } from "@/utils/rules";
+import { Tag } from "@/data/models/Tag";
 
 interface EventFormProps {
   title: string;
-  tagId: string;
+  tag: Tag | null;
   start: Date;
   end: Date | null;
   description: string;
@@ -14,7 +16,7 @@ interface EventFormProps {
 const props = defineProps<EventFormProps>();
 const emit = defineEmits([
   "update:title",
-  "update:tagId",
+  "update:tag",
   "update:start",
   "update:end",
   "update:description",
@@ -24,7 +26,7 @@ const onUpdateTitle = (v: string) => emit("update:title", v);
 const onUpdateDescription = (v: string) => emit("update:description", v);
 const onUpdateStart = (v: string) => emit("update:start", v);
 const onUpdateEnd = (v: string) => emit("update:end", v);
-const onUpdateTagId = (v: string) => emit("update:tagId", v);
+const onUpdateTag = (v: Tag | null) => emit("update:tag", v);
 </script>
 
 <template>
@@ -52,9 +54,9 @@ const onUpdateTagId = (v: string) => emit("update:tagId", v);
       label="Event end"
       clearable
     />
-    <Input
-      :model-value="props.tagId"
-      @update:model-value="onUpdateTagId"
+    <EventTagSelect
+      :model-value="props.tag"
+      @update:model-value="onUpdateTag"
       label="Event tag"
     />
   </div>

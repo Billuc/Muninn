@@ -15,13 +15,16 @@ import { Tag } from "@/data/models/Tag";
 const eventTagService = useService(EventTagService);
 
 const selected = ref<Tag | null>(null);
+const selectedIndex = ref(-1);
 
 const data = await eventTagService.getAll();
 const eventTags = ref(data);
 useSubscription(eventTagService, eventTags);
 
-const onSelect = (e: { element: Tag; index: number }) =>
-  (selected.value = e.element != selected.value ? e.element : null);
+const onSelect = (e: { element: Tag; index: number }) => {
+  selected.value = e.element != selected.value ? e.element : null;
+  selectedIndex.value = e.index == selectedIndex.value ? -1 : e.index;
+};
 </script>
 
 <template>
@@ -40,6 +43,10 @@ const onSelect = (e: { element: Tag; index: number }) =>
       </template>
     </PageActions>
 
-    <EventTagList :tags="eventTags" @select="onSelect" />
+    <EventTagList
+      :tags="eventTags"
+      @select="onSelect"
+      :selected-index="selectedIndex"
+    />
   </div>
 </template>

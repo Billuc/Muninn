@@ -1,4 +1,5 @@
-import { type ID } from "./ID";
+import type { ID } from "./ID";
+import { Tag } from "./Tag";
 
 export interface Event {
   id: ID;
@@ -9,6 +10,17 @@ export interface Event {
   frequency: Frequency;
   frequencyMultiplier: number;
   tagId: ID;
+}
+
+export interface EventAndTag {
+  id: ID;
+  description: string;
+  title: string;
+  start: Date;
+  end?: Date;
+  frequency: Frequency;
+  frequencyMultiplier: number;
+  tag: Tag | null;
 }
 
 export interface CreateEvent {

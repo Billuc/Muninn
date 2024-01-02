@@ -7,27 +7,46 @@ import DeleteEvent from "@/components/events/DeleteEvent.vue";
 import ManageEventTags from "@/components/events/ManageEventTags.vue";
 import { useService } from "@/composables/useService";
 import { useSubscription } from "@/composables/useSubscription";
-import { ref, watchEffect } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { EventService } from "@/data/services/eventService";
 import { hasRepetitionAtDay } from "@/utils/dates";
-import { Event } from "@/data/models/Event";
+import { EventAndTag, Event } from "@/data/models/Event";
 import DaysEvents from "@/components/events/DaysEvents.vue";
 import DateSelect from "@/components/common/DateSelect.vue";
+import EventTagSelect from "@/components/events/tags/EventTagSelect.vue";
+import { EventTagService } from "@/data/services/eventTagService";
+import { Tag } from "@/data/models/Tag";
 
 const eventService = useService(EventService);
+const eventTagService = useService(EventTagService);
 
 const date = ref(new Date());
-const selected = ref<Event | null>(null);
-
-const data = await eventService.getAllForDay(date.value);
-const events = ref(data);
-useSubscription(eventService, events, filter);
+const tag = ref<Tag | null>(null);
+const selected = ref<EventAndTag | null>(null);
 
 function filter(e: Event): boolean {
   return hasRepetitionAtDay(e, date.value);
 }
 
-const onSelect = (event: Event) =>
+const data = await eventService.getAllForDay(date.value);
+const events = ref(data);
+useSubscription(eventService, events, filter);
+
+const tagsData = await eventTagService.getAll();
+const eventTags = ref(tagsData);
+useSubscription(eventTagService, eventTags);
+
+const filteredEvents = computed(() =>
+  events.value.filter((ev) => !tag.value || ev.tagId == tag.value.id)
+);
+const eventsAndTags = computed(() =>
+  filteredEvents.value.map((ev) => ({
+    ...ev,
+    tag: eventTags.value.find((t) => t.id == ev.tagId) ?? null,
+  }))
+);
+
+const onSelect = (event: EventAndTag) =>
   (selected.value = event != selected.value ? event : null);
 
 watchEffect(async () => {
@@ -53,10 +72,11 @@ watchEffect(async () => {
 
     <PageActions class="q-mt-sm">
       <DateSelect v-model="date" />
+      <EventTagSelect v-model="tag" filter-select />
     </PageActions>
 
     <DaysEvents
-      :events="events"
+      :events="eventsAndTags"
       :selected="selected"
       class="q-mt-md"
       @select="onSelect"

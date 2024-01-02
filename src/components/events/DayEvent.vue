@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { Event } from "@/data/models/Event";
+import { EventAndTag } from "@/data/models/Event";
 import { prettyFormatInterval } from "@/utils/dates";
 import { computed } from "vue";
+import TagChip from "@/components/common/tags/TagChip.vue";
 
 interface DayEventProps {
-  event: Event;
+  event: EventAndTag;
   active?: boolean;
+  index: number;
 }
 
 const props = defineProps<DayEventProps>();
@@ -19,20 +21,22 @@ const onShow = () => emit("select");
 </script>
 
 <template>
-  <div class="day-event">
-    <QCard
-      flat
-      @click="onShow"
-      class="event-card"
-      :class="{ active: props.active }"
-    >
+  <div
+    class="day-event"
+    :class="{
+      even: props.index % 2 == 0,
+      odd: props.index % 2 == 1,
+      active: props.active,
+    }"
+  >
+    <QCard flat @click="onShow" class="event-card">
       <QCardSection class="row">
         <div class="col-6">
           <div>{{ props.event.title }}</div>
           <div>{{ dateStr }}</div>
         </div>
         <QSpace />
-        <QChip class="col-4"></QChip>
+        <TagChip :tag="props.event.tag" v-if="props.event.tag" />
       </QCardSection>
 
       <QSlideTransition>
@@ -66,10 +70,19 @@ const onShow = () => emit("select");
 
 .day-event .event-card {
   border-radius: 8px;
+  border: 2px solid transparent;
 }
 
-.day-event .event-card.active {
-  border: 2px solid rgba(0, 0, 0, 0.75);
+.day-event.active .event-card {
+  border-color: rgba(0, 0, 0, 0.75);
+}
+
+.day-event.even .event-card {
+  background: #ffffff;
+}
+
+.day-event.odd .event-card {
+  background: #dddddd;
 }
 
 .day-event .event-card-content {

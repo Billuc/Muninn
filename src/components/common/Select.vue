@@ -8,8 +8,9 @@ interface SelectItem {
 
 interface SelectProps {
   modelValue: any | null;
-  label: string;
+  label?: string;
   options: SelectItem[];
+  standout?: boolean;
 }
 
 const props = defineProps<SelectProps>();
@@ -24,7 +25,8 @@ const onUpdate = (v: SelectItem | null) => emit("update:model-value", v?.value);
 
 <template>
   <QSelect
-    filled
+    :filled="!props.standout"
+    :standout="!!props.standout"
     dense
     hide-bottom-space
     :label="props.label"
