@@ -1,10 +1,11 @@
+import { injectable } from "tsyringe";
 import { v4 } from "uuid";
+
 import Database from "../database/database";
+import SubscribableService from "./base/subscribable";
+
 import type { Note, CreateNote } from "../models/Note";
 import type { ID } from "../models/ID";
-import SubscribableService from "./base/subscribable";
-import { injectable } from "tsyringe";
-
 @injectable()
 export class NoteService extends SubscribableService<Note> {
   constructor(database: Database) {

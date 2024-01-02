@@ -7,11 +7,11 @@ import { useService } from "@/composables/useService";
 import { EventService } from "@/data/services/eventService";
 import { Frequency } from "@/data/models/Event";
 import addHours from "date-fns/addHours";
-import { EventAndTag } from "@/data/models/Event";
-import { Tag } from "@/data/models/Tag";
+import { Event } from "@/data/models/Event";
+import { ID } from "@/data/models/ID";
 
 interface EditEventProps {
-  event: EventAndTag | null;
+  event: Event | null;
 }
 
 const props = defineProps<EditEventProps>();
@@ -23,7 +23,7 @@ const name = ref("");
 const description = ref("");
 const start = ref(new Date());
 const end = ref(addHours(new Date(), 1));
-const tag = ref<Tag | null>(null);
+const tagId = ref<ID>("");
 const frequency = ref(Frequency.Once);
 const frequencyMultiplier = ref(1);
 const updating = ref(false);
@@ -38,7 +38,7 @@ const editEvent = async () => {
     description: description.value,
     start: start.value,
     end: end.value,
-    tagId: tag.value?.id ?? "",
+    tagId: tagId.value ?? "",
     frequency: frequency.value,
     frequencyMultiplier: frequencyMultiplier.value,
   });
@@ -56,7 +56,7 @@ watchEffect(() => {
   description.value = props.event.description;
   start.value = props.event.start;
   end.value = props.event.end ?? addHours(props.event.start, 1);
-  tag.value = props.event.tag;
+  tagId.value = props.event.tagId;
   frequency.value = props.event.frequency;
   frequencyMultiplier.value = props.event.frequencyMultiplier;
 });
@@ -80,7 +80,7 @@ watchEffect(() => {
           v-model:description="description"
           v-model:start="start"
           v-model:end="end"
-          v-model:tag="tag"
+          v-model:tag-id="tagId"
         />
       </template>
 

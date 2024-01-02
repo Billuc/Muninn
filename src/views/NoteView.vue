@@ -12,14 +12,21 @@ import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { getOneParam } from "@/utils/route";
 import { NoteService } from "@/data/services/noteService";
+import { NoteTagService } from "@/data/services/noteTagService";
+import TagChip from "@/components/common/tags/TagChip.vue";
+import { Tag } from "@/data/models/Tag";
 
 const noteService = useService(NoteService);
+const noteTagService = useService(NoteTagService);
 const route = useRoute();
 const noteId = getOneParam(route.params.id);
 
 const noteData = await noteService.get(noteId);
 const note = ref(noteData);
 useSubscription(noteService, note);
+
+const tagData = await noteTagService.get(note.value.tagId);
+const noteTag = ref<Tag | null>(tagData);
 
 const noteText = ref(note.value.text);
 const editing = ref(false);
@@ -32,6 +39,15 @@ watch([editing], () => {
     });
   }
 });
+watch([note], async () => {
+  if (!note.value.tagId) {
+    noteTag.value = null;
+    return;
+  }
+  if (note.value.tagId == noteTag.value?.id) return;
+
+  noteTag.value = await noteTagService.get(note.value.tagId);
+});
 </script>
 
 <template>
@@ -39,6 +55,9 @@ watch([editing], () => {
     <Title>
       <template #prefix><BackButton name="notes" /></template>
       <template #text>{{ note.title }}</template>
+      <template #suffix>
+        <TagChip :tag="noteTag" v-if="noteTag" />
+      </template>
     </Title>
 
     <PageActions>

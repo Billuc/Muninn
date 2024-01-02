@@ -11,15 +11,10 @@ const emit = defineEmits(["update:editing"]);
 
 const onClick = () => emit("update:editing", !props.editing);
 
-const icon = computed(() => (props.editing ? "mdi-pencil" : "mdi-eye"));
-const label = computed(() => (props.editing ? "Edit mode" : "View mode"));
+const icon = computed(() => (props.editing ? "mdi-pencil" : "mdi-save"));
+const label = computed(() => (props.editing ? "Edit mode" : "Save changes"));
 </script>
 
 <template>
-  <PageAction
-    color="primary"
-    :icon="icon"
-    :label="label"
-    @click="onClick"
-  />
+  <PageAction color="primary" :icon="icon" :label="label" @click="onClick" />
 </template>

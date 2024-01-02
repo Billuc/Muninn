@@ -12,14 +12,7 @@ export interface Event {
   tagId: ID;
 }
 
-export interface EventAndTag {
-  id: ID;
-  description: string;
-  title: string;
-  start: Date;
-  end?: Date;
-  frequency: Frequency;
-  frequencyMultiplier: number;
+export interface EventAndTag extends Event {
   tag: Tag | null;
 }
 

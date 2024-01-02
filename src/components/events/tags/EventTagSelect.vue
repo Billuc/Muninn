@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { useService } from "@/composables/useService";
-import { Tag } from "@/data/models/Tag";
 import { EventTagService } from "@/data/services/eventTagService";
 import TagSelect from "@/components/common/tags/TagSelect.vue";
 import { ref } from "vue";
 import { useSubscription } from "@/composables/useSubscription";
+import { ID } from "@/data/models/ID";
 
 interface EventTagSelectProps {
-  modelValue: Tag | null;
+  modelValue: ID;
   filterSelect?: boolean;
   label?: string;
 }
@@ -20,7 +20,7 @@ const data = await eventTagService.getAll();
 const eventTags = ref(data);
 useSubscription(eventTagService, eventTags);
 
-const onUpdate = (v: Tag | null) => emit("update:model-value", v);
+const onUpdate = (v: ID) => emit("update:model-value", v);
 </script>
 
 <template>

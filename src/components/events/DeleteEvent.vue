@@ -4,10 +4,10 @@ import PageAction from "@/components/common/PageAction.vue";
 import { ref } from "vue";
 import { useService } from "@/composables/useService";
 import { EventService } from "@/data/services/eventService";
-import { EventAndTag } from "@/data/models/Event";
+import { Event } from "@/data/models/Event";
 
 interface DeleteEventProps {
-  event: EventAndTag;
+  event: Event;
 }
 
 const props = defineProps<DeleteEventProps>();

@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import Input from "@/components/common/Input.vue";
 import { required } from "@/utils/rules";
+import NoteTagSelect from "./tags/NoteTagSelect.vue";
+import { ID } from "@/data/models/ID";
 
 interface NoteFormProps {
   title: string;
-  tagId: string;
+  tagId: ID;
 }
 
 const props = defineProps<NoteFormProps>();
-const emit = defineEmits(["update:title", "update:tagId"]);
+const emit = defineEmits(["update:title", "update:tag-id"]);
 
 const onUpdateTitle = (v: string) => emit("update:title", v);
-const onUpdateTagId = (v: string) => emit("update:tagId", v);
+const onUpdateTagId = (v: ID) => emit("update:tag-id", v);
 </script>
 
 <template>
@@ -22,6 +24,10 @@ const onUpdateTagId = (v: string) => emit("update:tagId", v);
       label="Note name"
       :rules="[required]"
     />
-    <!-- TODO : tagId input -->
+    <NoteTagSelect
+      :model-value="props.tagId"
+      @update:model-value="onUpdateTagId"
+      label="Note tag"
+    />
   </div>
 </template>

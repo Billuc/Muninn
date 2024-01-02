@@ -7,7 +7,7 @@ import { useService } from "@/composables/useService";
 import { EventService } from "@/data/services/eventService";
 import { Frequency } from "@/data/models/Event";
 import addHours from "date-fns/addHours";
-import { Tag } from "@/data/models/Tag";
+import { ID } from "@/data/models/ID";
 
 const dialogOpened = ref(false);
 const eventService = useService(EventService);
@@ -16,7 +16,7 @@ const name = ref("");
 const description = ref("");
 const start = ref(new Date());
 const end = ref(addHours(new Date(), 1));
-const tag = ref<Tag | null>(null);
+const tagId = ref<ID>("");
 const frequency = ref(Frequency.Once);
 const frequencyMultiplier = ref(1);
 const creating = ref(false);
@@ -28,7 +28,7 @@ const createEvent = async () => {
     description: description.value,
     start: start.value,
     end: end.value,
-    tagId: tag.value?.id ?? "",
+    tagId: tagId.value,
     frequency: frequency.value,
     frequencyMultiplier: frequencyMultiplier.value,
   });
@@ -58,7 +58,7 @@ const createEvent = async () => {
           v-model:description="description"
           v-model:start="start"
           v-model:end="end"
-          v-model:tag="tag"
+          v-model:tag-id="tagId"
         />
       </template>
 

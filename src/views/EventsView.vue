@@ -15,13 +15,13 @@ import DaysEvents from "@/components/events/DaysEvents.vue";
 import DateSelect from "@/components/common/DateSelect.vue";
 import EventTagSelect from "@/components/events/tags/EventTagSelect.vue";
 import { EventTagService } from "@/data/services/eventTagService";
-import { Tag } from "@/data/models/Tag";
+import { ID } from "@/data/models/ID";
 
 const eventService = useService(EventService);
 const eventTagService = useService(EventTagService);
 
 const date = ref(new Date());
-const tag = ref<Tag | null>(null);
+const tagId = ref<ID>("");
 const selected = ref<EventAndTag | null>(null);
 
 function filter(e: Event): boolean {
@@ -37,7 +37,7 @@ const eventTags = ref(tagsData);
 useSubscription(eventTagService, eventTags);
 
 const filteredEvents = computed(() =>
-  events.value.filter((ev) => !tag.value || ev.tagId == tag.value.id)
+  events.value.filter((ev) => !tagId.value || ev.tagId == tagId.value)
 );
 const eventsAndTags = computed(() =>
   filteredEvents.value.map((ev) => ({
@@ -72,7 +72,7 @@ watchEffect(async () => {
 
     <PageActions class="q-mt-sm">
       <DateSelect v-model="date" />
-      <EventTagSelect v-model="tag" filter-select />
+      <EventTagSelect v-model="tagId" filter-select />
     </PageActions>
 
     <DaysEvents

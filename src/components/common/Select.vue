@@ -2,7 +2,7 @@
 import { computed } from "vue";
 
 interface SelectItem {
-  label: string;
+  label: any;
   value: any;
 }
 

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { useService } from "@/composables/useService";
-import { Tag } from "@/data/models/Tag";
 import { NoteTagService } from "@/data/services/noteTagService";
 import TagSelect from "@/components/common/tags/TagSelect.vue";
 import { ref } from "vue";
 import { useSubscription } from "@/composables/useSubscription";
+import { ID } from "@/data/models/ID";
 
 interface NoteTagSelectProps {
-  modelValue: Tag | null;
+  modelValue: ID;
   filterSelect?: boolean;
   label?: string;
 }
@@ -20,7 +20,7 @@ const data = await noteTagService.getAll();
 const noteTags = ref(data);
 useSubscription(noteTagService, noteTags);
 
-const onUpdate = (v: Tag | null) => emit("update:model-value", v);
+const onUpdate = (v: ID) => emit("update:model-value", v);
 </script>
 
 <template>
