@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import * as fa from "@quasar/extras/fontawesome-v6";
 import Autocomplete from "@/components/common/Autocomplete.vue";
+import { MDI_OPTIONS } from "@/utils/icons";
 import { computed, ref } from "vue";
 
 interface IconAutocompleteProps {
@@ -11,38 +11,8 @@ interface IconAutocompleteProps {
 const props = defineProps<IconAutocompleteProps>();
 const emit = defineEmits(["update:model-value"]);
 
-const faMapping: { [k: string]: string } = {
-  fas: "fa-solid",
-  far: "fa-regular",
-  fab: "fa-brands",
-};
-const faFamilyMapping: { [k: string]: string } = {
-  fas: "Solid",
-  far: "Regular",
-  fab: "Brands",
-};
-const allFaOptions = Object.entries(fa).map((v) => {
-  const iconName = v[0];
-  const iconPrefix = iconName.slice(0, 3);
-  const iconFamily = faMapping[iconPrefix];
-  const iconRawName = iconName.slice(3);
-  const iconValue = iconRawName.replaceAll(
-    new RegExp(/([A-Z])/g),
-    (match: string) => `-${match.toLowerCase()}`
-  );
-
-  const label =
-    iconRawName[0].toUpperCase() +
-    iconRawName.slice(1).replaceAll(new RegExp(/([A-Z])/g), ` $1`) +
-    " (" +
-    faFamilyMapping[iconPrefix] +
-    ")";
-  const value = `${iconFamily} fa${iconValue}`;
-
-  return { label, value };
-});
 const currentValue = computed(() =>
-  allFaOptions.find((val) => val.value == props.modelValue)
+  MDI_OPTIONS.find((val) => val.value == props.modelValue)
 );
 
 const options = ref<{ label: string; value: string }[]>(
@@ -61,7 +31,7 @@ const filter = (
 
   update(() => {
     const needle = value.toLowerCase();
-    options.value = allFaOptions.filter(
+    options.value = MDI_OPTIONS.filter(
       (v) =>
         v.label.toLowerCase().includes(needle) || v.value == props.modelValue
     );
