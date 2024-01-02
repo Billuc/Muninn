@@ -6,6 +6,7 @@ import HomeView from "@/views/HomeView.vue";
 import ListsView from "@/views/ListsView.vue";
 import ListView from "@/views/ListView.vue";
 import NotesView from "@/views/NotesView.vue";
+import NoteTagsView from "@/views/NoteTagsView.vue";
 import NoteView from "@/views/NoteView.vue";
 
 // import LoadingView from "@/views/LoadingView.vue";
@@ -19,6 +20,7 @@ const routes: RouteRecordRaw[] = [
   { path: "/calendar/tags", component: EventTagsView, name: "calendar-tags" },
   { path: "/notes", component: NotesView, name: "notes" },
   { path: "/notes/:id", component: NoteView, name: "note" },
+  { path: "/notes/tags", component: NoteTagsView, name: "note-tags" },
   { path: "/config", component: HomeView, name: "config" },
   // { path: "/loading", component: LoadingView, name: "loading" },
 ];

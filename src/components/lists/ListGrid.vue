@@ -1,23 +1,31 @@
 <script setup lang="ts">
 import { List } from "@/data/models/List";
-import ListGridElement from "./ListGridElement.vue";
+import ListVue from "@/components/common/List.vue";
+import { useRouter } from "vue-router";
 
 interface ListGridProps {
   lists: List[];
 }
 
 const props = defineProps<ListGridProps>();
+const router = useRouter();
+
+const toList = (v: { element: List; index: number }) =>
+  router.push({ name: "list", params: { id: v.element.id } });
 </script>
 
 <template>
-  <div class="row wrap justify-start items-start content-start q-pa-sm">
-    <template v-if="props.lists.length > 0">
-      <ListGridElement
-        v-for="list in props.lists"
-        :list="list"
-        :key="list.id"
+  <ListVue :elements="props.lists" @select="toList">
+    <template #element="{ element }">
+      <div>{{ element.title }}</div>
+      <QSpace />
+      <QKnob
+        :max="20"
+        :model-value="10"
+        size="xs"
+        color="accent"
+        :thickness="0.3"
       />
     </template>
-    <div v-else>No list yet</div>
-  </div>
+  </ListVue>
 </template>

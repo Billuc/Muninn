@@ -2,12 +2,12 @@
 import List from "@/components/common/List.vue";
 import { Tag } from "@/data/models/Tag";
 
-interface EventTagListProps {
+interface TagListProps {
   tags: Tag[];
   selectedIndex: number;
 }
 
-const props = defineProps<EventTagListProps>();
+const props = defineProps<TagListProps>();
 const emit = defineEmits(["select"]);
 
 const onSelect = (e: { element: any; index: number }) => emit("select", e);

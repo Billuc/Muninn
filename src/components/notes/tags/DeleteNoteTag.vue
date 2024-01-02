@@ -3,24 +3,24 @@ import FormDialog from "@/components/common/FormDialog.vue";
 import PageAction from "@/components/common/PageAction.vue";
 import { ref } from "vue";
 import { useService } from "@/composables/useService";
-import { EventTagService } from "@/data/services/eventTagService";
+import { NoteTagService } from "@/data/services/noteTagService";
 import { Tag } from "@/data/models/Tag";
 
-interface DeleteEventTagProps {
+interface DeleteNoteTagProps {
   tag: Tag;
 }
 
-const props = defineProps<DeleteEventTagProps>();
+const props = defineProps<DeleteNoteTagProps>();
 const emit = defineEmits(["delete"]);
 
 const dialogOpened = ref(false);
-const eventTagService = useService(EventTagService);
+const noteTagService = useService(NoteTagService);
 
 const removing = ref(false);
 
-const deleteEventTag = async () => {
+const deleteNoteTag = async () => {
   removing.value = true;
-  await eventTagService.remove(props.tag.id);
+  await noteTagService.remove(props.tag.id);
 
   setTimeout(() => {
     removing.value = false;
@@ -36,13 +36,13 @@ const deleteEventTag = async () => {
     <PageAction
       color="primary"
       icon="mdi-delete"
-      label="Delete event tag"
+      label="Delete note tag"
       @click="dialogOpened = true"
     />
 
-    <FormDialog v-model="dialogOpened" @submit="deleteEventTag">
+    <FormDialog v-model="dialogOpened" @submit="deleteNoteTag">
       <template #title>
-        Are you sure you want to delete event tag {{ props.tag.title }}
+        Are you sure you want to delete note tag {{ props.tag.title }}
       </template>
 
       <template #actions>

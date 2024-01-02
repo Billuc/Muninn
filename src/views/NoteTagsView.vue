@@ -2,24 +2,24 @@
 import Title from "@/components/common/Title.vue";
 import PageActions from "@/components/common/PageActions.vue";
 import BackButton from "@/components/common/BackButton.vue";
-import CreateEventTag from "@/components/events/tags/CreateEventTag.vue";
-import EditEventTag from "@/components/events/tags/EditEventTag.vue";
-import DeleteEventTag from "@/components/events/tags/DeleteEventTag.vue";
+import CreateNoteTag from "@/components/notes/tags/CreateNoteTag.vue";
+import EditNoteTag from "@/components/notes/tags/EditNoteTag.vue";
+import DeleteNoteTag from "@/components/notes/tags/DeleteNoteTag.vue";
 import { useService } from "@/composables/useService";
 import { useSubscription } from "@/composables/useSubscription";
 import { ref } from "vue";
-import { EventTagService } from "@/data/services/eventTagService";
+import { NoteTagService } from "@/data/services/noteTagService";
 import TagList from "@/components/common/tags/TagList.vue";
 import { Tag } from "@/data/models/Tag";
 
-const eventTagService = useService(EventTagService);
+const noteTagService = useService(NoteTagService);
 
 const selected = ref<Tag | null>(null);
 const selectedIndex = ref(-1);
 
-const data = await eventTagService.getAll();
-const eventTags = ref(data);
-useSubscription(eventTagService, eventTags);
+const data = await noteTagService.getAll();
+const noteTags = ref(data);
+useSubscription(noteTagService, noteTags);
 
 const onSelect = (e: { element: Tag; index: number }) => {
   selected.value = e.element != selected.value ? e.element : null;
@@ -30,21 +30,21 @@ const onSelect = (e: { element: Tag; index: number }) => {
 <template>
   <div>
     <Title>
-      <template #prefix><BackButton name="calendar" /></template>
-      <template #text>Event Tags</template>
+      <template #prefix><BackButton name="notes" /></template>
+      <template #text>Note Tags</template>
     </Title>
 
     <PageActions>
-      <CreateEventTag />
+      <CreateNoteTag />
 
       <template v-if="!!selected">
-        <EditEventTag :tag="selected" />
-        <DeleteEventTag :tag="selected" @delete="selected = null" />
+        <EditNoteTag :tag="selected" />
+        <DeleteNoteTag :tag="selected" @delete="selected = null" />
       </template>
     </PageActions>
 
     <TagList
-      :tags="eventTags"
+      :tags="noteTags"
       @select="onSelect"
       :selected-index="selectedIndex"
     />

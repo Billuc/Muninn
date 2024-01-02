@@ -7,6 +7,7 @@ import { useService } from "@/composables/useService";
 import { useSubscription } from "@/composables/useSubscription";
 import { ref } from "vue";
 import { NoteService } from "@/data/services/noteService";
+import ManageNoteTags from "@/components/notes/ManageNoteTags.vue";
 
 const noteService = useService(NoteService);
 
@@ -23,6 +24,7 @@ useSubscription(noteService, notes);
 
     <PageActions>
       <CreateNote />
+      <ManageNoteTags />
     </PageActions>
 
     <NoteGrid :notes="notes" />
