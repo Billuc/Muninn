@@ -1,45 +1,35 @@
 <script setup lang="ts">
-import EventForm from "@/components/events/EventForm.vue";
+import TagForm from "@/components/common/tags/TagForm.vue";
 import FormDialog from "@/components/common/FormDialog.vue";
 import PageAction from "@/components/common/PageAction.vue";
 import { ref, watchEffect } from "vue";
 import { useService } from "@/composables/useService";
-import { EventService } from "@/data/services/eventService";
-import { Frequency } from "@/data/models/Event";
-import addHours from "date-fns/addHours";
-import { Event } from "@/data/models/Event";
+import { EventTagService } from "@/data/services/eventTagService";
+import { Tag, TagColor } from "@/data/models/Tag";
 
-interface EditEventProps {
-  event: Event | null;
+interface EditEventTagProps {
+  tag: Tag | null;
 }
 
-const props = defineProps<EditEventProps>();
+const props = defineProps<EditEventTagProps>();
 
 const dialogOpened = ref(false);
-const eventService = useService(EventService);
+const eventTagService = useService(EventTagService);
 
 const name = ref("");
-const description = ref("");
-const start = ref(new Date());
-const end = ref(addHours(new Date(), 1));
-const tagId = ref("");
-const frequency = ref(Frequency.Once);
-const frequencyMultiplier = ref(1);
+const icon = ref<string[]>([]);
+const color = ref(TagColor.red);
 const updating = ref(false);
 
-const editEvent = async () => {
-  if (!props.event) return;
+const editEventTag = async () => {
+  if (!props.tag) return;
 
   updating.value = true;
-  await eventService.update({
-    ...props.event,
+  await eventTagService.update({
+    ...props.tag,
     title: name.value,
-    description: description.value,
-    start: start.value,
-    end: end.value,
-    tagId: tagId.value,
-    frequency: frequency.value,
-    frequencyMultiplier: frequencyMultiplier.value,
+    icon: [...icon.value],
+    color: color.value,
   });
 
   setTimeout(() => {
@@ -49,15 +39,11 @@ const editEvent = async () => {
 };
 
 watchEffect(() => {
-  if (!props.event) return;
+  if (!props.tag) return;
 
-  name.value = props.event.title;
-  description.value = props.event.description;
-  start.value = props.event.start;
-  end.value = props.event.end ?? addHours(props.event.start, 1);
-  tagId.value = props.event.tagId;
-  frequency.value = props.event.frequency;
-  frequencyMultiplier.value = props.event.frequencyMultiplier;
+  name.value = props.tag.title;
+  icon.value = props.tag.icon;
+  color.value = props.tag.color;
 });
 </script>
 
@@ -66,20 +52,18 @@ watchEffect(() => {
     <PageAction
       color="primary"
       icon="mdi-pen"
-      label="Edit event"
+      label="Edit event tag"
       @click="dialogOpened = true"
     />
 
-    <FormDialog v-model="dialogOpened" @submit="editEvent">
-      <template #title>Edit {{ props.event?.title }}</template>
+    <FormDialog v-model="dialogOpened" @submit="editEventTag">
+      <template #title>Edit {{ props.tag?.title }}</template>
 
       <template #form>
-        <EventForm
+        <TagForm
           v-model:title="name"
-          v-model:description="description"
-          v-model:start="start"
-          v-model:end="end"
-          v-model:tag-id="tagId"
+          v-model:icon="icon"
+          v-model:color="color"
         />
       </template>
 

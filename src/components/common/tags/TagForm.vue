@@ -6,13 +6,13 @@ import { TagColor } from "@/data/models/Tag";
 import { required } from "@/utils/rules";
 import { computed } from "vue";
 
-interface EventFormProps {
+interface TagFormProps {
   title: string;
   icon: string[];
   color: TagColor;
 }
 
-const props = defineProps<EventFormProps>();
+const props = defineProps<TagFormProps>();
 const emit = defineEmits(["update:title", "update:icon", "update:color"]);
 
 const tagColorOptions = Object.values(TagColor).map((c) => ({

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import EventTagForm from "@/components/events/tags/EventTagForm.vue";
+import TagForm from "@/components/common/tags/TagForm.vue";
 import FormDialog from "@/components/common/FormDialog.vue";
 import PageAction from "@/components/common/PageAction.vue";
 import { ref } from "vue";
@@ -43,7 +43,7 @@ const createEventTag = async () => {
       <template #title>New event tag</template>
 
       <template #form>
-        <EventTagForm
+        <TagForm
           v-model:title="name"
           v-model:icon="icon"
           v-model:color="color"

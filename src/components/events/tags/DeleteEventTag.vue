@@ -3,24 +3,24 @@ import FormDialog from "@/components/common/FormDialog.vue";
 import PageAction from "@/components/common/PageAction.vue";
 import { ref } from "vue";
 import { useService } from "@/composables/useService";
-import { EventService } from "@/data/services/eventService";
-import { Event } from "@/data/models/Event";
+import { EventTagService } from "@/data/services/eventTagService";
+import { Tag } from "@/data/models/Tag";
 
-interface DeleteEventProps {
-  event: Event;
+interface DeleteEventTagProps {
+  tag: Tag;
 }
 
-const props = defineProps<DeleteEventProps>();
+const props = defineProps<DeleteEventTagProps>();
 const emit = defineEmits(["delete"]);
 
 const dialogOpened = ref(false);
-const eventService = useService(EventService);
+const eventTagService = useService(EventTagService);
 
 const removing = ref(false);
 
 const deleteEvent = async () => {
   removing.value = true;
-  await eventService.remove(props.event.id);
+  await eventTagService.remove(props.tag.id);
 
   setTimeout(() => {
     removing.value = false;
@@ -36,13 +36,13 @@ const deleteEvent = async () => {
     <PageAction
       color="primary"
       icon="mdi-delete"
-      label="Delete event"
+      label="Delete event tag"
       @click="dialogOpened = true"
     />
 
     <FormDialog v-model="dialogOpened" @submit="deleteEvent">
       <template #title>
-        Are you sure you want to delete event {{ props.event.title }}
+        Are you sure you want to delete event tag {{ props.tag.title }}
       </template>
 
       <template #actions>

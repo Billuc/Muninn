@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import * as fa from "@quasar/extras/fontawesome-v6";
 import Autocomplete from "@/components/common/Autocomplete.vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 interface IconAutocompleteProps {
   modelValue: string | null;
@@ -41,8 +41,13 @@ const allFaOptions = Object.entries(fa).map((v) => {
 
   return { label, value };
 });
+const currentValue = computed(() =>
+  allFaOptions.find((val) => val.value == props.modelValue)
+);
 
-const options = ref<{ label: string; value: string }[]>([]);
+const options = ref<{ label: string; value: string }[]>(
+  currentValue.value ? [currentValue.value] : []
+);
 
 const filter = (
   value: string,
@@ -56,8 +61,9 @@ const filter = (
 
   update(() => {
     const needle = value.toLowerCase();
-    options.value = allFaOptions.filter((v) =>
-      v.label.toLowerCase().includes(needle)
+    options.value = allFaOptions.filter(
+      (v) =>
+        v.label.toLowerCase().includes(needle) || v.value == props.modelValue
     );
   });
 };

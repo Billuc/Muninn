@@ -23,7 +23,6 @@ export class EventTagService extends SubscribableService<Tag> {
   }
 
   async create(create: CreateTag): Promise<Tag> {
-    console.log(create);
     const tag: Tag = {
       id: v4(),
       title: create.title,

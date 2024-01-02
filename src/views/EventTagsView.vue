@@ -3,8 +3,8 @@ import Title from "@/components/common/Title.vue";
 import PageActions from "@/components/common/PageActions.vue";
 import BackButton from "@/components/common/BackButton.vue";
 import CreateEventTag from "@/components/events/tags/CreateEventTag.vue";
-import EditEvent from "@/components/events/EditEvent.vue";
-import DeleteEvent from "@/components/events/DeleteEvent.vue";
+import EditEventTag from "@/components/events/tags/EditEventTag.vue";
+import DeleteEventTag from "@/components/events/tags/DeleteEventTag.vue";
 import { useService } from "@/composables/useService";
 import { useSubscription } from "@/composables/useSubscription";
 import { ref } from "vue";
@@ -35,8 +35,8 @@ const onSelect = (e: { element: Tag; index: number }) =>
       <CreateEventTag />
 
       <template v-if="!!selected">
-        <EditEvent :event="selected" />
-        <DeleteEvent :event="selected" @delete="selected = null" />
+        <EditEventTag :tag="selected" />
+        <DeleteEventTag :tag="selected" @delete="selected = null" />
       </template>
     </PageActions>
 
