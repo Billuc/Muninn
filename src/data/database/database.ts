@@ -9,11 +9,11 @@ import FixParentIdSerializationMigration from "./migrations/3-FixParentIdSeriali
 import MigrateEventsMigration from "./migrations/4-MigrateEvents";
 import MigrateNotesMigration from "./migrations/5-MigrateNotes";
 import ListIdAndParentIdIndexMigration from "./migrations/6-ListIdAndParentIdIndex";
+import JournalMoodDBAndEntryCreatedAtMigration from "./migrations/7-JournalMoodDBAndEntryCreatedAt";
 import Transaction from "./transaction";
 
 import type { IDBPDatabase } from "idb";
 import type UpgradeDatabase from "./upgradeDatabase";
-
 export default class Database {
   private readonly DB_NAME = "muninn-db";
   private readonly MIGRATIONS: Migration[] = [
@@ -23,6 +23,7 @@ export default class Database {
     new MigrateEventsMigration(),
     new MigrateNotesMigration(),
     new ListIdAndParentIdIndexMigration(),
+    new JournalMoodDBAndEntryCreatedAtMigration(),
   ];
 
   private _dbVersion: number;
@@ -53,6 +54,7 @@ export default class Database {
     this._db = await openDB(this.DB_NAME, this._dbVersion, {
       async upgrade(db, oldVersion, newVersion, transaction, _) {
         try {
+          console.log(oldVersion, newVersion);
           await upgrader.exec({ db, oldVersion, newVersion, transaction });
         } catch (e) {
           console.warn(e);

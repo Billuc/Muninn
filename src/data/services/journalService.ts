@@ -34,6 +34,7 @@ export class JournalService extends SubscribableService<JournalEntry> {
       date: formatDate(create.date),
       id: v4(),
       text: create.text,
+      createdAt: new Date(),
     };
     const created = await this._create(entry);
     return created;

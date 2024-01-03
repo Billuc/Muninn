@@ -1,4 +1,5 @@
-import { type PipelineMiddleware } from "pipelineer";
+import type { PipelineMiddleware } from "pipelineer";
+
 import type UpgradeDatabase from "./upgradeDatabase";
 import type { IDBPDatabase, IDBPTransaction } from "idb";
 
@@ -15,13 +16,22 @@ export default abstract class Migration
     if (
       request.oldVersion >= this.version ||
       this.version > (request.newVersion ?? -1)
-    )
+    ) {
+      console.debug(
+        `[Migration] Skipping migration ${this.version} - ${this.name}`
+      );
+      await next(request);
       return;
+    }
 
-    console.log(`[Migration] Applying migration ${this.version} - ${this.name}`)
+    console.log(
+      `[Migration] Applying migration ${this.version} - ${this.name}`
+    );
     await this.migrate(request.db, request.transaction);
-    console.warn(`[Migration] Applied migration ${this.version} - ${this.name}`)
-    
+    console.warn(
+      `[Migration] Applied migration ${this.version} - ${this.name}`
+    );
+
     await next(request);
   }
 

@@ -1,9 +1,16 @@
-import { type ID } from "./ID";
+import type { ID } from "./ID";
+
+export interface JournalMood {
+  date: string;
+  id: ID;
+  mood: number;
+}
 
 export interface JournalEntry {
   date: string;
   id: ID;
   text: string;
+  createdAt: Date;
 }
 
 export interface CreateJournalEntry {
