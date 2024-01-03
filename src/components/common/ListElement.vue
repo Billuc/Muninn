@@ -23,15 +23,15 @@ const props = defineProps<ListElementProps>();
 <style>
 .list-element {
   border: solid 2px transparent;
-  padding: 0 0.5rem;
+  padding: 2px 16px;
 }
 
 .list-element.even {
-  background: #ffffff;
+  background: var(--q-list-even);
 }
 
 .list-element.odd {
-  background: #dddddd;
+  background: var(--q-list-odd);
 }
 
 .list-element.selected {

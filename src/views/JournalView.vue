@@ -8,25 +8,34 @@ import JournalEditor from "@/components/journal/JournalEditor.vue";
 import { useService } from "@/composables/useService";
 import { JournalService } from "@/data/services/journalService";
 import { useSubscription } from "@/composables/useSubscription";
-import { JournalEntry } from "@/data/models/Journal";
+import { JournalEntry, JournalMood } from "@/data/models/Journal";
 import { parseDate } from "@/utils/dates";
 import { isSameDay } from "date-fns";
+import { JournalMoodService } from "@/data/services/journalMoodService";
 
 const journalService = useService(JournalService);
+const journalMoodService = useService(JournalMoodService);
 
-const mood = ref(0);
 const date = ref(new Date());
 
-function filter(e: JournalEntry) {
+function filterEntry(e: JournalEntry) {
+  return isSameDay(parseDate(e.date), date.value);
+}
+function filterMood(e: JournalMood) {
   return isSameDay(parseDate(e.date), date.value);
 }
 
 const journalData = await journalService.getForDay(date.value);
 const journal = ref(journalData);
-useSubscription(journalService, journal, filter);
+useSubscription(journalService, journal, filterEntry);
+
+const moodData = await journalMoodService.getForDay(date.value);
+const mood = ref(moodData);
+useSubscription(journalMoodService, mood, filterMood);
 
 watchEffect(async () => {
   journal.value = await journalService.getForDay(date.value);
+  mood.value = await journalMoodService.getForDay(date.value);
 });
 </script>
 
@@ -40,7 +49,7 @@ watchEffect(async () => {
       <DateSelect v-model="date" />
     </PageActions>
 
-    <MoodSelect v-model="mood" />
+    <MoodSelect :mood="mood" :date="date" />
     <JournalEditor :journal="journal" :date="date" />
   </div>
 </template>

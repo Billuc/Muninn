@@ -15,16 +15,17 @@ const toList = (v: { element: List; index: number }) =>
 </script>
 
 <template>
-  <ListVue :elements="props.lists" @select="toList">
+  <ListVue :elements="props.lists" @select="toList" class="q-mt-sm">
     <template #element="{ element }">
-      <div>{{ element.title }}</div>
+      <div class="text-uppercase">{{ element.title }}</div>
       <QSpace />
       <QKnob
         :max="20"
         :model-value="10"
         size="xs"
-        color="accent"
-        :thickness="0.3"
+        color="primary"
+        track-color="secondary"
+        :thickness="0.4"
       />
     </template>
   </ListVue>

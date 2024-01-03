@@ -6,6 +6,7 @@ import { Plugin } from "vue";
 import Database from "@/data/database/database";
 import { EventService } from "@/data/services/eventService";
 import { EventTagService } from "@/data/services/eventTagService";
+import { JournalMoodService } from "@/data/services/journalMoodService";
 import { JournalService } from "@/data/services/journalService";
 import { ListElementService } from "@/data/services/listElementService";
 import { ListService } from "@/data/services/listService";
@@ -23,6 +24,7 @@ const containerPlugin: Plugin = (app) => {
   myContainer.registerSingleton(EventTagService);
   myContainer.registerSingleton(NoteService);
   myContainer.registerSingleton(NoteTagService);
+  myContainer.registerSingleton(JournalMoodService);
 
   app.provide("container", myContainer);
   return app;

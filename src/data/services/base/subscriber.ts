@@ -27,7 +27,8 @@ export default class ServiceSubscriber<T extends { id: ID }> {
         if (Array.isArray(this._value.value)) {
           const index = this._value.value.findIndex((t) => t.id == action.id);
           this._value.value.splice(index, 1, action.value);
-        } else if (this._value.value && this._value.value.id === action.id) {
+        } else if (!this._value.value || this._value.value.id === action.id) {
+          // TODO : see if the condition change breaks anything
           this._value.value = action.value;
         }
         break;

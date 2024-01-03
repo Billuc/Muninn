@@ -6,6 +6,12 @@ export interface JournalMood {
   mood: number;
 }
 
+export interface UpdateJournalMood {
+  date: Date;
+  id?: ID;
+  mood: number;
+}
+
 export interface JournalEntry {
   date: string;
   id: ID;
