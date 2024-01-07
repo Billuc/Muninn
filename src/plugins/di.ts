@@ -12,6 +12,7 @@ import { ListElementService } from "@/data/services/listElementService";
 import { ListService } from "@/data/services/listService";
 import { NoteService } from "@/data/services/noteService";
 import { NoteTagService } from "@/data/services/noteTagService";
+import { ThemeService } from "@/data/services/themeService";
 
 const containerPlugin: Plugin = (app) => {
   const myContainer = container.createChildContainer();
@@ -25,6 +26,7 @@ const containerPlugin: Plugin = (app) => {
   myContainer.registerSingleton(NoteService);
   myContainer.registerSingleton(NoteTagService);
   myContainer.registerSingleton(JournalMoodService);
+  myContainer.registerSingleton(ThemeService);
 
   app.provide("container", myContainer);
   return app;

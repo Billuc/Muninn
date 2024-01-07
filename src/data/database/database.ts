@@ -10,6 +10,7 @@ import MigrateEventsMigration from "./migrations/4-MigrateEvents";
 import MigrateNotesMigration from "./migrations/5-MigrateNotes";
 import ListIdAndParentIdIndexMigration from "./migrations/6-ListIdAndParentIdIndex";
 import JournalMoodDBAndEntryCreatedAtMigration from "./migrations/7-JournalMoodDBAndEntryCreatedAt";
+import CreateGeneralStoreMigration from "./migrations/8-CreateGeneralStore";
 import Transaction from "./transaction";
 
 import type { IDBPDatabase } from "idb";
@@ -24,6 +25,7 @@ export default class Database {
     new MigrateNotesMigration(),
     new ListIdAndParentIdIndexMigration(),
     new JournalMoodDBAndEntryCreatedAtMigration(),
+    new CreateGeneralStoreMigration(),
   ];
 
   private _dbVersion: number;

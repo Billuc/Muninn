@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
+import ConfigView from "@/views/ConfigView.vue";
 import EventsView from "@/views/EventsView.vue";
 import EventTagsView from "@/views/EventTagsView.vue";
 import HomeView from "@/views/HomeView.vue";
@@ -22,7 +23,7 @@ const routes: RouteRecordRaw[] = [
   { path: "/notes", component: NotesView, name: "notes" },
   { path: "/notes/:id", component: NoteView, name: "note" },
   { path: "/notes/tags", component: NoteTagsView, name: "note-tags" },
-  { path: "/config", component: HomeView, name: "config" },
+  { path: "/config", component: ConfigView, name: "config" },
   // { path: "/loading", component: LoadingView, name: "loading" },
 ];
 

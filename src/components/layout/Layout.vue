@@ -23,7 +23,12 @@ const handleSwipe = (ev: any) => {
 
 <template>
   <div style="height: 100%">
-    <QCard id="container" v-touch-swipe.horizontal.mouse="handleSwipe" flat>
+    <QCard
+      id="container"
+      v-touch-swipe.horizontal.mouse="handleSwipe"
+      flat
+      class="bg-background"
+    >
       <slot />
     </QCard>
 

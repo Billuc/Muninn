@@ -9,15 +9,21 @@ useQuasar().dark.set(false);
 </script>
 
 <template>
-  <ThemeComponent>
-    <Layout>
-      <Suspense>
-        <RouterView></RouterView>
+  <Suspense>
+    <ThemeComponent>
+      <Layout>
+        <Suspense>
+          <RouterView></RouterView>
 
-        <template #fallback>
-          <LoadingView />
-        </template>
-      </Suspense>
-    </Layout>
-  </ThemeComponent>
+          <template #fallback>
+            <LoadingView />
+          </template>
+        </Suspense>
+      </Layout>
+    </ThemeComponent>
+
+    <template #fallback>
+      <LoadingView />
+    </template>
+  </Suspense>
 </template>

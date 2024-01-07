@@ -17,16 +17,21 @@ const props = defineProps<NavBarTabProps>();
     :to="props.to"
     :label="props.label"
     :exact="props.exact"
+    class="navbar-tab"
   />
 </template>
 
 <style>
+.navbar-tab.q-tab {
+  color: var(--q-list-neutral);
+}
+
 @media screen and (max-width: 600px) {
-  .q-tab {
+  .navbar-tab.q-tab {
     padding: 0;
   }
 
-  .q-tab .q-tab__label {
+  .navbar-tab.q-tab .q-tab__label {
     display: none;
   }
 }
