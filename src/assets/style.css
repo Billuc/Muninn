@@ -4,7 +4,7 @@ body,
   width: 100%;
   height: 100%;
 
-  font-family: 'Bodoni';
+  font-family: "Bodoni";
 }
 
 @font-face {
@@ -13,10 +13,29 @@ body,
 }
 
 @font-face {
-    font-family: Montserrat;
-    src: url(./fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
+  font-family: Montserrat;
+  src: url(./fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
+}
+
+body {
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 50% 70% / contain url(./background.jpg);
+  filter: invert(100%) opacity(50%);
 }
 
 .bg-background {
   background-color: var(--q-background) !important;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
 }

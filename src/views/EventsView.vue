@@ -25,6 +25,7 @@ const tagId = ref<ID>("");
 const selected = ref<EventAndTag | null>(null);
 
 function filter(e: Event): boolean {
+  console.log(e);
   return hasRepetitionAtDay(e, date.value);
 }
 

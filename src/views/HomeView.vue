@@ -1,5 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import HomeEventCard from "@/components/home/HomeEventCard.vue";
+import HomeTitle from "@/components/home/HomeTitle.vue";
+</script>
 
 <template>
-  <div>Hello, world 123</div>
+  <div>
+    <HomeTitle />
+    <HomeEventCard />
+  </div>
 </template>

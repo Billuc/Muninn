@@ -1,6 +1,9 @@
 import {
+  addDays,
   addHours,
   addMinutes,
+  addMonths,
+  addYears,
   differenceInCalendarDays,
   differenceInCalendarMonths,
   differenceInCalendarYears,
@@ -8,9 +11,9 @@ import {
   endOfDay,
   format,
   intervalToDuration,
+  isSameDay,
   parse,
   startOfDay,
-  isSameDay
 } from "date-fns";
 
 import { Frequency } from "@/data/models/Event";
@@ -31,10 +34,10 @@ export function prettyFormatInterval(start: Date, end?: Date) {
   }
 
   if (isSameDay(start, end)) {
-    return format(start, "dd MMM HH:mm") + " - " + format(end, "HH:mm")
+    return format(start, "dd MMM HH:mm") + " - " + format(end, "HH:mm");
   }
 
-  return format(start, "dd MMM HH:mm") + " - " + format(end, "dd MMM HH:mm")
+  return format(start, "dd MMM HH:mm") + " - " + format(end, "dd MMM HH:mm");
 }
 
 export function getDuration(start: Date, end: Date) {
@@ -94,5 +97,67 @@ export const hasRepetitionAtDay = (event: Event, day: Date) => {
       );
     default:
       return false;
+  }
+};
+
+export const nextRepetition = (event: Event, fromDate: Date) => {
+  const end = event.end ?? event.start;
+  if (fromDate < end) return event;
+
+  switch (event.frequency) {
+    case Frequency.Once:
+      return fromDate < end ? event : null;
+    case Frequency.Daily: {
+      const daysDifference = differenceInCalendarDays(fromDate, end);
+      const repetitionFactor = Math.ceil(
+        daysDifference / event.frequencyMultiplier
+      );
+      const daysToAdd = event.frequencyMultiplier * repetitionFactor;
+
+      return {
+        ...event,
+        start: addDays(event.start, daysToAdd),
+        end: addDays(end, daysToAdd),
+      };
+    }
+    case Frequency.Weekly: {
+      const daysDifference = differenceInCalendarDays(fromDate, end);
+      const repetitionFactor = Math.ceil(
+        daysDifference / (7 * event.frequencyMultiplier)
+      );
+      const daysToAdd = 7 * event.frequencyMultiplier * repetitionFactor;
+
+      return {
+        ...event,
+        start: addDays(event.start, daysToAdd),
+        end: addDays(end, daysToAdd),
+      };
+    }
+    case Frequency.Monthly: {
+      const monthDifference = differenceInCalendarMonths(fromDate, end);
+      const repetitionFactor = Math.ceil(
+        monthDifference / event.frequencyMultiplier
+      );
+      const monthsToAdd = event.frequencyMultiplier * repetitionFactor;
+
+      return {
+        ...event,
+        start: addMonths(event.start, monthsToAdd),
+        end: addMonths(end, monthsToAdd),
+      };
+    }
+    case Frequency.Yearly: {
+      const yearDifference = differenceInCalendarYears(fromDate, end);
+      const repetitionFactor = Math.ceil(
+        yearDifference / event.frequencyMultiplier
+      );
+      const yearsToAdd = event.frequencyMultiplier * repetitionFactor;
+
+      return {
+        ...event,
+        start: addYears(event.start, yearsToAdd),
+        end: addYears(end, yearsToAdd),
+      };
+    }
   }
 };
