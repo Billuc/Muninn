@@ -34,6 +34,6 @@ const onUpdate = async (value: string) => {
 
 <style>
 .journal-entry-creator {
-  color: #dddddd;
+  opacity: 0.5;
 }
 </style>

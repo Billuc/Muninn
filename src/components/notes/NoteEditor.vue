@@ -28,8 +28,11 @@ const onUpdate = (v: string) => emit("update:model-value", v);
     :model-value="props.modelValue"
     @update:model-value="onUpdate"
     flat
-    toolbar-bg="secondary"
+    toolbar-bg="primary"
+    toolbar-toggle-color="white"
+    content-class="bg-background"
     :toolbar="toolbarCommands"
     :readonly="props.readonly"
+    :class="{ 'shadow-2': !props.readonly }"
   />
 </template>

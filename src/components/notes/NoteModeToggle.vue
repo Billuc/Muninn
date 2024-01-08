@@ -11,8 +11,10 @@ const emit = defineEmits(["update:editing"]);
 
 const onClick = () => emit("update:editing", !props.editing);
 
-const icon = computed(() => (props.editing ? "mdi-pencil" : "mdi-save"));
-const label = computed(() => (props.editing ? "Edit mode" : "Save changes"));
+const icon = computed(() =>
+  !props.editing ? "mdi-pencil" : "mdi-content-save"
+);
+const label = computed(() => (!props.editing ? "Edit mode" : "Save changes"));
 </script>
 
 <template>

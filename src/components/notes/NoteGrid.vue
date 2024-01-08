@@ -19,7 +19,7 @@ const toNote = (v: { element: NoteAndTag }) =>
 </script>
 
 <template>
-  <List :elements="props.notes" @select="toNote">
+  <List :elements="props.notes" @select="toNote" class="q-mt-sm">
     <template #element="{ element }">
       <div>{{ element.title }}</div>
       <QSpace />
