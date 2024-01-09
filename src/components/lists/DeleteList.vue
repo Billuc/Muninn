@@ -34,7 +34,7 @@ const deleteList = async () => {
 <template>
   <div>
     <PageAction
-      color="primary"
+      color="secondary"
       icon="mdi-delete"
       label="Delete List"
       @click="dialogOpened = true"

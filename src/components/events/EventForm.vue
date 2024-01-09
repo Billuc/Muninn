@@ -5,6 +5,8 @@ import EventTagSelect from "@/components/events/tags/EventTagSelect.vue";
 import { required } from "@/utils/rules";
 import { Tag } from "@/data/models/Tag";
 import { ID } from "@/data/models/ID";
+import FrequencySelect from "./frequency/FrequencySelect.vue";
+import { Frequency } from "@/data/models/Event";
 
 interface EventFormProps {
   title: string;
@@ -12,6 +14,8 @@ interface EventFormProps {
   start: Date;
   end: Date | null;
   description: string;
+  frequency: Frequency;
+  frequencyMultiplier: number;
 }
 
 const props = defineProps<EventFormProps>();
@@ -21,6 +25,8 @@ const emit = defineEmits([
   "update:start",
   "update:end",
   "update:description",
+  "update:frequency",
+  "update:frequency-multiplier",
 ]);
 
 const onUpdateTitle = (v: string) => emit("update:title", v);
@@ -28,6 +34,9 @@ const onUpdateDescription = (v: string) => emit("update:description", v);
 const onUpdateStart = (v: string) => emit("update:start", v);
 const onUpdateEnd = (v: string) => emit("update:end", v);
 const onUpdateTagId = (v: Tag | null) => emit("update:tag-id", v);
+const onUpdateFrequency = (v: Frequency) => emit("update:frequency", v);
+const onUpdateFrequencyMultiplier = (v: number) =>
+  emit("update:frequency-multiplier", v);
 </script>
 
 <template>
@@ -59,6 +68,12 @@ const onUpdateTagId = (v: Tag | null) => emit("update:tag-id", v);
       :model-value="props.tagId"
       @update:model-value="onUpdateTagId"
       label="Event tag"
+    />
+    <FrequencySelect
+      :frequency="props.frequency"
+      @update:frequency="onUpdateFrequency"
+      :multiplier="props.frequencyMultiplier"
+      @update:multiplier="onUpdateFrequencyMultiplier"
     />
   </div>
 </template>

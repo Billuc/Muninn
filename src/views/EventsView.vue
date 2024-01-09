@@ -9,13 +9,14 @@ import { useService } from "@/composables/useService";
 import { useSubscription } from "@/composables/useSubscription";
 import { computed, ref, watchEffect } from "vue";
 import { EventService } from "@/data/services/eventService";
-import { hasRepetitionAtDay } from "@/utils/dates";
+import { hasRepetitionAtDay, nextRepetition } from "@/utils/dates";
 import { EventAndTag, Event } from "@/data/models/Event";
 import DaysEvents from "@/components/events/DaysEvents.vue";
 import DateSelect from "@/components/common/DateSelect.vue";
 import EventTagSelect from "@/components/events/tags/EventTagSelect.vue";
 import { EventTagService } from "@/data/services/eventTagService";
 import { ID } from "@/data/models/ID";
+import _ from "lodash";
 
 const eventService = useService(EventService);
 const eventTagService = useService(EventTagService);
@@ -25,7 +26,6 @@ const tagId = ref<ID>("");
 const selected = ref<EventAndTag | null>(null);
 
 function filter(e: Event): boolean {
-  console.log(e);
   return hasRepetitionAtDay(e, date.value);
 }
 
@@ -37,14 +37,18 @@ const tagsData = await eventTagService.getAll();
 const eventTags = ref(tagsData);
 useSubscription(eventTagService, eventTags);
 
-const filteredEvents = computed(() =>
-  events.value.filter((ev) => !tagId.value || ev.tagId == tagId.value)
-);
-const eventsAndTags = computed(() =>
-  filteredEvents.value.map((ev) => ({
-    ...ev,
-    tag: eventTags.value.find((t) => t.id == ev.tagId) ?? null,
-  }))
+const eventsAndTags = computed(
+  () =>
+    _(events.value)
+      .chain()
+      .filter((ev) => !tagId.value || ev.tagId == tagId.value)
+      .map((ev) => nextRepetition(ev, date.value))
+      .filter((ev) => !!ev)
+      .map((ev) => ({
+        ...ev,
+        tag: eventTags.value.find((t) => t.id == ev!.tagId) ?? null,
+      }))
+      .value() as EventAndTag[]
 );
 
 const onSelect = (event: EventAndTag) =>

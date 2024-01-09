@@ -32,7 +32,7 @@ const createNote = async () => {
 <template>
   <div>
     <PageAction
-      color="primary"
+      color="secondary"
       icon="mdi-plus"
       label="Add note"
       @click="dialogOpened = true"

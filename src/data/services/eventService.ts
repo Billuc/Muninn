@@ -29,7 +29,7 @@ export class EventService extends SubscribableService<Event> {
   async getAllForDay(day: Date): Promise<Event[]> {
     const allEvents = await this._getAll();
 
-    const eventsForDay = _.filter(allEvents, (ev) =>
+    const eventsForDay = _.filter(allEvents, (ev: Event) =>
       hasRepetitionAtDay(ev, day)
     );
     return eventsForDay;

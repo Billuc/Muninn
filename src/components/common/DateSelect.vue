@@ -19,7 +19,7 @@ const onUpdateDate = (v: any, _: any, __: any) =>
 </script>
 
 <template>
-  <QChip>
+  <QChip color="list-neutral" class="montserrat">
     <QPopupProxy cover transition-show="scale" transition-hide="scale">
       <QDate
         :model-value="dateValue"

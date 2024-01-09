@@ -38,7 +38,7 @@ const editNote = async () => {
 <template>
   <div>
     <PageAction
-      color="primary"
+      color="secondary"
       icon="mdi-pen"
       label="Edit Note"
       @click="dialogOpened = true"

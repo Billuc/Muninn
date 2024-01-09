@@ -34,7 +34,7 @@ const deleteNote = async () => {
 <template>
   <div>
     <PageAction
-      color="primary"
+      color="secondary"
       icon="mdi-delete"
       label="Delete Note"
       @click="dialogOpened = true"

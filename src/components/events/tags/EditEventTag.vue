@@ -50,7 +50,7 @@ watchEffect(() => {
 <template>
   <div>
     <PageAction
-      color="primary"
+      color="secondary"
       icon="mdi-pen"
       label="Edit event tag"
       @click="dialogOpened = true"

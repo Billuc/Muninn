@@ -43,7 +43,7 @@ const createEvent = async () => {
 <template>
   <div>
     <PageAction
-      color="primary"
+      color="secondary"
       icon="mdi-plus"
       label="Add event"
       @click="dialogOpened = true"
@@ -59,6 +59,8 @@ const createEvent = async () => {
           v-model:start="start"
           v-model:end="end"
           v-model:tag-id="tagId"
+          v-model:frequency="frequency"
+          v-model:frequency-multiplier="frequencyMultiplier"
         />
       </template>
 

@@ -33,7 +33,7 @@ const editEvent = async () => {
 
   updating.value = true;
   await eventService.update({
-    ...props.event,
+    id: props.event.id,
     title: name.value,
     description: description.value,
     start: start.value,
@@ -65,7 +65,7 @@ watchEffect(() => {
 <template>
   <div>
     <PageAction
-      color="primary"
+      color="secondary"
       icon="mdi-pen"
       label="Edit event"
       @click="dialogOpened = true"
@@ -81,6 +81,8 @@ watchEffect(() => {
           v-model:start="start"
           v-model:end="end"
           v-model:tag-id="tagId"
+          v-model:frequency="frequency"
+          v-model:frequency-multiplier="frequencyMultiplier"
         />
       </template>
 

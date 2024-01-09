@@ -26,7 +26,7 @@ const createList = async () => {
 <template>
   <div>
     <PageAction
-      color="primary"
+      color="secondary"
       icon="mdi-plus"
       label="Add list"
       @click="dialogOpened = true"

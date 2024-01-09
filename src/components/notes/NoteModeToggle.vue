@@ -18,5 +18,5 @@ const label = computed(() => (!props.editing ? "Edit mode" : "Save changes"));
 </script>
 
 <template>
-  <PageAction color="primary" :icon="icon" :label="label" @click="onClick" />
+  <PageAction color="secondary" :icon="icon" :label="label" @click="onClick" />
 </template>

@@ -34,7 +34,7 @@ const deleteEvent = async () => {
 <template>
   <div>
     <PageAction
-      color="primary"
+      color="secondary"
       icon="mdi-delete"
       label="Delete event"
       @click="dialogOpened = true"

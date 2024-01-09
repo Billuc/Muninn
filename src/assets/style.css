@@ -28,7 +28,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 50% 70% / contain url(./background.jpg);
+  background: 50% 0% / cover no-repeat url(./background.jpg);
   filter: invert(100%) opacity(50%);
 }
 
@@ -38,4 +38,21 @@ body::before {
 
 .bg-transparent {
   background-color: transparent !important;
+}
+
+.bg-list-neutral {
+  background-color: var(--q-list-neutral) !important;
+}
+
+.bg-secondary {
+  color: white !important;
+}
+
+.q-chip__icon {
+  color: inherit !important;
+  opacity: 0.7;
+}
+
+.montserrat {
+  font-family: 'Montserrat';
 }

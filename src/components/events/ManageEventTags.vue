@@ -9,7 +9,7 @@ const toTags = () => router.push({ name: "calendar-tags" });
 
 <template>
   <PageAction
-    color="primary"
+    color="secondary"
     icon="mdi-tag"
     label="Manage tags"
     @click="toTags"

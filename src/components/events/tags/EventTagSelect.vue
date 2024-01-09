@@ -31,8 +31,12 @@ const onUpdate = (v: ID) => emit("update:model-value", v);
     :label="props.filterSelect ? null : props.label"
     :standout="!!props.filterSelect"
     :rounded="!!props.filterSelect"
-    :class="{ 'filter-select': props.filterSelect }"
+    :class="{
+      'filter-select': props.filterSelect,
+      montserrat: props.filterSelect,
+    }"
     :hide-dropdown-icon="!!props.filterSelect"
+    :bg-color="props.filterSelect ? 'list-neutral' : undefined"
   ></TagSelect>
 </template>
 

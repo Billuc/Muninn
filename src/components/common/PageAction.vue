@@ -20,6 +20,12 @@ const onClick = () => emit("click");
     :text-color="props.textColor"
     clickable
     @click="onClick"
-    class="q-mx-sm"
+    class="q-mx-sm page-action montserrat"
   ></QChip>
 </template>
+
+<style>
+.page-action {
+  font-size: 12px;
+}
+</style>

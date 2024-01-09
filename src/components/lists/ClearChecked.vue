@@ -38,7 +38,7 @@ const clearChecked = async () => {
       icon="mdi-broom"
       label="Clear checked"
       @click="dialogOpened = true"
-      color="primary"
+      color="secondary"
     />
 
     <FormDialog v-model="dialogOpened" @submit="clearChecked">

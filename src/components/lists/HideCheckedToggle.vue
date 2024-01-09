@@ -33,6 +33,6 @@ const toggleHideChecked = async () => {
     :icon="icon"
     :label="label"
     @click="toggleHideChecked"
-    color="primary"
+    color="secondary"
   />
 </template>

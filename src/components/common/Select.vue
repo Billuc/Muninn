@@ -11,6 +11,7 @@ interface SelectProps {
   label?: string;
   options: SelectItem[];
   standout?: boolean;
+  bgColor?: string;
 }
 
 const props = defineProps<SelectProps>();
@@ -33,6 +34,7 @@ const onUpdate = (v: SelectItem | null) => emit("update:model-value", v?.value);
     :model-value="value"
     :options="props.options"
     @update:model-value="onUpdate"
+    :bg-color="props.bgColor"
   >
     <template #option="{ index, itemProps, opt, selected }">
       <QItem v-bind="itemProps">

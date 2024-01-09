@@ -15,8 +15,12 @@ const onSubmit = () => emit("submit");
     :model-value="props.modelValue"
     @update:model-value="onUpdate"
     position="bottom"
+    class="form-dialog"
   >
-    <QCard style="width: 700px; max-width: 100vw">
+    <QCard
+      style="width: 700px; max-width: 100vw"
+      class="montserrat bg-background"
+    >
       <QCardSection>
         <div class="text-h6">
           <slot name="title"></slot>

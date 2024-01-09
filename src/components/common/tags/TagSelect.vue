@@ -34,10 +34,20 @@ const onUpdate = (v: ID) => emit("update:model-value", v);
       <TagChip :tag="option.label" class="q-ma-none" />
     </template>
     <template #selected="{ option }">
-      <TagChip :tag="option.label" v-if="option" class="q-ma-none" />
+      <TagChip
+        :tag="option.label"
+        v-if="option"
+        class="q-ma-none selected-tag"
+      />
       <div v-else style="min-width: 100px; opacity: 0.7">
         {{ props.label == null ? "No tag selected" : "" }}
       </div>
     </template>
   </Select>
 </template>
+
+<style>
+.selected-tag {
+  height: 1.25rem;
+}
+</style>

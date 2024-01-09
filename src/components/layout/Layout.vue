@@ -22,7 +22,7 @@ const handleSwipe = (ev: any) => {
 </script>
 
 <template>
-  <div style="height: 100%">
+  <div style="height: 100%" class="q-py-sm">
     <QCard
       id="container"
       v-touch-swipe.horizontal.mouse="handleSwipe"

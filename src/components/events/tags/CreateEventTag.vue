@@ -33,7 +33,7 @@ const createEventTag = async () => {
 <template>
   <div>
     <PageAction
-      color="primary"
+      color="secondary"
       icon="mdi-plus"
       label="Add event tag"
       @click="dialogOpened = true"
