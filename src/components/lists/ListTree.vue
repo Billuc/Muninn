@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ID } from "@/data/models/ID";
 import { ListElement } from "@/data/models/List";
 import _ from "lodash";
 import { QTree } from "quasar";
@@ -15,7 +16,13 @@ interface TreeElement {
 }
 
 const props = defineProps<ListTreeProps>();
-const emit = defineEmits(["remove-node", "edit-node"]);
+const emit = defineEmits([
+  "remove-node",
+  "edit-node",
+  "add-node",
+  "tick",
+  "untick",
+]);
 const tree = ref<InstanceType<typeof QTree> | null>(null);
 
 const buildTree = (elements: ListElement[], parentId: string) => {
@@ -32,20 +39,42 @@ const buildTree = (elements: ListElement[], parentId: string) => {
   return data;
 };
 
-const data = computed(() => buildTree(props.elements, ""));
-const ticked = computed(() => props.elements.filter((el) => el.done));
+const data = computed(() => {
+  const tree = buildTree(props.elements, "");
+  tree.push({
+    id: "",
+    label: "",
+    children: [],
+  });
+  return tree;
+});
+const ticked = computed(() =>
+  props.elements.filter((el) => el.done).map((el) => el.id)
+);
 
 const editNode = (id: string, v: string) => {
-  emit("edit-node", { id: id, value: v });
+  const value = v.trim();
+  if (!id && !!value) emit("add-node", { title: value });
+  else if (!!value) emit("edit-node", { id, value });
+  else emit("remove-node", id);
 };
-
-const removeNode = (id: string) => {
-  emit("remove-node", id);
-};
-
+const removeNode = (id: string) => emit("remove-node", id);
 const fixExpanded = (id: string) => {
   // Clicking to edit also toggles expand, so we toggle it again
   tree.value?.setExpanded(id, !tree.value?.isExpanded(id));
+};
+const onTick = (tickedArray: readonly ID[]) => {
+  const toTick = tickedArray.filter(
+    (id) => !!id && !ticked.value.some((el) => el == id)
+  );
+  const toUntick = ticked.value.filter(
+    (el) => !tickedArray.some((id) => el == id)
+  );
+
+  console.log(tickedArray, toTick, toUntick);
+
+  emit("tick", toTick);
+  emit("untick", toUntick);
 };
 </script>
 
@@ -56,9 +85,12 @@ const fixExpanded = (id: string) => {
     :ticked="ticked"
     tick-strategy="leaf-filtered"
     ref="tree"
+    class="montserrat"
+    @update:ticked="onTick"
   >
     <template #default-header="{ node }">
-      <div>{{ node.label }}</div>
+      <div v-if="node.id">{{ node.label }}</div>
+      <div class="new-element" v-else>New element</div>
       <QPopupEdit
         :model-value="node.label"
         v-slot="scope"
@@ -77,3 +109,9 @@ const fixExpanded = (id: string) => {
     </template>
   </QTree>
 </template>
+
+<style>
+.new-element {
+  opacity: 0.5;
+}
+</style>

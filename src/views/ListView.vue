@@ -13,9 +13,11 @@ import { ListService } from "@/data/services/listService";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { getOneParam } from "@/utils/route";
-import { ListElement } from "@/data/models/List";
+import { ListElementService } from "@/data/services/listElementService";
+import { ID } from "@/data/models/ID";
 
 const listService = useService(ListService);
+const listElementService = useService(ListElementService);
 const route = useRoute();
 const listId = getOneParam(route.params.id);
 
@@ -23,35 +25,42 @@ const listData = await listService.get(listId);
 const list = ref(listData);
 useSubscription(listService, list);
 
-const elements: ListElement[] = [
-  {
-    id: "1",
-    title: "Todo 1",
-    parentId: "",
-    done: true,
-    index: 0,
-    listId: listId,
-  },
-  {
-    id: "2",
-    title: "Todo 2",
-    parentId: "",
-    done: false,
-    index: 1,
-    listId: listId,
-  },
-  {
-    id: "3",
-    title: "Todo 2.1",
-    parentId: "2",
-    done: true,
-    index: 0,
-    listId: listId,
-  },
-];
+const listElementsData = await listElementService.getAllChildren(listId);
+const listElements = ref(listElementsData);
+useSubscription(listElementService, listElements, (v) => v.listId == listId);
 
-const editNode = (v: { id: string; value: string }) => console.log(v);
-const removeNode = (id: string) => console.log(id);
+const editNode = async (v: { id: string; value: string }) =>
+  await listElementService.update({
+    id: v.id,
+    title: v.value,
+  });
+const removeNode = async (id: string) => await listElementService.remove(id);
+const addNode = async (v: { title: string; parentId?: ID }) =>
+  await listElementService.create({
+    listId,
+    title: v.title,
+    parentId: v.parentId,
+  });
+const tick = async (ids: ID[]) => {
+  await Promise.all(
+    ids.map((id) =>
+      listElementService.update({
+        id: id,
+        done: true,
+      })
+    )
+  );
+};
+const untick = async (ids: ID[]) => {
+  await Promise.all(
+    ids.map((id) =>
+      listElementService.update({
+        id: id,
+        done: false,
+      })
+    )
+  );
+};
 </script>
 
 <template>
@@ -69,9 +78,12 @@ const removeNode = (id: string) => console.log(id);
     </PageActions>
 
     <ListTree
-      :elements="elements"
+      :elements="listElements"
       @edit-node="editNode"
       @remove-node="removeNode"
+      @add-node="addNode"
+      @tick="tick"
+      @untick="untick"
       class="q-mt-sm"
     />
   </div>

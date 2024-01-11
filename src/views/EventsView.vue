@@ -52,7 +52,7 @@ const eventsAndTags = computed(
 );
 
 const onSelect = (event: EventAndTag) =>
-  (selected.value = event != selected.value ? event : null);
+  (selected.value = event.id != selected.value?.id ? event : null);
 
 watchEffect(async () => {
   events.value = await eventService.getAllForDay(date.value);

@@ -1,14 +1,15 @@
+import { injectable } from "tsyringe";
 import { v4 } from "uuid";
+
 import Database from "../database/database";
+import SubscribableService from "./base/subscribable";
+
 import type {
   CreateListElement,
   ListElement,
   UpdateListElement,
 } from "../models/List";
 import type { ID } from "../models/ID";
-import SubscribableService from "./base/subscribable";
-import { injectable } from "tsyringe";
-
 @injectable()
 export class ListElementService extends SubscribableService<ListElement> {
   private readonly LIST_INDEX = "listId";
@@ -51,15 +52,18 @@ export class ListElementService extends SubscribableService<ListElement> {
       done: update.done ?? element.done,
       title: update.title ?? element.title,
     };
-    
+
     const updated = await this._update(updatedElement);
 
     if (updatedElement.done) {
       const children = await this.getAllChildren(element.listId, element.id);
-      const childrenPromises = children.map(async c => await this.update({
-        id: c.id,
-        done: true
-      }));
+      const childrenPromises = children.map(
+        async (c) =>
+          await this.update({
+            id: c.id,
+            done: true,
+          })
+      );
       await Promise.all(childrenPromises);
     }
 

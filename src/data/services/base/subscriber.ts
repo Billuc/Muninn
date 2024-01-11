@@ -17,7 +17,6 @@ export default class ServiceSubscriber<T extends { id: ID }> {
   next(action: ServiceAction<T>) {
     switch (action.action) {
       case "create":
-        console.log(action);
         if (Array.isArray(this._value.value) && this._filter(action.value)) {
           this._value.value.push(action.value);
         }

@@ -49,7 +49,7 @@ watchEffect(async () => {
       <DateSelect v-model="date" />
     </PageActions>
 
-    <MoodSelect :mood="mood" :date="date" />
+    <MoodSelect :mood="mood" :date="date" class="q-mt-sm" />
     <JournalEditor :journal="journal" :date="date" />
   </div>
 </template>

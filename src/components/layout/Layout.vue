@@ -39,7 +39,7 @@ const handleSwipe = (ev: any) => {
 <style scoped>
 #container {
   width: 1024px;
-  max-width: 95%;
+  max-width: 85%;
   margin: auto;
   position: relative;
   height: 100%;

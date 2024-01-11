@@ -18,11 +18,16 @@ const onSelect = (e: { element: any; index: number }) => emit("select", e);
     :elements="props.tags"
     @select="onSelect"
     :selected-index="props.selectedIndex"
+    class="q-mt-sm"
   >
     <template #element="{ element }">
-      <div class="col">{{ element.title }}</div>
-      <QIcon :name="element.icon.join(' ')" class="col" />
-      <QChip :color="element.color" class="col" />
+      <div class="col-3 text-uppercase text-weight-bold">
+        {{ element.title }}
+      </div>
+      <QSpace />
+      <QIcon :name="element.icon.join(' ')" class="col-3" />
+      <QSpace />
+      <QChip :color="element.color" class="col-3" />
     </template>
   </List>
 </template>

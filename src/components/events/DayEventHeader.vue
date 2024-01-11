@@ -20,7 +20,7 @@ const header = computed(() => {
 </script>
 
 <template>
-  <div class="day-event-header">
+  <div class="day-event-header montserrat">
     <QChip :label="header" color="primary" class="q-mb-none" />
   </div>
 </template>

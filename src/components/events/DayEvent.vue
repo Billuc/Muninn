@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EventAndTag } from "@/data/models/Event";
+import { EventAndTag, FrequencyMapper } from "@/data/models/Event";
 import { prettyFormatInterval } from "@/utils/dates";
 import { computed } from "vue";
 import TagChip from "@/components/common/tags/TagChip.vue";
@@ -16,6 +16,12 @@ const emit = defineEmits(["select"]);
 const dateStr = computed(() =>
   prettyFormatInterval(props.event.start, props.event.end)
 );
+const freqStr = computed(() =>
+  FrequencyMapper[props.event.frequency].replace(
+    "X",
+    props.event.frequencyMultiplier.toString()
+  )
+);
 
 const onShow = () => emit("select");
 </script>
@@ -30,20 +36,22 @@ const onShow = () => emit("select");
     }"
   >
     <QCard flat @click="onShow" class="event-card">
-      <QCardSection class="row">
-        <div class="col-6">
-          <div>{{ props.event.title }}</div>
-          <div>{{ dateStr }}</div>
+      <div class="row q-pa-sm">
+        <div class="col-5 column justify-around items-center">
+          <div class="text-h5 ellipsis full-width">{{ props.event.title }}</div>
+          <TagChip :tag="props.event.tag" dense v-if="props.event.tag" />
         </div>
         <QSpace />
-        <TagChip :tag="props.event.tag" v-if="props.event.tag" />
-      </QCardSection>
+        <div class="col-7 montserrat column justify-around items-center">
+          <div class="event-date">{{ dateStr }}</div>
+          <div>{{ freqStr }}</div>
+        </div>
+      </div>
 
       <QSlideTransition>
         <div v-show="props.active">
           <div class="event-card-content">
             {{ props.event.description }}
-            <!-- frequency -->
           </div>
         </div>
       </QSlideTransition>
@@ -71,6 +79,7 @@ const onShow = () => emit("select");
 .day-event .event-card {
   border-radius: 8px;
   border: 2px solid transparent;
+  transition: border ease-in 300ms;
 }
 
 .day-event.active .event-card {
@@ -85,7 +94,12 @@ const onShow = () => emit("select");
   background: #dddddd;
 }
 
-.day-event .event-card-content {
+.day-event.active .event-card-content {
   padding: 4px 16px;
+}
+
+.day-event .event-date {
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 </style>

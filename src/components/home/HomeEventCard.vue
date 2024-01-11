@@ -50,13 +50,13 @@ const sortedEvents = computed(() => {
   <Card :title="cardTitle">
     <List :elements="sortedEvents">
       <template #element="{ element }">
-        <div class="col-3">
-          <TagChip :tag="element.tag" v-if="element.tag" />
+        <div class="col-2">
+          <TagChip :tag="element.tag" v-if="element.tag" dense no-text />
         </div>
         <QSpace />
-        <div class="col-4 text-uppercase">{{ element.title }}</div>
+        <div class="col-6 text-uppercase">{{ element.title }}</div>
         <QSpace />
-        <div class="col-4">
+        <div class="col-4 text-center">
           {{ format(element.start, "HH:mm") }} -
           {{ format(element.end, "HH:mm") }}
         </div>

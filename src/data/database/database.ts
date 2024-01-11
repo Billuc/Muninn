@@ -56,7 +56,6 @@ export default class Database {
     this._db = await openDB(this.DB_NAME, this._dbVersion, {
       async upgrade(db, oldVersion, newVersion, transaction, _) {
         try {
-          console.log(oldVersion, newVersion);
           await upgrader.exec({ db, oldVersion, newVersion, transaction });
         } catch (e) {
           console.warn(e);
