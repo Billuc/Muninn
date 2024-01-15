@@ -1,4 +1,4 @@
-import { type ID } from "./ID";
+import type { ID } from "./ID";
 
 export interface ListElement {
   id: ID;
@@ -26,7 +26,7 @@ export interface CreateListElement {
 }
 
 export interface UpdateListElement {
-  id: ID,
+  id: ID;
   title?: string;
   done?: boolean;
 }

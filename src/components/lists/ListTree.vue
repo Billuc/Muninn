@@ -4,6 +4,7 @@ import { ListElement } from "@/data/models/List";
 import _ from "lodash";
 import { QTree } from "quasar";
 import { computed, ref } from "vue";
+import ListTreeElement from "./ListTreeElement.vue";
 
 interface ListTreeProps {
   elements: ListElement[];
@@ -13,6 +14,8 @@ interface TreeElement {
   id: string;
   label: string;
   children: TreeElement[];
+  tickStrategy?: "leaf" | "leaf-filtered" | "string" | "none";
+  parentId: ID;
 }
 
 const props = defineProps<ListTreeProps>();
@@ -29,34 +32,39 @@ const buildTree = (elements: ListElement[], parentId: string) => {
   const data: TreeElement[] = _(elements)
     .chain()
     .filter((e) => e.parentId == parentId)
-    .map((e) => ({
+    .map<TreeElement>((e) => ({
       id: e.id,
       label: e.title,
       children: buildTree(elements, e.id),
+      parentId: parentId,
     }))
+    .push({
+      id: "",
+      label: "",
+      children: [],
+      tickStrategy: "none",
+      parentId: parentId,
+    })
     .value();
 
   return data;
 };
 
-const data = computed(() => {
-  const tree = buildTree(props.elements, "");
-  tree.push({
-    id: "",
-    label: "",
-    children: [],
-  });
-  return tree;
-});
+const data = computed(() => buildTree(props.elements, ""));
 const ticked = computed(() =>
-  props.elements.filter((el) => el.done).map((el) => el.id)
+  _(props.elements)
+    .chain()
+    .filter((el) => el.done)
+    .map((el) => el.id)
+    .push("")
+    .value()
 );
 
-const editNode = (id: string, v: string) => {
-  const value = v.trim();
-  if (!id && !!value) emit("add-node", { title: value });
+const editNode = (id: string, v: string | null, parentId?: string) => {
+  const value = v?.trim();
+  if (!id && !!value) emit("add-node", { title: value, parentId: parentId });
   else if (!!value) emit("edit-node", { id, value });
-  else emit("remove-node", id);
+  else if (!!id) emit("remove-node", id);
 };
 const removeNode = (id: string) => emit("remove-node", id);
 const fixExpanded = (id: string) => {
@@ -68,10 +76,8 @@ const onTick = (tickedArray: readonly ID[]) => {
     (id) => !!id && !ticked.value.some((el) => el == id)
   );
   const toUntick = ticked.value.filter(
-    (el) => !tickedArray.some((id) => el == id)
+    (el) => !!el && !tickedArray.some((id) => el == id)
   );
-
-  console.log(tickedArray, toTick, toUntick);
 
   emit("tick", toTick);
   emit("untick", toUntick);
@@ -79,39 +85,30 @@ const onTick = (tickedArray: readonly ID[]) => {
 </script>
 
 <template>
-  <QTree
-    :nodes="data"
-    node-key="id"
-    :ticked="ticked"
-    tick-strategy="leaf-filtered"
-    ref="tree"
-    class="montserrat"
-    @update:ticked="onTick"
-  >
-    <template #default-header="{ node }">
-      <div v-if="node.id">{{ node.label }}</div>
-      <div class="new-element" v-else>New element</div>
-      <QPopupEdit
-        :model-value="node.label"
-        v-slot="scope"
-        @save="(v) => editNode(node.id, v)"
-        @before-show="() => fixExpanded(node.id)"
-      >
-        <QInput
-          v-model="scope.value"
-          dense
-          autofocus
-          @keyup.enter="scope.set"
-          clearable
-          @clear="() => removeNode(node.id)"
+  <div class="montserrat">
+    <QTree
+      :nodes="data"
+      node-key="id"
+      :ticked="ticked"
+      tick-strategy="strict"
+      ref="tree"
+      @update:ticked="onTick"
+    >
+      <template #default-header="{ node }">
+        <ListTreeElement
+          :id="node.id"
+          :label="node.label"
+          @update="(v) => editNode(node.id, v, node.parentId)"
+          @show-popup="() => fixExpanded(node.id)"
+          @remove="() => removeNode(node.id)"
         />
-      </QPopupEdit>
-    </template>
-  </QTree>
+      </template>
+    </QTree>
+  </div>
 </template>
 
 <style>
 .new-element {
-  opacity: 0.5;
+  color: #9e9e9e;
 }
 </style>

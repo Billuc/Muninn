@@ -4,7 +4,6 @@ import EditList from "@/components/lists/EditList.vue";
 import DeleteList from "@/components/lists/DeleteList.vue";
 import PageActions from "@/components/common/PageActions.vue";
 import BackButton from "@/components/common/BackButton.vue";
-import ListTree from "@/components/lists/ListTree.vue";
 import HideCheckedToggle from "@/components/lists/HideCheckedToggle.vue";
 import ClearChecked from "@/components/lists/ClearChecked.vue";
 import { useService } from "@/composables/useService";
@@ -14,7 +13,8 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { getOneParam } from "@/utils/route";
 import { ListElementService } from "@/data/services/listElementService";
-import { ID } from "@/data/models/ID";
+import SortableListTree from "@/components/lists/SortableListTree.vue";
+import { ListElement } from "@/data/models/List";
 
 const listService = useService(ListService);
 const listElementService = useService(ListElementService);
@@ -27,40 +27,14 @@ useSubscription(listService, list);
 
 const listElementsData = await listElementService.getAllChildren(listId);
 const listElements = ref(listElementsData);
-useSubscription(listElementService, listElements, (v) => v.listId == listId);
+useSubscription(
+  listElementService,
+  listElements,
+  (v) => v.listId == listId && v.parentId == ""
+);
 
-const editNode = async (v: { id: string; value: string }) =>
-  await listElementService.update({
-    id: v.id,
-    title: v.value,
-  });
-const removeNode = async (id: string) => await listElementService.remove(id);
-const addNode = async (v: { title: string; parentId?: ID }) =>
-  await listElementService.create({
-    listId,
-    title: v.title,
-    parentId: v.parentId,
-  });
-const tick = async (ids: ID[]) => {
-  await Promise.all(
-    ids.map((id) =>
-      listElementService.update({
-        id: id,
-        done: true,
-      })
-    )
-  );
-};
-const untick = async (ids: ID[]) => {
-  await Promise.all(
-    ids.map((id) =>
-      listElementService.update({
-        id: id,
-        done: false,
-      })
-    )
-  );
-};
+const onOrderElements = async (v: ListElement[]) =>
+  await listElementService.sortChildren("", v);
 </script>
 
 <template>
@@ -77,14 +51,11 @@ const untick = async (ids: ID[]) => {
       <ClearChecked :list="list" />
     </PageActions>
 
-    <ListTree
+    <SortableListTree
       :elements="listElements"
-      @edit-node="editNode"
-      @remove-node="removeNode"
-      @add-node="addNode"
-      @tick="tick"
-      @untick="untick"
-      class="q-mt-sm"
+      :list-id="list.id"
+      @update:elements="onOrderElements"
+      class="q-mt-sm montserrat"
     />
   </div>
 </template>

@@ -14,6 +14,7 @@ import type { ID } from "../models/ID";
 export class ListElementService extends SubscribableService<ListElement> {
   private readonly LIST_INDEX = "listId";
   private readonly LIST_PARENT_INDEX = "listId_parentId";
+  private readonly PARENT_INDEX = "parentId";
 
   constructor(database: Database) {
     super(database, "list-elements");
@@ -33,11 +34,12 @@ export class ListElementService extends SubscribableService<ListElement> {
   }
 
   async create(create: CreateListElement): Promise<ListElement> {
+    const siblings = await this.getAllChildren(create.listId, create.parentId);
     const listElement: ListElement = {
       id: v4(),
       title: create.title,
       done: false,
-      index: 0,
+      index: siblings.length,
       listId: create.listId,
       parentId: create.parentId ?? "",
     };
@@ -55,7 +57,7 @@ export class ListElementService extends SubscribableService<ListElement> {
 
     const updated = await this._update(updatedElement);
 
-    if (updatedElement.done) {
+    if (update.done) {
       const children = await this.getAllChildren(element.listId, element.id);
       const childrenPromises = children.map(
         async (c) =>
@@ -65,6 +67,8 @@ export class ListElementService extends SubscribableService<ListElement> {
           })
       );
       await Promise.all(childrenPromises);
+    } else if (update.done === false && !!element.parentId) {
+      await this.update({ id: element.parentId, done: false });
     }
 
     return updated;
@@ -88,5 +92,14 @@ export class ListElementService extends SubscribableService<ListElement> {
 
   async remove(id: ID): Promise<void> {
     await this._remove(id);
+
+    const children = await this._getAllFromIndex(this.PARENT_INDEX, id);
+    await Promise.all(children.map((c) => this.remove(c.id)));
+  }
+
+  async removeAllChildren(listId: string): Promise<void> {
+    const children = await this._getAllFromIndex(this.LIST_INDEX, listId);
+
+    await Promise.all(children.map((c) => this._remove(c.id)));
   }
 }
