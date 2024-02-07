@@ -13,8 +13,8 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { getOneParam } from "@/utils/route";
 import { ListElementService } from "@/data/services/listElementService";
-import SortableListTree from "@/components/lists/SortableListTree.vue";
 import { ListElement } from "@/data/models/List";
+import ListElements from "@/components/lists/ListElements.vue";
 
 const listService = useService(ListService);
 const listElementService = useService(ListElementService);
@@ -51,10 +51,9 @@ const onOrderElements = async (v: ListElement[]) =>
       <ClearChecked :list="list" />
     </PageActions>
 
-    <SortableListTree
+    <ListElements
       :elements="listElements"
       :list-id="list.id"
-      @update:elements="onOrderElements"
       class="q-mt-sm montserrat"
     />
   </div>

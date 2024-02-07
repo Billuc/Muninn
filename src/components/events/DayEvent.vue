@@ -36,22 +36,19 @@ const onShow = () => emit("select");
     }"
   >
     <QCard flat @click="onShow" class="event-card">
-      <div class="row q-pa-sm">
-        <div class="col-5 column justify-around items-center">
-          <div class="text-h5 ellipsis full-width">{{ props.event.title }}</div>
-          <TagChip :tag="props.event.tag" dense v-if="props.event.tag" />
-        </div>
-        <QSpace />
-        <div class="col-7 montserrat column justify-around items-center">
-          <div class="event-date">{{ dateStr }}</div>
-          <div>{{ freqStr }}</div>
-        </div>
+      <div class="row q-pa-sm justify-around items-center">
+        <div class="text-h5">{{ props.event.title }}</div>
+        <div class="event-date montserrat">{{ dateStr }}</div>
+        <TagChip :tag="props.event.tag" no-text dense v-if="props.event.tag" />
       </div>
 
       <QSlideTransition>
         <div v-show="props.active">
-          <div class="event-card-content">
+          <div class="event-card-content montserrat">
             {{ props.event.description }}
+          </div>
+          <div class="event-card-content montserrat text-center">
+            Frequency : {{ freqStr }}
           </div>
         </div>
       </QSlideTransition>
@@ -94,12 +91,19 @@ const onShow = () => emit("select");
   background: #dddddd;
 }
 
+.event-card > .row {
+  padding: 0 4px;
+}
+
 .day-event.active .event-card-content {
-  padding: 4px 16px;
+  margin: 4px 16px;
+  border-top: 1px solid var(--q-list-neutral);
+  font-style: italic;
+  font-size: 0.8rem;
 }
 
 .day-event .event-date {
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 300;
 }
 </style>

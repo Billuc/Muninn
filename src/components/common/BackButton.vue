@@ -16,7 +16,7 @@ const onClick = () =>
 
 <template>
   <QBtn
-    icon="arrow_back_ios"
+    icon="mdi-arrow-left-bold"
     label="Back"
     @click="onClick"
     flat
@@ -36,7 +36,7 @@ const onClick = () =>
   }
 
   .back-button .q-btn__content i {
-    margin: 0
+    margin: 0;
   }
 }
 </style>

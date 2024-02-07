@@ -30,7 +30,7 @@ body::before {
   height: 100%;
   background: center / contain no-repeat url(./background_red.png);
   filter: saturate(150%);
-  transform: scale(1.2) translate(-20%, 10%) rotate(10deg);
+  transform: scale(1.2) translate(max(-100px, -20%), 10%) rotate(10deg);
 }
 
 body::after {
@@ -42,7 +42,7 @@ body::after {
   height: 100%;
   background: center / contain no-repeat url(./background_red.png);
   filter: hue-rotate(-30deg) saturate(150%);
-  transform: scale(1.5) translate(5%, 12%) rotate(30deg);
+  transform: scale(1.5) translate(max(5%, 10px), 12%) rotate(30deg);
   z-index: -1;
 }
 

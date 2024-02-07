@@ -30,7 +30,7 @@ const onUpdate = (v: string) => emit("update:model-value", v);
     flat
     toolbar-bg="primary"
     toolbar-toggle-color="white"
-    content-class="bg-background"
+    content-class="bg-background montserrat"
     :toolbar="toolbarCommands"
     :readonly="props.readonly"
     :class="{ 'shadow-2': !props.readonly }"
