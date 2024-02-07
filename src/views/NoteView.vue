@@ -56,7 +56,7 @@ watch([note], async () => {
       <template #prefix><BackButton name="notes" /></template>
       <template #text>{{ note.title }}</template>
       <template #suffix>
-        <TagChip :tag="noteTag" v-if="noteTag" />
+        <TagChip :tag="noteTag" no-text v-if="noteTag" />
       </template>
     </Title>
 

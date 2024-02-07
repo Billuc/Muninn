@@ -32,6 +32,9 @@
   width: 70%;
   overflow: hidden;
   text-align: center;
+
+  font-size: 2.5rem;
+  line-height: 3rem;
 }
 
 .title-suffix {

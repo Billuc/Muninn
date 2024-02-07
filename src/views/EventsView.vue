@@ -17,6 +17,7 @@ import EventTagSelect from "@/components/events/tags/EventTagSelect.vue";
 import { EventTagService } from "@/data/services/eventTagService";
 import { ID } from "@/data/models/ID";
 import _ from "lodash";
+import EventCalendar from "@/components/events/EventCalendar.vue";
 
 const eventService = useService(EventService);
 const eventTagService = useService(EventTagService);
@@ -86,5 +87,6 @@ watchEffect(async () => {
       class="q-mt-md"
       @select="onSelect"
     />
+    <EventCalendar v-model:date="date" />
   </div>
 </template>

@@ -16,7 +16,7 @@ const onClick = () =>
 
 <template>
   <QBtn
-    icon="mdi-arrow-left-bold"
+    icon="mdi-arrow-left-drop-circle"
     label="Back"
     @click="onClick"
     flat

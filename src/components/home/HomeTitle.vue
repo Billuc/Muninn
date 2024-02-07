@@ -6,7 +6,7 @@ const date = new Date();
 
 <template>
   <div class="home-title">
-    <div class="text-h2">Hello ! It's</div>
+    <div class="text-h2 q-mb-md">Hello ! It's</div>
     <div>
       <span class="text-h3 text-italic">{{ format(date, "E, ") }}</span>
       <span class="text-h3 text-weight-bold">{{ format(date, "do ") }}</span>
