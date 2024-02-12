@@ -9,12 +9,13 @@ import ClearChecked from "@/components/lists/ClearChecked.vue";
 import { useService } from "@/composables/useService";
 import { useSubscription } from "@/composables/useSubscription";
 import { ListService } from "@/data/services/listService";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import { getOneParam } from "@/utils/route";
 import { ListElementService } from "@/data/services/listElementService";
 import { ListElement } from "@/data/models/List";
 import ListElements from "@/components/lists/ListElements.vue";
+import ListCompletionCard from "@/components/lists/ListCompletionCard.vue";
 
 const listService = useService(ListService);
 const listElementService = useService(ListElementService);
@@ -31,6 +32,12 @@ useSubscription(
   listElementService,
   listElements,
   (v) => v.listId == listId && v.parentId == ""
+);
+
+const completion = computed(
+  () =>
+    listElements.value.filter((el) => el.done).length /
+    listElements.value.length
 );
 
 const onOrderElements = async (v: ListElement[]) =>
@@ -50,6 +57,11 @@ const onOrderElements = async (v: ListElement[]) =>
       <HideCheckedToggle :list="list" />
       <ClearChecked :list="list" />
     </PageActions>
+
+    <ListCompletionCard
+      class="q-my-md"
+      :completion="completion"
+    ></ListCompletionCard>
 
     <ListElements
       :elements="listElements"
