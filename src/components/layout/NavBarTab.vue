@@ -26,13 +26,15 @@ const props = defineProps<NavBarTabProps>();
   color: var(--q-list-neutral);
 }
 
+.navbar-tab.q-tab .q-tab__label {
+  visibility: hidden;
+  width: 0px;
+  padding: 0;
+}
+
 @media screen and (max-width: 600px) {
   .navbar-tab.q-tab {
     padding: 0;
-  }
-
-  .navbar-tab.q-tab .q-tab__label {
-    display: none;
   }
 }
 </style>
