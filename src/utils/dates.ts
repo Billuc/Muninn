@@ -1,24 +1,12 @@
 import {
-  addDays,
-  addHours,
-  addMinutes,
-  addMonths,
-  addYears,
-  differenceInCalendarDays,
-  differenceInCalendarMonths,
-  differenceInCalendarYears,
-  eachDayOfInterval,
-  endOfDay,
-  format,
-  intervalToDuration,
-  isSameDay,
-  parse,
-  startOfDay,
-} from "date-fns";
+    addDays, addHours, addMinutes, addMonths, addYears, differenceInCalendarDays,
+    differenceInCalendarMonths, differenceInCalendarYears, eachDayOfInterval, endOfDay, format,
+    intervalToDuration, isSameDay, parse, startOfDay
+} from 'date-fns';
 
-import { Frequency } from "@/data/models/Event";
+import { Frequency } from '@/data/models/Event';
 
-import type { Event } from "@/data/models/Event";
+import type { Event, EventAndTag } from "@/data/models/Event";
 
 export function formatDate(date: Date) {
   return format(date, "yyyy-MM-dd");
@@ -100,13 +88,16 @@ export const hasRepetitionAtDay = (event: Event, day: Date) => {
   }
 };
 
-export const nextRepetition = (event: Event, fromDate: Date) => {
+export const nextRepetition = <E extends Event | EventAndTag>(
+  event: E,
+  fromDate: Date
+) => {
   const end = event.end ?? event.start;
   if (fromDate < end) return event;
 
   switch (event.frequency) {
     case Frequency.Once:
-      return fromDate < end ? event : null;
+      return null;
     case Frequency.Daily: {
       const daysDifference = differenceInCalendarDays(fromDate, end);
       const repetitionFactor = Math.ceil(

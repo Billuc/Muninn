@@ -23,12 +23,12 @@ const onUpdate = (value: string) => (colorPicked.value = value);
 </script>
 
 <template>
-  <QBtn :style="{ background: props.modelValue }">
+  <QBtn :style="{ background: props.modelValue }" size="sm">
     <QMenu v-model="menuOpened">
       <div class="row bg-background">
         <QSpace />
-        <QBtn icon="mdi-close" color="negative" @click="onCancel" />
-        <QBtn icon="mdi-check" color="positive" @click="onSave" />
+        <QBtn icon="mdi-close" color="negative" @click="onCancel" size="sm" />
+        <QBtn icon="mdi-check" color="positive" @click="onSave" size="sm" />
       </div>
 
       <QColor :model-value="colorPicked" @change="onUpdate"></QColor>

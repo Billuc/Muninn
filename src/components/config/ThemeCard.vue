@@ -32,7 +32,7 @@ const updateColor = async (
 
 <template>
   <Card title="Theme">
-    <List :elements="themeAsArray">
+    <List :elements="themeAsArray" class="montserrat">
       <template #element="{ element }">
         <div>{{ element.id }}</div>
 

@@ -7,32 +7,29 @@ import DeleteEvent from "@/components/events/DeleteEvent.vue";
 import ManageEventTags from "@/components/events/ManageEventTags.vue";
 import { useService } from "@/composables/useService";
 import { useSubscription } from "@/composables/useSubscription";
-import { computed, ref, watchEffect } from "vue";
+import { computed, ref } from "vue";
 import { EventService } from "@/data/services/eventService";
-import { hasRepetitionAtDay, nextRepetition } from "@/utils/dates";
-import { EventAndTag, Event } from "@/data/models/Event";
+import { EventAndTag } from "@/data/models/Event";
 import DaysEvents from "@/components/events/DaysEvents.vue";
 import DateSelect from "@/components/common/DateSelect.vue";
 import EventTagSelect from "@/components/events/tags/EventTagSelect.vue";
 import { EventTagService } from "@/data/services/eventTagService";
 import { ID } from "@/data/models/ID";
 import _ from "lodash";
-import EventCalendar from "@/components/events/EventCalendar.vue";
+import EventToggleViewButton from "@/components/events/EventToggleViewButton.vue";
+import DayEventCalendar from "@/components/events/DayEventCalendar.vue";
 
 const eventService = useService(EventService);
 const eventTagService = useService(EventTagService);
 
+const calendarView = ref(false);
 const date = ref(new Date());
 const tagId = ref<ID>("");
 const selected = ref<EventAndTag | null>(null);
 
-function filter(e: Event): boolean {
-  return hasRepetitionAtDay(e, date.value);
-}
-
 const data = await eventService.getAllForDay(date.value);
 const events = ref(data);
-useSubscription(eventService, events, filter);
+useSubscription(eventService, events);
 
 const tagsData = await eventTagService.getAll();
 const eventTags = ref(tagsData);
@@ -43,7 +40,6 @@ const eventsAndTags = computed(
     _(events.value)
       .chain()
       .filter((ev) => !tagId.value || ev.tagId == tagId.value)
-      .map((ev) => nextRepetition(ev, date.value))
       .filter((ev) => !!ev)
       .map((ev) => ({
         ...ev,
@@ -54,16 +50,18 @@ const eventsAndTags = computed(
 
 const onSelect = (event: EventAndTag) =>
   (selected.value = event.id != selected.value?.id ? event : null);
-
-watchEffect(async () => {
-  events.value = await eventService.getAllForDay(date.value);
-});
 </script>
 
 <template>
   <div>
     <Title>
       <template #text>Events</template>
+      <template #suffix>
+        <EventToggleViewButton
+          v-model:is-calendar="calendarView"
+          class="q-mr-sm"
+        />
+      </template>
     </Title>
 
     <PageActions>
@@ -77,16 +75,25 @@ watchEffect(async () => {
     </PageActions>
 
     <PageActions class="q-mt-sm">
-      <DateSelect v-model="date" />
+      <DateSelect v-model="date" v-if="!calendarView" />
       <EventTagSelect v-model="tagId" filter-select />
     </PageActions>
 
-    <DaysEvents
-      :events="eventsAndTags"
-      :selected="selected"
-      class="q-mt-md"
-      @select="onSelect"
-    />
-    <EventCalendar v-model:date="date" />
+    <div class="q-mt-md">
+      <DaysEvents
+        :date="date"
+        :events="eventsAndTags"
+        :selected="selected"
+        @select="onSelect"
+        v-if="!calendarView"
+      />
+      <DayEventCalendar
+        v-model:date="date"
+        :events="eventsAndTags"
+        :selected="selected"
+        @select="onSelect"
+        v-else
+      />
+    </div>
   </div>
 </template>

@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { EventAndTag, FrequencyMapper } from "@/data/models/Event";
-import { prettyFormatInterval } from "@/utils/dates";
-import { computed } from "vue";
-import TagChip from "@/components/common/tags/TagChip.vue";
+import { EventAndTag } from "@/data/models/Event";
+import DayEventCard from "@/components/events/DayEventCard.vue";
 
 interface DayEventProps {
   event: EventAndTag;
@@ -12,16 +10,6 @@ interface DayEventProps {
 
 const props = defineProps<DayEventProps>();
 const emit = defineEmits(["select"]);
-
-const dateStr = computed(() =>
-  prettyFormatInterval(props.event.start, props.event.end)
-);
-const freqStr = computed(() =>
-  FrequencyMapper[props.event.frequency].replace(
-    "X",
-    props.event.frequencyMultiplier.toString()
-  )
-);
 
 const onShow = () => emit("select");
 </script>
@@ -35,24 +23,12 @@ const onShow = () => emit("select");
       active: props.active,
     }"
   >
-    <QCard flat @click="onShow" class="event-card">
-      <div class="row q-pa-sm justify-around items-center">
-        <div class="text-h5">{{ props.event.title }}</div>
-        <div class="event-date montserrat">{{ dateStr }}</div>
-        <TagChip :tag="props.event.tag" no-text dense v-if="props.event.tag" />
-      </div>
-
-      <QSlideTransition>
-        <div v-show="props.active">
-          <div class="event-card-content montserrat">
-            {{ props.event.description }}
-          </div>
-          <div class="event-card-content montserrat text-center">
-            Frequency : {{ freqStr }}
-          </div>
-        </div>
-      </QSlideTransition>
-    </QCard>
+    <DayEventCard
+      :active="props.active"
+      :event="props.event"
+      :index="props.index"
+      @select="onShow"
+    />
   </div>
 </template>
 

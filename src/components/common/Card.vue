@@ -34,5 +34,6 @@ const props = defineProps<CardProps>();
   transform: translateY(-50%);
 
   text-transform: uppercase;
+  font-weight: bold;
 }
 </style>
