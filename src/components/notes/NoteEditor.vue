@@ -33,6 +33,6 @@ const onUpdate = (v: string) => emit("update:model-value", v);
     content-class="bg-background montserrat"
     :toolbar="toolbarCommands"
     :readonly="props.readonly"
-    :class="{ 'shadow-2': !props.readonly }"
+    class="shadow-4"
   />
 </template>

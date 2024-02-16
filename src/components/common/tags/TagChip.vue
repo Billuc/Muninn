@@ -25,6 +25,7 @@ const iconValue = computed(() => props.tag.icon.join(" "));
 <style>
 .dense-tag {
   height: 1.25rem;
+  margin: 0;
 }
 
 .tag-no-text {

@@ -12,8 +12,11 @@ useSubscription(themeService, theme);
 
 watchEffect(() => {
   setCssVar("background", theme.value.background);
+  setCssVar("background-text", theme.value.backgroundText);
   setCssVar("primary", theme.value.primary);
+  setCssVar("primary-text", theme.value.primaryText);
   setCssVar("secondary", theme.value.secondary);
+  setCssVar("secondary-text", theme.value.secondaryText);
   setCssVar("list-even", theme.value.listEven);
   setCssVar("list-odd", theme.value.listOdd);
   setCssVar("list-neutral", theme.value.listNeutral);
@@ -29,5 +32,6 @@ watchEffect(() => {
 <style>
 body {
   background-color: var(--q-background);
+  color: var(--q-background-text);
 }
 </style>

@@ -7,7 +7,7 @@ const props = defineProps<CardProps>();
 </script>
 
 <template>
-  <QCard class="card">
+  <QCard class="card bg-background">
     <div class="card-title">
       <QChip color="primary">{{ props.title }}</QChip>
     </div>
@@ -21,10 +21,9 @@ const props = defineProps<CardProps>();
 <style>
 .card {
   position: relative;
-  box-shadow: 4px 4px 0px var(--q-primary);
+  box-shadow: 4px 4px 0px var(--q-primary), 0px 0px 4px var(--q-primary);
   margin-top: 16px;
   padding-top: 4px;
-  background: var(--q-list-neutral);
 }
 
 .card .card-title {

@@ -7,6 +7,7 @@ import { computed, ref } from "vue";
 import List from "../common/List.vue";
 import ColorPicker from "./ColorPicker.vue";
 import { Theme } from "@/data/models/Theme";
+import { contrast } from "@/utils/colors";
 
 const themeService = useService(ThemeService);
 const themeData = await themeService.get();
@@ -15,8 +16,32 @@ useSubscription(themeService, theme);
 
 const themeAsArray = computed(() =>
   Object.entries(theme.value)
-    .map(([k, v]) => ({ id: k, value: v }))
-    .filter((v) => v.id != "id")
+    .filter(([k, _]) => !k.endsWith("Text") && k != "id")
+    .map(([k, v]) => ({
+      id: k,
+      value: v,
+      // ex: k is primary, text is ['primaryText', ...]
+      text: Object.entries(theme.value).find(
+        ([otherK, _]) => otherK == `${k}Text`
+      ),
+    }))
+    .map((el) => {
+      const elContrast = el.text ? contrast(el.value, el.text[1]) : null;
+
+      if (elContrast == null)
+        return {
+          ...el,
+          contrastLabel: null,
+          contrastColor: null,
+        };
+
+      return {
+        ...el,
+        contrastLabel: elContrast > 7 ? "AAA" : elContrast > 4.5 ? "AA" : "x",
+        contrastColor:
+          elContrast > 7 ? "green" : elContrast > 4.5 ? "yellow" : "red",
+      };
+    })
 );
 
 const updateColor = async (
@@ -34,14 +59,27 @@ const updateColor = async (
   <Card title="Theme">
     <List :elements="themeAsArray" class="montserrat">
       <template #element="{ element }">
-        <div>{{ element.id }}</div>
+        <div class="col-5">{{ element.id }}</div>
 
-        <QSpace />
+        <div class="col-5">
+          <ColorPicker
+            :model-value="element.value"
+            @update:model-value="(v) => updateColor(element.id, v)"
+          />
+          <ColorPicker
+            :model-value="element.text[1]"
+            @update:model-value="(v) => updateColor(element.text[0], v)"
+            v-if="element.text"
+          />
+        </div>
 
-        <ColorPicker
-          :model-value="element.value"
-          @update:model-value="(v) => updateColor(element.id, v)"
-        />
+        <div class="col-2 text-center">
+          <QBadge
+            :color="element.contrastColor"
+            :label="element.contrastLabel"
+            v-if="element.text"
+          />
+        </div>
       </template>
     </List>
   </Card>

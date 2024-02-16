@@ -4,6 +4,7 @@ import { Pipeline, PipelineFactory } from "pipelineer";
 
 import Migration from "./migration";
 import MigrateJournalMigration from "./migrations/1-MigrateJournal";
+import SetTextColorsMigration from "./migrations/10-SetTextColors";
 import MigrateListsMigration from "./migrations/2-MigrateLists";
 import FixParentIdSerializationMigration from "./migrations/3-FixParentIdSerialization";
 import MigrateEventsMigration from "./migrations/4-MigrateEvents";
@@ -16,6 +17,7 @@ import Transaction from "./transaction";
 
 import type { IDBPDatabase } from "idb";
 import type UpgradeDatabase from "./upgradeDatabase";
+
 export default class Database {
   private readonly DB_NAME = "muninn-db";
   private readonly MIGRATIONS: Migration[] = [
@@ -28,6 +30,7 @@ export default class Database {
     new JournalMoodDBAndEntryCreatedAtMigration(),
     new CreateGeneralStoreMigration(),
     new ListElementParentIndexMigration(),
+    new SetTextColorsMigration(),
   ];
 
   private _dbVersion: number;

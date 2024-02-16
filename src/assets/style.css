@@ -48,6 +48,7 @@ body::after {
 
 .bg-background {
   background-color: var(--q-background) !important;
+  color: var(--q-background-text) !important;
 }
 
 .bg-transparent {
@@ -58,8 +59,14 @@ body::after {
   background-color: var(--q-list-neutral) !important;
 }
 
+.bg-primary {
+  background-color: var(--q-primary) !important;
+  color: var(--q-primary-text) !important;
+}
+
 .bg-secondary {
-  color: white !important;
+  background-color: var(--q-secondary) !important;
+  color: var(--q-secondary-text) !important;
 }
 
 .q-chip__icon {

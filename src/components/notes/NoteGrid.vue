@@ -23,7 +23,7 @@ const toNote = (v: { element: NoteAndTag }) =>
     <template #element="{ element }">
       <div>{{ element.title }}</div>
       <QSpace />
-      <TagChip :tag="element.tag" v-if="element.tag" />
+      <TagChip :tag="element.tag" dense v-if="element.tag" />
     </template>
   </List>
 </template>

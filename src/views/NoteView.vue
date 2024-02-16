@@ -66,6 +66,6 @@ watch([note], async () => {
       <NoteModeToggle v-model:editing="editing" />
     </PageActions>
 
-    <NoteEditor v-model="noteText" :readonly="!editing" class="q-mt-sm" />
+    <NoteEditor v-model="noteText" :readonly="!editing" class="q-mt-md" />
   </div>
 </template>
