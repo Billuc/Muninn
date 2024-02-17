@@ -33,6 +33,7 @@ const themeAsArray = computed(() =>
           ...el,
           contrastLabel: null,
           contrastColor: null,
+          contrastTextColor: null,
         };
 
       return {
@@ -40,6 +41,8 @@ const themeAsArray = computed(() =>
         contrastLabel: elContrast > 7 ? "AAA" : elContrast > 4.5 ? "AA" : "x",
         contrastColor:
           elContrast > 7 ? "green" : elContrast > 4.5 ? "yellow" : "red",
+        contrastTextColor:
+          elContrast <= 7 && elContrast > 4.5 ? "black" : "white",
       };
     })
 );
@@ -77,6 +80,7 @@ const updateColor = async (
           <QBadge
             :color="element.contrastColor"
             :label="element.contrastLabel"
+            :text-color="element.contrastTextColor"
             v-if="element.text"
           />
         </div>
