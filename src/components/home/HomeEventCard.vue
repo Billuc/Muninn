@@ -2,11 +2,15 @@
 import { useService } from "@/composables/useService";
 import { useSubscription } from "@/composables/useSubscription";
 import { EventService } from "@/data/services/eventService";
-import { nextRepetition, hasRepetitionAtDay } from "@/utils/dates";
+import {
+  nextRepetition,
+  hasRepetitionAtDay,
+  prettyFormatInterval,
+} from "@/utils/dates";
 import { computed, ref } from "vue";
 import Card from "../common/Card.vue";
 import List from "../common/List.vue";
-import { endOfDay, startOfDay, max, min, format } from "date-fns";
+import { endOfDay, startOfDay, max, min } from "date-fns";
 import _ from "lodash";
 import { EventTagService } from "@/data/services/eventTagService";
 import TagChip from "../common/tags/TagChip.vue";
@@ -54,8 +58,7 @@ const sortedEvents = computed(() => {
           {{ element.title }}
         </div>
         <div class="col-4 text-center montserrat text-caption text-center">
-          {{ format(element.start, "HH:mm") }} -
-          {{ format(element.end, "HH:mm") }}
+          {{ prettyFormatInterval(element.start, element.end) }}
         </div>
         <div class="col-2 text-right">
           <TagChip :tag="element.tag" v-if="element.tag" dense no-text />

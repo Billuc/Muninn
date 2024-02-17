@@ -27,7 +27,7 @@ const date = ref(new Date());
 const tagId = ref<ID>("");
 const selected = ref<EventAndTag | null>(null);
 
-const data = await eventService.getAllForDay(date.value);
+const data = await eventService.getAll();
 const events = ref(data);
 useSubscription(eventService, events);
 

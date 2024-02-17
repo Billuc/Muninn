@@ -1,10 +1,22 @@
 import {
-    addDays, addHours, addMinutes, addMonths, addYears, differenceInCalendarDays,
-    differenceInCalendarMonths, differenceInCalendarYears, eachDayOfInterval, endOfDay, format,
-    intervalToDuration, isSameDay, parse, startOfDay
-} from 'date-fns';
+  addDays,
+  addHours,
+  addMinutes,
+  addMonths,
+  addYears,
+  differenceInCalendarDays,
+  differenceInCalendarMonths,
+  differenceInCalendarYears,
+  eachDayOfInterval,
+  endOfDay,
+  format,
+  intervalToDuration,
+  isSameDay,
+  parse,
+  startOfDay,
+} from "date-fns";
 
-import { Frequency } from '@/data/models/Event';
+import { Frequency } from "@/data/models/Event";
 
 import type { Event, EventAndTag } from "@/data/models/Event";
 
@@ -18,11 +30,11 @@ export function formatTime(date: Date) {
 
 export function prettyFormatInterval(start: Date, end?: Date) {
   if (!end) {
-    return format(start, "dd MMM HH:mm");
+    return format(start, "HH:mm");
   }
 
   if (isSameDay(start, end)) {
-    return format(start, "dd MMM HH:mm") + " - " + format(end, "HH:mm");
+    return format(start, "HH:mm") + " - " + format(end, "HH:mm");
   }
 
   return format(start, "dd MMM HH:mm") + " - " + format(end, "dd MMM HH:mm");

@@ -3,6 +3,7 @@ import { EventAndTag, FrequencyMapper } from "@/data/models/Event";
 import { prettyFormatInterval } from "@/utils/dates";
 import { computed } from "vue";
 import TagChip from "@/components/common/tags/TagChip.vue";
+import ListElement from "../common/ListElement.vue";
 
 interface DayEventCardProps {
   event: EventAndTag;
@@ -27,14 +28,23 @@ const onShow = () => emit("select");
 </script>
 
 <template>
-  <QCard flat @click="onShow" class="event-card">
-    <div class="row q-pa-sm justify-around items-center">
-      <div class="text-h5">{{ props.event.title }}</div>
-      <div class="event-date montserrat">{{ dateStr }}</div>
-      <TagChip :tag="props.event.tag" no-text dense v-if="props.event.tag" />
+  <ListElement
+    :index="props.index"
+    :selected="props.active"
+    @click="onShow"
+    class="event-card"
+  >
+    <div class="col-6 text-left ellipsis">
+      {{ props.event.title }}
+    </div>
+    <div class="col-4 text-center montserrat text-caption text-center">
+      {{ dateStr }}
+    </div>
+    <div class="col-2 text-right">
+      <TagChip :tag="props.event.tag" v-if="props.event.tag" dense no-text />
     </div>
 
-    <QSlideTransition>
+    <QSlideTransition class="col-12">
       <div v-show="props.active">
         <div class="event-card-content montserrat">
           {{ props.event.description }}
@@ -44,33 +54,14 @@ const onShow = () => emit("select");
         </div>
       </div>
     </QSlideTransition>
-  </QCard>
+  </ListElement>
 </template>
 
 <style>
-.day-event .event-card {
-  border-radius: 8px;
-  border: 2px solid transparent;
-  transition: border ease-in 300ms;
-}
-
-.day-event.active .event-card {
-  border-color: rgba(0, 0, 0, 0.75);
-}
-
-.event-card > .row {
-  padding: 0 4px;
-}
-
-.day-event.active .event-card-content {
+.event-card.selected .event-card-content {
   margin: 4px 16px;
   border-top: 1px solid var(--q-list-neutral);
   font-style: italic;
   font-size: 0.8rem;
-}
-
-.day-event .event-date {
-  font-size: 0.75rem;
-  font-weight: 300;
 }
 </style>
