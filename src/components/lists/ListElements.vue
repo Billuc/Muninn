@@ -3,8 +3,10 @@ import { ListElement } from "@/data/models/List";
 import _ from "lodash";
 import ListElementVue from "./ListElementVue.vue";
 import List from "../common/List.vue";
-import NewListElementVue from "./NewListElement.vue";
+import NewListElement from "./NewListElement.vue";
 import { ID } from "@/data/models/ID";
+import Sortable, { SortableEvent } from "sortablejs";
+import { computed, onMounted, ref } from "vue";
 
 interface ListElementsProps {
   listId: ID;
@@ -12,16 +14,39 @@ interface ListElementsProps {
 }
 
 const props = defineProps<ListElementsProps>();
+const emit = defineEmits(["order"]);
+
+const list = ref<InstanceType<typeof List> | null>(null);
+
+const sortedElements = computed(() =>
+  _(props.elements)
+    .chain()
+    .sortBy((el) => el.index)
+    .value()
+);
+
+onMounted(() => {
+  Sortable.create(list.value!.$el, {
+    draggable: ".list-element",
+    handle: ".handle",
+    onEnd: (ev: SortableEvent) => {
+      const newElements = _.cloneDeep(props.elements);
+      newElements.splice(ev.oldIndex!, 1);
+      newElements.splice(ev.newIndex!, 0, props.elements[ev.oldIndex!]);
+      emit("order", newElements);
+    },
+  });
+});
 </script>
 
 <template>
   <div>
-    <List :elements="props.elements">
+    <List :elements="sortedElements" ref="list">
       <template #element="{ element }">
         <ListElementVue :element="element" />
       </template>
     </List>
 
-    <NewListElementVue :list-id="props.listId" />
+    <NewListElement :list-id="props.listId" />
   </div>
 </template>

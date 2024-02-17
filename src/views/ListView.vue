@@ -37,11 +37,12 @@ useSubscription(
 const completion = computed(
   () =>
     listElements.value.filter((el) => el.done).length /
-    listElements.value.length
+    (listElements.value.length || 1)
 );
 
-const onOrderElements = async (v: ListElement[]) =>
+const onOrderElements = async (v: ListElement[]) => {
   await listElementService.sortChildren("", v);
+};
 </script>
 
 <template>
@@ -58,14 +59,12 @@ const onOrderElements = async (v: ListElement[]) =>
       <ClearChecked :list="list" />
     </PageActions>
 
-    <ListCompletionCard
-      class="q-my-md"
-      :completion="completion"
-    ></ListCompletionCard>
+    <ListCompletionCard class="q-my-md" :completion="completion" />
 
     <ListElements
       :elements="listElements"
       :list-id="list.id"
+      @order="onOrderElements"
       class="q-mt-sm montserrat"
     />
   </div>
