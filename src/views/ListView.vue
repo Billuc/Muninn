@@ -16,6 +16,8 @@ import { ListElementService } from "@/data/services/listElementService";
 import { ListElement } from "@/data/models/List";
 import ListElements from "@/components/lists/ListElements.vue";
 import ListCompletionCard from "@/components/lists/ListCompletionCard.vue";
+import FavoriteToggle from "@/components/common/favorites/FavoriteToggle.vue";
+import { FavoriteType } from "@/data/models/Favorite";
 
 const listService = useService(ListService);
 const listElementService = useService(ListElementService);
@@ -53,6 +55,7 @@ const onOrderElements = async (v: ListElement[]) => {
     </Title>
 
     <PageActions>
+      <FavoriteToggle :id="listId" :type="FavoriteType.List" />
       <EditList :list="list" />
       <DeleteList :list="list" />
       <HideCheckedToggle :list="list" />

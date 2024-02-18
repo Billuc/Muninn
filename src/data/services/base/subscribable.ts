@@ -108,7 +108,7 @@ export default abstract class SubscribableService<T extends { id: ID }> {
       this._storeName,
       "readwrite",
       async (transaction) => {
-        const store = await transaction.getStore();
+        const store = transaction.getStore();
         await store.delete(id);
       }
     );

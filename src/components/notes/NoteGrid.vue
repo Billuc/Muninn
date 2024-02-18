@@ -2,7 +2,7 @@
 import { NoteAndTag } from "@/data/models/Note";
 import List from "@/components/common/List.vue";
 import { useRouter } from "vue-router";
-import TagChip from "@/components/common/tags/TagChip.vue";
+import NoteGridElement from "./NoteGridElement.vue";
 
 interface NoteGridProps {
   notes: NoteAndTag[];
@@ -21,9 +21,7 @@ const toNote = (v: { element: NoteAndTag }) =>
 <template>
   <List :elements="props.notes" @select="toNote" class="q-mt-sm">
     <template #element="{ element }">
-      <div>{{ element.title }}</div>
-      <QSpace />
-      <TagChip :tag="element.tag" dense v-if="element.tag" />
+      <NoteGridElement :note="element" />
     </template>
   </List>
 </template>

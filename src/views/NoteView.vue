@@ -15,6 +15,8 @@ import { NoteService } from "@/data/services/noteService";
 import { NoteTagService } from "@/data/services/noteTagService";
 import TagChip from "@/components/common/tags/TagChip.vue";
 import { Tag } from "@/data/models/Tag";
+import FavoriteToggle from "@/components/common/favorites/FavoriteToggle.vue";
+import { FavoriteType } from "@/data/models/Favorite";
 
 const noteService = useService(NoteService);
 const noteTagService = useService(NoteTagService);
@@ -61,6 +63,7 @@ watch([note], async () => {
     </Title>
 
     <PageActions>
+      <FavoriteToggle :id="noteId" :type="FavoriteType.Note" />
       <EditNote :note="note" />
       <DeleteNote :note="note" />
       <NoteModeToggle v-model:editing="editing" />
