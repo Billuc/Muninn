@@ -8,7 +8,7 @@ export default class MigrateJournalMigration extends Migration {
 
   async migrate(
     db: IDBPDatabase<unknown>,
-    transaction: IDBPTransaction<unknown, ArrayLike<string>, "versionchange">
+    _: IDBPTransaction<unknown, ArrayLike<string>, "versionchange">
   ): Promise<undefined> {
     if (db.objectStoreNames.contains("journal")) return;
 

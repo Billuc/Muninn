@@ -86,14 +86,14 @@ export default class MigrateListsMigration extends Migration {
       }
     > = listsState.lists;
 
-    for (const [listId, list] of lists) {
+    for (const [_, list] of lists) {
       await listStore.add({
         id: list.id,
         title: list.title,
         hideChecked: list.hideChecked,
       });
 
-      for (const [elId, element] of list.elements) {
+      for (const [_, element] of list.elements) {
         await elementStore.add({
           id: element.id,
           title: element.title,

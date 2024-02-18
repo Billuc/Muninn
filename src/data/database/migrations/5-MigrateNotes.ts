@@ -28,12 +28,7 @@ export default class MigrateNotesMigration extends Migration {
   getOrCreateNoteTagStore(
     db: IDBPDatabase<unknown>,
     transaction: IDBPTransaction<unknown, ArrayLike<string>, "versionchange">
-  ): IDBPObjectStore<
-    unknown,
-    ArrayLike<string>,
-    "note-tags",
-    "versionchange"
-  > {
+  ): IDBPObjectStore<unknown, ArrayLike<string>, "note-tags", "versionchange"> {
     if (db.objectStoreNames.contains("note-tags"))
       return transaction.objectStore("note-tags");
 
@@ -81,7 +76,7 @@ export default class MigrateNotesMigration extends Migration {
       }
     > = noteState.tags;
 
-    for (const [noteId, note] of notes) {
+    for (const [_, note] of notes) {
       await noteStore.add({
         id: note.id,
         text: note.text,
@@ -90,7 +85,7 @@ export default class MigrateNotesMigration extends Migration {
       });
     }
 
-    for (const [tagId, tag] of tags) {
+    for (const [_, tag] of tags) {
       await noteTagStore.add({
         id: tag.id,
         title: tag.title,

@@ -11,7 +11,7 @@ export default class ListIdAndParentIdMigration extends Migration {
   name: string = "ListIdAndParentId";
 
   async migrate(
-    db: IDBPDatabase<unknown>,
+    _: IDBPDatabase<unknown>,
     transaction: IDBPTransaction<unknown, ArrayLike<string>, "versionchange">
   ): Promise<undefined> {
     const store = transaction.objectStore("list-elements");

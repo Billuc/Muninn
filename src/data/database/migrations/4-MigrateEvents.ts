@@ -1,7 +1,8 @@
 import type { IDBPDatabase, IDBPObjectStore, IDBPTransaction } from "idb";
+import { parse } from "date-fns";
+
 import Migration from "../migration";
 import { deserializeWithMaps } from "./serializer";
-import { parse } from "date-fns";
 
 export default class MigrateEventsMigration extends Migration {
   version: number = 4;
@@ -86,20 +87,22 @@ export default class MigrateEventsMigration extends Migration {
       }
     > = eventState.tags;
 
-    for (const [eventId, event] of events) {
+    for (const [_, event] of events) {
       await eventStore.add({
         id: event.id,
         description: event.description,
         title: event.title,
         start: parse(event.start, "yyyy-MM-dd HH:mm", new Date()),
-        end: event.end ? parse(event.end, "yyyy-MM-dd HH:mm", new Date()) : undefined,
+        end: event.end
+          ? parse(event.end, "yyyy-MM-dd HH:mm", new Date())
+          : undefined,
         frequency: event.frequency,
         frequencyMultiplier: event.frequencyMultiplier,
         tagId: event.tagId,
       });
     }
 
-    for (const [tagId, tag] of tags) {
+    for (const [_, tag] of tags) {
       await eventTagStore.add({
         id: tag.id,
         title: tag.title,
