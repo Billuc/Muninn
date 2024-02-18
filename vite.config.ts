@@ -12,7 +12,38 @@ export default defineConfig({
   plugins: [
     vue({ template: { transformAssetUrls } }),
     typescript(),
-    VitePWA({ registerType: "autoUpdate" }),
+    VitePWA({
+      registerType: "prompt",
+      devOptions: { enabled: true },
+      manifest: {
+        name: "Muninn",
+        short_name: "Muninn",
+        description: "Empty your brain, Muninn will remember it for you !",
+        theme_color: "#e8e8e8",
+        icons: [
+          {
+            src: "pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+          {
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any maskable",
+          },
+        ],
+      },
+      workbox: {
+        navigateFallback: "/",
+        globPatterns: ["**/*.{js,css,html,png,svg,ico,tff}"],
+      },
+    }),
     quasar({
       autoImportComponentCase: "pascal",
       sassVariables: "src/assets/quasar-variables.sass",

@@ -77,3 +77,11 @@ body::after {
 .montserrat {
   font-family: 'Montserrat';
 }
+
+.text-primary-text {
+  color: var(--q-primary-text) !important;
+}
+
+.text-secondary-text {
+  color: var(--q-secondary-text) !important;
+}

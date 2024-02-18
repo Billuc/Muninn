@@ -35,7 +35,6 @@ const completion = computed(
     :model-value="completion"
     size="xs"
     color="primary"
-    track-color="secondary"
     :thickness="0.4"
   />
 </template>

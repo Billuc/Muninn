@@ -64,9 +64,9 @@ watch([note], async () => {
 
     <PageActions>
       <FavoriteToggle :id="noteId" :type="FavoriteType.Note" />
+      <NoteModeToggle v-model:editing="editing" />
       <EditNote :note="note" />
       <DeleteNote :note="note" />
-      <NoteModeToggle v-model:editing="editing" />
     </PageActions>
 
     <NoteEditor v-model="noteText" :readonly="!editing" class="q-mt-md" />
