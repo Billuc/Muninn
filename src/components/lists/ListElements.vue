@@ -31,8 +31,9 @@ onMounted(() => {
     handle: ".handle",
     onEnd: (ev: SortableEvent) => {
       const newElements = _.cloneDeep(props.elements);
-      newElements.splice(ev.oldIndex!, 1);
-      newElements.splice(ev.newIndex!, 0, props.elements[ev.oldIndex!]);
+      const removed = newElements.splice(ev.oldIndex!, 1);
+      newElements.splice(ev.newIndex!, 0, ...removed);
+      console.log(newElements);
       emit("order", newElements);
     },
   });
