@@ -1,4 +1,6 @@
 import type { IDBPDatabase, IDBPTransaction } from "idb";
+import { v4 } from "uuid";
+
 import Migration from "../migration";
 import { deserializeWithMaps } from "./serializer";
 
@@ -36,11 +38,22 @@ export default class MigrateJournalMigration extends Migration {
 
     for (const dateEntries of journalEntries) {
       for (const entry of dateEntries[1]) {
-        const journalEntry = {
-          id: entry[1].id,
-          date: entry[1].date,
-          text: entry[1].text,
-        };
+        let journalEntry;
+
+        if (typeof entry === "string") {
+          journalEntry = {
+            id: v4(),
+            date: dateEntries[0],
+            text: entry,
+          };
+        } else {
+          journalEntry = {
+            id: entry[1].id,
+            date: entry[1].date,
+            text: entry[1].text,
+          };
+        }
+
         await journalStore.add(journalEntry);
       }
     }

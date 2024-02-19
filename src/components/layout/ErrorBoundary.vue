@@ -2,7 +2,7 @@
 import { onErrorCaptured, ref } from "vue";
 import ErrorBanner from "./ErrorBanner.vue";
 
-const error = ref<Error | null>(new Error("je suis une erreur"));
+const error = ref<Error | null>(null);
 
 onErrorCaptured((err) => {
   error.value = err;
