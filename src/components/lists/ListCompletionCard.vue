@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
+import crow_flapping from "@/assets/crow_flapping.png";
+import crow_flapped from "@/assets/crow_flapped.png";
+import nest from "@/assets/nest.png";
 
 interface ListCompletionCardProps {
   completion: number;
@@ -33,18 +36,18 @@ watchEffect(() => animate(props.completion));
     ></div>
     <div class="completion-crow">
       <img
-        src="/src/assets/crow_flapping.png"
+        :src="crow_flapping"
         alt="Crow"
         :class="{ visible: Math.floor(displayedCompletion * 10) % 2 == 0 }"
       />
       <img
-        src="/src/assets/crow_flapped.png"
+        :src="crow_flapped"
         alt="Crow"
         :class="{ visible: Math.floor(displayedCompletion * 10) % 2 == 1 }"
       />
     </div>
     <QSpace />
-    <img src="/src/assets/nest.png" alt="Bird nest" class="completion-nest" />
+    <img :src="nest" alt="Bird nest" class="completion-nest" />
   </div>
 </template>
 
