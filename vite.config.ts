@@ -40,7 +40,6 @@ export default defineConfig({
         ],
       },
       workbox: {
-        navigateFallback: "/",
         globPatterns: ["**/*.{js,css,html,png,svg,ico,tff}"],
       },
     }),

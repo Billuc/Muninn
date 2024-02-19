@@ -18,6 +18,7 @@ import Transaction from "./transaction";
 
 import type { IDBPDatabase } from "idb";
 import type UpgradeDatabase from "./upgradeDatabase";
+
 export default class Database {
   private readonly DB_NAME = "muninn-db";
   private readonly MIGRATIONS: Migration[] = [
