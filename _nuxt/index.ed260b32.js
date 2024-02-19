@@ -1,1 +1,0 @@
-import{r as n,t as i,a as u,s}from"./index.224b8d39.js";function D(e,r){n(2,arguments);var a=i(e),t=u(r);return isNaN(t)?new Date(NaN):(t&&a.setDate(a.getDate()+t),a)}function g(e,r){n(2,arguments);var a=s(e),t=s(r);return a.getTime()===t.getTime()}export{D as a,g as i};
