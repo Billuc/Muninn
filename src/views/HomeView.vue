@@ -6,6 +6,6 @@ import HomeTitle from "@/components/home/HomeTitle.vue";
 
 <template>
   <HomeTitle />
-  <div class="q-pt-md"><HomeEventCard /></div>
   <div class="q-pt-md"><HomeFavoritesCard /></div>
+  <div class="q-pt-md"><HomeEventCard /></div>
 </template>

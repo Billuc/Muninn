@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Title from "@/components/common/Title.vue";
+import ConfigFooter from "@/components/config/ConfigFooter.vue";
 import ThemeCard from "@/components/config/ThemeCard.vue";
 </script>
 
@@ -10,5 +11,7 @@ import ThemeCard from "@/components/config/ThemeCard.vue";
     </Title>
 
     <ThemeCard />
+
+    <ConfigFooter class="q-mt-md" />
   </div>
 </template>

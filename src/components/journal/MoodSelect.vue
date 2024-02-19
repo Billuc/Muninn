@@ -5,6 +5,7 @@ import { JournalMood } from "@/data/models/Journal";
 import { useService } from "@/composables/useService";
 import { JournalMoodService } from "@/data/services/journalMoodService";
 import { computed } from "vue";
+import Card from "../common/Card.vue";
 
 interface MoodSelectProps {
   mood: JournalMood | null;
@@ -26,19 +27,16 @@ const onSelect = async (v: number) => {
 </script>
 
 <template>
-  <QCard flat>
-    <QCardSection>
-      <div class="text-center">Your mood today</div>
-      <div class="row justify-between">
-        <MoodEmoji
-          v-for="i in 5"
-          :key="i"
-          :value="i"
-          :color="MOOD_COLORS[i]"
-          :active="moodValue == i"
-          @select="() => onSelect(i)"
-        />
-      </div>
-    </QCardSection>
-  </QCard>
+  <Card title="Your mood today" class="bg-secondary">
+    <div class="row justify-between">
+      <MoodEmoji
+        v-for="i in 5"
+        :key="i"
+        :value="i"
+        :color="MOOD_COLORS[i]"
+        :active="moodValue == i"
+        @select="() => onSelect(i)"
+      />
+    </div>
+  </Card>
 </template>

@@ -12,6 +12,7 @@ interface SelectProps {
   options: SelectItem[];
   standout?: boolean;
   bgColor?: string;
+  color?: string;
 }
 
 const props = defineProps<SelectProps>();
@@ -35,6 +36,7 @@ const onUpdate = (v: SelectItem | null) => emit("update:model-value", v?.value);
     :options="props.options"
     @update:model-value="onUpdate"
     :bg-color="props.bgColor"
+    :color="props.color"
   >
     <template #option="{ index, itemProps, opt, selected }">
       <QItem v-bind="itemProps">
@@ -52,3 +54,9 @@ const onUpdate = (v: SelectItem | null) => emit("update:model-value", v?.value);
     </template>
   </QSelect>
 </template>
+
+<style>
+.q-field__native {
+  color: inherit;
+}
+</style>

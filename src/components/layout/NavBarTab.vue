@@ -23,7 +23,7 @@ const props = defineProps<NavBarTabProps>();
 
 <style>
 .navbar-tab.q-tab {
-  color: var(--q-list-neutral);
+  color: var(--q-secondary-text);
 }
 
 .navbar-tab.q-tab .q-tab__label {

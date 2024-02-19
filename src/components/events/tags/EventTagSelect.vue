@@ -36,7 +36,8 @@ const onUpdate = (v: ID) => emit("update:model-value", v);
       montserrat: props.filterSelect,
     }"
     :hide-dropdown-icon="!!props.filterSelect"
-    :bg-color="props.filterSelect ? 'list-neutral' : undefined"
+    :bg-color="props.filterSelect ? 'secondary' : undefined"
+    :color="$props.filterSelect ? 'secondary-text' : undefined"
   ></TagSelect>
 </template>
 
