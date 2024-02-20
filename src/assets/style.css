@@ -5,6 +5,7 @@ body,
   height: 100%;
 
   font-family: "Bodoni";
+  overflow-x: hidden;
 }
 
 @font-face {
