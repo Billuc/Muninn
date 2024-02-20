@@ -89,8 +89,10 @@ export default class MigrateListsMigration extends Migration {
     > = listsState.lists;
 
     for (const [_, list] of lists) {
+      const listId = Number.isNaN(Number(list.id)) ? list.id : v4();
+
       await listStore.add({
-        id: Number.isNaN(Number(list.id)) ? list.id : v4(),
+        id: listId,
         title: list.title,
         hideChecked: list.hideChecked ?? false,
       });
@@ -102,7 +104,7 @@ export default class MigrateListsMigration extends Migration {
           done: element.done,
           index: element.index,
           parentId: element.parentId,
-          listId: list.id,
+          listId: listId,
         });
       }
     }

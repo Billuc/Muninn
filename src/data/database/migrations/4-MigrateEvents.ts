@@ -97,7 +97,7 @@ export default class MigrateEventsMigration extends Migration {
           ? parse(event.end, "yyyy-MM-dd HH:mm", new Date())
           : undefined,
         frequency: event.frequency,
-        frequencyMultiplier: event.frequencyMultiplier,
+        frequencyMultiplier: event.frequencyMultiplier || 1,
         tagId: event.tagId,
       });
     }

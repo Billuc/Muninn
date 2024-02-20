@@ -4,6 +4,8 @@ import ErrorBanner from "./ErrorBanner.vue";
 
 const error = ref<Error | null>(null);
 
+const onDismiss = () => (error.value = null);
+
 onErrorCaptured((err) => {
   error.value = err;
 });
@@ -13,6 +15,6 @@ onErrorCaptured((err) => {
   <div>
     <slot></slot>
 
-    <ErrorBanner :error="error" v-if="error" />
+    <ErrorBanner :error="error" v-if="error" @dismiss="onDismiss" />
   </div>
 </template>
