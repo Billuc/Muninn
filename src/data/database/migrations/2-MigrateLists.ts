@@ -1,4 +1,6 @@
 import type { IDBPDatabase, IDBPObjectStore, IDBPTransaction } from "idb";
+import { v4 } from "uuid";
+
 import Migration from "../migration";
 import { deserializeWithMaps } from "./serializer";
 
@@ -88,14 +90,14 @@ export default class MigrateListsMigration extends Migration {
 
     for (const [_, list] of lists) {
       await listStore.add({
-        id: list.id,
+        id: Number.isNaN(Number(list.id)) ? list.id : v4(),
         title: list.title,
-        hideChecked: list.hideChecked,
+        hideChecked: list.hideChecked ?? false,
       });
 
       for (const [_, element] of list.elements) {
         await elementStore.add({
-          id: element.id,
+          id: Number.isNaN(Number(element.id)) ? element.id : v4(),
           title: element.title,
           done: element.done,
           index: element.index,
