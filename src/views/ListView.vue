@@ -67,6 +67,7 @@ const onOrderElements = async (v: ListElement[]) => {
     <ListElements
       :elements="listElements"
       :list-id="list.id"
+      :hide-checked="list.hideChecked"
       @order="onOrderElements"
       class="q-mt-sm montserrat"
     />

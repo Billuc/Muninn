@@ -11,6 +11,7 @@ import { computed, onMounted, ref } from "vue";
 interface ListElementsProps {
   listId: ID;
   elements: ListElement[];
+  hideChecked: boolean;
 }
 
 const props = defineProps<ListElementsProps>();
@@ -24,6 +25,11 @@ const sortedElements = computed(() =>
     .sortBy((el) => el.index)
     .value()
 );
+
+const elementFilter = (element: ListElement): boolean => {
+  if (!props.hideChecked) return true;
+  else return !element.done;
+};
 
 onMounted(() => {
   Sortable.create(list.value!.$el, {
@@ -41,7 +47,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <List :elements="sortedElements" ref="list">
+    <List :elements="sortedElements" :filter="elementFilter" ref="list">
       <template #element="{ element }">
         <ListElementVue :element="element" />
       </template>
