@@ -28,10 +28,3 @@ watchEffect(() => {
     <slot></slot>
   </div>
 </template>
-
-<style>
-body {
-  background-color: var(--q-background);
-  color: var(--q-background-text);
-}
-</style>

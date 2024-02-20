@@ -43,5 +43,6 @@ const handleSwipe = (ev: any) => {
   margin: auto;
   position: relative;
   height: 100%;
+  padding-bottom: 64px;
 }
 </style>
