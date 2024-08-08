@@ -1,17 +1,15 @@
-import { container } from "tsyringe";
-import { Plugin } from "vue";
+import { container } from 'tsyringe';
+import { Plugin } from 'vue';
 
-import Database from "@/data/database/database";
-import { EventService } from "@/data/services/eventService";
-import { EventTagService } from "@/data/services/eventTagService";
-import { FavoriteService } from "@/data/services/favoriteService";
-import { JournalMoodService } from "@/data/services/journalMoodService";
-import { JournalService } from "@/data/services/journalService";
-import { ListElementService } from "@/data/services/listElementService";
-import { ListService } from "@/data/services/listService";
-import { NoteService } from "@/data/services/noteService";
-import { NoteTagService } from "@/data/services/noteTagService";
-import { ThemeService } from "@/data/services/themeService";
+import Database from '@/data/database/database';
+import { FavoriteService } from '@/data/services/favoriteService';
+import { JournalMoodService } from '@/data/services/journalMoodService';
+import { JournalService } from '@/data/services/journalService';
+import { ListElementService } from '@/data/services/listElementService';
+import { ListService } from '@/data/services/listService';
+import { NoteService } from '@/data/services/noteService';
+import { NoteTagService } from '@/data/services/noteTagService';
+import { ThemeService } from '@/data/services/themeService';
 
 const containerPlugin: Plugin = (app) => {
   const myContainer = container.createChildContainer();
@@ -20,8 +18,6 @@ const containerPlugin: Plugin = (app) => {
   myContainer.registerSingleton(JournalService);
   myContainer.registerSingleton(ListService);
   myContainer.registerSingleton(ListElementService);
-  myContainer.registerSingleton(EventService);
-  myContainer.registerSingleton(EventTagService);
   myContainer.registerSingleton(NoteService);
   myContainer.registerSingleton(NoteTagService);
   myContainer.registerSingleton(JournalMoodService);
