@@ -1,9 +1,9 @@
-import { Subject } from "rxjs/internal/Subject";
-import { Subscription } from "rxjs/internal/Subscription";
+import { Subject } from 'rxjs/internal/Subject';
+import { Subscription } from 'rxjs/internal/Subscription';
 
-import Database from "@/data/database/database";
+import Database from '@/data/database/database';
 
-import ServiceSubscriber from "./subscriber";
+import ServiceSubscriber from './subscriber';
 
 import type { ID } from "@/data/models/ID";
 import type ServiceAction from "./serviceAction";
@@ -28,6 +28,10 @@ export default abstract class SubscribableService<T extends { id: ID }> {
   ): Subscription {
     const subscriber = new ServiceSubscriber<T>(value, filter);
     return this._subject.subscribe(subscriber);
+  }
+
+  subscribeEvents(callback: (action: ServiceAction<T>) => void | undefined) {
+    return this._subject.subscribe(callback);
   }
 
   private _notify(action: ServiceAction<T>) {

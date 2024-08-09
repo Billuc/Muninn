@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import PageAction from "@/components/common/PageAction.vue";
 import { useService } from "@/composables/useService";
 import { List } from "@/data/models/List";
 import { ListService } from "@/data/services/listService";
 import { computed, toRefs } from "vue";
+import CardActionBase from "../boards/CardActionBase.vue";
 
 interface HideCheckedToggleProps {
   list: List;
@@ -29,9 +29,9 @@ const toggleHideChecked = async () => {
 </script>
 
 <template>
-  <PageAction
+  <CardActionBase
     :icon="icon"
-    :label="label"
+    :tooltip="label"
     @click="toggleHideChecked"
     color="secondary"
   />

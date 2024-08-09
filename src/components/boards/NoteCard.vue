@@ -14,6 +14,7 @@ interface NoteCardProps {
 const noteService = useService(NoteService);
 
 const props = defineProps<NoteCardProps>();
+const emit = defineEmits(["up", "down"]);
 
 const noteCardData = await noteService.get(props.id);
 const noteCard = ref<any>(noteCardData);
@@ -35,7 +36,7 @@ const onTextChange = async (newText: string) => {
 </script>
 
 <template>
-  <CardBase>
+  <CardBase @up="() => emit('up')" @down="() => emit('down')">
     <TextEditor
       class="text-h6 text-weight-bold"
       :model-value="noteCard.title"

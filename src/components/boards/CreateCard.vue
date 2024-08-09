@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import FormDialog from "@/components/common/FormDialog.vue";
-import PageAction from "@/components/common/PageAction.vue";
 import { ref } from "vue";
 import { useService } from "@/composables/useService";
-import { ID } from "@/data/models/ID";
 import { BoardService } from "@/data/services/boardService";
-import BoardForm from "./BoardForm.vue";
 import { NoteService } from "@/data/services/noteService";
 import { ListService } from "@/data/services/listService";
 import { Board, CardType } from "@/data/models/Board";
@@ -62,7 +59,6 @@ const createCard = async () => {
       icon="mdi-plus"
       color="primary"
       class="absolute card-add"
-      size="sm"
       round
       @click="dialogOpened = true"
     />

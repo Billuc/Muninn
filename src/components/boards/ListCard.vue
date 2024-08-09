@@ -9,6 +9,9 @@ import TextEditor from "./TextEditor.vue";
 import ListElements from "../lists/ListElements.vue";
 import { ListElementService } from "@/data/services/listElementService";
 import { ListElement } from "@/data/models/List";
+import HideCheckedToggle from "../lists/HideCheckedToggle.vue";
+import DeleteList from "../lists/DeleteList.vue";
+import ClearChecked from "../lists/ClearChecked.vue";
 
 interface ListCardProps {
   id: ID;
@@ -18,6 +21,7 @@ const listService = useService(ListService);
 const listElementService = useService(ListElementService);
 
 const props = defineProps<ListCardProps>();
+const emit = defineEmits(["up", "down"]);
 
 const listCardData = await listService.get(props.id);
 const listCard = ref(listCardData);
@@ -44,7 +48,7 @@ const onOrderElements = async (v: ListElement[]) => {
 </script>
 
 <template>
-  <CardBase>
+  <CardBase @up="() => emit('up')" @down="() => emit('down')" v-if="listCard">
     <TextEditor
       class="text-h6 text-weight-bold"
       :model-value="listCard.title"
@@ -55,9 +59,15 @@ const onOrderElements = async (v: ListElement[]) => {
     <ListElements
       :elements="listElements"
       :list-id="props.id"
-      :hide-checked="false"
+      :hide-checked="listCard.hideChecked"
       @order="onOrderElements"
       class="montserrat"
     />
+
+    <template #actions>
+      <HideCheckedToggle :list="listCard" />
+      <ClearChecked :list="listCard" />
+      <DeleteList :list="listCard" />
+    </template>
   </CardBase>
 </template>
