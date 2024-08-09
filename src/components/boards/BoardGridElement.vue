@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { Board } from "@/data/models/Board";
+import type { BoardAndTag } from "@/data/models/Board";
+import TagChip from "../common/tags/TagChip.vue";
 
 interface BoardGridElementProps {
-  board: Board;
+  board: BoardAndTag;
 }
 
 const props = defineProps<BoardGridElementProps>();
@@ -11,5 +12,5 @@ const props = defineProps<BoardGridElementProps>();
 <template>
   <div>{{ props.board.title }}</div>
   <QSpace />
-  <!-- <TagChip :tag="props.note.tag" dense v-if="props.note.tag" /> -->
+  <TagChip :tag="props.board.tag" dense v-if="props.board.tag" />
 </template>

@@ -12,7 +12,7 @@ const props = defineProps<CardsDisplayProps>();
 </script>
 
 <template>
-  <div class="cards-display q-my-md">
+  <div class="cards-display content-display q-my-md">
     <template v-for="(c, i) of props.board.cards" :key="i">
       <ListCard v-if="c.type == CardType.List" :id="c.id" />
       <NoteCard v-if="c.type == CardType.Note" :id="c.id" />
@@ -24,8 +24,6 @@ const props = defineProps<CardsDisplayProps>();
 
 <style>
 .cards-display {
-  width: 66%;
-  margin-inline: auto;
   display: flex;
   flex-flow: column nowrap;
   gap: 1rem;

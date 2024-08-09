@@ -15,9 +15,11 @@ import { FavoriteType } from "@/data/models/Favorite";
 import EditBoard from "@/components/boards/EditBoard.vue";
 import DeleteBoard from "@/components/boards/DeleteBoard.vue";
 import FavoriteToggle from "@/components/common/favorites/FavoriteToggle.vue";
+import { BoardTagService } from "@/data/services/boardTagService";
 
 const boardService = useService(BoardService);
-// const noteTagService = useService(NoteTagService);
+const boardTagService = useService(BoardTagService);
+
 const route = useRoute();
 const boardId = getOneParam(route.params.id);
 
@@ -25,30 +27,18 @@ const boardData = await boardService.get(boardId);
 const board = ref(boardData);
 useSubscription(boardService, board);
 
-// board.value = {
-//   id: "1",
-//   tagId: "",
-//   title: "test",
-//   cards: [
-//     { id: "5", type: CardType.List },
-//     { id: "6", type: CardType.Note },
-//   ],
-// };
+const tagData = await boardTagService.get(board.value.tagId);
+const boardTag = ref<Tag | null>(tagData);
 
-// const tagData = await noteTagService.get(board.value.tagId);
-// const noteTag = ref<Tag | null>(tagData);
+watch([board], async () => {
+  if (!board.value.tagId) {
+    boardTag.value = null;
+    return;
+  }
+  if (board.value.tagId == boardTag.value?.id) return;
 
-// const noteText = ref(board.value.text);
-
-// watch([board], async () => {
-//   if (!board.value.tagId) {
-//     noteTag.value = null;
-//     return;
-//   }
-//   if (board.value.tagId == noteTag.value?.id) return;
-
-//   noteTag.value = await noteTagService.get(board.value.tagId);
-// });
+  boardTag.value = await boardTagService.get(board.value.tagId);
+});
 </script>
 
 <template>
@@ -57,7 +47,7 @@ useSubscription(boardService, board);
       <template #prefix><BackButton name="boards" /></template>
       <template #text>{{ board.title }}</template>
       <template #suffix>
-        <!-- <TagChip :tag="noteTag" no-text v-if="noteTag" /> -->
+        <TagChip :tag="boardTag" no-text v-if="boardTag" />
       </template>
     </Title>
 

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import List from "@/components/common/List.vue";
 import { useRouter } from "vue-router";
-import type { Board } from "@/data/models/Board";
+import type { Board, BoardAndTag } from "@/data/models/Board";
 import BoardGridElement from "./BoardGridElement.vue";
 
 interface BoardGridProps {
-  boards: Board[];
+  boards: BoardAndTag[];
 }
 
 const props = defineProps<BoardGridProps>();
@@ -19,7 +19,11 @@ const toBoard = (v: { element: Board }) =>
 </script>
 
 <template>
-  <List :elements="props.boards" @select="toBoard" class="q-mt-sm">
+  <List
+    :elements="props.boards"
+    @select="toBoard"
+    class="q-mt-sm content-display"
+  >
     <template #element="{ element }">
       <BoardGridElement :board="element" />
     </template>
