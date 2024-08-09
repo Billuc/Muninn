@@ -25,5 +25,6 @@ function onTextChange(ev: any) {
 div[contenteditable="true"]:empty:not(:focus):before {
   opacity: 0.5;
   content: attr(data-placeholder);
+  pointer-events: none;
 }
 </style>

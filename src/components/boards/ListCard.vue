@@ -8,6 +8,7 @@ import CardBase from "./CardBase.vue";
 import TextEditor from "./TextEditor.vue";
 import ListElements from "../lists/ListElements.vue";
 import { ListElementService } from "@/data/services/listElementService";
+import { ListElement } from "@/data/models/List";
 
 interface ListCardProps {
   id: ID;
@@ -30,9 +31,16 @@ useSubscription(
   (v) => v.listId == props.id && v.parentId == ""
 );
 
-function onTitleChange(newTitle: string) {
-  console.log(newTitle);
-}
+const onTitleChange = async (newTitle: string) => {
+  await listService.update({
+    ...listCard.value,
+    title: newTitle,
+  });
+};
+
+const onOrderElements = async (v: ListElement[]) => {
+  await listElementService.sortChildren("", v);
+};
 </script>
 
 <template>
@@ -48,6 +56,8 @@ function onTitleChange(newTitle: string) {
       :elements="listElements"
       :list-id="props.id"
       :hide-checked="false"
+      @order="onOrderElements"
+      class="montserrat"
     />
   </CardBase>
 </template>

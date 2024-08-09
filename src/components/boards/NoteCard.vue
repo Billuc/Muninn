@@ -18,6 +18,20 @@ const props = defineProps<NoteCardProps>();
 const noteCardData = await noteService.get(props.id);
 const noteCard = ref<any>(noteCardData);
 useSubscription(noteService, noteCard);
+
+const onTitleChange = async (newTitle: string) => {
+  await noteService.update({
+    ...noteCard.value,
+    title: newTitle,
+  });
+};
+
+const onTextChange = async (newText: string) => {
+  await noteService.update({
+    ...noteCard.value,
+    text: newText,
+  });
+};
 </script>
 
 <template>
@@ -26,7 +40,13 @@ useSubscription(noteService, noteCard);
       class="text-h6 text-weight-bold"
       :model-value="noteCard.title"
       placeholder="Title"
+      @update:model-value="onTitleChange"
     />
-    <TextEditor :model-value="noteCard.text" placeholder="Paragraph" />
+    <TextEditor
+      :model-value="noteCard.text"
+      placeholder="Paragraph"
+      class="montserrat"
+      @update:model-value="onTextChange"
+    />
   </CardBase>
 </template>
