@@ -8,8 +8,6 @@ import _ from "lodash";
 import { FavoriteService } from "@/data/services/favoriteService";
 import { useRouter } from "vue-router";
 import { Favorite, FavoriteType } from "@/data/models/Favorite";
-import HomeListGridElement from "./HomeListGridElement.vue";
-import HomeNoteGridElement from "./HomeNoteGridElement.vue";
 import HomeBoardGridElement from "./HomeBoardGridElement.vue";
 
 const favoriteService = useService(FavoriteService);
@@ -21,12 +19,6 @@ useSubscription(favoriteService, favorites);
 
 const onSelect = (args: { element: Favorite; index: number }) => {
   switch (args.element.type) {
-    case FavoriteType.List:
-      router.push({ name: "list", params: { id: args.element.id } });
-      break;
-    case FavoriteType.Note:
-      router.push({ name: "note", params: { id: args.element.id } });
-      break;
     case FavoriteType.Board:
       router.push({ name: "board", params: { id: args.element.id } });
       break;
@@ -40,17 +32,9 @@ const onSelect = (args: { element: Favorite; index: number }) => {
   <Card title="Favorites">
     <ListVue :elements="favorites" @select="onSelect">
       <template #element="{ element }">
-        <HomeListGridElement
-          :id="element.id"
-          v-if="element.type === FavoriteType.List"
-        />
-        <HomeNoteGridElement
-          :id="element.id"
-          v-else-if="element.type === FavoriteType.Note"
-        />
         <HomeBoardGridElement
           :id="element.id"
-          v-else-if="element.type === FavoriteType.Board"
+          v-if="element.type === FavoriteType.Board"
         />
       </template>
     </ListVue>
