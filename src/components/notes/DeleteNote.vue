@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import FormDialog from "@/components/common/FormDialog.vue";
-import PageAction from "@/components/common/PageAction.vue";
 import { ref } from "vue";
 import { useService } from "@/composables/useService";
-import { useRouter } from "vue-router";
 import { Note } from "@/data/models/Note";
 import { NoteService } from "@/data/services/noteService";
+import CardActionBase from "../boards/CardActionBase.vue";
 
 interface DeleteNoteProps {
   note: Note;
@@ -15,7 +14,6 @@ const props = defineProps<DeleteNoteProps>();
 
 const dialogOpened = ref(false);
 const noteService = useService(NoteService);
-const router = useRouter();
 
 const removing = ref(false);
 
@@ -26,17 +24,16 @@ const deleteNote = async () => {
   setTimeout(() => {
     removing.value = false;
     dialogOpened.value = false;
-    router.push({ name: "notes" });
   }, 100);
 };
 </script>
 
 <template>
   <div>
-    <PageAction
+    <CardActionBase
       color="secondary"
       icon="mdi-delete"
-      label="Delete Note"
+      tooltip="Delete Note"
       @click="dialogOpened = true"
     />
 
@@ -46,8 +43,14 @@ const deleteNote = async () => {
       </template>
 
       <template #actions>
-        <QBtn :loading="removing" @click="dialogOpened = false">No</QBtn>
-        <QBtn type="submit" :loading="removing">Yes</QBtn>
+        <QBtn
+          :loading="removing"
+          @click="dialogOpened = false"
+          color="secondary"
+        >
+          No
+        </QBtn>
+        <QBtn type="submit" :loading="removing" color="primary">Yes</QBtn>
       </template>
     </FormDialog>
   </div>

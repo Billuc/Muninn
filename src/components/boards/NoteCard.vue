@@ -6,6 +6,7 @@ import { NoteService } from "@/data/services/noteService";
 import { ref } from "vue";
 import CardBase from "./CardBase.vue";
 import TextEditor from "./TextEditor.vue";
+import DeleteNote from "../notes/DeleteNote.vue";
 
 interface NoteCardProps {
   id: ID;
@@ -36,7 +37,7 @@ const onTextChange = async (newText: string) => {
 </script>
 
 <template>
-  <CardBase @up="() => emit('up')" @down="() => emit('down')">
+  <CardBase @up="() => emit('up')" @down="() => emit('down')" v-if="noteCard">
     <TextEditor
       class="text-h6 text-weight-bold"
       :model-value="noteCard.title"
@@ -49,5 +50,9 @@ const onTextChange = async (newText: string) => {
       class="montserrat"
       @update:model-value="onTextChange"
     />
+
+    <template #actions>
+      <DeleteNote :note="noteCard" />
+    </template>
   </CardBase>
 </template>
