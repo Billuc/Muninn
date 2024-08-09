@@ -10,8 +10,11 @@ import { getOneParam } from "@/utils/route";
 import TagChip from "@/components/common/tags/TagChip.vue";
 import { Tag } from "@/data/models/Tag";
 import { BoardService } from "@/data/services/boardService";
-import { CardType } from "@/data/models/Board";
 import CardsDisplay from "@/components/boards/CardsDisplay.vue";
+import { FavoriteType } from "@/data/models/Favorite";
+import EditBoard from "@/components/boards/EditBoard.vue";
+import DeleteBoard from "@/components/boards/DeleteBoard.vue";
+import FavoriteToggle from "@/components/common/favorites/FavoriteToggle.vue";
 
 const boardService = useService(BoardService);
 // const noteTagService = useService(NoteTagService);
@@ -22,15 +25,15 @@ const boardData = await boardService.get(boardId);
 const board = ref(boardData);
 useSubscription(boardService, board);
 
-board.value = {
-  id: "1",
-  tagId: "",
-  title: "test",
-  cards: [
-    { id: "5", type: CardType.List },
-    { id: "6", type: CardType.Note },
-  ],
-};
+// board.value = {
+//   id: "1",
+//   tagId: "",
+//   title: "test",
+//   cards: [
+//     { id: "5", type: CardType.List },
+//     { id: "6", type: CardType.Note },
+//   ],
+// };
 
 // const tagData = await noteTagService.get(board.value.tagId);
 // const noteTag = ref<Tag | null>(tagData);
@@ -58,7 +61,11 @@ board.value = {
       </template>
     </Title>
 
-    <PageActions> </PageActions>
+    <PageActions>
+      <FavoriteToggle :id="boardId" :type="FavoriteType.Board" />
+      <EditBoard :board="board" />
+      <DeleteBoard :board="board" />
+    </PageActions>
 
     <CardsDisplay :cards="board.cards" />
   </div>

@@ -10,6 +10,7 @@ import { useRouter } from "vue-router";
 import { Favorite, FavoriteType } from "@/data/models/Favorite";
 import HomeListGridElement from "./HomeListGridElement.vue";
 import HomeNoteGridElement from "./HomeNoteGridElement.vue";
+import HomeBoardGridElement from "./HomeBoardGridElement.vue";
 
 const favoriteService = useService(FavoriteService);
 const router = useRouter();
@@ -25,6 +26,9 @@ const onSelect = (args: { element: Favorite; index: number }) => {
       break;
     case FavoriteType.Note:
       router.push({ name: "note", params: { id: args.element.id } });
+      break;
+    case FavoriteType.Board:
+      router.push({ name: "board", params: { id: args.element.id } });
       break;
     default:
       throw new Error(`Incorrect favorite type : ${args.element.type}`);
@@ -43,6 +47,10 @@ const onSelect = (args: { element: Favorite; index: number }) => {
         <HomeNoteGridElement
           :id="element.id"
           v-else-if="element.type === FavoriteType.Note"
+        />
+        <HomeBoardGridElement
+          :id="element.id"
+          v-else-if="element.type === FavoriteType.Board"
         />
       </template>
     </ListVue>
