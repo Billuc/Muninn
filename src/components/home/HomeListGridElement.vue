@@ -19,5 +19,5 @@ useSubscription(listService, list);
 </script>
 
 <template>
-  <ListGridElement :list="list" />
+  <ListGridElement :list="list" v-if="list" />
 </template>

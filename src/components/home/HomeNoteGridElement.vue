@@ -41,5 +41,5 @@ watchEffect(async () => {
 </script>
 
 <template>
-  <NoteGridElement :note="noteAndTag" />
+  <NoteGridElement :note="noteAndTag" v-if="note" />
 </template>

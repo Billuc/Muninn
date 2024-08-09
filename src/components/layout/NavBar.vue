@@ -11,8 +11,6 @@ import icon from "@/assets/icon.svg";
 
       <QSpace />
 
-      <NavBarTab icon="mdi-list-box" to="/lists" label="Lists" />
-      <NavBarTab icon="mdi-feather" to="/notes" label="Notes" />
       <NavBarTab icon="mdi-developer-board" to="/boards" label="Boards" />
 
       <QSpace />

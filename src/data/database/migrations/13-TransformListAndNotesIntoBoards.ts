@@ -14,7 +14,8 @@ export default class TransformListAndNotesIntoBoardsMigration extends Migration 
     const boardsStore = transaction.objectStore("boards");
     const listsStore = transaction.objectStore("lists");
     const notesStore = transaction.objectStore("notes");
-    await this.migrateData(boardsStore, listsStore, notesStore);
+    const favoritesStore = transaction.objectStore("favorites");
+    await this.migrateData(boardsStore, listsStore, notesStore, favoritesStore);
   }
 
   async migrateData(
@@ -35,26 +36,43 @@ export default class TransformListAndNotesIntoBoardsMigration extends Migration 
       ArrayLike<string>,
       "notes",
       "versionchange"
+    >,
+    favoritesStore: IDBPObjectStore<
+      unknown,
+      ArrayLike<string>,
+      "favorites",
+      "versionchange"
     >
   ) {
     const lists = await listsStore.getAll();
     const notes = await notesStore.getAll();
+    const favoriteIds = await favoritesStore.getAllKeys();
 
     for (let list of lists) {
-      await boardsStore.add({
+      const boardId = await boardsStore.add({
         id: v4(),
         title: list.title,
         tagId: "",
         cards: [{ id: list.id, type: "list" }],
       });
+
+      if (favoriteIds.includes(list.id)) {
+        await favoritesStore.add({ id: boardId, type: "board" });
+        await favoritesStore.delete(list.id);
+      }
     }
     for (let note of notes) {
-      await boardsStore.add({
+      const boardId = await boardsStore.add({
         id: v4(),
         title: note.title,
         tagId: note.tagId,
         cards: [{ id: note.id, type: "note" }],
       });
+
+      if (favoriteIds.includes(note.id)) {
+        await favoritesStore.add({ id: boardId, type: "board" });
+        await favoritesStore.delete(note.id);
+      }
     }
   }
 }

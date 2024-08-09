@@ -42,5 +42,5 @@ useSubscription(boardService, board);
 </script>
 
 <template>
-  <BoardGridElement :board="board" />
+  <BoardGridElement :board="board" v-if="board" />
 </template>
