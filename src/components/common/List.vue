@@ -6,6 +6,7 @@ interface ListProps {
   key?: string;
   selectedIndex?: number;
   filter?: (el: any) => boolean;
+  noColor?: boolean;
 }
 
 const props = defineProps<ListProps>();
@@ -35,7 +36,7 @@ const onClick = (element: any, index: number) =>
     >
       <ListElement
         v-show="!props.filter || props.filter(element)"
-        :index="getIndex(element, i)"
+        :index="props.noColor ? 0 : getIndex(element, i)"
         :selected="i == props.selectedIndex"
         @click="() => onClick(element, i)"
       >

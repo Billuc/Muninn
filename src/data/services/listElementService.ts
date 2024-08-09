@@ -1,8 +1,9 @@
-import { injectable } from "tsyringe";
-import { v4 } from "uuid";
+import { injectable } from 'tsyringe';
+import { v4 } from 'uuid';
 
-import Database from "../database/database";
-import SubscribableService from "./base/subscribable";
+import Database from '../database/database';
+import SubscribableService from './base/subscribable';
+import { ListService } from './listService';
 
 import type {
   CreateListElement,
@@ -16,8 +17,14 @@ export class ListElementService extends SubscribableService<ListElement> {
   private readonly LIST_PARENT_INDEX = "listId_parentId";
   private readonly PARENT_INDEX = "parentId";
 
-  constructor(database: Database) {
+  constructor(database: Database, listService: ListService) {
     super(database, "list-elements");
+
+    listService.subscribeEvents((act) => {
+      if (act.action == "remove") {
+        this.removeAllChildren(act.id);
+      }
+    });
   }
 
   async get(id: ID): Promise<ListElement> {

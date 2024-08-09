@@ -6,6 +6,5 @@ export interface Favorite {
 }
 
 export enum FavoriteType {
-  List = "list",
-  Note = "note",
+  Board = "board",
 }

@@ -11,10 +11,7 @@ import icon from "@/assets/icon.svg";
 
       <QSpace />
 
-      <NavBarTab icon="mdi-notebook" to="/journal" label="Journal" />
-      <NavBarTab icon="mdi-list-box" to="/lists" label="Lists" />
-      <NavBarTab icon="mdi-calendar-today" to="/calendar" label="Calendar" />
-      <NavBarTab icon="mdi-feather" to="/notes" label="Notes" />
+      <NavBarTab icon="mdi-developer-board" to="/boards" label="Boards" />
 
       <QSpace />
 

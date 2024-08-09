@@ -18,7 +18,7 @@ export default defineConfig({
       manifest: {
         name: "Muninn",
         short_name: "Muninn",
-        description: "Empty your brain, Muninn will remember it for you !",
+        description: "Muninn will remember it for you !",
         theme_color: "#e8e8e8",
         icons: [
           {
