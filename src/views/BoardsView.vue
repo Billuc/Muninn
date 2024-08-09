@@ -7,6 +7,7 @@ import { ref } from "vue";
 import { BoardService } from "@/data/services/boardService";
 import BoardGrid from "@/components/boards/BoardGrid.vue";
 import CreateBoard from "@/components/boards/CreateBoard.vue";
+import ManageBoardTags from "@/components/boards/ManageBoardTags.vue";
 
 const boardService = useService(BoardService);
 // const noteTagService = useService(NoteTagService);
@@ -24,6 +25,7 @@ useSubscription(boardService, data);
 
     <PageActions>
       <CreateBoard />
+      <ManageBoardTags />
     </PageActions>
 
     <BoardGrid :boards="data" />

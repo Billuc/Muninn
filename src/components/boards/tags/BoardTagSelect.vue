@@ -6,19 +6,20 @@ import { ref } from "vue";
 import { useSubscription } from "@/composables/useSubscription";
 import { ID } from "@/data/models/ID";
 
-interface NoteTagSelectProps {
+interface BoardTagSelectProps {
   modelValue: ID;
   filterSelect?: boolean;
   label?: string;
 }
 
-const props = defineProps<NoteTagSelectProps>();
+const boardTagService = useService(BoardTagService);
+
+const props = defineProps<BoardTagSelectProps>();
 const emit = defineEmits(["update:model-value"]);
 
-const noteTagService = useService(BoardTagService);
-const data = await noteTagService.getAll();
-const noteTags = ref(data);
-useSubscription(noteTagService, noteTags);
+const data = await boardTagService.getAll();
+const boardTags = ref(data);
+useSubscription(boardTagService, boardTags);
 
 const onUpdate = (v: ID) => emit("update:model-value", v);
 </script>
@@ -26,7 +27,7 @@ const onUpdate = (v: ID) => emit("update:model-value", v);
 <template>
   <TagSelect
     :model-value="props.modelValue"
-    :tags="noteTags"
+    :tags="boardTags"
     @update:model-value="onUpdate"
     :label="props.filterSelect ? null : props.label"
     :standout="!!props.filterSelect"

@@ -4,11 +4,11 @@ import FormDialog from "@/components/common/FormDialog.vue";
 import PageAction from "@/components/common/PageAction.vue";
 import { ref } from "vue";
 import { useService } from "@/composables/useService";
-import { NoteTagService } from "@/data/services/noteTagService";
+import { BoardTagService } from "@/data/services/boardTagService";
 import { TagColor } from "@/data/models/Tag";
 
 const dialogOpened = ref(false);
-const noteTagService = useService(NoteTagService);
+const noteTagService = useService(BoardTagService);
 
 const name = ref("");
 const icon = ref<string[]>([]);

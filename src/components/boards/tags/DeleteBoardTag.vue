@@ -6,21 +6,21 @@ import { useService } from "@/composables/useService";
 import { BoardTagService } from "@/data/services/boardTagService";
 import { Tag } from "@/data/models/Tag";
 
-interface DeleteNoteTagProps {
+interface DeleteBoardTagProps {
   tag: Tag;
 }
 
-const props = defineProps<DeleteNoteTagProps>();
+const boardTagService = useService(BoardTagService);
+
+const props = defineProps<DeleteBoardTagProps>();
 const emit = defineEmits(["delete"]);
 
 const dialogOpened = ref(false);
-const noteTagService = useService(BoardTagService);
-
 const removing = ref(false);
 
-const deleteNoteTag = async () => {
+const deleteTag = async () => {
   removing.value = true;
-  await noteTagService.remove(props.tag.id);
+  await boardTagService.remove(props.tag.id);
 
   setTimeout(() => {
     removing.value = false;
@@ -36,13 +36,13 @@ const deleteNoteTag = async () => {
     <PageAction
       color="secondary"
       icon="mdi-delete"
-      label="Delete note tag"
+      label="Delete board tag"
       @click="dialogOpened = true"
     />
 
-    <FormDialog v-model="dialogOpened" @submit="deleteNoteTag">
+    <FormDialog v-model="dialogOpened" @submit="deleteTag">
       <template #title>
-        Are you sure you want to delete note tag {{ props.tag.title }}
+        Are you sure you want to delete board tag {{ props.tag.title }}
       </template>
 
       <template #actions>

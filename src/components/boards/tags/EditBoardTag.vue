@@ -11,21 +11,21 @@ interface EditNoteTagProps {
   tag: Tag | null;
 }
 
+const boardTagService = useService(BoardTagService);
+
 const props = defineProps<EditNoteTagProps>();
 
 const dialogOpened = ref(false);
-const noteTagService = useService(BoardTagService);
-
 const name = ref("");
 const icon = ref<string[]>([]);
 const color = ref(TagColor.red);
 const updating = ref(false);
 
-const editEventTag = async () => {
+const editTag = async () => {
   if (!props.tag) return;
 
   updating.value = true;
-  await noteTagService.update({
+  await boardTagService.update({
     ...props.tag,
     title: name.value,
     icon: [...icon.value],
@@ -52,11 +52,11 @@ watchEffect(() => {
     <PageAction
       color="secondary"
       icon="mdi-pen"
-      label="Edit note tag"
+      label="Edit board tag"
       @click="dialogOpened = true"
     />
 
-    <FormDialog v-model="dialogOpened" @submit="editEventTag">
+    <FormDialog v-model="dialogOpened" @submit="editTag">
       <template #title>Edit {{ props.tag?.title }}</template>
 
       <template #form>

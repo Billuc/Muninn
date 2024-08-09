@@ -4,7 +4,7 @@ import { useSubscription } from "@/composables/useSubscription";
 import { ID } from "@/data/models/ID";
 import { computed, ref, watchEffect } from "vue";
 import NoteGridElement from "../notes/NoteGridElement.vue";
-import { NoteTagService } from "@/data/services/noteTagService";
+import { BoardTagService } from "@/data/services/boardTagService";
 import { Tag } from "@/data/models/Tag";
 import { BoardService } from "@/data/services/boardService";
 import BoardGridElement from "../boards/BoardGridElement.vue";

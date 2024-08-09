@@ -2,6 +2,7 @@
 import Input from "@/components/common/Input.vue";
 import { required } from "@/utils/rules";
 import { ID } from "@/data/models/ID";
+import BoardTagSelect from "./tags/BoardTagSelect.vue";
 
 interface BoardFormProps {
   title: string;
@@ -23,10 +24,10 @@ const onUpdateTagId = (v: ID) => emit("update:tag-id", v);
       label="Board name"
       :rules="[required]"
     />
-    <!-- <NoteTagSelect
+    <BoardTagSelect
       :model-value="props.tagId"
       @update:model-value="onUpdateTagId"
       label="Board tag"
-    /> -->
+    />
   </div>
 </template>

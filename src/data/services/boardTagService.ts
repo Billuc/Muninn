@@ -1,12 +1,13 @@
+import { injectable } from "tsyringe";
 import { v4 } from "uuid";
+
 import Database from "../database/database";
+import SubscribableService from "./base/subscribable";
+
 import type { Tag, CreateTag } from "../models/Tag";
 import type { ID } from "../models/ID";
-import SubscribableService from "./base/subscribable";
-import { injectable } from "tsyringe";
-
 @injectable()
-export class NoteTagService extends SubscribableService<Tag> {
+export class BoardTagService extends SubscribableService<Tag> {
   constructor(database: Database) {
     super(database, "note-tags");
   }
@@ -26,7 +27,7 @@ export class NoteTagService extends SubscribableService<Tag> {
       id: v4(),
       title: create.title,
       color: create.color,
-      icon: create.icon
+      icon: create.icon,
     };
     const created = await this._create(tag);
     return created;
