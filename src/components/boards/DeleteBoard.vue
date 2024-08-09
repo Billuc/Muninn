@@ -62,8 +62,14 @@ const deleteBoard = async () => {
       </template>
 
       <template #actions>
-        <QBtn :loading="removing" @click="dialogOpened = false">No</QBtn>
-        <QBtn type="submit" :loading="removing">Yes</QBtn>
+        <QBtn
+          :loading="removing"
+          @click="dialogOpened = false"
+          color="secondary"
+        >
+          No
+        </QBtn>
+        <QBtn type="submit" :loading="removing" color="primary">Yes</QBtn>
       </template>
     </FormDialog>
   </div>

@@ -31,7 +31,7 @@ const tagData = await boardTagService.get(board.value.tagId);
 const boardTag = ref<Tag | null>(tagData);
 
 watch([board], async () => {
-  if (!board.value.tagId) {
+  if (!board.value?.tagId) {
     boardTag.value = null;
     return;
   }
@@ -42,7 +42,7 @@ watch([board], async () => {
 </script>
 
 <template>
-  <div>
+  <div v-if="board">
     <Title>
       <template #prefix><BackButton name="boards" /></template>
       <template #text>{{ board.title }}</template>
