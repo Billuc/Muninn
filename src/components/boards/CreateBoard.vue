@@ -14,7 +14,7 @@ const name = ref("");
 const tagId = ref<ID>("");
 const creating = ref(false);
 
-const createNote = async () => {
+const createBoard = async () => {
   creating.value = true;
   await boardService.create({
     title: name.value,
@@ -37,7 +37,7 @@ const createNote = async () => {
       @click="dialogOpened = true"
     />
 
-    <FormDialog v-model="dialogOpened" @submit="createNote">
+    <FormDialog v-model="dialogOpened" @submit="createBoard">
       <template #title>New Board</template>
 
       <template #form>

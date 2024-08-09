@@ -67,6 +67,6 @@ useSubscription(boardService, board);
       <DeleteBoard :board="board" />
     </PageActions>
 
-    <CardsDisplay :cards="board.cards" />
+    <CardsDisplay :board="board" />
   </div>
 </template>
