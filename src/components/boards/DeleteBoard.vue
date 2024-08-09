@@ -8,6 +8,7 @@ import { Board, CardType } from "@/data/models/Board";
 import { BoardService } from "@/data/services/boardService";
 import { NoteService } from "@/data/services/noteService";
 import { ListService } from "@/data/services/listService";
+import _ from "lodash";
 
 interface DeleteBoardProps {
   board: Board;
@@ -26,7 +27,11 @@ const removing = ref(false);
 const deleteBoard = async () => {
   removing.value = true;
 
-  for (let card of props.board.cards) {
+  const cardsToDelete = _.cloneDeep(props.board.cards);
+
+  await boardService.remove(props.board.id);
+
+  for (let card of cardsToDelete) {
     switch (card.type) {
       case CardType.List:
         await listService.remove(card.id);
@@ -36,8 +41,6 @@ const deleteBoard = async () => {
         break;
     }
   }
-
-  await boardService.remove(props.board.id);
 
   setTimeout(() => {
     removing.value = false;
