@@ -6,6 +6,7 @@ import Migration from "./migration";
 import MigrateJournalMigration from "./migrations/1-MigrateJournal";
 import SetTextColorsMigration from "./migrations/10-SetTextColors";
 import CreateFavoriteMigration from "./migrations/11-CreateFavorite";
+import CreateBoardsStoreMigration from "./migrations/12-CreateBoardsStore";
 import MigrateListsMigration from "./migrations/2-MigrateLists";
 import FixParentIdSerializationMigration from "./migrations/3-FixParentIdSerialization";
 import MigrateEventsMigration from "./migrations/4-MigrateEvents";
@@ -18,7 +19,6 @@ import Transaction from "./transaction";
 
 import type { IDBPDatabase } from "idb";
 import type UpgradeDatabase from "./upgradeDatabase";
-
 export default class Database {
   private readonly DB_NAME = "muninn-db";
   private readonly MIGRATIONS: Migration[] = [
@@ -33,6 +33,7 @@ export default class Database {
     new ListElementParentIndexMigration(),
     new SetTextColorsMigration(),
     new CreateFavoriteMigration(),
+    new CreateBoardsStoreMigration(),
   ];
 
   private _dbVersion: number;

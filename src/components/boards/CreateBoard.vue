@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import NoteForm from "@/components/notes/NoteForm.vue";
 import FormDialog from "@/components/common/FormDialog.vue";
 import PageAction from "@/components/common/PageAction.vue";
 import { ref } from "vue";
 import { useService } from "@/composables/useService";
-import { NoteService } from "@/data/services/noteService";
 import { ID } from "@/data/models/ID";
+import { BoardService } from "@/data/services/boardService";
+import BoardForm from "./BoardForm.vue";
 
 const dialogOpened = ref(false);
-const noteService = useService(NoteService);
+const boardService = useService(BoardService);
 
 const name = ref("");
 const tagId = ref<ID>("");
@@ -16,10 +16,9 @@ const creating = ref(false);
 
 const createNote = async () => {
   creating.value = true;
-  await noteService.create({
+  await boardService.create({
     title: name.value,
     tagId: tagId.value,
-    text: "",
   });
 
   setTimeout(() => {
@@ -34,15 +33,15 @@ const createNote = async () => {
     <PageAction
       color="secondary"
       icon="mdi-plus"
-      label="Add note"
+      label="Add board"
       @click="dialogOpened = true"
     />
 
     <FormDialog v-model="dialogOpened" @submit="createNote">
-      <template #title>New Note</template>
+      <template #title>New Board</template>
 
       <template #form>
-        <NoteForm v-model:title="name" v-model:tag-id="tagId" />
+        <BoardForm v-model:title="name" v-model:tag-id="tagId" />
       </template>
 
       <template #actions>
