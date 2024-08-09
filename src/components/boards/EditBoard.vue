@@ -6,6 +6,7 @@ import { ref } from "vue";
 import { useService } from "@/composables/useService";
 import { BoardService } from "@/data/services/boardService";
 import type { Board } from "@/data/models/Board";
+import _ from "lodash";
 
 interface EditBoardProps {
   board: Board;
@@ -22,11 +23,12 @@ const updating = ref(false);
 
 const editBoard = async () => {
   updating.value = true;
-  await boardService.update({
-    ...props.board,
-    title: name.value,
-    tagId: tagId.value,
-  });
+
+  const updatedBoard = _.cloneDeep(props.board);
+  updatedBoard.title = name.value;
+  updatedBoard.tagId = tagId.value;
+
+  await boardService.update(updatedBoard);
 
   setTimeout(() => {
     updating.value = false;
