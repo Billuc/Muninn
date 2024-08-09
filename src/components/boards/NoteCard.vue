@@ -15,15 +15,9 @@ const noteService = useService(NoteService);
 
 const props = defineProps<NoteCardProps>();
 
-// const noteCardData = await noteService.get(props.id);
-const noteCard = ref<any>(null);
-// useSubscription(noteService, noteCard);
-
-noteCard.value = {
-  id: "111",
-  title: "i am a note",
-  text: "text",
-};
+const noteCardData = await noteService.get(props.id);
+const noteCard = ref<any>(noteCardData);
+useSubscription(noteService, noteCard);
 </script>
 
 <template>
@@ -31,6 +25,7 @@ noteCard.value = {
     <TextEditor
       class="text-h6 text-weight-bold"
       :model-value="noteCard.title"
+      placeholder="Title"
     />
     <TextEditor :model-value="noteCard.text" placeholder="Paragraph" />
   </CardBase>

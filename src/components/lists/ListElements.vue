@@ -47,7 +47,12 @@ onMounted(() => {
 
 <template>
   <div>
-    <List :elements="sortedElements" :filter="elementFilter" ref="list">
+    <List
+      :elements="sortedElements"
+      :filter="elementFilter"
+      ref="list"
+      no-color
+    >
       <template #element="{ element }">
         <ListElementVue :element="element" />
       </template>
