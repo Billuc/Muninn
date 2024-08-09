@@ -16,7 +16,7 @@ jobs:
       - name: Install and Build 🔧 # This example project is built using yarn and outputs the result to the '.output/public' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
           npm install
-          yarn run build
+          npm run build
           touch dist/.nojekyll
 
       - name: Deploy 🚀

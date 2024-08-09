@@ -1,6 +1,6 @@
-import { IDBPDatabase, IDBPObjectStore, IDBPTransaction } from "idb";
+import { IDBPDatabase, IDBPTransaction } from 'idb';
 
-import Migration from "../migration";
+import Migration from '../migration';
 
 export default class CreateBoardsStoreMigration extends Migration {
   version: number = 12;
