@@ -4,7 +4,6 @@ import { ref } from "vue";
 import { useService } from "@/composables/useService";
 import { ListService } from "@/data/services/listService";
 import { List } from "@/data/models/List";
-import { ListElementService } from "@/data/services/listElementService";
 import CardActionBase from "../boards/CardActionBase.vue";
 
 interface DeleteListProps {
@@ -15,14 +14,12 @@ const props = defineProps<DeleteListProps>();
 
 const dialogOpened = ref(false);
 const listService = useService(ListService);
-const listElementService = useService(ListElementService);
 
 const removing = ref(false);
 
 const deleteList = async () => {
   removing.value = true;
   await listService.remove(props.list.id);
-  await listElementService.removeAllChildren(props.list.id);
 
   setTimeout(() => {
     removing.value = false;
