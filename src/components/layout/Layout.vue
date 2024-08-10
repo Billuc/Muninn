@@ -14,7 +14,7 @@ const handleSwipe = (ev: any) => {
 
   let newIndex =
     (ev.direction == "left"
-      ? routeMatchedIndex + 1
+      ? (routeMatchedIndex + 1) % mainRoutes.length
       : routeMatchedIndex + mainRoutes.length - 1) % mainRoutes.length;
 
   router.push(mainRoutes[newIndex]);
@@ -22,7 +22,7 @@ const handleSwipe = (ev: any) => {
 </script>
 
 <template>
-  <div style="height: 100%" class="q-py-sm">
+  <div class="q-py-sm">
     <QCard
       id="container"
       v-touch-swipe.horizontal.mouse="handleSwipe"
@@ -42,7 +42,7 @@ const handleSwipe = (ev: any) => {
   max-width: 85%;
   margin: auto;
   position: relative;
-  height: 100%;
+  min-height: 100vh;
   padding-bottom: 64px;
 }
 </style>
