@@ -25,7 +25,7 @@ const onTick = async () => {
 </script>
 
 <template>
-  <div class="col row justify-center">
+  <div class="col row items-start">
     <QIcon name="mdi-reorder-horizontal" size="xs" class="q-mr-sm handle" />
 
     <QCheckbox
