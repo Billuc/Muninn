@@ -17,6 +17,7 @@ const onClick = () => {
   <QBtn
     :icon="props.icon"
     :color="props.color ?? 'primary'"
+    text-color="text"
     size="sm"
     round
     @click="onClick"

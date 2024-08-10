@@ -58,6 +58,7 @@ const createCard = async () => {
     <QBtn
       icon="mdi-plus"
       color="primary"
+      text-color="text"
       class="absolute card-add"
       round
       @click="dialogOpened = true"
