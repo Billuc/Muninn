@@ -10,11 +10,11 @@ import HomeView from "@/views/HomeView.vue";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", component: HomeView, name: "home", strict: true },
+  { path: "/boards", component: BoardsView, name: "boards" },
+  { path: "/boards/:id", component: BoardView, name: "board" },
   { path: "/boards/tags", component: BoardTagsView, name: "board-tags" },
   { path: "/config", component: ConfigView, name: "config" },
   // { path: "/loading", component: LoadingView, name: "loading" },
-  { path: "/boards", component: BoardsView, name: "boards" },
-  { path: "/boards/:id", component: BoardView, name: "board" },
 ];
 
 const router = createRouter({
