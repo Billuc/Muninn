@@ -6,7 +6,7 @@ import { ThemeService } from "@/data/services/themeService";
 import { computed, ref } from "vue";
 import List from "../common/List.vue";
 import ColorPicker from "./ColorPicker.vue";
-import { Theme } from "@/data/models/Theme";
+import { DEFAULT_THEME, Theme } from "@/data/models/Theme";
 import { contrast } from "@/utils/colors";
 
 const themeService = useService(ThemeService);
@@ -56,6 +56,10 @@ const updateColor = async (
 
   await themeService.update(newTheme);
 };
+
+const setDefaultTheme = async () => {
+  await themeService.update(DEFAULT_THEME);
+};
 </script>
 
 <template>
@@ -86,5 +90,15 @@ const updateColor = async (
         </div>
       </template>
     </List>
+
+    <QBtn
+      @click="setDefaultTheme"
+      size="sm"
+      class="q-mt-sm montserrat"
+      color="secondary"
+      text-color="text"
+    >
+      Reset to default
+    </QBtn>
   </Card>
 </template>

@@ -10,8 +10,10 @@ import ThemeCard from "@/components/config/ThemeCard.vue";
       <template #text>Config</template>
     </Title>
 
-    <ThemeCard />
+    <div class="content-display">
+      <ThemeCard />
 
-    <ConfigFooter class="q-mt-md" />
+      <ConfigFooter class="q-mt-md" />
+    </div>
   </div>
 </template>

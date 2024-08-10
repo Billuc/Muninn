@@ -43,10 +43,6 @@ body::before {
   background-color: transparent !important;
 }
 
-.bg-list-neutral {
-  background-color: var(--q-list-neutral) !important;
-}
-
 .bg-primary {
   background-color: var(--q-primary) !important;
   color: var(--q-primary-text) !important;

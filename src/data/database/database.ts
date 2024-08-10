@@ -8,6 +8,7 @@ import SetTextColorsMigration from "./migrations/10-SetTextColors";
 import CreateFavoriteMigration from "./migrations/11-CreateFavorite";
 import CreateBoardsStoreMigration from "./migrations/12-CreateBoardsStore";
 import TransformListAndNotesIntoBoardsMigration from "./migrations/13-TransformListAndNotesIntoBoards";
+import MigrateListThemeMigration from "./migrations/14-MigrateListTheme";
 import MigrateListsMigration from "./migrations/2-MigrateLists";
 import FixParentIdSerializationMigration from "./migrations/3-FixParentIdSerialization";
 import MigrateEventsMigration from "./migrations/4-MigrateEvents";
@@ -36,6 +37,7 @@ export default class Database {
     new CreateFavoriteMigration(),
     new CreateBoardsStoreMigration(),
     new TransformListAndNotesIntoBoardsMigration(),
+    new MigrateListThemeMigration(),
   ];
 
   private _dbVersion: number;
