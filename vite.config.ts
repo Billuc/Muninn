@@ -13,7 +13,7 @@ export default defineConfig({
     vue({ template: { transformAssetUrls } }),
     typescript(),
     VitePWA({
-      registerType: "prompt",
+      registerType: "autoUpdate",
       devOptions: { enabled: true },
       manifest: {
         name: "Muninn",
