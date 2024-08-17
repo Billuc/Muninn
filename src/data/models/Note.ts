@@ -1,10 +1,10 @@
 import type { ID } from "./ID";
-import { Tag } from "./Tag";
+import { Tag } from './Tag';
 
 export interface Note {
   id: ID;
   title: string;
-  tagId: ID;
+  tagId?: ID;
   text: string;
 }
 
@@ -17,6 +17,6 @@ export interface NoteAndTag {
 
 export interface CreateNote {
   title: string;
-  tagId: ID;
+  tagId?: ID;
   text: string;
 }

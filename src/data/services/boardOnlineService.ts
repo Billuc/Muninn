@@ -5,25 +5,26 @@ import Database from '../database/database';
 import { Board } from '../models/Board';
 import { SERVER_URL } from '../models/ServerData';
 import SubscribableService from './base/subscribable';
-import { ListService } from './listService';
-import { NoteService } from './noteService';
+import { ListOnlineService } from './listOnlineService';
+import { NoteOnlineService } from './noteOnlineService';
 
 import type { ID } from "../models/ID";
+
 @injectable()
 export class BoardOnlineService extends SubscribableService<Board> {
   constructor(
     database: Database,
-    listService: ListService,
-    noteService: NoteService
+    listOnlineService: ListOnlineService,
+    noteOnlineService: NoteOnlineService
   ) {
     super(database, "boards");
 
-    listService.subscribeEvents((act) => {
+    listOnlineService.subscribeEvents((act) => {
       if (act.action == "remove") {
         this.onNoteOrListRemoved(act.id);
       }
     });
-    noteService.subscribeEvents((act) => {
+    noteOnlineService.subscribeEvents((act) => {
       if (act.action == "remove") {
         this.onNoteOrListRemoved(act.id);
       }
