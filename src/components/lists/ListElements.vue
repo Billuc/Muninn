@@ -58,6 +58,9 @@ onMounted(() => {
       </template>
     </List>
 
-    <NewListElement :list-id="props.listId" />
+    <NewListElement
+      :list-id="props.listId"
+      :next-index="props.elements.length"
+    />
   </div>
 </template>

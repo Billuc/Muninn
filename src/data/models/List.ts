@@ -23,6 +23,7 @@ export interface CreateListElement {
   title: string;
   parentId?: ID;
   listId: ID;
+  index: number;
 }
 
 export interface UpdateListElement {

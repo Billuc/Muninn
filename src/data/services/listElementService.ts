@@ -42,12 +42,11 @@ export class ListElementService extends SubscribableService<ListElement> {
   }
 
   async create(create: CreateListElement): Promise<ListElement> {
-    const siblings = await this.getAllChildren(create.listId, create.parentId);
     const listElement: ListElement = {
       id: v4(),
       title: create.title,
       done: false,
-      index: siblings.length,
+      index: create.index,
       listId: create.listId,
       parentId: create.parentId ?? "",
     };

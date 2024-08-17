@@ -7,6 +7,7 @@ import { ref } from "vue";
 
 interface NewListElementProps {
   listId: ID;
+  nextIndex: number;
 }
 
 const props = defineProps<NewListElementProps>();
@@ -18,7 +19,11 @@ const onNewChild = async (v: string | null) => {
   const value = v?.trim();
 
   if (!!value) {
-    await listElementService.create({ listId: props.listId, title: value });
+    await listElementService.create({
+      listId: props.listId,
+      title: value,
+      index: props.nextIndex,
+    });
     popupedit.value?.show();
   }
 };
