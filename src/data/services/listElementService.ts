@@ -11,6 +11,7 @@ import type {
   UpdateListElement,
 } from "../models/List";
 import type { ID } from "../models/ID";
+
 @injectable()
 export class ListElementService extends SubscribableService<ListElement> {
   private readonly LIST_INDEX = "listId";

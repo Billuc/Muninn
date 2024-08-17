@@ -1,23 +1,24 @@
-import { openDB } from "idb";
-import _ from "lodash";
-import { Pipeline, PipelineFactory } from "pipelineer";
+import { openDB } from 'idb';
+import _ from 'lodash';
+import { Pipeline, PipelineFactory } from 'pipelineer';
 
-import Migration from "./migration";
-import MigrateJournalMigration from "./migrations/1-MigrateJournal";
-import SetTextColorsMigration from "./migrations/10-SetTextColors";
-import CreateFavoriteMigration from "./migrations/11-CreateFavorite";
-import CreateBoardsStoreMigration from "./migrations/12-CreateBoardsStore";
-import TransformListAndNotesIntoBoardsMigration from "./migrations/13-TransformListAndNotesIntoBoards";
-import MigrateListThemeMigration from "./migrations/14-MigrateListTheme";
-import MigrateListsMigration from "./migrations/2-MigrateLists";
-import FixParentIdSerializationMigration from "./migrations/3-FixParentIdSerialization";
-import MigrateEventsMigration from "./migrations/4-MigrateEvents";
-import MigrateNotesMigration from "./migrations/5-MigrateNotes";
-import ListIdAndParentIdIndexMigration from "./migrations/6-ListIdAndParentIdIndex";
-import JournalMoodDBAndEntryCreatedAtMigration from "./migrations/7-JournalMoodDBAndEntryCreatedAt";
-import CreateGeneralStoreMigration from "./migrations/8-CreateGeneralStore";
-import ListElementParentIndexMigration from "./migrations/9-ListElementParentIndex";
-import Transaction from "./transaction";
+import Migration from './migration';
+import MigrateJournalMigration from './migrations/1-MigrateJournal';
+import SetTextColorsMigration from './migrations/10-SetTextColors';
+import CreateFavoriteMigration from './migrations/11-CreateFavorite';
+import CreateBoardsStoreMigration from './migrations/12-CreateBoardsStore';
+import TransformListAndNotesIntoBoardsMigration from './migrations/13-TransformListAndNotesIntoBoards';
+import MigrateListThemeMigration from './migrations/14-MigrateListTheme';
+import AddBoardOnlineFieldMigration from './migrations/15-AddBoardOnlineField';
+import MigrateListsMigration from './migrations/2-MigrateLists';
+import FixParentIdSerializationMigration from './migrations/3-FixParentIdSerialization';
+import MigrateEventsMigration from './migrations/4-MigrateEvents';
+import MigrateNotesMigration from './migrations/5-MigrateNotes';
+import ListIdAndParentIdIndexMigration from './migrations/6-ListIdAndParentIdIndex';
+import JournalMoodDBAndEntryCreatedAtMigration from './migrations/7-JournalMoodDBAndEntryCreatedAt';
+import CreateGeneralStoreMigration from './migrations/8-CreateGeneralStore';
+import ListElementParentIndexMigration from './migrations/9-ListElementParentIndex';
+import Transaction from './transaction';
 
 import type { IDBPDatabase } from "idb";
 import type UpgradeDatabase from "./upgradeDatabase";
@@ -38,6 +39,7 @@ export default class Database {
     new CreateBoardsStoreMigration(),
     new TransformListAndNotesIntoBoardsMigration(),
     new MigrateListThemeMigration(),
+    new AddBoardOnlineFieldMigration(),
   ];
 
   private _dbVersion: number;
