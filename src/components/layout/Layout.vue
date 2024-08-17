@@ -3,9 +3,7 @@ import NavBar from "@/components/layout/NavBar.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const mainRoutes = router
-  .getRoutes()
-  .filter((r) => r.path.split("/").length == 2);
+const mainRoutes = router.getRoutes().filter((r) => !r.meta?.swipeIgnore);
 
 const handleSwipe = (ev: any) => {
   const routeMatchedIndex = mainRoutes.findIndex(

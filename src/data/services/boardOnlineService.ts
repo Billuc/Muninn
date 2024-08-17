@@ -38,7 +38,10 @@ export class BoardOnlineService extends SubscribableService<Board> {
       throw new Error(boardResponse.statusText);
     }
 
-    const storedBoard = await this._get(id);
+    const storedBoard = await this._get(id).catch((_) => ({
+      tagId: "",
+      online: true,
+    }));
     const board: Board = {
       ...storedBoard,
       ...boardResponse.data,
