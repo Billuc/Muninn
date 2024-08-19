@@ -6,14 +6,18 @@ import CreateCard from "./CreateCard.vue";
 import { useService } from "@/composables/useService";
 import { BoardService } from "@/data/services/boardService";
 import _ from "lodash";
+import { BoardOnlineService } from "@/data/services/boardOnlineService";
 
 interface CardsDisplayProps {
   board: Board;
 }
 
 const boardService = useService(BoardService);
+const boardOnlineService = useService(BoardOnlineService);
 
 const props = defineProps<CardsDisplayProps>();
+
+const service = props.board.online ? boardOnlineService : boardService;
 
 const onUp = async (index: number) => {
   if (index == 0) return;
@@ -22,7 +26,7 @@ const onUp = async (index: number) => {
   updatedBoard.cards.splice(index + 1, 0, updatedBoard.cards[index - 1]);
   updatedBoard.cards.splice(index - 1, 1);
 
-  await boardService.update(updatedBoard);
+  await service.update(updatedBoard);
 };
 const onDown = async (index: number) => {
   if (index == props.board.cards.length - 1) return;
@@ -31,7 +35,7 @@ const onDown = async (index: number) => {
   updatedBoard.cards.splice(index + 2, 0, updatedBoard.cards[index]);
   updatedBoard.cards.splice(index, 1);
 
-  await boardService.update(updatedBoard);
+  await service.update(updatedBoard);
 };
 </script>
 
@@ -41,12 +45,14 @@ const onDown = async (index: number) => {
       <ListCard
         v-if="c.type == CardType.List"
         :id="c.id"
+        :online="props.board.online"
         @up="() => onUp(i)"
         @down="() => onDown(i)"
       />
       <NoteCard
         v-if="c.type == CardType.Note"
         :id="c.id"
+        :online="props.board.online"
         @up="() => onUp(i)"
         @down="() => onDown(i)"
       />

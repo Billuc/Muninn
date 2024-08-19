@@ -5,16 +5,21 @@ import { useService } from "@/composables/useService";
 import { Note } from "@/data/models/Note";
 import { NoteService } from "@/data/services/noteService";
 import CardActionBase from "../boards/CardActionBase.vue";
+import { NoteOnlineService } from "@/data/services/noteOnlineService";
 
 interface DeleteNoteProps {
   note: Note;
+  online: boolean;
 }
+
+const noteOfflineService = useService(NoteService);
+const noteOnlineService = useService(NoteOnlineService);
 
 const props = defineProps<DeleteNoteProps>();
 
-const dialogOpened = ref(false);
-const noteService = useService(NoteService);
+const noteService = props.online ? noteOnlineService : noteOfflineService;
 
+const dialogOpened = ref(false);
 const removing = ref(false);
 
 const deleteNote = async () => {

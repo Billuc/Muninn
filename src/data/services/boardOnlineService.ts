@@ -1,12 +1,12 @@
-import axios from 'axios';
-import { injectable } from 'tsyringe';
+import axios from "axios";
+import { injectable } from "tsyringe";
 
-import Database from '../database/database';
-import { Board } from '../models/Board';
-import { SERVER_URL } from '../models/ServerData';
-import SubscribableService from './base/subscribable';
-import { ListOnlineService } from './listOnlineService';
-import { NoteOnlineService } from './noteOnlineService';
+import Database from "../database/database";
+import { Board } from "../models/Board";
+import { SERVER_URL } from "../models/ServerData";
+import SubscribableService from "./base/subscribable";
+import { ListOnlineService } from "./listOnlineService";
+import { NoteOnlineService } from "./noteOnlineService";
 
 import type { ID } from "../models/ID";
 
@@ -38,10 +38,10 @@ export class BoardOnlineService extends SubscribableService<Board> {
       throw new Error(boardResponse.statusText);
     }
 
-    const storedBoard = await this._get(id).catch((_) => ({
+    const storedBoard = (await this._get(id)) ?? {
       tagId: "",
       online: true,
-    }));
+    };
     const board: Board = {
       ...storedBoard,
       ...boardResponse.data,

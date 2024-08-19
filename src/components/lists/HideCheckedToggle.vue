@@ -4,13 +4,17 @@ import { List } from "@/data/models/List";
 import { ListService } from "@/data/services/listService";
 import { computed, toRefs } from "vue";
 import CardActionBase from "../boards/CardActionBase.vue";
+import { ListOnlineService } from "@/data/services/listOnlineService";
 
 interface HideCheckedToggleProps {
   list: List;
+  online: boolean;
 }
 
 const props = defineProps<HideCheckedToggleProps>();
-const service = useService(ListService);
+const service = props.online
+  ? useService(ListOnlineService)
+  : useService(ListService);
 
 const { list } = toRefs(props);
 

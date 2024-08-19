@@ -7,15 +7,20 @@ import { ref } from "vue";
 import CardBase from "./CardBase.vue";
 import TextEditor from "./TextEditor.vue";
 import DeleteNote from "../notes/DeleteNote.vue";
+import { NoteOnlineService } from "@/data/services/noteOnlineService";
 
 interface NoteCardProps {
   id: ID;
+  online: boolean;
 }
 
-const noteService = useService(NoteService);
+const noteOfflineService = useService(NoteService);
+const noteOnlineService = useService(NoteOnlineService);
 
 const props = defineProps<NoteCardProps>();
 const emit = defineEmits(["up", "down"]);
+
+const noteService = props.online ? noteOnlineService : noteOfflineService;
 
 const noteCardData = await noteService.get(props.id);
 const noteCard = ref<any>(noteCardData);
@@ -52,7 +57,7 @@ const onTextChange = async (newText: string) => {
     />
 
     <template #actions>
-      <DeleteNote :note="noteCard" />
+      <DeleteNote :note="noteCard" :online="props.online" />
     </template>
   </CardBase>
 </template>

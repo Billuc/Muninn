@@ -8,18 +8,30 @@ import { ListService } from "@/data/services/listService";
 import { Board, CardType } from "@/data/models/Board";
 import CardTypeSelect from "./CardTypeSelect.vue";
 import _ from "lodash";
+import { BoardOnlineService } from "@/data/services/boardOnlineService";
+import { NoteOnlineService } from "@/data/services/noteOnlineService";
+import { ListOnlineService } from "@/data/services/listOnlineService";
 
 interface CreateCardProps {
   board: Board;
 }
 
-const dialogOpened = ref(false);
-const boardService = useService(BoardService);
-const noteService = useService(NoteService);
-const listService = useService(ListService);
+const boardOfflineService = useService(BoardService);
+const boardOnlineService = useService(BoardOnlineService);
+const noteOfflineService = useService(NoteService);
+const noteOnlineService = useService(NoteOnlineService);
+const listOfflineService = useService(ListService);
+const listOnlineService = useService(ListOnlineService);
 
 const props = defineProps<CreateCardProps>();
 
+const boardService = props.board.online
+  ? boardOnlineService
+  : boardOfflineService;
+const noteService = props.board.online ? noteOnlineService : noteOfflineService;
+const listService = props.board.online ? listOnlineService : listOfflineService;
+
+const dialogOpened = ref(false);
 const cardType = ref(CardType.Note);
 const creating = ref(false);
 

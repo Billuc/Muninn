@@ -1,10 +1,10 @@
-import axios from 'axios';
-import { injectable } from 'tsyringe';
-import { v4 } from 'uuid';
+import axios from "axios";
+import { injectable } from "tsyringe";
+import { v4 } from "uuid";
 
-import Database from '../database/database';
-import { SERVER_URL } from '../models/ServerData';
-import SubscribableService from './base/subscribable';
+import Database from "../database/database";
+import { SERVER_URL } from "../models/ServerData";
+import SubscribableService from "./base/subscribable";
 
 import type {
   CreateListElement,
@@ -78,19 +78,30 @@ export class ListElementOnlineService extends SubscribableService<ListElement> {
     return element;
   }
 
-  // TODO : sort
+  async remove(id: ID): Promise<void> {
+    const listResponse = await axios.delete(`${SERVER_URL}/lists/${id}`);
 
-  // TODO
-  // async remove(id: ID): Promise<void> {
-  //   const listResponse = await axios.delete(`${SERVER_URL}/lists/${id}`);
+    if (listResponse.status !== 200) {
+      throw new Error(listResponse.statusText);
+    }
 
-  //   if (listResponse.status !== 200) {
-  //     throw new Error(listResponse.statusText);
-  //   }
+    this._notify({
+      action: "remove",
+      id: id,
+    });
+  }
 
-  //   this._notify({
-  //     action: "remove",
-  //     id: id,
-  //   });
-  // }
+  async sortChildren(
+    parentId: ID,
+    sortedChildren: ListElement[]
+  ): Promise<void> {
+    const listResponse = await axios.post(
+      `${SERVER_URL}/lists/${parentId}/sort`,
+      sortedChildren
+    );
+
+    if (listResponse.status !== 200) {
+      throw new Error(listResponse.statusText);
+    }
+  }
 }
