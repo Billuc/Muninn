@@ -16,14 +16,18 @@ import EditBoard from "@/components/boards/EditBoard.vue";
 import DeleteBoard from "@/components/boards/DeleteBoard.vue";
 import FavoriteToggle from "@/components/common/favorites/FavoriteToggle.vue";
 import { BoardTagService } from "@/data/services/boardTagService";
+import { BoardOnlineService } from "@/data/services/boardOnlineService";
+import UnlinkBoard from "@/components/boards/UnlinkBoard.vue";
 
 const boardService = useService(BoardService);
+const boardOnlineService = useService(BoardOnlineService);
 const boardTagService = useService(BoardTagService);
 
 const route = useRoute();
 const boardId = getOneParam(route.params.id);
 
-const boardData = await boardService.get(boardId);
+let boardData = await boardService.get(boardId);
+if (boardData.online) boardData = await boardOnlineService.get(boardId);
 const board = ref(boardData);
 useSubscription(boardService, board);
 
@@ -54,7 +58,8 @@ watch([board], async () => {
     <PageActions>
       <FavoriteToggle :id="boardId" :type="FavoriteType.Board" />
       <EditBoard :board="board" />
-      <DeleteBoard :board="board" />
+      <UnlinkBoard :board="board" v-if="board.online" />
+      <DeleteBoard :board="board" v-else />
     </PageActions>
 
     <CardsDisplay :board="board" />

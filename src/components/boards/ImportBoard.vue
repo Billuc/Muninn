@@ -23,10 +23,15 @@ const importBoard = async () => {
   importing.value = true;
 
   const imported = await boardOnlineService.import(props.board.id);
-  router.push({
-    name: "board",
-    params: { id: imported.id },
-  });
+
+  setTimeout(() => {
+    importing.value = false;
+    dialogOpened.value = false;
+    router.push({
+      name: "board",
+      params: { id: imported.id },
+    });
+  }, 100);
 };
 </script>
 
