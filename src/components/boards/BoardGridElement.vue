@@ -10,7 +10,12 @@ const props = defineProps<BoardGridElementProps>();
 </script>
 
 <template>
-  <div>{{ props.board.title }}</div>
+  <div>
+    {{ props.board.title }}
+    <QBadge color="primary" v-if="props.board.online" class="q-ml-xs">
+      <QIcon name="mdi-wifi" />
+    </QBadge>
+  </div>
   <QSpace />
   <TagChip :tag="props.board.tag" dense v-if="props.board.tag" />
 </template>

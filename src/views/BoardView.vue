@@ -49,7 +49,14 @@ watch([board], async () => {
   <div v-if="board">
     <Title>
       <template #prefix><BackButton name="boards" /></template>
-      <template #text>{{ board.title }}</template>
+      <template #text>
+        <div class="row justify-center">
+          {{ board.title }}
+          <QBadge color="primary" class="self-start" v-if="board.online">
+            <QIcon name="mdi-wifi" />
+          </QBadge>
+        </div>
+      </template>
       <template #suffix>
         <TagChip :tag="boardTag" no-text v-if="boardTag" />
       </template>
