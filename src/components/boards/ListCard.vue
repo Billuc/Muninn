@@ -5,7 +5,6 @@ import { ID } from "@/data/models/ID";
 import { ListService } from "@/data/services/listService";
 import { ref } from "vue";
 import CardBase from "./CardBase.vue";
-import TextEditor from "./TextEditor.vue";
 import ListElements from "../lists/ListElements.vue";
 import { ListElementService } from "@/data/services/listElementService";
 import { ListElement } from "@/data/models/List";
@@ -14,6 +13,7 @@ import DeleteList from "../lists/DeleteList.vue";
 import ClearChecked from "../lists/ClearChecked.vue";
 import { ListOnlineService } from "@/data/services/listOnlineService";
 import { ListElementOnlineService } from "@/data/services/listElementOnlineService";
+import TitleEditor from "./TitleEditor.vue";
 
 interface ListCardProps {
   id: ID;
@@ -59,7 +59,7 @@ const onOrderElements = async (v: ListElement[]) => {
 
 <template>
   <CardBase @up="() => emit('up')" @down="() => emit('down')" v-if="listCard">
-    <TextEditor
+    <TitleEditor
       class="text-h6 text-weight-bold"
       :model-value="listCard.title"
       @update:model-value="onTitleChange"

@@ -8,6 +8,8 @@ import CardBase from "./CardBase.vue";
 import TextEditor from "./TextEditor.vue";
 import DeleteNote from "../notes/DeleteNote.vue";
 import { NoteOnlineService } from "@/data/services/noteOnlineService";
+import { Note } from "@/data/models/Note";
+import TitleEditor from "./TitleEditor.vue";
 
 interface NoteCardProps {
   id: ID;
@@ -23,7 +25,7 @@ const emit = defineEmits(["up", "down"]);
 const noteService = props.online ? noteOnlineService : noteOfflineService;
 
 const noteCardData = await noteService.get(props.id);
-const noteCard = ref<any>(noteCardData);
+const noteCard = ref<Note>(noteCardData);
 useSubscription(noteService, noteCard);
 
 const onTitleChange = async (newTitle: string) => {
@@ -43,7 +45,7 @@ const onTextChange = async (newText: string) => {
 
 <template>
   <CardBase @up="() => emit('up')" @down="() => emit('down')" v-if="noteCard">
-    <TextEditor
+    <TitleEditor
       class="text-h6 text-weight-bold"
       :model-value="noteCard.title"
       placeholder="Title"
@@ -54,6 +56,7 @@ const onTextChange = async (newText: string) => {
       placeholder="Paragraph"
       class="montserrat"
       @update:model-value="onTextChange"
+      :debounce="300"
     />
 
     <template #actions>

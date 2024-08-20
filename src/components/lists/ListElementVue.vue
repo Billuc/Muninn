@@ -50,6 +50,7 @@ const onTick = async () => {
             @keyup.enter="scope.set"
             clearable
             class="col q-mr-sm"
+            color="primary-text"
           />
           <QBtn
             round
