@@ -28,6 +28,10 @@ const noteCardData = await noteService.get(props.id);
 const noteCard = ref<Note>(noteCardData);
 useSubscription(noteService, noteCard);
 
+// Lock to send update requests only when the previous one finished
+const locked = ref<boolean>(false);
+const lastTextValue = ref(noteCardData.text);
+
 const onTitleChange = async (newTitle: string) => {
   await noteService.update({
     ...noteCard.value,
@@ -36,11 +40,31 @@ const onTitleChange = async (newTitle: string) => {
 };
 
 const onTextChange = async (newText: string) => {
-  await noteService.update({
-    ...noteCard.value,
-    text: newText,
-  });
+  lastTextValue.value = newText;
+  checkIfUpdateIsNeeded();
 };
+
+function checkIfUpdateIsNeeded() {
+  if (locked.value == true) {
+    // We don't wait for the lock because we call this function back when it is unlocked
+    return;
+  }
+
+  if (lastTextValue.value !== noteCard.value.text) {
+    // Update needed
+    // Set locked to true and send the request
+    locked.value = true;
+    noteService
+      .update({
+        ...noteCard.value,
+        text: lastTextValue.value,
+      })
+      .then((_) => {
+        locked.value = false;
+        checkIfUpdateIsNeeded();
+      });
+  }
+}
 </script>
 
 <template>
@@ -56,7 +80,7 @@ const onTextChange = async (newText: string) => {
       placeholder="Paragraph"
       class="montserrat"
       @update:model-value="onTextChange"
-      :debounce="300"
+      :debounce="1000"
     />
 
     <template #actions>
