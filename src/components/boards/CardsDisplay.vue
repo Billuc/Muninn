@@ -10,6 +10,7 @@ import { BoardOnlineService } from "@/data/services/boardOnlineService";
 
 interface CardsDisplayProps {
   board: Board;
+  noEdit?: boolean;
 }
 
 const boardService = useService(BoardService);
@@ -46,6 +47,7 @@ const onDown = async (index: number) => {
         v-if="c.type == CardType.List"
         :id="c.id"
         :online="props.board.online"
+        :no-edit="props.noEdit"
         @up="() => onUp(i)"
         @down="() => onDown(i)"
       />
@@ -53,12 +55,13 @@ const onDown = async (index: number) => {
         v-if="c.type == CardType.Note"
         :id="c.id"
         :online="props.board.online"
+        :no-edit="props.noEdit"
         @up="() => onUp(i)"
         @down="() => onDown(i)"
       />
     </template>
 
-    <CreateCard :board="board" />
+    <CreateCard :board="board" v-if="!props.noEdit" />
   </div>
 </template>
 

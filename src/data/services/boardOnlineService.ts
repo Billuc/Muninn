@@ -1,12 +1,12 @@
-import axios from "axios";
-import { injectable } from "tsyringe";
+import axios from 'axios';
+import { injectable } from 'tsyringe';
 
-import Database from "../database/database";
-import { Board } from "../models/Board";
-import { SERVER_URL } from "../models/ServerData";
-import SubscribableService from "./base/subscribable";
-import { ListOnlineService } from "./listOnlineService";
-import { NoteOnlineService } from "./noteOnlineService";
+import Database from '../database/database';
+import { Board } from '../models/Board';
+import { SERVER_URL } from '../models/ServerData';
+import SubscribableService from './base/subscribable';
+import { ListOnlineService } from './listOnlineService';
+import { NoteOnlineService } from './noteOnlineService';
 
 import type { ID } from "../models/ID";
 
@@ -50,6 +50,9 @@ export class BoardOnlineService extends SubscribableService<Board> {
   }
 
   async import(id: ID): Promise<Board> {
+    const alreadyImportedBoard = await this._get(id);
+    if (!!alreadyImportedBoard) return alreadyImportedBoard;
+
     const boardResponse = await axios.get(`${SERVER_URL}/boards/${id}`);
 
     if (boardResponse.status !== 200) {

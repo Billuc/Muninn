@@ -18,6 +18,7 @@ import TitleEditor from "./TitleEditor.vue";
 interface ListCardProps {
   id: ID;
   online: boolean;
+  noEdit?: boolean;
 }
 
 const listOfflineService = useService(ListService);
@@ -58,12 +59,18 @@ const onOrderElements = async (v: ListElement[]) => {
 </script>
 
 <template>
-  <CardBase @up="() => emit('up')" @down="() => emit('down')" v-if="listCard">
+  <CardBase
+    @up="() => emit('up')"
+    @down="() => emit('down')"
+    v-if="listCard"
+    :no-actions="props.noEdit"
+  >
     <TitleEditor
       class="text-h6 text-weight-bold"
       :model-value="listCard.title"
       @update:model-value="onTitleChange"
       placeholder="Title"
+      :no-edit="props.noEdit"
     />
 
     <ListElements
@@ -72,6 +79,7 @@ const onOrderElements = async (v: ListElement[]) => {
       :hide-checked="listCard.hideChecked"
       @order="onOrderElements"
       class="montserrat"
+      :no-edit="props.noEdit"
     />
 
     <template #actions>

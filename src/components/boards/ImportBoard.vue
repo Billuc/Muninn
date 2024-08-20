@@ -6,12 +6,14 @@ import { useService } from "@/composables/useService";
 import type { Board } from "@/data/models/Board";
 import _ from "lodash";
 import { BoardOnlineService } from "@/data/services/boardOnlineService";
+import { useRouter } from "vue-router";
 
 interface ImportBoardProps {
   board: Board;
 }
 
 const props = defineProps<ImportBoardProps>();
+const router = useRouter();
 
 const dialogOpened = ref(false);
 const boardOnlineService = useService(BoardOnlineService);
@@ -20,12 +22,11 @@ const importing = ref(false);
 const importBoard = async () => {
   importing.value = true;
 
-  await boardOnlineService.import(props.board.id);
-
-  setTimeout(() => {
-    importing.value = false;
-    dialogOpened.value = false;
-  }, 100);
+  const imported = await boardOnlineService.import(props.board.id);
+  router.push({
+    name: "board",
+    params: { id: imported.id },
+  });
 };
 </script>
 
@@ -33,7 +34,7 @@ const importBoard = async () => {
   <div>
     <PageAction
       color="secondary"
-      icon="mdi-pen"
+      icon="mdi-import"
       label="Import this Board"
       @click="dialogOpened = true"
     />

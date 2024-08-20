@@ -12,6 +12,7 @@ interface ListElementsProps {
   listId: ID;
   elements: ListElement[];
   hideChecked: boolean;
+  noEdit?: boolean;
 }
 
 const props = defineProps<ListElementsProps>();
@@ -32,6 +33,8 @@ const elementFilter = (element: ListElement): boolean => {
 };
 
 onMounted(() => {
+  if (!!props.noEdit) return;
+
   Sortable.create(list.value!.$el, {
     draggable: ".list-element",
     handle: ".handle",
@@ -54,13 +57,14 @@ onMounted(() => {
       no-color
     >
       <template #element="{ element }">
-        <ListElementVue :element="element" />
+        <ListElementVue :element="element" :no-edit="props.noEdit" />
       </template>
     </List>
 
     <NewListElement
       :list-id="props.listId"
       :next-index="props.elements.length"
+      v-if="!props.noEdit"
     />
   </div>
 </template>

@@ -7,6 +7,7 @@ import { getOneParam } from "@/utils/route";
 import CardsDisplay from "@/components/boards/CardsDisplay.vue";
 import { BoardOnlineService } from "@/data/services/boardOnlineService";
 import shortUUID from "short-uuid";
+import ImportBoard from "@/components/boards/ImportBoard.vue";
 
 const boardOnlineService = useService(BoardOnlineService);
 
@@ -25,8 +26,10 @@ const board = await boardOnlineService.get(boardId);
       <template #text>{{ board.title }}</template>
     </Title>
 
-    <PageActions> </PageActions>
+    <PageActions>
+      <ImportBoard :board="board" />
+    </PageActions>
 
-    <CardsDisplay :board="board" />
+    <CardsDisplay :board="board" :no-edit="true" />
   </div>
 </template>

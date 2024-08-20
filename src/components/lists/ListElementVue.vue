@@ -5,6 +5,7 @@ import { ListElementService } from "@/data/services/listElementService";
 
 interface ListElementVueProps {
   element: ListElement;
+  noEdit?: boolean;
 }
 
 const props = defineProps<ListElementVueProps>();
@@ -26,12 +27,18 @@ const onTick = async () => {
 
 <template>
   <div class="col row items-start">
-    <QIcon name="mdi-reorder-horizontal" size="xs" class="q-mr-sm handle" />
+    <QIcon
+      name="mdi-reorder-horizontal"
+      size="xs"
+      class="q-mr-sm handle"
+      v-if="!props.noEdit"
+    />
 
     <QCheckbox
       :model-value="props.element.done"
       dense
       @update:model-value="onTick"
+      :disable="props.noEdit"
     />
 
     <div class="q-ml-sm col">
@@ -41,6 +48,7 @@ const onTick = async () => {
         :model-value="props.element.title"
         v-slot="scope"
         @save="onSave"
+        v-if="!props.noEdit"
       >
         <div class="row items-center">
           <QInput

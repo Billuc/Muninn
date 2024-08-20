@@ -14,6 +14,7 @@ import TitleEditor from "./TitleEditor.vue";
 interface NoteCardProps {
   id: ID;
   online: boolean;
+  noEdit?: boolean;
 }
 
 const noteOfflineService = useService(NoteService);
@@ -68,12 +69,18 @@ function checkIfUpdateIsNeeded() {
 </script>
 
 <template>
-  <CardBase @up="() => emit('up')" @down="() => emit('down')" v-if="noteCard">
+  <CardBase
+    @up="() => emit('up')"
+    @down="() => emit('down')"
+    v-if="noteCard"
+    :no-actions="props.noEdit"
+  >
     <TitleEditor
       class="text-h6 text-weight-bold"
       :model-value="noteCard.title"
       placeholder="Title"
       @update:model-value="onTitleChange"
+      :no-edit="props.noEdit"
     />
     <TextEditor
       :model-value="noteCard.text"
@@ -81,6 +88,7 @@ function checkIfUpdateIsNeeded() {
       class="montserrat"
       @update:model-value="onTextChange"
       :debounce="1000"
+      :no-edit="props.noEdit"
     />
 
     <template #actions>

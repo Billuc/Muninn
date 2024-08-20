@@ -2,6 +2,7 @@
 interface TextEditorProps {
   modelValue: string;
   placeholder?: string;
+  noEdit?: boolean;
 }
 
 const props = defineProps<TextEditorProps>();
@@ -20,6 +21,7 @@ function onTextChange(v: string | null) {
       :model-value="props.modelValue"
       v-slot="scope"
       @save="onTextChange"
+      v-if="!props.noEdit"
     >
       <div class="row items-center">
         <QInput

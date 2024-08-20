@@ -5,6 +5,7 @@ interface TextEditorProps {
   modelValue: string;
   placeholder?: string;
   debounce?: number;
+  noEdit?: boolean;
 }
 
 const props = defineProps<TextEditorProps>();
@@ -22,7 +23,7 @@ function onTextChange(ev: any) {
 
 <template>
   <div
-    contenteditable="true"
+    :contenteditable="!props.noEdit"
     v-text="props.modelValue"
     @input="onTextChange"
     :data-placeholder="props.placeholder"
