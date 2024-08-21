@@ -11,11 +11,11 @@ export interface Theme {
 
 export const DEFAULT_THEME: Theme = {
   id: "theme",
-  background: "#f2f2ee",
+  background: "#fdfffd",
   backgroundText: "#100801",
-  primary: "#bdd358",
-  primaryText: "#100801",
-  secondary: "#373438",
-  secondaryText: "#ebe542",
-  list: "#ffffff",
+  primary: "#d579a6",
+  primaryText: "#000000",
+  secondary: "#e87270",
+  secondaryText: "#000000",
+  list: "#fff8e8",
 };
