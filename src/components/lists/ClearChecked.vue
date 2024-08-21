@@ -5,13 +5,18 @@ import { List } from "@/data/models/List";
 import { ListElementService } from "@/data/services/listElementService";
 import { ref } from "vue";
 import CardActionBase from "../boards/CardActionBase.vue";
+import { ListElementOnlineService } from "@/data/services/listElementOnlineService";
 
 interface ClearCheckedProps {
   list: List;
+  online: boolean;
 }
 
 const props = defineProps<ClearCheckedProps>();
-const listElementService = useService(ListElementService);
+
+const listElementService = props.online
+  ? useService(ListElementOnlineService)
+  : useService(ListElementService);
 
 const dialogOpened = ref(false);
 const clearing = ref(false);

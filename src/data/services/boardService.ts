@@ -31,13 +31,13 @@ export class BoardService extends SubscribableService<Board> {
   }
 
   async get(id: ID): Promise<Board> {
-    const favorite = await this._get(id);
-    return favorite;
+    const board = await this._get(id);
+    return board;
   }
 
   async getAll(): Promise<Board[]> {
-    const favorites = await this._getAll();
-    return favorites;
+    const boards = await this._getAll();
+    return boards;
   }
 
   async create(create: CreateBoard): Promise<Board> {
@@ -46,6 +46,7 @@ export class BoardService extends SubscribableService<Board> {
       title: create.title,
       tagId: create.tagId,
       cards: create.cards ?? [],
+      online: false,
     };
     const created = await this._create(board);
     return created;

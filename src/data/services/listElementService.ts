@@ -1,9 +1,9 @@
-import { injectable } from 'tsyringe';
-import { v4 } from 'uuid';
+import { injectable } from "tsyringe";
+import { v4 } from "uuid";
 
-import Database from '../database/database';
-import SubscribableService from './base/subscribable';
-import { ListService } from './listService';
+import Database from "../database/database";
+import SubscribableService from "./base/subscribable";
+import { ListService } from "./listService";
 
 import type {
   CreateListElement,
@@ -11,6 +11,7 @@ import type {
   UpdateListElement,
 } from "../models/List";
 import type { ID } from "../models/ID";
+
 @injectable()
 export class ListElementService extends SubscribableService<ListElement> {
   private readonly LIST_INDEX = "listId";
@@ -41,12 +42,11 @@ export class ListElementService extends SubscribableService<ListElement> {
   }
 
   async create(create: CreateListElement): Promise<ListElement> {
-    const siblings = await this.getAllChildren(create.listId, create.parentId);
     const listElement: ListElement = {
       id: v4(),
       title: create.title,
       done: false,
-      index: siblings.length,
+      index: create.index,
       listId: create.listId,
       parentId: create.parentId ?? "",
     };
@@ -81,7 +81,10 @@ export class ListElementService extends SubscribableService<ListElement> {
     return updated;
   }
 
-  async sortChildren(parentId: ID, sortedChildren: ListElement[]) {
+  async sortChildren(
+    parentId: ID,
+    sortedChildren: ListElement[]
+  ): Promise<void> {
     const updatePromises = sortedChildren.map(
       async (c, i) =>
         await this._update({

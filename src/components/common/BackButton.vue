@@ -22,7 +22,6 @@ const onClick = () =>
     flat
     no-wrap
     class="back-button"
-    text-color="secondary"
   />
 </template>
 

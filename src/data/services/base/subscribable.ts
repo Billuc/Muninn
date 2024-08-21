@@ -34,7 +34,7 @@ export default abstract class SubscribableService<T extends { id: ID }> {
     return this._subject.subscribe(callback);
   }
 
-  private _notify(action: ServiceAction<T>) {
+  protected _notify(action: ServiceAction<T>) {
     this._subject.next(action);
   }
 

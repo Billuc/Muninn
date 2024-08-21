@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import CardActionBase from "./CardActionBase.vue";
 
+interface CardBaseProps {
+  noActions?: boolean;
+}
+
+const props = defineProps<CardBaseProps>();
 const emit = defineEmits(["up", "down"]);
 
 const onUp = () => emit("up");
@@ -13,7 +18,7 @@ const onDown = () => emit("down");
       <slot></slot>
     </QCardSection>
 
-    <div class="absolute card-actions">
+    <div class="absolute card-actions" v-if="!props.noActions">
       <slot name="actions"></slot>
 
       <QBtnGroup rounded>

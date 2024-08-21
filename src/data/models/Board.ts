@@ -1,11 +1,12 @@
-import { ID } from "./ID";
-import { Tag } from "./Tag";
+import { ID } from './ID';
+import { Tag } from './Tag';
 
 export interface Board {
   id: ID;
   title: string;
   tagId: ID;
   cards: Card[];
+  online: boolean;
 }
 
 export interface BoardAndTag {
@@ -13,6 +14,7 @@ export interface BoardAndTag {
   title: string;
   cards: Card[];
   tag: Tag | null;
+  online: boolean;
 }
 
 export interface Card {

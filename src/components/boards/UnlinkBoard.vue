@@ -1,50 +1,49 @@
 <script setup lang="ts">
 import FormDialog from "@/components/common/FormDialog.vue";
+import PageAction from "@/components/common/PageAction.vue";
 import { ref } from "vue";
 import { useService } from "@/composables/useService";
-import { Note } from "@/data/models/Note";
-import { NoteService } from "@/data/services/noteService";
-import CardActionBase from "../boards/CardActionBase.vue";
-import { NoteOnlineService } from "@/data/services/noteOnlineService";
+import { useRouter } from "vue-router";
+import { Board } from "@/data/models/Board";
+import { BoardOnlineService } from "@/data/services/boardOnlineService";
 
-interface DeleteNoteProps {
-  note: Note;
-  online: boolean;
+interface UnlinkBoardProps {
+  board: Board;
 }
 
-const noteOfflineService = useService(NoteService);
-const noteOnlineService = useService(NoteOnlineService);
+const boardOnlineService = useService(BoardOnlineService);
+const router = useRouter();
 
-const props = defineProps<DeleteNoteProps>();
-
-const noteService = props.online ? noteOnlineService : noteOfflineService;
+const props = defineProps<UnlinkBoardProps>();
 
 const dialogOpened = ref(false);
 const removing = ref(false);
 
-const deleteNote = async () => {
+const unlinkBoard = async () => {
   removing.value = true;
-  await noteService.remove(props.note.id);
+
+  await boardOnlineService.unlink(props.board.id);
 
   setTimeout(() => {
     removing.value = false;
     dialogOpened.value = false;
+    router.push({ name: "boards" });
   }, 100);
 };
 </script>
 
 <template>
   <div>
-    <CardActionBase
+    <PageAction
       color="secondary"
-      icon="mdi-delete"
-      tooltip="Delete Note"
+      icon="mdi-link-variant-off"
+      label="Unlink Board"
       @click="dialogOpened = true"
     />
 
-    <FormDialog v-model="dialogOpened" @submit="deleteNote">
+    <FormDialog v-model="dialogOpened" @submit="unlinkBoard">
       <template #title>
-        Are you sure you want to delete note {{ props.note.title }}
+        Are you sure you want to unlink board {{ props.board.title }}
       </template>
 
       <template #actions>

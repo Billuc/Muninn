@@ -5,16 +5,20 @@ import { useService } from "@/composables/useService";
 import { ListService } from "@/data/services/listService";
 import { List } from "@/data/models/List";
 import CardActionBase from "../boards/CardActionBase.vue";
+import { ListOnlineService } from "@/data/services/listOnlineService";
 
 interface DeleteListProps {
   list: List;
+  online: boolean;
 }
 
 const props = defineProps<DeleteListProps>();
 
-const dialogOpened = ref(false);
-const listService = useService(ListService);
+const listService = props.online
+  ? useService(ListOnlineService)
+  : useService(ListService);
 
+const dialogOpened = ref(false);
 const removing = ref(false);
 
 const deleteList = async () => {

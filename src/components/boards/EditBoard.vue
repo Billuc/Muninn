@@ -7,6 +7,7 @@ import { useService } from "@/composables/useService";
 import { BoardService } from "@/data/services/boardService";
 import type { Board } from "@/data/models/Board";
 import _ from "lodash";
+import { BoardOnlineService } from "@/data/services/boardOnlineService";
 
 interface EditBoardProps {
   board: Board;
@@ -14,9 +15,11 @@ interface EditBoardProps {
 
 const props = defineProps<EditBoardProps>();
 
-const dialogOpened = ref(false);
-const boardService = useService(BoardService);
+const boardService = props.board.online
+  ? useService(BoardOnlineService)
+  : useService(BoardService);
 
+const dialogOpened = ref(false);
 const name = ref(props.board.title);
 const tagId = ref(props.board.tagId);
 const updating = ref(false);

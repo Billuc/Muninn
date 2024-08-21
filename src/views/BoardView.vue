@@ -16,14 +16,19 @@ import EditBoard from "@/components/boards/EditBoard.vue";
 import DeleteBoard from "@/components/boards/DeleteBoard.vue";
 import FavoriteToggle from "@/components/common/favorites/FavoriteToggle.vue";
 import { BoardTagService } from "@/data/services/boardTagService";
+import { BoardOnlineService } from "@/data/services/boardOnlineService";
+import UnlinkBoard from "@/components/boards/UnlinkBoard.vue";
+import ShareBoard from "@/components/boards/ShareBoard.vue";
 
 const boardService = useService(BoardService);
+const boardOnlineService = useService(BoardOnlineService);
 const boardTagService = useService(BoardTagService);
 
 const route = useRoute();
 const boardId = getOneParam(route.params.id);
 
-const boardData = await boardService.get(boardId);
+let boardData = await boardService.get(boardId);
+if (boardData.online) boardData = await boardOnlineService.get(boardId);
 const board = ref(boardData);
 useSubscription(boardService, board);
 
@@ -45,7 +50,14 @@ watch([board], async () => {
   <div v-if="board">
     <Title>
       <template #prefix><BackButton name="boards" /></template>
-      <template #text>{{ board.title }}</template>
+      <template #text>
+        <div class="row justify-center">
+          {{ board.title }}
+          <QBadge color="primary" class="self-start" v-if="board.online">
+            <QIcon name="mdi-wifi" />
+          </QBadge>
+        </div>
+      </template>
       <template #suffix>
         <TagChip :tag="boardTag" no-text v-if="boardTag" />
       </template>
@@ -54,7 +66,9 @@ watch([board], async () => {
     <PageActions>
       <FavoriteToggle :id="boardId" :type="FavoriteType.Board" />
       <EditBoard :board="board" />
-      <DeleteBoard :board="board" />
+      <UnlinkBoard :board="board" v-if="board.online" />
+      <DeleteBoard :board="board" v-else />
+      <ShareBoard :board="board" />
     </PageActions>
 
     <CardsDisplay :board="board" />
