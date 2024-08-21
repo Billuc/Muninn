@@ -19,8 +19,7 @@ const linkDialogOpened = ref(false);
 const uploading = ref(false);
 const copiedTooltip = ref(false);
 
-const sharedLink =
-  "https://billuc.github.io/Muninn/i/" + shortUUID().fromUUID(props.board.id);
+const boardCode = shortUUID().fromUUID(props.board.id);
 
 const openDialog = () => {
   if (props.board.online) linkDialogOpened.value = true;
@@ -39,9 +38,9 @@ const uploadBoard = async () => {
   }, 100);
 };
 
-const copyLink = async () => {
+const copyCode = async () => {
   copiedTooltip.value = false;
-  await navigator.clipboard.writeText(sharedLink);
+  await navigator.clipboard.writeText(boardCode);
   copiedTooltip.value = true;
 
   setTimeout(() => (copiedTooltip.value = false), 3000);
@@ -82,13 +81,13 @@ const copyLink = async () => {
             Your board has been uploaded and can be shared !
           </div>
           <div class="text-subtitle1">
-            Here is the link :
-            <a :href="sharedLink" style="word-break: break-all">{{
-              sharedLink
-            }}</a>
+            Here is the code :
+            <span class="text-weight-bold" style="word-break: break-all">{{
+              boardCode
+            }}</span>
             <QBtn
               icon="mdi-content-copy"
-              @click="copyLink"
+              @click="copyCode"
               class="q-ml-sm"
               size="sm"
             >

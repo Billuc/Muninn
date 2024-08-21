@@ -9,6 +9,7 @@ import BoardGrid from "@/components/boards/BoardGrid.vue";
 import CreateBoard from "@/components/boards/CreateBoard.vue";
 import ManageBoardTags from "@/components/boards/ManageBoardTags.vue";
 import { BoardTagService } from "@/data/services/boardTagService";
+import ImportNewBoard from "@/components/boards/ImportNewBoard.vue";
 
 const boardService = useService(BoardService);
 const boardTagService = useService(BoardTagService);
@@ -38,6 +39,7 @@ const boardsAndTags = computed(() =>
     <PageActions>
       <CreateBoard />
       <ManageBoardTags />
+      <ImportNewBoard />
     </PageActions>
 
     <BoardGrid :boards="boardsAndTags" />
