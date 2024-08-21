@@ -18,6 +18,7 @@ import FavoriteToggle from "@/components/common/favorites/FavoriteToggle.vue";
 import { BoardTagService } from "@/data/services/boardTagService";
 import { BoardOnlineService } from "@/data/services/boardOnlineService";
 import UnlinkBoard from "@/components/boards/UnlinkBoard.vue";
+import ShareBoard from "@/components/boards/ShareBoard.vue";
 
 const boardService = useService(BoardService);
 const boardOnlineService = useService(BoardOnlineService);
@@ -67,6 +68,7 @@ watch([board], async () => {
       <EditBoard :board="board" />
       <UnlinkBoard :board="board" v-if="board.online" />
       <DeleteBoard :board="board" v-else />
+      <ShareBoard :board="board" />
     </PageActions>
 
     <CardsDisplay :board="board" />
